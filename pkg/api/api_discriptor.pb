@@ -1,9 +1,10 @@
 
-ô
-grpc/matreshka-be_api.protomatreshka_be_apigoogle/protobuf/timestamp.protogoogle/api/annotations.proto"T
-PingRequestE
-client_timestamp (2.google.protobuf.TimestampRclientTimestamp""
-PingResponse
-took (Rtook2r
-MatreshkaBeAPI`
-Version.matreshka_be_api.PingRequest.matreshka_be_api.PingResponse"‚Óä“"/v1/version:*BZ/example_apibproto3
+ÿ
+grpc/matreshka-be_api.protomatreshka_be_apigoogle/api/annotations.proto" 
+Version	
+Request
+
+Response2t
+MatreshkaBeAPIb
+Version!.matreshka_be_api.Version.Request".matreshka_be_api.Version.Response"‚Óä“
+/versionBZ/matreshka_apibproto3

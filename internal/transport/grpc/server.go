@@ -7,7 +7,6 @@ import (
 	"net"
 	"net/http"
 	"sync"
-	"time"
 
 	"github.com/godverv/matreshka/api"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
@@ -17,7 +16,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/godverv/matreshka-be/internal/config"
-	"github.com/godverv/matreshka-be/pkg/api/example_api"
+	"github.com/godverv/matreshka-be/pkg/api/matreshka_api"
 )
 
 type Server struct {
@@ -33,11 +32,7 @@ func NewServer(cfg config.Config, server *api.GRPC) (*Server, error) {
 	srv := grpc.NewServer()
 
 	// Register your servers here
-	example_api.RegisterProjNameAPIServer(srv, &ExampleApi{
-		calcFunc: func(in time.Time) (diff int32) {
-			return int32(time.Since(in))
-		},
-	})
+	matreshka_api.RegisterMatreshkaBeAPIServer(srv, &App{})
 
 	return &Server{
 		grpcAddress: ":" + server.GetPortStr(),
@@ -65,7 +60,7 @@ func (s *Server) Start(_ context.Context) error {
 			runtime.MIMEWildcard, &runtime.JSONPb{OrigName: true, EmitDefaults: true}))
 
 	if s.gwAddress != ":" {
-		err := example_api.RegisterProjNameAPIHandlerFromEndpoint(
+		err := matreshka_api.RegisterMatreshkaBeAPIHandlerFromEndpoint(
 			context.TODO(),
 			mux,
 			s.grpcAddress,
