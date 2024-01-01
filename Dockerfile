@@ -11,5 +11,6 @@ WORKDIR /app
 COPY --from=builder ./deploy/server/ .
 COPY --from=builder /app/config/ ./config/
 
-EXPOSE 50051, 50052
+EXPOSE 50051
+EXPOSE 50052
 ENTRYPOINT ["./matreshka-be"]
