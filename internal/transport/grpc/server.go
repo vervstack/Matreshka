@@ -9,13 +9,14 @@ import (
 	"sync"
 
 	"github.com/godverv/matreshka/api"
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/godverv/matreshka-be/internal/config"
+	"github.com/godverv/matreshka-be/internal/data"
 	"github.com/godverv/matreshka-be/pkg/api/matreshka_api"
 )
 
@@ -28,13 +29,18 @@ type Server struct {
 	m           sync.Mutex
 }
 
-func NewServer(cfg config.Config, server *api.GRPC) (*Server, error) {
+func NewServer(cfg config.Config, server *api.GRPC, storage data.Data) (*Server, error) {
 	srv := grpc.NewServer()
 
 	// Register your servers here
-	matreshka_api.RegisterMatreshkaBeAPIServer(srv, &App{})
+	matreshka_api.RegisterMatreshkaBeAPIServer(srv, &App{
+		version: cfg.AppInfo().Version,
+		storage: storage,
+	})
 
 	return &Server{
+		grpcServer: srv,
+
 		grpcAddress: ":" + server.GetPortStr(),
 		gwAddress:   ":" + server.GetGatewayPortStr(),
 	}, nil
@@ -57,7 +63,7 @@ func (s *Server) Start(_ context.Context) error {
 
 	mux := runtime.NewServeMux(
 		runtime.WithMarshalerOption(
-			runtime.MIMEWildcard, &runtime.JSONPb{OrigName: true, EmitDefaults: true}))
+			runtime.MIMEWildcard, &runtime.JSONPb{}))
 
 	if s.gwAddress != ":" {
 		err := matreshka_api.RegisterMatreshkaBeAPIHandlerFromEndpoint(

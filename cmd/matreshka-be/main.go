@@ -9,6 +9,9 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/godverv/matreshka-be/internal/config"
+	"github.com/godverv/matreshka-be/internal/data/in_memory"
+	"github.com/godverv/matreshka-be/internal/transport"
+	"github.com/godverv/matreshka-be/internal/transport/grpc"
 	"github.com/godverv/matreshka-be/internal/utils/closer"
 	//_transport_imports
 )
@@ -33,6 +36,28 @@ func main() {
 		return nil
 	})
 
+	mngr := transport.NewManager()
+	grpcConfig, err := cfg.Api().GRPC(config.ApiGrpc)
+	if err != nil {
+		logrus.Fatalf("error getting grpc from config")
+	}
+
+	grpcServer, err := grpc.NewServer(cfg, grpcConfig, in_memory.New())
+	if err != nil {
+		logrus.Fatalf("error creating grpc server")
+	}
+
+	mngr.AddServer(grpcServer)
+
+	err = mngr.Start(ctx)
+	if err != nil {
+		logrus.Fatalf("error starting server manager")
+	}
+
+	closer.Add(
+		func() error {
+			return mngr.Stop(ctx)
+		})
 	waitingForTheEnd()
 
 	logrus.Println("shutting down the app")

@@ -10,6 +10,7 @@
 
 # Configs
 config/*
+!config/config_template.yaml
 
 
 # Output of the go coverage tool, specifically when used with LiteIDE
