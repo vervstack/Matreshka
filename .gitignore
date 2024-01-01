@@ -9,8 +9,7 @@
 *.test
 
 # Configs
-config/*
-!config/config_template.yaml
+config/dev.yaml
 
 
 # Output of the go coverage tool, specifically when used with LiteIDE
