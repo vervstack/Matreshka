@@ -1,13 +1,15 @@
 FROM golang as builder
-
+LABEL Config=matreshka
 WORKDIR /app
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o /deploy/server/main ./cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /deploy/server/matreshka-be ./cmd/velez/main.go
 
 FROM alpine
 
 WORKDIR /app
 COPY --from=builder ./deploy/server/ .
+COPY --from=builder /app/config/ ./config/
 
-EXPOSE 8080
+EXPOSE 50051, 50052
+ENTRYPOINT ["./matreshka-be"]
