@@ -7,7 +7,7 @@ import (
 	"github.com/godverv/matreshka"
 	"github.com/godverv/matreshka/resources"
 
-	"github.com/godverv/matreshka-be/pkg/api/matreshka_api"
+	"github.com/godverv/matreshka-be/pkg/matreshka_api"
 )
 
 var resourceToProtoEnum = map[string]matreshka_api.Config_Resource_Type{

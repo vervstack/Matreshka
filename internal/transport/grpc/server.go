@@ -17,7 +17,7 @@ import (
 
 	"github.com/godverv/matreshka-be/internal/config"
 	"github.com/godverv/matreshka-be/internal/data"
-	"github.com/godverv/matreshka-be/pkg/api/matreshka_api"
+	"github.com/godverv/matreshka-be/pkg/matreshka_api"
 )
 
 type Server struct {

@@ -3,7 +3,7 @@ package in_memory
 import (
 	"context"
 
-	"github.com/godverv/matreshka-be/pkg/api/matreshka_api"
+	"github.com/godverv/matreshka-be/pkg/matreshka_api"
 )
 
 func (d *data) PatchEnvConfig(ctx context.Context, patch *matreshka_api.PatchConfigEnv_Request) error {

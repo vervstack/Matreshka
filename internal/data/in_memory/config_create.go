@@ -6,7 +6,7 @@ import (
 
 	"github.com/godverv/matreshka"
 
-	"github.com/godverv/matreshka-be/pkg/api/matreshka_api"
+	"github.com/godverv/matreshka-be/pkg/matreshka_api"
 )
 
 func (d *data) CreateConfig(_ context.Context, req *matreshka_api.CreateServiceConfig_Request) error {

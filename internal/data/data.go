@@ -3,7 +3,7 @@ package data
 import (
 	"context"
 
-	"github.com/godverv/matreshka-be/pkg/api/matreshka_api"
+	"github.com/godverv/matreshka-be/pkg/matreshka_api"
 )
 
 type Data interface {
