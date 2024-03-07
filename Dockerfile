@@ -9,7 +9,7 @@ FROM alpine
 
 WORKDIR /app
 COPY --from=builder ./deploy/server/ .
-COPY --from=builder /app/config/ ./config/
+COPY --from=builder /app/config/config.yaml ./config/sconfig.yaml
 
 EXPOSE 50051
 EXPOSE 50052
