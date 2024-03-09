@@ -1,11 +1,11 @@
-FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:latest as builder
+FROM golang:latest as builder
 
 WORKDIR /app
 COPY . .
 
-RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /deploy/server/matreshka-be ./cmd/matreshka-be/main.go
+RUN go build -o /deploy/server/matreshka-be ./cmd/matreshka-be/main.go
 
-FROM --platform=${TARGETPLATFORM:-linux/amd64} alpine
+FROM alpine
 
 WORKDIR /app
 COPY --from=builder ./deploy/server/ .
