@@ -1,5 +1,5 @@
 FROM golang as builder
-LABEL Config=matreshka
+
 WORKDIR /app
 COPY . .
 
@@ -11,6 +11,6 @@ WORKDIR /app
 COPY --from=builder ./deploy/server/ .
 COPY --from=builder /app/config/config.yaml ./config/config.yaml
 
-EXPOSE 50051
-EXPOSE 50052
+EXPOSE 80
+
 ENTRYPOINT ["./matreshka-be"]
