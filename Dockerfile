@@ -3,7 +3,7 @@ FROM golang:latest as builder
 WORKDIR /app
 COPY . .
 
-RUN go build -o /deploy/server/matreshka-be ./cmd/matreshka-be/main.go
+RUN CGO_ENABLED=0 go build -o /deploy/server/matreshka-be ./cmd/matreshka-be/main.go
 
 FROM alpine
 
