@@ -1,10 +1,10 @@
 app_info:
-    name: github.com/godverv/matreshka-be
-    version: v0.0.6
-    startup_duration: 10s
-data_sources: []
+  name: 'matreshka-be'
+  version: 'v0.0.6'
+  startup_duration: '10s'
+data_sources: [ ]
 server:
-    - name: grpc
-      port: 80
-environment: {}
+  - name: grpc
+    port: 80
+environment: { }
 
