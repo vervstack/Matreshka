@@ -5,7 +5,6 @@ app_info:
 data_sources: []
 server:
     - name: grpc
-      port: 50051
-      gateway_port: 50052
+      port: 80
 environment: {}
 
