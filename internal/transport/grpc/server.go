@@ -70,7 +70,7 @@ func (s *Server) Start(_ context.Context) error {
 	return nil
 }
 
-func (s *Server) Stop(ctx context.Context) error {
+func (s *Server) Stop(_ context.Context) error {
 	s.grpcServer.GracefulStop()
 	logrus.Infof("Server at %s is stopped", s.serverAddress)
 
@@ -84,6 +84,8 @@ func (s *Server) startGRPC() {
 				"content-type",
 				"application/grpc",
 			))
+
+	logrus.Infof("Starting server at %s", s.serverAddress)
 
 	err := s.grpcServer.Serve(grpcListener)
 	if err != nil {
