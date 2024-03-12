@@ -58,7 +58,16 @@ func (s *Server) Start(_ context.Context) error {
 
 	go s.startGRPC()
 
-	go s.startGateway()
+	//go s.startGateway()
+
+	//func() {
+	//	if r.ProtoMajor == 2 && strings.HasPrefix(
+	//		r.Header.Get("Content-Type"), "application/grpc") {
+	//		grpcServer.ServeHTTP(w, r)
+	//	} else {
+	//		yourMux.ServeHTTP(w, r)
+	//	}
+	//}
 
 	go func() {
 		err := s.serverMux.Serve()
@@ -78,12 +87,7 @@ func (s *Server) Stop(_ context.Context) error {
 }
 
 func (s *Server) startGRPC() {
-	grpcListener := s.serverMux.
-		MatchWithWriters(
-			cmux.HTTP2MatchHeaderFieldSendSettings(
-				"content-type",
-				"application/grpc",
-			))
+	grpcListener := s.serverMux.Match(cmux.HTTP2())
 
 	logrus.Infof("Starting server at %s", s.serverAddress)
 
@@ -94,7 +98,7 @@ func (s *Server) startGRPC() {
 }
 
 func (s *Server) startGateway() {
-	httpListener := s.serverMux.Match(cmux.Any())
+	httpListener := s.serverMux.Match(cmux.HTTP1Fast())
 
 	httpMux := runtime.NewServeMux(
 		runtime.WithMarshalerOption(
