@@ -58,16 +58,7 @@ func (s *Server) Start(_ context.Context) error {
 
 	go s.startGRPC()
 
-	//go s.startGateway()
-
-	//func() {
-	//	if r.ProtoMajor == 2 && strings.HasPrefix(
-	//		r.Header.Get("Content-Type"), "application/grpc") {
-	//		grpcServer.ServeHTTP(w, r)
-	//	} else {
-	//		yourMux.ServeHTTP(w, r)
-	//	}
-	//}
+	go s.startGateway()
 
 	go func() {
 		err := s.serverMux.Serve()
