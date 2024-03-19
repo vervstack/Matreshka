@@ -22,7 +22,7 @@ const (
 	MatreshkaBeAPI_ApiVersion_FullMethodName          = "/matreshka_be_api.MatreshkaBeAPI/ApiVersion"
 	MatreshkaBeAPI_GetConfigRaw_FullMethodName        = "/matreshka_be_api.MatreshkaBeAPI/GetConfigRaw"
 	MatreshkaBeAPI_GetConfig_FullMethodName           = "/matreshka_be_api.MatreshkaBeAPI/GetConfig"
-	MatreshkaBeAPI_CreateServiceConfig_FullMethodName = "/matreshka_be_api.MatreshkaBeAPI/CreateServiceConfig"
+	MatreshkaBeAPI_UpdateServiceConfig_FullMethodName = "/matreshka_be_api.MatreshkaBeAPI/UpdateServiceConfig"
 	MatreshkaBeAPI_PatchConfigEnv_FullMethodName      = "/matreshka_be_api.MatreshkaBeAPI/PatchConfigEnv"
 )
 
@@ -33,7 +33,7 @@ type MatreshkaBeAPIClient interface {
 	ApiVersion(ctx context.Context, in *ApiVersion_Request, opts ...grpc.CallOption) (*ApiVersion_Response, error)
 	GetConfigRaw(ctx context.Context, in *GetConfigRaw_Request, opts ...grpc.CallOption) (*GetConfigRaw_Response, error)
 	GetConfig(ctx context.Context, in *GetConfig_Request, opts ...grpc.CallOption) (*GetConfig_Response, error)
-	CreateServiceConfig(ctx context.Context, in *CreateServiceConfig_Request, opts ...grpc.CallOption) (*CreateServiceConfig_Response, error)
+	UpdateServiceConfig(ctx context.Context, in *UpdateServiceConfig_Request, opts ...grpc.CallOption) (*UpdateServiceConfig_Response, error)
 	PatchConfigEnv(ctx context.Context, in *PatchConfigEnv_Request, opts ...grpc.CallOption) (*PatchConfigEnv_Response, error)
 }
 
@@ -72,9 +72,9 @@ func (c *matreshkaBeAPIClient) GetConfig(ctx context.Context, in *GetConfig_Requ
 	return out, nil
 }
 
-func (c *matreshkaBeAPIClient) CreateServiceConfig(ctx context.Context, in *CreateServiceConfig_Request, opts ...grpc.CallOption) (*CreateServiceConfig_Response, error) {
-	out := new(CreateServiceConfig_Response)
-	err := c.cc.Invoke(ctx, MatreshkaBeAPI_CreateServiceConfig_FullMethodName, in, out, opts...)
+func (c *matreshkaBeAPIClient) UpdateServiceConfig(ctx context.Context, in *UpdateServiceConfig_Request, opts ...grpc.CallOption) (*UpdateServiceConfig_Response, error) {
+	out := new(UpdateServiceConfig_Response)
+	err := c.cc.Invoke(ctx, MatreshkaBeAPI_UpdateServiceConfig_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +97,7 @@ type MatreshkaBeAPIServer interface {
 	ApiVersion(context.Context, *ApiVersion_Request) (*ApiVersion_Response, error)
 	GetConfigRaw(context.Context, *GetConfigRaw_Request) (*GetConfigRaw_Response, error)
 	GetConfig(context.Context, *GetConfig_Request) (*GetConfig_Response, error)
-	CreateServiceConfig(context.Context, *CreateServiceConfig_Request) (*CreateServiceConfig_Response, error)
+	UpdateServiceConfig(context.Context, *UpdateServiceConfig_Request) (*UpdateServiceConfig_Response, error)
 	PatchConfigEnv(context.Context, *PatchConfigEnv_Request) (*PatchConfigEnv_Response, error)
 	mustEmbedUnimplementedMatreshkaBeAPIServer()
 }
@@ -115,8 +115,8 @@ func (UnimplementedMatreshkaBeAPIServer) GetConfigRaw(context.Context, *GetConfi
 func (UnimplementedMatreshkaBeAPIServer) GetConfig(context.Context, *GetConfig_Request) (*GetConfig_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetConfig not implemented")
 }
-func (UnimplementedMatreshkaBeAPIServer) CreateServiceConfig(context.Context, *CreateServiceConfig_Request) (*CreateServiceConfig_Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateServiceConfig not implemented")
+func (UnimplementedMatreshkaBeAPIServer) UpdateServiceConfig(context.Context, *UpdateServiceConfig_Request) (*UpdateServiceConfig_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateServiceConfig not implemented")
 }
 func (UnimplementedMatreshkaBeAPIServer) PatchConfigEnv(context.Context, *PatchConfigEnv_Request) (*PatchConfigEnv_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PatchConfigEnv not implemented")
@@ -188,20 +188,20 @@ func _MatreshkaBeAPI_GetConfig_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _MatreshkaBeAPI_CreateServiceConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateServiceConfig_Request)
+func _MatreshkaBeAPI_UpdateServiceConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateServiceConfig_Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MatreshkaBeAPIServer).CreateServiceConfig(ctx, in)
+		return srv.(MatreshkaBeAPIServer).UpdateServiceConfig(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: MatreshkaBeAPI_CreateServiceConfig_FullMethodName,
+		FullMethod: MatreshkaBeAPI_UpdateServiceConfig_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MatreshkaBeAPIServer).CreateServiceConfig(ctx, req.(*CreateServiceConfig_Request))
+		return srv.(MatreshkaBeAPIServer).UpdateServiceConfig(ctx, req.(*UpdateServiceConfig_Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -244,8 +244,8 @@ var MatreshkaBeAPI_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _MatreshkaBeAPI_GetConfig_Handler,
 		},
 		{
-			MethodName: "CreateServiceConfig",
-			Handler:    _MatreshkaBeAPI_CreateServiceConfig_Handler,
+			MethodName: "UpdateServiceConfig",
+			Handler:    _MatreshkaBeAPI_UpdateServiceConfig_Handler,
 		},
 		{
 			MethodName: "PatchConfigEnv",

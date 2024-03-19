@@ -25,7 +25,7 @@ service MatreshkaBeAPI {
     };
   }
 
-  rpc CreateServiceConfig(CreateServiceConfig.Request) returns (CreateServiceConfig.Response) {
+  rpc UpdateServiceConfig(UpdateServiceConfig.Request) returns (UpdateServiceConfig.Response) {
     option(google.api.http) = {
       post: "/config/create",
       body: "*"
@@ -47,9 +47,9 @@ message ApiVersion {
   }
 }
 
-message CreateServiceConfig {
+message UpdateServiceConfig {
   message Request {
-    Config.AppConfig app_config = 1;
+    Config config = 1;
   }
 
   message Response {

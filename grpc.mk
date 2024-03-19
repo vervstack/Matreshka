@@ -19,11 +19,11 @@ gen-server: .pre-gen-server .gen-server
 
 .gen-server:
 	protoc \
-        	-I=./api \
-        	--grpc-gateway_out=logtostderr=true:./pkg/ \
-        	--swagger_out=allow_merge=true,merge_file_name=api:./api \
-    		--descriptor_set_out=./pkg/api_discriptor.pb \
-        	--go_out=./pkg/. \
-        	--go-grpc_out=./pkg/. \
-        	./api/grpc/*.proto
+		-I=./api \
+		--grpc-gateway_out=logtostderr=true:./pkg/ \
+		--swagger_out=allow_merge=true,merge_file_name=api:./api \
+		--descriptor_set_out=./pkg/api_discriptor.pb \
+		--go_out=./pkg/. \
+		--go-grpc_out=./pkg/. \
+		./api/grpc/*.proto
 
