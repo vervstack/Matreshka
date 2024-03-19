@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/Red-Sock/trace-errors v0.0.5
-	github.com/godverv/matreshka v0.0.8
+	github.com/godverv/matreshka v0.0.11
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.18.1
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.9.3
