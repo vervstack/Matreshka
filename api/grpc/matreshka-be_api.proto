@@ -76,7 +76,7 @@ message Config {
     }
     Type resource_type = 1;
     // link to resource configuration if available
-    string secrets_link = 2;
+    string connection_string = 2;
   }
   repeated Resource resources = 2;
 
