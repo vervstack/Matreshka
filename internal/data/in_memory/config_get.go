@@ -65,8 +65,8 @@ func cfgToProto(cfg *matreshka.AppConfig) *matreshka_api.Config {
 
 	for i, r := range cfg.Resources {
 		out.Resources[i] = &matreshka_api.Config_Resource{
-			ResourceType: resourceToProtoEnum[r.GetType()],
-			SecretsLink:  "TODO",
+			ResourceType:     resourceToProtoEnum[r.GetType()],
+			ConnectionString: "TODO", // TODO
 		}
 	}
 
