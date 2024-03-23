@@ -41,7 +41,7 @@ func (d *data) GetRawConfig(_ context.Context, config *matreshka_api.GetConfigRa
 
 	if a != nil {
 		b, _ := a.cfg.Marshal()
-		out.Config = string(b)
+		out.Config = b
 	}
 
 	return out, nil

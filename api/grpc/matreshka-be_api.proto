@@ -106,7 +106,7 @@ message GetConfigRaw {
   }
 
   message Response {
-    string config = 1;
+    bytes config = 1;
   }
 }
 
