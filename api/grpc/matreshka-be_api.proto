@@ -34,7 +34,14 @@ service MatreshkaBeAPI {
 
   rpc PatchConfigEnv(PatchConfigEnv.Request) returns (PatchConfigEnv.Response) {
     option (google.api.http) = {
-      patch: "/patch_config",
+      patch: "/config/env",
+      body: "*"
+    };
+  }
+
+  rpc PatchConfigRaw(PatchConfigRaw.Request) returns (PatchConfigRaw.Response) {
+    option (google.api.http) = {
+      patch: "/config/raw/{service_name}",
       body: "*"
     };
   }
@@ -74,6 +81,7 @@ message Config {
       grpc = 3;
       telegram = 4;
     }
+
     Type resource_type = 1;
     // link to resource configuration if available
     string connection_string = 2;
@@ -131,4 +139,16 @@ message PatchConfigEnv {
     repeated Patch patches = 2;
   }
   message Response {}
+}
+
+message PatchConfigRaw {
+  message Request {
+    bytes raw = 1;
+    string service_name = 2;
+  }
+
+  message Response {
+
+  }
+
 }

@@ -24,6 +24,7 @@ const (
 	MatreshkaBeAPI_GetConfig_FullMethodName           = "/matreshka_be_api.MatreshkaBeAPI/GetConfig"
 	MatreshkaBeAPI_UpdateServiceConfig_FullMethodName = "/matreshka_be_api.MatreshkaBeAPI/UpdateServiceConfig"
 	MatreshkaBeAPI_PatchConfigEnv_FullMethodName      = "/matreshka_be_api.MatreshkaBeAPI/PatchConfigEnv"
+	MatreshkaBeAPI_PatchConfigRaw_FullMethodName      = "/matreshka_be_api.MatreshkaBeAPI/PatchConfigRaw"
 )
 
 // MatreshkaBeAPIClient is the client API for MatreshkaBeAPI service.
@@ -35,6 +36,7 @@ type MatreshkaBeAPIClient interface {
 	GetConfig(ctx context.Context, in *GetConfig_Request, opts ...grpc.CallOption) (*GetConfig_Response, error)
 	UpdateServiceConfig(ctx context.Context, in *UpdateServiceConfig_Request, opts ...grpc.CallOption) (*UpdateServiceConfig_Response, error)
 	PatchConfigEnv(ctx context.Context, in *PatchConfigEnv_Request, opts ...grpc.CallOption) (*PatchConfigEnv_Response, error)
+	PatchConfigRaw(ctx context.Context, in *PatchConfigRaw_Request, opts ...grpc.CallOption) (*PatchConfigRaw_Response, error)
 }
 
 type matreshkaBeAPIClient struct {
@@ -90,6 +92,15 @@ func (c *matreshkaBeAPIClient) PatchConfigEnv(ctx context.Context, in *PatchConf
 	return out, nil
 }
 
+func (c *matreshkaBeAPIClient) PatchConfigRaw(ctx context.Context, in *PatchConfigRaw_Request, opts ...grpc.CallOption) (*PatchConfigRaw_Response, error) {
+	out := new(PatchConfigRaw_Response)
+	err := c.cc.Invoke(ctx, MatreshkaBeAPI_PatchConfigRaw_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MatreshkaBeAPIServer is the server API for MatreshkaBeAPI service.
 // All implementations must embed UnimplementedMatreshkaBeAPIServer
 // for forward compatibility
@@ -99,6 +110,7 @@ type MatreshkaBeAPIServer interface {
 	GetConfig(context.Context, *GetConfig_Request) (*GetConfig_Response, error)
 	UpdateServiceConfig(context.Context, *UpdateServiceConfig_Request) (*UpdateServiceConfig_Response, error)
 	PatchConfigEnv(context.Context, *PatchConfigEnv_Request) (*PatchConfigEnv_Response, error)
+	PatchConfigRaw(context.Context, *PatchConfigRaw_Request) (*PatchConfigRaw_Response, error)
 	mustEmbedUnimplementedMatreshkaBeAPIServer()
 }
 
@@ -120,6 +132,9 @@ func (UnimplementedMatreshkaBeAPIServer) UpdateServiceConfig(context.Context, *U
 }
 func (UnimplementedMatreshkaBeAPIServer) PatchConfigEnv(context.Context, *PatchConfigEnv_Request) (*PatchConfigEnv_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PatchConfigEnv not implemented")
+}
+func (UnimplementedMatreshkaBeAPIServer) PatchConfigRaw(context.Context, *PatchConfigRaw_Request) (*PatchConfigRaw_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PatchConfigRaw not implemented")
 }
 func (UnimplementedMatreshkaBeAPIServer) mustEmbedUnimplementedMatreshkaBeAPIServer() {}
 
@@ -224,6 +239,24 @@ func _MatreshkaBeAPI_PatchConfigEnv_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MatreshkaBeAPI_PatchConfigRaw_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PatchConfigRaw_Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MatreshkaBeAPIServer).PatchConfigRaw(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MatreshkaBeAPI_PatchConfigRaw_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MatreshkaBeAPIServer).PatchConfigRaw(ctx, req.(*PatchConfigRaw_Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MatreshkaBeAPI_ServiceDesc is the grpc.ServiceDesc for MatreshkaBeAPI service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -250,6 +283,10 @@ var MatreshkaBeAPI_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PatchConfigEnv",
 			Handler:    _MatreshkaBeAPI_PatchConfigEnv_Handler,
+		},
+		{
+			MethodName: "PatchConfigRaw",
+			Handler:    _MatreshkaBeAPI_PatchConfigRaw_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
