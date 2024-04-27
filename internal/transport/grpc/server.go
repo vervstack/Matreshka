@@ -30,7 +30,11 @@ type Server struct {
 	m             sync.Mutex
 }
 
-func NewServer(cfg config.Config, server *api.GRPC, storage data.Data) (*Server, error) {
+func NewServer(
+	cfg config.Config,
+	server *api.GRPC,
+	storage data.Data,
+) (*Server, error) {
 	srv := grpc.NewServer()
 
 	// Register your servers here
