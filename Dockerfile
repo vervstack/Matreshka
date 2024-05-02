@@ -15,6 +15,6 @@ WORKDIR /app
 COPY --from=builder /deploy/server/service service
 COPY --from=builder /app/config/config.yaml ./config/config.yaml
 
-EXPOSE 80
+EXPOSE 50050
 
 ENTRYPOINT ["./service"]
