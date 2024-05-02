@@ -1,10 +1,10 @@
 app_info:
   name: 'matreshka-be'
-  version: 'v1.0.25'
+  version: 'v1.0.26'
   startup_duration: '10s'
 data_sources: [ ]
 server:
   - name: grpc
-    port: 80
+    port: 50050
 environment: { }
 
