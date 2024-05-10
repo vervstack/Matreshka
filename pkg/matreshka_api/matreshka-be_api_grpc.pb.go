@@ -25,6 +25,7 @@ const (
 	MatreshkaBeAPI_UpdateServiceConfig_FullMethodName = "/matreshka_be_api.MatreshkaBeAPI/UpdateServiceConfig"
 	MatreshkaBeAPI_PatchConfigEnv_FullMethodName      = "/matreshka_be_api.MatreshkaBeAPI/PatchConfigEnv"
 	MatreshkaBeAPI_PatchConfigRaw_FullMethodName      = "/matreshka_be_api.MatreshkaBeAPI/PatchConfigRaw"
+	MatreshkaBeAPI_ListConfigs_FullMethodName         = "/matreshka_be_api.MatreshkaBeAPI/ListConfigs"
 )
 
 // MatreshkaBeAPIClient is the client API for MatreshkaBeAPI service.
@@ -37,6 +38,7 @@ type MatreshkaBeAPIClient interface {
 	UpdateServiceConfig(ctx context.Context, in *UpdateServiceConfig_Request, opts ...grpc.CallOption) (*UpdateServiceConfig_Response, error)
 	PatchConfigEnv(ctx context.Context, in *PatchConfigEnv_Request, opts ...grpc.CallOption) (*PatchConfigEnv_Response, error)
 	PatchConfigRaw(ctx context.Context, in *PatchConfigRaw_Request, opts ...grpc.CallOption) (*PatchConfigRaw_Response, error)
+	ListConfigs(ctx context.Context, in *ListConfigs_Request, opts ...grpc.CallOption) (*ListConfigs_Response, error)
 }
 
 type matreshkaBeAPIClient struct {
@@ -101,6 +103,15 @@ func (c *matreshkaBeAPIClient) PatchConfigRaw(ctx context.Context, in *PatchConf
 	return out, nil
 }
 
+func (c *matreshkaBeAPIClient) ListConfigs(ctx context.Context, in *ListConfigs_Request, opts ...grpc.CallOption) (*ListConfigs_Response, error) {
+	out := new(ListConfigs_Response)
+	err := c.cc.Invoke(ctx, MatreshkaBeAPI_ListConfigs_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MatreshkaBeAPIServer is the server API for MatreshkaBeAPI service.
 // All implementations must embed UnimplementedMatreshkaBeAPIServer
 // for forward compatibility
@@ -111,6 +122,7 @@ type MatreshkaBeAPIServer interface {
 	UpdateServiceConfig(context.Context, *UpdateServiceConfig_Request) (*UpdateServiceConfig_Response, error)
 	PatchConfigEnv(context.Context, *PatchConfigEnv_Request) (*PatchConfigEnv_Response, error)
 	PatchConfigRaw(context.Context, *PatchConfigRaw_Request) (*PatchConfigRaw_Response, error)
+	ListConfigs(context.Context, *ListConfigs_Request) (*ListConfigs_Response, error)
 	mustEmbedUnimplementedMatreshkaBeAPIServer()
 }
 
@@ -135,6 +147,9 @@ func (UnimplementedMatreshkaBeAPIServer) PatchConfigEnv(context.Context, *PatchC
 }
 func (UnimplementedMatreshkaBeAPIServer) PatchConfigRaw(context.Context, *PatchConfigRaw_Request) (*PatchConfigRaw_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PatchConfigRaw not implemented")
+}
+func (UnimplementedMatreshkaBeAPIServer) ListConfigs(context.Context, *ListConfigs_Request) (*ListConfigs_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListConfigs not implemented")
 }
 func (UnimplementedMatreshkaBeAPIServer) mustEmbedUnimplementedMatreshkaBeAPIServer() {}
 
@@ -257,6 +272,24 @@ func _MatreshkaBeAPI_PatchConfigRaw_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MatreshkaBeAPI_ListConfigs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListConfigs_Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MatreshkaBeAPIServer).ListConfigs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MatreshkaBeAPI_ListConfigs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MatreshkaBeAPIServer).ListConfigs(ctx, req.(*ListConfigs_Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MatreshkaBeAPI_ServiceDesc is the grpc.ServiceDesc for MatreshkaBeAPI service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -287,6 +320,10 @@ var MatreshkaBeAPI_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PatchConfigRaw",
 			Handler:    _MatreshkaBeAPI_PatchConfigRaw_Handler,
+		},
+		{
+			MethodName: "ListConfigs",
+			Handler:    _MatreshkaBeAPI_ListConfigs_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

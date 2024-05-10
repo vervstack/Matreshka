@@ -45,6 +45,13 @@ service MatreshkaBeAPI {
       body: "*"
     };
   }
+
+  rpc ListConfigs(ListConfigs.Request) returns (ListConfigs.Response) {
+    option (google.api.http) = {
+      post: "/config/list",
+      body: "*"
+    };
+  }
 }
 
 message ApiVersion {
@@ -151,4 +158,23 @@ message PatchConfigRaw {
 
   }
 
+}
+
+message ListRequest {
+  int32 limit = 1;
+  int32 offset = 2;
+}
+
+message ListConfigs {
+  message Request {
+      ListRequest listRequest = 1;
+      optional string serviceName = 2;
+  }
+
+  message Response {
+    message ServiceInfo {
+      string name = 1;
+    }
+    repeated ServiceInfo services = 1;
+  }
 }

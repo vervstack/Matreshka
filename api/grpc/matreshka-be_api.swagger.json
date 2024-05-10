@@ -1,0 +1,491 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "grpc/matreshka-be_api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "MatreshkaBeAPI"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/config/create": {
+      "post": {
+        "operationId": "MatreshkaBeAPI_UpdateServiceConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiUpdateServiceConfigResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiUpdateServiceConfigRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MatreshkaBeAPI"
+        ]
+      }
+    },
+    "/config/env": {
+      "patch": {
+        "operationId": "MatreshkaBeAPI_PatchConfigEnv",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiPatchConfigEnvResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiPatchConfigEnvRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MatreshkaBeAPI"
+        ]
+      }
+    },
+    "/config/list": {
+      "post": {
+        "operationId": "MatreshkaBeAPI_ListConfigs",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiListConfigsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiListConfigsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MatreshkaBeAPI"
+        ]
+      }
+    },
+    "/config/raw/{serviceName}": {
+      "get": {
+        "operationId": "MatreshkaBeAPI_GetConfigRaw",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiGetConfigRawResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serviceName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MatreshkaBeAPI"
+        ]
+      },
+      "patch": {
+        "operationId": "MatreshkaBeAPI_PatchConfigRaw",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiPatchConfigRawResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serviceName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPIPatchConfigRawBody"
+            }
+          }
+        ],
+        "tags": [
+          "MatreshkaBeAPI"
+        ]
+      }
+    },
+    "/config/{serviceName}": {
+      "get": {
+        "operationId": "MatreshkaBeAPI_GetConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiGetConfigResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serviceName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MatreshkaBeAPI"
+        ]
+      }
+    },
+    "/version": {
+      "get": {
+        "operationId": "MatreshkaBeAPI_ApiVersion",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiApiVersionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "MatreshkaBeAPI"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ConfigApi": {
+      "type": "object",
+      "properties": {
+        "apiType": {
+          "$ref": "#/definitions/ConfigApiType"
+        },
+        "swaggerLink": {
+          "type": "string"
+        },
+        "makoshName": {
+          "type": "string"
+        }
+      }
+    },
+    "ConfigApiType": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "grpc",
+        "rest"
+      ],
+      "default": "unknown"
+    },
+    "ConfigAppConfig": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "startupDuration": {
+          "type": "string",
+          "title": "e.g \"10s\""
+        }
+      }
+    },
+    "ConfigEnvironment": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "ConfigResource": {
+      "type": "object",
+      "properties": {
+        "resourceType": {
+          "$ref": "#/definitions/ConfigResourceType"
+        },
+        "connectionString": {
+          "type": "string",
+          "title": "link to resource configuration if available"
+        }
+      }
+    },
+    "ConfigResourceType": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "postgres",
+        "redis",
+        "grpc",
+        "telegram"
+      ],
+      "default": "unknown"
+    },
+    "PatchConfigEnvPatch": {
+      "type": "object",
+      "properties": {
+        "fieldName": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "ResponseServiceInfo": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "matreshka_be_apiApiVersionResponse": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "matreshka_be_apiConfig": {
+      "type": "object",
+      "properties": {
+        "appConfig": {
+          "$ref": "#/definitions/ConfigAppConfig"
+        },
+        "resources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ConfigResource"
+          }
+        },
+        "api": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ConfigApi"
+          }
+        },
+        "environment": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ConfigEnvironment"
+          }
+        }
+      }
+    },
+    "matreshka_be_apiGetConfigRawResponse": {
+      "type": "object",
+      "properties": {
+        "config": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "matreshka_be_apiGetConfigResponse": {
+      "type": "object",
+      "properties": {
+        "config": {
+          "$ref": "#/definitions/matreshka_be_apiConfig"
+        }
+      }
+    },
+    "matreshka_be_apiListConfigsRequest": {
+      "type": "object",
+      "properties": {
+        "listRequest": {
+          "$ref": "#/definitions/matreshka_be_apiListRequest"
+        },
+        "serviceName": {
+          "type": "string"
+        }
+      }
+    },
+    "matreshka_be_apiListConfigsResponse": {
+      "type": "object",
+      "properties": {
+        "services": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ResponseServiceInfo"
+          }
+        }
+      }
+    },
+    "matreshka_be_apiListRequest": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "matreshka_be_apiMatreshkaBeAPIPatchConfigRawBody": {
+      "type": "object",
+      "properties": {
+        "raw": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "matreshka_be_apiPatchConfigEnvRequest": {
+      "type": "object",
+      "properties": {
+        "serviceName": {
+          "type": "string"
+        },
+        "patches": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/PatchConfigEnvPatch"
+          }
+        }
+      }
+    },
+    "matreshka_be_apiPatchConfigEnvResponse": {
+      "type": "object"
+    },
+    "matreshka_be_apiPatchConfigRawResponse": {
+      "type": "object"
+    },
+    "matreshka_be_apiUpdateServiceConfigRequest": {
+      "type": "object",
+      "properties": {
+        "config": {
+          "$ref": "#/definitions/matreshka_be_apiConfig"
+        }
+      }
+    },
+    "matreshka_be_apiUpdateServiceConfigResponse": {
+      "type": "object",
+      "properties": {
+        "link": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

@@ -29,3 +29,12 @@ Content-Type: application/json
 
 ### Get config
 GET {{matreshka-api}}/config/test_service
+
+
+### List configs
+POST {{matreshka-api}}/config/list
+Content-Type: application/json
+
+{
+
+}
