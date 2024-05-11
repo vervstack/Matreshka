@@ -21,11 +21,11 @@ gen-server: .pre-gen-server local-link .gen-server
 	protoc \
     	-I=./api \
     	-I $(GOPATH)/bin \
-    	--grpc-gateway_out=logtostderr=true:./pkg/ \
     	--openapiv2_out ./api \
-    	--go_out=./pkg/ \
     	--go-grpc_out=./pkg/ \
-    	--grpc-gateway-ts_out=./pkg/ts
+    	--grpc-gateway_out=logtostderr=true:./pkg/ \
+    	--go_out=./pkg/ \
+    	--grpc-web_out=import_style=typescript,mode=grpcwebtext:./pkg/ \
 	    --validate_out="lang=go:./pkg" \
     	./api/grpc/*.proto
 

@@ -4,21 +4,18 @@ import (
 	"sync"
 
 	"github.com/godverv/matreshka"
+
+	"github.com/godverv/matreshka-be/internal/data"
 )
 
-type config struct {
-	m   sync.RWMutex
-	cfg *matreshka.AppConfig
-}
-
-type data struct {
+type inMemory struct {
 	m  sync.RWMutex
-	mp map[string]*config
+	mp map[string]*matreshka.AppConfig
 }
 
-func New() *data {
-	return &data{
+func New() data.Data {
+	return &inMemory{
 		m:  sync.RWMutex{},
-		mp: make(map[string]*config),
+		mp: make(map[string]*matreshka.AppConfig),
 	}
 }

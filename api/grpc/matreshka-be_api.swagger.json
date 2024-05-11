@@ -16,14 +16,14 @@
     "application/json"
   ],
   "paths": {
-    "/config/create": {
+    "/config": {
       "post": {
-        "operationId": "MatreshkaBeAPI_UpdateServiceConfig",
+        "operationId": "MatreshkaBeAPI_UpsertConfig",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiUpdateServiceConfigResponse"
+              "$ref": "#/definitions/matreshka_be_apiPatchConfigResponse"
             }
           },
           "default": {
@@ -39,39 +39,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiUpdateServiceConfigRequest"
-            }
-          }
-        ],
-        "tags": [
-          "MatreshkaBeAPI"
-        ]
-      }
-    },
-    "/config/env": {
-      "patch": {
-        "operationId": "MatreshkaBeAPI_PatchConfigEnv",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/matreshka_be_apiPatchConfigEnvResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/matreshka_be_apiPatchConfigEnvRequest"
+              "$ref": "#/definitions/matreshka_be_apiPatchConfigRequest"
             }
           }
         ],
@@ -232,29 +200,6 @@
     }
   },
   "definitions": {
-    "ConfigApi": {
-      "type": "object",
-      "properties": {
-        "apiType": {
-          "$ref": "#/definitions/ConfigApiType"
-        },
-        "swaggerLink": {
-          "type": "string"
-        },
-        "makoshName": {
-          "type": "string"
-        }
-      }
-    },
-    "ConfigApiType": {
-      "type": "string",
-      "enum": [
-        "unknown",
-        "grpc",
-        "rest"
-      ],
-      "default": "unknown"
-    },
     "ConfigAppConfig": {
       "type": "object",
       "properties": {
@@ -264,53 +209,70 @@
         "version": {
           "type": "string"
         },
-        "startupDuration": {
-          "type": "string",
-          "title": "e.g \"10s\""
+        "startupDurationSec": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     },
-    "ConfigEnvironment": {
+    "ResourceConnection": {
+      "type": "object"
+    },
+    "ResourcePostgres": {
       "type": "object",
       "properties": {
-        "key": {
+        "address": {
           "type": "string"
         },
-        "value": {
+        "port": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "dbName": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "pwd": {
           "type": "string"
         }
       }
     },
-    "ConfigResource": {
+    "ResourceRedis": {
       "type": "object",
       "properties": {
-        "resourceType": {
-          "$ref": "#/definitions/ConfigResourceType"
+        "Host": {
+          "type": "string"
         },
-        "connectionString": {
-          "type": "string",
-          "title": "link to resource configuration if available"
+        "Port": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "User": {
+          "type": "string"
+        },
+        "Pwd": {
+          "type": "string"
+        },
+        "Db": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },
-    "ConfigResourceType": {
-      "type": "string",
-      "enum": [
-        "unknown",
-        "postgres",
-        "redis",
-        "grpc",
-        "telegram"
-      ],
-      "default": "unknown"
-    },
-    "PatchConfigEnvPatch": {
+    "ResourceSqlite": {
       "type": "object",
       "properties": {
-        "fieldName": {
+        "path": {
           "type": "string"
-        },
-        "value": {
+        }
+      }
+    },
+    "ResourceTelegram": {
+      "type": "object",
+      "properties": {
+        "apiKey": {
           "type": "string"
         }
       }
@@ -320,6 +282,15 @@
       "properties": {
         "name": {
           "type": "string"
+        }
+      }
+    },
+    "ServerRest": {
+      "type": "object",
+      "properties": {
+        "port": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     },
@@ -341,21 +312,20 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/ConfigResource"
+            "$ref": "#/definitions/matreshka_be_apiResource"
           }
         },
         "api": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/ConfigApi"
+            "$ref": "#/definitions/matreshka_be_apiServer"
           }
         },
         "environment": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/ConfigEnvironment"
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
           }
         }
       }
@@ -422,40 +392,152 @@
         }
       }
     },
-    "matreshka_be_apiPatchConfigEnvRequest": {
+    "matreshka_be_apiPatchConfigRawResponse": {
+      "type": "object"
+    },
+    "matreshka_be_apiPatchConfigRequest": {
       "type": "object",
       "properties": {
-        "serviceName": {
+        "config": {
+          "$ref": "#/definitions/matreshka_be_apiConfig",
+          "title": "TODO подумать"
+        }
+      }
+    },
+    "matreshka_be_apiPatchConfigResponse": {
+      "type": "object"
+    },
+    "matreshka_be_apiResource": {
+      "type": "object",
+      "properties": {
+        "conn": {
+          "$ref": "#/definitions/ResourceConnection"
+        },
+        "name": {
           "type": "string"
         },
-        "patches": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/PatchConfigEnvPatch"
+        "resourceType": {
+          "$ref": "#/definitions/matreshka_be_apiResourceType"
+        },
+        "resourceConfig": {
+          "$ref": "#/definitions/matreshka_be_apiResourceConfig"
+        }
+      }
+    },
+    "matreshka_be_apiResourceConfig": {
+      "type": "object",
+      "properties": {
+        "unknown": {
+          "$ref": "#/definitions/matreshka_be_apiResourceUnknown"
+        },
+        "postgres": {
+          "$ref": "#/definitions/ResourcePostgres"
+        },
+        "redis": {
+          "$ref": "#/definitions/ResourceRedis"
+        },
+        "sqlite": {
+          "$ref": "#/definitions/ResourceSqlite"
+        },
+        "grpc": {
+          "$ref": "#/definitions/matreshka_be_apiResourceGrpc"
+        },
+        "telegram": {
+          "$ref": "#/definitions/ResourceTelegram"
+        }
+      }
+    },
+    "matreshka_be_apiResourceGrpc": {
+      "type": "object",
+      "properties": {
+        "connectionString": {
+          "type": "string"
+        },
+        "module": {
+          "type": "string"
+        }
+      }
+    },
+    "matreshka_be_apiResourceType": {
+      "type": "string",
+      "enum": [
+        "UnknownResourceType",
+        "PostgresResourceType",
+        "RedisResourceType",
+        "SqliteResourceType",
+        "GrpcResourceType",
+        "TelegramResourceType"
+      ],
+      "default": "UnknownResourceType"
+    },
+    "matreshka_be_apiResourceUnknown": {
+      "type": "object",
+      "properties": {
+        "environment": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
           }
         }
       }
     },
-    "matreshka_be_apiPatchConfigEnvResponse": {
-      "type": "object"
-    },
-    "matreshka_be_apiPatchConfigRawResponse": {
-      "type": "object"
-    },
-    "matreshka_be_apiUpdateServiceConfigRequest": {
+    "matreshka_be_apiServer": {
       "type": "object",
       "properties": {
-        "config": {
-          "$ref": "#/definitions/matreshka_be_apiConfig"
+        "swaggerLink": {
+          "type": "string"
+        },
+        "makoshName": {
+          "type": "string"
+        },
+        "server": {
+          "$ref": "#/definitions/matreshka_be_apiServerConfig"
+        },
+        "type": {
+          "$ref": "#/definitions/matreshka_be_apiServerType"
         }
       }
     },
-    "matreshka_be_apiUpdateServiceConfigResponse": {
+    "matreshka_be_apiServerConfig": {
       "type": "object",
       "properties": {
-        "link": {
-          "type": "string"
+        "unknown": {
+          "$ref": "#/definitions/matreshka_be_apiServerUnknown"
+        },
+        "grpc": {
+          "$ref": "#/definitions/matreshka_be_apiServerGrpc"
+        },
+        "rest": {
+          "$ref": "#/definitions/ServerRest"
+        }
+      }
+    },
+    "matreshka_be_apiServerGrpc": {
+      "type": "object",
+      "properties": {
+        "port": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "matreshka_be_apiServerType": {
+      "type": "string",
+      "enum": [
+        "UnknownServerType",
+        "GrpcServerType",
+        "RestServerType"
+      ],
+      "default": "UnknownServerType"
+    },
+    "matreshka_be_apiServerUnknown": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
     },
