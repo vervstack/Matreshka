@@ -4090,9 +4090,7 @@ func (m *ListConfigs_Request) validate(all bool) error {
 		}
 	}
 
-	if m.ServiceName != nil {
-		// no validation rules for ServiceName
-	}
+	// no validation rules for ServiceName
 
 	if len(errors) > 0 {
 		return ListConfigs_RequestMultiError(errors)

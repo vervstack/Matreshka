@@ -212,7 +212,7 @@ message ListRequest {
 message ListConfigs {
   message Request {
     ListRequest listRequest = 1;
-    optional string serviceName = 2;
+    string serviceName = 2;
   }
 
   message Response {
