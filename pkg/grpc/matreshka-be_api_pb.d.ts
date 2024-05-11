@@ -56,8 +56,8 @@ export namespace Resource {
 
 
   export class Postgres extends jspb.Message {
-    getAddress(): string;
-    setAddress(value: string): Postgres;
+    getHost(): string;
+    setHost(value: string): Postgres;
 
     getPort(): number;
     setPort(value: number): Postgres;
@@ -81,7 +81,7 @@ export namespace Resource {
 
   export namespace Postgres {
     export type AsObject = {
-      address: string,
+      host: string,
       port: number,
       dbName: string,
       userName: string,
@@ -281,10 +281,10 @@ export class Server extends jspb.Message {
   getMakoshName(): string;
   setMakoshName(value: string): Server;
 
-  getServer(): Server.Config | undefined;
-  setServer(value?: Server.Config): Server;
-  hasServer(): boolean;
-  clearServer(): Server;
+  getConfig(): Server.Config | undefined;
+  setConfig(value?: Server.Config): Server;
+  hasConfig(): boolean;
+  clearConfig(): Server;
 
   getType(): Server.Type;
   setType(value: Server.Type): Server;
@@ -301,13 +301,13 @@ export namespace Server {
   export type AsObject = {
     swaggerLink: string,
     makoshName: string,
-    server?: Server.Config.AsObject,
+    config?: Server.Config.AsObject,
     type: Server.Type,
   }
 
   export class Unknown extends jspb.Message {
-    getValuesMap(): jspb.Map<string, string>;
-    clearValuesMap(): Unknown;
+    getEnvironmentMap(): jspb.Map<string, string>;
+    clearEnvironmentMap(): Unknown;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Unknown.AsObject;
@@ -319,7 +319,7 @@ export namespace Server {
 
   export namespace Unknown {
     export type AsObject = {
-      valuesMap: Array<[string, string]>,
+      environmentMap: Array<[string, string]>,
     }
   }
 
@@ -422,10 +422,10 @@ export class Config extends jspb.Message {
   clearResourcesList(): Config;
   addResources(value?: Resource, index?: number): Resource;
 
-  getApiList(): Array<Server>;
-  setApiList(value: Array<Server>): Config;
-  clearApiList(): Config;
-  addApi(value?: Server, index?: number): Server;
+  getServersList(): Array<Server>;
+  setServersList(value: Array<Server>): Config;
+  clearServersList(): Config;
+  addServers(value?: Server, index?: number): Server;
 
   getEnvironmentMap(): jspb.Map<string, string>;
   clearEnvironmentMap(): Config;
@@ -442,7 +442,7 @@ export namespace Config {
   export type AsObject = {
     appConfig?: Config.AppConfig.AsObject,
     resourcesList: Array<Resource.AsObject>,
-    apiList: Array<Server.AsObject>,
+    serversList: Array<Server.AsObject>,
     environmentMap: Array<[string, string]>,
   }
 
@@ -802,10 +802,10 @@ export namespace ListConfigs {
 
 
   export class Response extends jspb.Message {
-    getServicesList(): Array<ListConfigs.Response.ServiceInfo>;
-    setServicesList(value: Array<ListConfigs.Response.ServiceInfo>): Response;
+    getServicesList(): Array<Config.AppConfig>;
+    setServicesList(value: Array<Config.AppConfig>): Response;
     clearServicesList(): Response;
-    addServices(value?: ListConfigs.Response.ServiceInfo, index?: number): ListConfigs.Response.ServiceInfo;
+    addServices(value?: Config.AppConfig, index?: number): Config.AppConfig;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Response.AsObject;
@@ -817,27 +817,8 @@ export namespace ListConfigs {
 
   export namespace Response {
     export type AsObject = {
-      servicesList: Array<ListConfigs.Response.ServiceInfo.AsObject>,
+      servicesList: Array<Config.AppConfig.AsObject>,
     }
-
-    export class ServiceInfo extends jspb.Message {
-      getName(): string;
-      setName(value: string): ServiceInfo;
-
-      serializeBinary(): Uint8Array;
-      toObject(includeInstance?: boolean): ServiceInfo.AsObject;
-      static toObject(includeInstance: boolean, msg: ServiceInfo): ServiceInfo.AsObject;
-      static serializeBinaryToWriter(message: ServiceInfo, writer: jspb.BinaryWriter): void;
-      static deserializeBinary(bytes: Uint8Array): ServiceInfo;
-      static deserializeBinaryFromReader(message: ServiceInfo, reader: jspb.BinaryReader): ServiceInfo;
-    }
-
-    export namespace ServiceInfo {
-      export type AsObject = {
-        name: string,
-      }
-    }
-
   }
 
 }

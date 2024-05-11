@@ -222,11 +222,11 @@ func (m *Server) validate(all bool) error {
 	// no validation rules for MakoshName
 
 	if all {
-		switch v := interface{}(m.GetServer()).(type) {
+		switch v := interface{}(m.GetConfig()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, ServerValidationError{
-					field:  "Server",
+					field:  "Config",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -234,16 +234,16 @@ func (m *Server) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, ServerValidationError{
-					field:  "Server",
+					field:  "Config",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetServer()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetConfig()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return ServerValidationError{
-				field:  "Server",
+				field:  "Config",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -413,7 +413,7 @@ func (m *Config) validate(all bool) error {
 
 	}
 
-	for idx, item := range m.GetApi() {
+	for idx, item := range m.GetServers() {
 		_, _ = idx, item
 
 		if all {
@@ -421,7 +421,7 @@ func (m *Config) validate(all bool) error {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, ConfigValidationError{
-						field:  fmt.Sprintf("Api[%v]", idx),
+						field:  fmt.Sprintf("Servers[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -429,7 +429,7 @@ func (m *Config) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, ConfigValidationError{
-						field:  fmt.Sprintf("Api[%v]", idx),
+						field:  fmt.Sprintf("Servers[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -438,7 +438,7 @@ func (m *Config) validate(all bool) error {
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return ConfigValidationError{
-					field:  fmt.Sprintf("Api[%v]", idx),
+					field:  fmt.Sprintf("Servers[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -1348,7 +1348,7 @@ func (m *Resource_Postgres) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Address
+	// no validation rules for Host
 
 	// no validation rules for Port
 
@@ -2333,7 +2333,7 @@ func (m *Server_Unknown) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Values
+	// no validation rules for Environment
 
 	if len(errors) > 0 {
 		return Server_UnknownMultiError(errors)
@@ -4309,110 +4309,3 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ListConfigs_ResponseValidationError{}
-
-// Validate checks the field values on ListConfigs_Response_ServiceInfo with
-// the rules defined in the proto definition for this message. If any rules
-// are violated, the first error encountered is returned, or nil if there are
-// no violations.
-func (m *ListConfigs_Response_ServiceInfo) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on ListConfigs_Response_ServiceInfo with
-// the rules defined in the proto definition for this message. If any rules
-// are violated, the result is a list of violation errors wrapped in
-// ListConfigs_Response_ServiceInfoMultiError, or nil if none found.
-func (m *ListConfigs_Response_ServiceInfo) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *ListConfigs_Response_ServiceInfo) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for Name
-
-	if len(errors) > 0 {
-		return ListConfigs_Response_ServiceInfoMultiError(errors)
-	}
-
-	return nil
-}
-
-// ListConfigs_Response_ServiceInfoMultiError is an error wrapping multiple
-// validation errors returned by
-// ListConfigs_Response_ServiceInfo.ValidateAll() if the designated
-// constraints aren't met.
-type ListConfigs_Response_ServiceInfoMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ListConfigs_Response_ServiceInfoMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ListConfigs_Response_ServiceInfoMultiError) AllErrors() []error { return m }
-
-// ListConfigs_Response_ServiceInfoValidationError is the validation error
-// returned by ListConfigs_Response_ServiceInfo.Validate if the designated
-// constraints aren't met.
-type ListConfigs_Response_ServiceInfoValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e ListConfigs_Response_ServiceInfoValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e ListConfigs_Response_ServiceInfoValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e ListConfigs_Response_ServiceInfoValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e ListConfigs_Response_ServiceInfoValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e ListConfigs_Response_ServiceInfoValidationError) ErrorName() string {
-	return "ListConfigs_Response_ServiceInfoValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e ListConfigs_Response_ServiceInfoValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sListConfigs_Response_ServiceInfo.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = ListConfigs_Response_ServiceInfoValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = ListConfigs_Response_ServiceInfoValidationError{}

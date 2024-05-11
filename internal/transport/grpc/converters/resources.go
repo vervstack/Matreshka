@@ -72,8 +72,8 @@ func ToProtoPostgresResource(in resources.Resource) *matreshka_api.Resource_Conf
 	return &matreshka_api.Resource_Config{
 		Resource: &matreshka_api.Resource_Config_Postgres{
 			Postgres: &matreshka_api.Resource_Postgres{
-				Address: res.Host,
-				Port:    uint32(res.Port),
+				Host: res.Host,
+				Port: uint32(res.Port),
 
 				DbName:   res.DbName,
 				UserName: res.User,
@@ -171,7 +171,7 @@ func FromProtoPostgresResource(in *matreshka_api.Resource) resources.Resource {
 
 	return &resources.Postgres{
 		Name:   resources.Name(in.Name),
-		Host:   res.GetAddress(),
+		Host:   res.GetHost(),
 		Port:   uint64(res.Port),
 		User:   res.GetUserName(),
 		Pwd:    res.GetPwd(),

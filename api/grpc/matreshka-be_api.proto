@@ -25,7 +25,6 @@ service MatreshkaBeAPI {
     };
   }
 
-
   rpc GetConfigRaw(GetConfigRaw.Request) returns (GetConfigRaw.Response) {
     option (google.api.http) = {
       get: "/config/raw/{service_name}",
@@ -52,7 +51,7 @@ message Resource {
   }
 
   message Postgres {
-    string address = 1;
+    string host = 1;
     uint32 port = 2;
     string db_name = 3;
     string user_name = 4;
@@ -60,12 +59,12 @@ message Resource {
   }
 
   message Redis {
-    string Host = 1;
-    uint32 Port = 2;
+    string host = 1;
+    uint32 port = 2;
 
-    string User = 3;
-    string Pwd = 4;
-    int32 Db = 5;
+    string user = 3;
+    string pwd = 4;
+    int32 db = 5;
   }
 
   message Sqlite {
@@ -112,7 +111,7 @@ message Resource {
 }
 message Server {
   message Unknown {
-    map<string, string> values = 1;
+    map<string, string> environment = 1;
   }
 
   message Grpc {
@@ -141,7 +140,7 @@ message Server {
 
   string makosh_name = 2;
 
-  Config server = 3;
+  Config config = 3;
   Type type = 4;
 }
 message Config {
@@ -155,7 +154,7 @@ message Config {
 
   repeated Resource resources = 2;
 
-  repeated Server api = 3;
+  repeated Server servers = 3;
 
   map<string, string> environment = 4;
 }
@@ -207,8 +206,8 @@ message PatchConfigRaw {
 }
 
 message ListRequest {
-  int32 limit = 1;
-  int32 offset = 2;
+  uint32 limit = 1;
+  uint32 offset = 2;
 }
 message ListConfigs {
   message Request {
@@ -217,9 +216,6 @@ message ListConfigs {
   }
 
   message Response {
-    message ServiceInfo {
-      string name = 1;
-    }
-    repeated ServiceInfo services = 1;
+    repeated Config.AppConfig services = 1;
   }
 }

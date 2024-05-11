@@ -31,7 +31,7 @@ func ToProtoApi(apis []matreshkaServers.Api) []*matreshka_api.Server {
 
 			MakoshName: r.GetName(),
 
-			Server: mapper(r),
+			Config: mapper(r),
 			Type:   toProtoServerTypeMap[r.GetType()],
 		}
 
@@ -45,7 +45,7 @@ func ToProtoUnknownServer(in matreshkaServers.Api) *matreshka_api.Server_Config 
 	return &matreshka_api.Server_Config{
 		Server: &matreshka_api.Server_Config_Unknown{
 			Unknown: &matreshka_api.Server_Unknown{
-				Values: res.Values,
+				Environment: res.Values,
 			},
 		},
 	}
@@ -89,21 +89,21 @@ func FromProtoApi(apis []*matreshka_api.Server) []matreshkaServers.Api {
 	return out
 }
 func FromProtoUnknownApi(in *matreshka_api.Server) matreshkaServers.Api {
-	r := in.GetServer().GetUnknown()
+	r := in.GetConfig().GetUnknown()
 	return &matreshkaServers.Unknown{
 		Name:   matreshkaServers.Name(in.MakoshName),
-		Values: r.GetValues(),
+		Values: r.GetEnvironment(),
 	}
 }
 func FromProtoGrpcApi(in *matreshka_api.Server) matreshkaServers.Api {
-	r := in.GetServer().GetGrpc()
+	r := in.GetConfig().GetGrpc()
 	return &matreshkaServers.GRPC{
 		Name: matreshkaServers.Name(in.GetMakoshName()),
 		Port: uint16(r.GetPort()),
 	}
 }
 func FromProtoRestApi(in *matreshka_api.Server) matreshkaServers.Api {
-	r := in.GetServer().GetRest()
+	r := in.GetConfig().GetRest()
 	return &matreshkaServers.Rest{
 		Name: matreshkaServers.Name(in.GetMakoshName()),
 		Port: uint16(r.GetPort()),

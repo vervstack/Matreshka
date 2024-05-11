@@ -5,16 +5,121 @@ Content-Type: application/json
 {
   "config": {
     "app_config": {
-      "name":  "test_service",
+      "name": "test_service",
       "version": "v0.0.1",
-      "startup_duration_sec":  10
+      "startup_duration_sec": 10
     },
     "resources": [
       {
+        "conn": {},
+        "name": "",
+        "resourceType": "UnknownResourceType",
+        "resourceConfig": {
+          "unknown": {
+            "environment": {
+              "one": "two"
+            }
+          }
+        }
+      },
+      {
+        "conn": {},
+        "name": "postgres",
+        "resourceType": "PostgresResourceType",
+        "resourceConfig": {
+          "postgres": {
+            "host": "localhost",
+            "port": 5432,
+            "db_name": "postgres",
+            "user_name": "postgres",
+            "pwd": "postgres_pwd"
+          }
+        }
+      },
+      {
+        "conn": {},
+        "name": "redis",
+        "resourceType": "RedisResourceType",
+        "resourceConfig": {
+          "redis": {
+            "host": "localhost",
+            "port": 5001,
+            "user": "redis",
+            "pwd": "pwd",
+            "db": 1
+          }
+        }
+      },
+      {
+        "conn": {},
+        "name": "sqlite",
+        "resourceType": "SqliteResourceType",
+        "resourceConfig": {
+          "sqlite": {
+            "path": "/app/data"
+          }
+        }
+      },
+      {
+        "conn": {},
+        "name": "grpc",
+        "resourceType": "GrpcResourceType",
+        "resourceConfig": {
+          "grpc": {
+            "connectionString": "localhost:50055",
+            "module": "github.com/verv/matreshka@latest"
+          }
+        }
+      },
+      {
+        "conn": {},
+        "name": "telegram",
+        "resourceType": "TelegramResourceType",
+        "resourceConfig": {
+          "telegram": {
+            "apiKey": "contractanalysismatt"
+          }
+        }
       }
     ],
-    "api": [],
-    "environment": {}
+    "servers": [
+      {
+        "type": "UnknownServerType",
+        "swaggerLink": "localhost:50056/docs",
+        "makoshName": "test_service",
+        "config": {
+          "unknown": {
+            "environment": {
+              "a": "b"
+            }
+          }
+        }
+      },
+      {
+        "type": "GrpcServerType",
+        "swaggerLink": "localhost:50056/grpc",
+        "makoshName": "test_service",
+        "config": {
+          "grpc": {
+            "port": 50056
+          }
+        }
+      },
+      {
+        "type": "RestServerType",
+        "swaggerLink": "localhost:50056/rest",
+        "makoshName": "test_service",
+        "config": {
+          "grpc": {
+            "port": 50056
+          }
+        }
+      }
+    ],
+    "environment": {
+      "A": "boba",
+      "bo": "aba"
+    }
   }
 }
 

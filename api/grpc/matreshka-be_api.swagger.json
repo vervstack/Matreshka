@@ -221,7 +221,7 @@
     "ResourcePostgres": {
       "type": "object",
       "properties": {
-        "address": {
+        "host": {
           "type": "string"
         },
         "port": {
@@ -242,20 +242,20 @@
     "ResourceRedis": {
       "type": "object",
       "properties": {
-        "Host": {
+        "host": {
           "type": "string"
         },
-        "Port": {
+        "port": {
           "type": "integer",
           "format": "int64"
         },
-        "User": {
+        "user": {
           "type": "string"
         },
-        "Pwd": {
+        "pwd": {
           "type": "string"
         },
-        "Db": {
+        "db": {
           "type": "integer",
           "format": "int32"
         }
@@ -273,14 +273,6 @@
       "type": "object",
       "properties": {
         "apiKey": {
-          "type": "string"
-        }
-      }
-    },
-    "ResponseServiceInfo": {
-      "type": "object",
-      "properties": {
-        "name": {
           "type": "string"
         }
       }
@@ -315,7 +307,7 @@
             "$ref": "#/definitions/matreshka_be_apiResource"
           }
         },
-        "api": {
+        "servers": {
           "type": "array",
           "items": {
             "type": "object",
@@ -365,7 +357,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/ResponseServiceInfo"
+            "$ref": "#/definitions/ConfigAppConfig"
           }
         }
       }
@@ -375,11 +367,11 @@
       "properties": {
         "limit": {
           "type": "integer",
-          "format": "int32"
+          "format": "int64"
         },
         "offset": {
           "type": "integer",
-          "format": "int32"
+          "format": "int64"
         }
       }
     },
@@ -490,7 +482,7 @@
         "makoshName": {
           "type": "string"
         },
-        "server": {
+        "config": {
           "$ref": "#/definitions/matreshka_be_apiServerConfig"
         },
         "type": {
@@ -533,7 +525,7 @@
     "matreshka_be_apiServerUnknown": {
       "type": "object",
       "properties": {
-        "values": {
+        "environment": {
           "type": "object",
           "additionalProperties": {
             "type": "string"
