@@ -81,7 +81,7 @@ message Resource {
   }
 
   message Connection {
-
+    string connection_string = 1;
   }
 
   enum Type {

@@ -1880,6 +1880,8 @@ func (m *Resource_Connection) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for ConnectionString
+
 	if len(errors) > 0 {
 		return Resource_ConnectionMultiError(errors)
 	}

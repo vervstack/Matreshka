@@ -24,8 +24,9 @@ gen-server: .pre-gen-server local-link .gen-server
     	--openapiv2_out ./api \
     	--go-grpc_out=./pkg/ \
     	--grpc-gateway_out=logtostderr=true:./pkg/ \
-    	--grpc-gateway-ts_out=ts_import_roots=$(pwd),ts_import_root_aliases=base:. \
+    	--grpc-gateway-ts_out=./pkg \
     	--go_out=./pkg/ \
 	    --validate_out="lang=go:./pkg" \
     	./api/grpc/*.proto
 
+#ts_import_roots=./pkg,ts_import_root_aliases=base:./pkg

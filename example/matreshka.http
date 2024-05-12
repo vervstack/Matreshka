@@ -11,8 +11,10 @@ Content-Type: application/json
     },
     "resources": [
       {
-        "conn": {},
-        "name": "",
+        "conn": {
+          "connectionString": "i dunno"
+        },
+        "name": "unknown",
         "resourceType": "UnknownResourceType",
         "resourceConfig": {
           "unknown": {
@@ -23,7 +25,9 @@ Content-Type: application/json
         }
       },
       {
-        "conn": {},
+        "conn": {
+          "connectionString": "psql -H localhost -p 5432 -u postgres -d postgres"
+        },
         "name": "postgres",
         "resourceType": "PostgresResourceType",
         "resourceConfig": {
@@ -37,7 +41,9 @@ Content-Type: application/json
         }
       },
       {
-        "conn": {},
+        "conn": {
+          "connectionString": "redis-cli -h localhost -p 5001"
+        },
         "name": "redis",
         "resourceType": "RedisResourceType",
         "resourceConfig": {
@@ -51,7 +57,9 @@ Content-Type: application/json
         }
       },
       {
-        "conn": {},
+        "conn": {
+          "connectionString": "sqlite /app/data"
+        },
         "name": "sqlite",
         "resourceType": "SqliteResourceType",
         "resourceConfig": {

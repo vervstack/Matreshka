@@ -216,7 +216,12 @@
       }
     },
     "ResourceConnection": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "connectionString": {
+          "type": "string"
+        }
+      }
     },
     "ResourcePostgres": {
       "type": "object",
