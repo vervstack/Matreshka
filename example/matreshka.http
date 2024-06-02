@@ -11,9 +11,6 @@ Content-Type: application/json
     },
     "resources": [
       {
-        "conn": {
-          "connectionString": "i dunno"
-        },
         "name": "unknown",
         "resourceType": "UnknownResourceType",
         "resourceConfig": {
@@ -25,9 +22,6 @@ Content-Type: application/json
         }
       },
       {
-        "conn": {
-          "connectionString": "psql -H localhost -p 5432 -u postgres -d postgres"
-        },
         "name": "postgres",
         "resourceType": "PostgresResourceType",
         "resourceConfig": {
@@ -41,9 +35,6 @@ Content-Type: application/json
         }
       },
       {
-        "conn": {
-          "connectionString": "redis-cli -h localhost -p 5001"
-        },
         "name": "redis",
         "resourceType": "RedisResourceType",
         "resourceConfig": {
@@ -57,9 +48,6 @@ Content-Type: application/json
         }
       },
       {
-        "conn": {
-          "connectionString": "sqlite /app/data"
-        },
         "name": "sqlite",
         "resourceType": "SqliteResourceType",
         "resourceConfig": {
@@ -69,7 +57,6 @@ Content-Type: application/json
         }
       },
       {
-        "conn": {},
         "name": "grpc",
         "resourceType": "GrpcResourceType",
         "resourceConfig": {
@@ -80,7 +67,6 @@ Content-Type: application/json
         }
       },
       {
-        "conn": {},
         "name": "telegram",
         "resourceType": "TelegramResourceType",
         "resourceConfig": {
@@ -132,11 +118,10 @@ Content-Type: application/json
 }
 
 ### Get raw config
-GET {{matreshka-api}}/config/raw/test_service
+GET {{matreshka-api}}/config/test_service
 
 ### Get config
 GET {{matreshka-api}}/config/test_service
-
 
 ### List configs
 POST {{matreshka-api}}/config/list
@@ -144,4 +129,15 @@ Content-Type: application/json
 
 {
 
+}
+
+
+### Patch config
+POST {{matreshka-api}}/config/patch/test_service
+Content-Type: application/json
+
+{
+  "path_to_value": {
+    "1": "2"
+  }
 }

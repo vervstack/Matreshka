@@ -3,13 +3,11 @@ package grpc
 import (
 	"context"
 
-	"github.com/godverv/matreshka-be/pkg/matreshka_api"
+	api "github.com/godverv/matreshka-be/pkg/matreshka_api"
 )
 
-func (a *App) ApiVersion(_ context.Context, _ *matreshka_api.ApiVersion_Request,
-) (*matreshka_api.ApiVersion_Response, error) {
-
-	resp := &matreshka_api.ApiVersion_Response{
+func (a *App) ApiVersion(_ context.Context, _ *api.ApiVersion_Request) (*api.ApiVersion_Response, error) {
+	resp := &api.ApiVersion_Response{
 		Version: a.version,
 	}
 

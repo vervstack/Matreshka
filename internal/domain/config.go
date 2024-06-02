@@ -1,15 +1,9 @@
 package domain
 
-type GetConfigReq struct {
-	ServiceName string
-}
+import (
+	"github.com/godverv/matreshka"
+)
 
-type ListRequest struct {
-	Limit  uint32
-	Offset uint32
-}
-
-type ListConfigsRequest struct {
-	ListRequest
-	SearchPattern string
+type Config struct {
+	Cfg matreshka.AppConfig
 }

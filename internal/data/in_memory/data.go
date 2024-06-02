@@ -1,6 +1,7 @@
 package in_memory
 
 import (
+	_ "embed"
 	"sync"
 
 	"github.com/godverv/matreshka"
@@ -13,9 +14,22 @@ type inMemory struct {
 	mp map[string]*matreshka.AppConfig
 }
 
+//go:embed full_config.yaml
+var testCfg []byte
+
 func New() data.Data {
-	return &inMemory{
+	d := &inMemory{
 		m:  sync.RWMutex{},
 		mp: make(map[string]*matreshka.AppConfig),
 	}
+
+	c := matreshka.NewEmptyConfig()
+	err := c.Unmarshal(testCfg)
+	if err != nil {
+		panic(err)
+	}
+
+	d.UpsertConfig(nil, c)
+
+	return d
 }

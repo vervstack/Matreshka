@@ -21,126 +21,17 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Resource_Type int32
-
-const (
-	Resource_UnknownResourceType  Resource_Type = 0
-	Resource_PostgresResourceType Resource_Type = 1
-	Resource_RedisResourceType    Resource_Type = 2
-	Resource_SqliteResourceType   Resource_Type = 3
-	Resource_GrpcResourceType     Resource_Type = 4
-	Resource_TelegramResourceType Resource_Type = 5
-)
-
-// Enum value maps for Resource_Type.
-var (
-	Resource_Type_name = map[int32]string{
-		0: "UnknownResourceType",
-		1: "PostgresResourceType",
-		2: "RedisResourceType",
-		3: "SqliteResourceType",
-		4: "GrpcResourceType",
-		5: "TelegramResourceType",
-	}
-	Resource_Type_value = map[string]int32{
-		"UnknownResourceType":  0,
-		"PostgresResourceType": 1,
-		"RedisResourceType":    2,
-		"SqliteResourceType":   3,
-		"GrpcResourceType":     4,
-		"TelegramResourceType": 5,
-	}
-)
-
-func (x Resource_Type) Enum() *Resource_Type {
-	p := new(Resource_Type)
-	*p = x
-	return p
-}
-
-func (x Resource_Type) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Resource_Type) Descriptor() protoreflect.EnumDescriptor {
-	return file_grpc_matreshka_be_api_proto_enumTypes[0].Descriptor()
-}
-
-func (Resource_Type) Type() protoreflect.EnumType {
-	return &file_grpc_matreshka_be_api_proto_enumTypes[0]
-}
-
-func (x Resource_Type) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Resource_Type.Descriptor instead.
-func (Resource_Type) EnumDescriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{0, 0}
-}
-
-type Server_Type int32
-
-const (
-	Server_UnknownServerType Server_Type = 0
-	Server_GrpcServerType    Server_Type = 1
-	Server_RestServerType    Server_Type = 2
-)
-
-// Enum value maps for Server_Type.
-var (
-	Server_Type_name = map[int32]string{
-		0: "UnknownServerType",
-		1: "GrpcServerType",
-		2: "RestServerType",
-	}
-	Server_Type_value = map[string]int32{
-		"UnknownServerType": 0,
-		"GrpcServerType":    1,
-		"RestServerType":    2,
-	}
-)
-
-func (x Server_Type) Enum() *Server_Type {
-	p := new(Server_Type)
-	*p = x
-	return p
-}
-
-func (x Server_Type) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Server_Type) Descriptor() protoreflect.EnumDescriptor {
-	return file_grpc_matreshka_be_api_proto_enumTypes[1].Descriptor()
-}
-
-func (Server_Type) Type() protoreflect.EnumType {
-	return &file_grpc_matreshka_be_api_proto_enumTypes[1]
-}
-
-func (x Server_Type) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Server_Type.Descriptor instead.
-func (Server_Type) EnumDescriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{1, 0}
-}
-
-type Resource struct {
+type AppInfo struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Conn           *Resource_Connection `protobuf:"bytes,1,opt,name=conn,proto3" json:"conn,omitempty"`
-	Name           string               `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	ResourceType   Resource_Type        `protobuf:"varint,3,opt,name=resource_type,json=resourceType,proto3,enum=matreshka_be_api.Resource_Type" json:"resource_type,omitempty"`
-	ResourceConfig *Resource_Config     `protobuf:"bytes,4,opt,name=resource_config,json=resourceConfig,proto3" json:"resource_config,omitempty"`
+	Name    string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Version string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 }
 
-func (x *Resource) Reset() {
-	*x = Resource{}
+func (x *AppInfo) Reset() {
+	*x = AppInfo{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_grpc_matreshka_be_api_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -148,13 +39,13 @@ func (x *Resource) Reset() {
 	}
 }
 
-func (x *Resource) String() string {
+func (x *AppInfo) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Resource) ProtoMessage() {}
+func (*AppInfo) ProtoMessage() {}
 
-func (x *Resource) ProtoReflect() protoreflect.Message {
+func (x *AppInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_grpc_matreshka_be_api_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -166,369 +57,23 @@ func (x *Resource) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Resource.ProtoReflect.Descriptor instead.
-func (*Resource) Descriptor() ([]byte, []int) {
+// Deprecated: Use AppInfo.ProtoReflect.Descriptor instead.
+func (*AppInfo) Descriptor() ([]byte, []int) {
 	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Resource) GetConn() *Resource_Connection {
-	if x != nil {
-		return x.Conn
-	}
-	return nil
-}
-
-func (x *Resource) GetName() string {
+func (x *AppInfo) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *Resource) GetResourceType() Resource_Type {
+func (x *AppInfo) GetVersion() string {
 	if x != nil {
-		return x.ResourceType
-	}
-	return Resource_UnknownResourceType
-}
-
-func (x *Resource) GetResourceConfig() *Resource_Config {
-	if x != nil {
-		return x.ResourceConfig
-	}
-	return nil
-}
-
-type Server struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	SwaggerLink string         `protobuf:"bytes,1,opt,name=swagger_link,json=swaggerLink,proto3" json:"swagger_link,omitempty"`
-	MakoshName  string         `protobuf:"bytes,2,opt,name=makosh_name,json=makoshName,proto3" json:"makosh_name,omitempty"`
-	Config      *Server_Config `protobuf:"bytes,3,opt,name=config,proto3" json:"config,omitempty"`
-	Type        Server_Type    `protobuf:"varint,4,opt,name=type,proto3,enum=matreshka_be_api.Server_Type" json:"type,omitempty"`
-}
-
-func (x *Server) Reset() {
-	*x = Server{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Server) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Server) ProtoMessage() {}
-
-func (x *Server) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Server.ProtoReflect.Descriptor instead.
-func (*Server) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *Server) GetSwaggerLink() string {
-	if x != nil {
-		return x.SwaggerLink
+		return x.Version
 	}
 	return ""
-}
-
-func (x *Server) GetMakoshName() string {
-	if x != nil {
-		return x.MakoshName
-	}
-	return ""
-}
-
-func (x *Server) GetConfig() *Server_Config {
-	if x != nil {
-		return x.Config
-	}
-	return nil
-}
-
-func (x *Server) GetType() Server_Type {
-	if x != nil {
-		return x.Type
-	}
-	return Server_UnknownServerType
-}
-
-type Config struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	AppConfig   *Config_AppConfig `protobuf:"bytes,1,opt,name=app_config,json=appConfig,proto3" json:"app_config,omitempty"`
-	Resources   []*Resource       `protobuf:"bytes,2,rep,name=resources,proto3" json:"resources,omitempty"`
-	Servers     []*Server         `protobuf:"bytes,3,rep,name=servers,proto3" json:"servers,omitempty"`
-	Environment map[string]string `protobuf:"bytes,4,rep,name=environment,proto3" json:"environment,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-}
-
-func (x *Config) Reset() {
-	*x = Config{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Config) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Config) ProtoMessage() {}
-
-func (x *Config) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Config.ProtoReflect.Descriptor instead.
-func (*Config) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *Config) GetAppConfig() *Config_AppConfig {
-	if x != nil {
-		return x.AppConfig
-	}
-	return nil
-}
-
-func (x *Config) GetResources() []*Resource {
-	if x != nil {
-		return x.Resources
-	}
-	return nil
-}
-
-func (x *Config) GetServers() []*Server {
-	if x != nil {
-		return x.Servers
-	}
-	return nil
-}
-
-func (x *Config) GetEnvironment() map[string]string {
-	if x != nil {
-		return x.Environment
-	}
-	return nil
-}
-
-type ApiVersion struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *ApiVersion) Reset() {
-	*x = ApiVersion{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *ApiVersion) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ApiVersion) ProtoMessage() {}
-
-func (x *ApiVersion) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ApiVersion.ProtoReflect.Descriptor instead.
-func (*ApiVersion) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{3}
-}
-
-type PatchConfig struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *PatchConfig) Reset() {
-	*x = PatchConfig{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *PatchConfig) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PatchConfig) ProtoMessage() {}
-
-func (x *PatchConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PatchConfig.ProtoReflect.Descriptor instead.
-func (*PatchConfig) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{4}
-}
-
-type GetConfig struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *GetConfig) Reset() {
-	*x = GetConfig{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[5]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GetConfig) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetConfig) ProtoMessage() {}
-
-func (x *GetConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[5]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetConfig.ProtoReflect.Descriptor instead.
-func (*GetConfig) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{5}
-}
-
-type GetConfigRaw struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *GetConfigRaw) Reset() {
-	*x = GetConfigRaw{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[6]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GetConfigRaw) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetConfigRaw) ProtoMessage() {}
-
-func (x *GetConfigRaw) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[6]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetConfigRaw.ProtoReflect.Descriptor instead.
-func (*GetConfigRaw) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{6}
-}
-
-type PatchConfigRaw struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *PatchConfigRaw) Reset() {
-	*x = PatchConfigRaw{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[7]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *PatchConfigRaw) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PatchConfigRaw) ProtoMessage() {}
-
-func (x *PatchConfigRaw) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[7]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PatchConfigRaw.ProtoReflect.Descriptor instead.
-func (*PatchConfigRaw) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{7}
 }
 
 type ListRequest struct {
@@ -543,7 +88,7 @@ type ListRequest struct {
 func (x *ListRequest) Reset() {
 	*x = ListRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[8]
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -556,7 +101,7 @@ func (x *ListRequest) String() string {
 func (*ListRequest) ProtoMessage() {}
 
 func (x *ListRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[8]
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -569,7 +114,7 @@ func (x *ListRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRequest.ProtoReflect.Descriptor instead.
 func (*ListRequest) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{8}
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ListRequest) GetLimit() uint32 {
@@ -586,6 +131,158 @@ func (x *ListRequest) GetOffset() uint32 {
 	return 0
 }
 
+type ApiVersion struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ApiVersion) Reset() {
+	*x = ApiVersion{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ApiVersion) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ApiVersion) ProtoMessage() {}
+
+func (x *ApiVersion) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ApiVersion.ProtoReflect.Descriptor instead.
+func (*ApiVersion) Descriptor() ([]byte, []int) {
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{2}
+}
+
+type GetConfig struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *GetConfig) Reset() {
+	*x = GetConfig{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetConfig) ProtoMessage() {}
+
+func (x *GetConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetConfig.ProtoReflect.Descriptor instead.
+func (*GetConfig) Descriptor() ([]byte, []int) {
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{3}
+}
+
+type PostConfig struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *PostConfig) Reset() {
+	*x = PostConfig{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PostConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PostConfig) ProtoMessage() {}
+
+func (x *PostConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PostConfig.ProtoReflect.Descriptor instead.
+func (*PostConfig) Descriptor() ([]byte, []int) {
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{4}
+}
+
+type PatchConfig struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *PatchConfig) Reset() {
+	*x = PatchConfig{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PatchConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PatchConfig) ProtoMessage() {}
+
+func (x *PatchConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PatchConfig.ProtoReflect.Descriptor instead.
+func (*PatchConfig) Descriptor() ([]byte, []int) {
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{5}
+}
+
 type ListConfigs struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -595,7 +292,7 @@ type ListConfigs struct {
 func (x *ListConfigs) Reset() {
 	*x = ListConfigs{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[9]
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -608,7 +305,7 @@ func (x *ListConfigs) String() string {
 func (*ListConfigs) ProtoMessage() {}
 
 func (x *ListConfigs) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[9]
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -621,844 +318,7 @@ func (x *ListConfigs) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListConfigs.ProtoReflect.Descriptor instead.
 func (*ListConfigs) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{9}
-}
-
-type Resource_Unknown struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Environment map[string]string `protobuf:"bytes,1,rep,name=environment,proto3" json:"environment,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-}
-
-func (x *Resource_Unknown) Reset() {
-	*x = Resource_Unknown{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[10]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Resource_Unknown) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Resource_Unknown) ProtoMessage() {}
-
-func (x *Resource_Unknown) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[10]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Resource_Unknown.ProtoReflect.Descriptor instead.
-func (*Resource_Unknown) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{0, 0}
-}
-
-func (x *Resource_Unknown) GetEnvironment() map[string]string {
-	if x != nil {
-		return x.Environment
-	}
-	return nil
-}
-
-type Resource_Postgres struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Host     string `protobuf:"bytes,1,opt,name=host,proto3" json:"host,omitempty"`
-	Port     uint32 `protobuf:"varint,2,opt,name=port,proto3" json:"port,omitempty"`
-	DbName   string `protobuf:"bytes,3,opt,name=db_name,json=dbName,proto3" json:"db_name,omitempty"`
-	UserName string `protobuf:"bytes,4,opt,name=user_name,json=userName,proto3" json:"user_name,omitempty"`
-	Pwd      string `protobuf:"bytes,5,opt,name=pwd,proto3" json:"pwd,omitempty"`
-}
-
-func (x *Resource_Postgres) Reset() {
-	*x = Resource_Postgres{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[11]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Resource_Postgres) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Resource_Postgres) ProtoMessage() {}
-
-func (x *Resource_Postgres) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[11]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Resource_Postgres.ProtoReflect.Descriptor instead.
-func (*Resource_Postgres) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{0, 1}
-}
-
-func (x *Resource_Postgres) GetHost() string {
-	if x != nil {
-		return x.Host
-	}
-	return ""
-}
-
-func (x *Resource_Postgres) GetPort() uint32 {
-	if x != nil {
-		return x.Port
-	}
-	return 0
-}
-
-func (x *Resource_Postgres) GetDbName() string {
-	if x != nil {
-		return x.DbName
-	}
-	return ""
-}
-
-func (x *Resource_Postgres) GetUserName() string {
-	if x != nil {
-		return x.UserName
-	}
-	return ""
-}
-
-func (x *Resource_Postgres) GetPwd() string {
-	if x != nil {
-		return x.Pwd
-	}
-	return ""
-}
-
-type Resource_Redis struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Host string `protobuf:"bytes,1,opt,name=host,proto3" json:"host,omitempty"`
-	Port uint32 `protobuf:"varint,2,opt,name=port,proto3" json:"port,omitempty"`
-	User string `protobuf:"bytes,3,opt,name=user,proto3" json:"user,omitempty"`
-	Pwd  string `protobuf:"bytes,4,opt,name=pwd,proto3" json:"pwd,omitempty"`
-	Db   int32  `protobuf:"varint,5,opt,name=db,proto3" json:"db,omitempty"`
-}
-
-func (x *Resource_Redis) Reset() {
-	*x = Resource_Redis{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[12]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Resource_Redis) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Resource_Redis) ProtoMessage() {}
-
-func (x *Resource_Redis) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[12]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Resource_Redis.ProtoReflect.Descriptor instead.
-func (*Resource_Redis) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{0, 2}
-}
-
-func (x *Resource_Redis) GetHost() string {
-	if x != nil {
-		return x.Host
-	}
-	return ""
-}
-
-func (x *Resource_Redis) GetPort() uint32 {
-	if x != nil {
-		return x.Port
-	}
-	return 0
-}
-
-func (x *Resource_Redis) GetUser() string {
-	if x != nil {
-		return x.User
-	}
-	return ""
-}
-
-func (x *Resource_Redis) GetPwd() string {
-	if x != nil {
-		return x.Pwd
-	}
-	return ""
-}
-
-func (x *Resource_Redis) GetDb() int32 {
-	if x != nil {
-		return x.Db
-	}
-	return 0
-}
-
-type Resource_Sqlite struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Path string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
-}
-
-func (x *Resource_Sqlite) Reset() {
-	*x = Resource_Sqlite{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[13]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Resource_Sqlite) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Resource_Sqlite) ProtoMessage() {}
-
-func (x *Resource_Sqlite) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[13]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Resource_Sqlite.ProtoReflect.Descriptor instead.
-func (*Resource_Sqlite) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{0, 3}
-}
-
-func (x *Resource_Sqlite) GetPath() string {
-	if x != nil {
-		return x.Path
-	}
-	return ""
-}
-
-type Resource_Grpc struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	ConnectionString string `protobuf:"bytes,1,opt,name=connection_string,json=connectionString,proto3" json:"connection_string,omitempty"`
-	Module           string `protobuf:"bytes,2,opt,name=module,proto3" json:"module,omitempty"`
-}
-
-func (x *Resource_Grpc) Reset() {
-	*x = Resource_Grpc{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[14]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Resource_Grpc) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Resource_Grpc) ProtoMessage() {}
-
-func (x *Resource_Grpc) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[14]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Resource_Grpc.ProtoReflect.Descriptor instead.
-func (*Resource_Grpc) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{0, 4}
-}
-
-func (x *Resource_Grpc) GetConnectionString() string {
-	if x != nil {
-		return x.ConnectionString
-	}
-	return ""
-}
-
-func (x *Resource_Grpc) GetModule() string {
-	if x != nil {
-		return x.Module
-	}
-	return ""
-}
-
-type Resource_Telegram struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	ApiKey string `protobuf:"bytes,1,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
-}
-
-func (x *Resource_Telegram) Reset() {
-	*x = Resource_Telegram{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[15]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Resource_Telegram) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Resource_Telegram) ProtoMessage() {}
-
-func (x *Resource_Telegram) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[15]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Resource_Telegram.ProtoReflect.Descriptor instead.
-func (*Resource_Telegram) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{0, 5}
-}
-
-func (x *Resource_Telegram) GetApiKey() string {
-	if x != nil {
-		return x.ApiKey
-	}
-	return ""
-}
-
-type Resource_Connection struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	ConnectionString string `protobuf:"bytes,1,opt,name=connection_string,json=connectionString,proto3" json:"connection_string,omitempty"`
-}
-
-func (x *Resource_Connection) Reset() {
-	*x = Resource_Connection{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[16]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Resource_Connection) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Resource_Connection) ProtoMessage() {}
-
-func (x *Resource_Connection) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[16]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Resource_Connection.ProtoReflect.Descriptor instead.
-func (*Resource_Connection) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{0, 6}
-}
-
-func (x *Resource_Connection) GetConnectionString() string {
-	if x != nil {
-		return x.ConnectionString
-	}
-	return ""
-}
-
-type Resource_Config struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// Types that are assignable to Resource:
-	//
-	//	*Resource_Config_Unknown
-	//	*Resource_Config_Postgres
-	//	*Resource_Config_Redis
-	//	*Resource_Config_Sqlite
-	//	*Resource_Config_Grpc
-	//	*Resource_Config_Telegram
-	Resource isResource_Config_Resource `protobuf_oneof:"resource"`
-}
-
-func (x *Resource_Config) Reset() {
-	*x = Resource_Config{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[17]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Resource_Config) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Resource_Config) ProtoMessage() {}
-
-func (x *Resource_Config) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[17]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Resource_Config.ProtoReflect.Descriptor instead.
-func (*Resource_Config) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{0, 7}
-}
-
-func (m *Resource_Config) GetResource() isResource_Config_Resource {
-	if m != nil {
-		return m.Resource
-	}
-	return nil
-}
-
-func (x *Resource_Config) GetUnknown() *Resource_Unknown {
-	if x, ok := x.GetResource().(*Resource_Config_Unknown); ok {
-		return x.Unknown
-	}
-	return nil
-}
-
-func (x *Resource_Config) GetPostgres() *Resource_Postgres {
-	if x, ok := x.GetResource().(*Resource_Config_Postgres); ok {
-		return x.Postgres
-	}
-	return nil
-}
-
-func (x *Resource_Config) GetRedis() *Resource_Redis {
-	if x, ok := x.GetResource().(*Resource_Config_Redis); ok {
-		return x.Redis
-	}
-	return nil
-}
-
-func (x *Resource_Config) GetSqlite() *Resource_Sqlite {
-	if x, ok := x.GetResource().(*Resource_Config_Sqlite); ok {
-		return x.Sqlite
-	}
-	return nil
-}
-
-func (x *Resource_Config) GetGrpc() *Resource_Grpc {
-	if x, ok := x.GetResource().(*Resource_Config_Grpc); ok {
-		return x.Grpc
-	}
-	return nil
-}
-
-func (x *Resource_Config) GetTelegram() *Resource_Telegram {
-	if x, ok := x.GetResource().(*Resource_Config_Telegram); ok {
-		return x.Telegram
-	}
-	return nil
-}
-
-type isResource_Config_Resource interface {
-	isResource_Config_Resource()
-}
-
-type Resource_Config_Unknown struct {
-	Unknown *Resource_Unknown `protobuf:"bytes,4,opt,name=unknown,proto3,oneof"`
-}
-
-type Resource_Config_Postgres struct {
-	Postgres *Resource_Postgres `protobuf:"bytes,5,opt,name=postgres,proto3,oneof"`
-}
-
-type Resource_Config_Redis struct {
-	Redis *Resource_Redis `protobuf:"bytes,6,opt,name=redis,proto3,oneof"`
-}
-
-type Resource_Config_Sqlite struct {
-	Sqlite *Resource_Sqlite `protobuf:"bytes,7,opt,name=sqlite,proto3,oneof"`
-}
-
-type Resource_Config_Grpc struct {
-	Grpc *Resource_Grpc `protobuf:"bytes,8,opt,name=grpc,proto3,oneof"`
-}
-
-type Resource_Config_Telegram struct {
-	Telegram *Resource_Telegram `protobuf:"bytes,9,opt,name=telegram,proto3,oneof"`
-}
-
-func (*Resource_Config_Unknown) isResource_Config_Resource() {}
-
-func (*Resource_Config_Postgres) isResource_Config_Resource() {}
-
-func (*Resource_Config_Redis) isResource_Config_Resource() {}
-
-func (*Resource_Config_Sqlite) isResource_Config_Resource() {}
-
-func (*Resource_Config_Grpc) isResource_Config_Resource() {}
-
-func (*Resource_Config_Telegram) isResource_Config_Resource() {}
-
-type Server_Unknown struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Environment map[string]string `protobuf:"bytes,1,rep,name=environment,proto3" json:"environment,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-}
-
-func (x *Server_Unknown) Reset() {
-	*x = Server_Unknown{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[19]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Server_Unknown) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Server_Unknown) ProtoMessage() {}
-
-func (x *Server_Unknown) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[19]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Server_Unknown.ProtoReflect.Descriptor instead.
-func (*Server_Unknown) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{1, 0}
-}
-
-func (x *Server_Unknown) GetEnvironment() map[string]string {
-	if x != nil {
-		return x.Environment
-	}
-	return nil
-}
-
-type Server_Grpc struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Port uint32 `protobuf:"varint,1,opt,name=port,proto3" json:"port,omitempty"`
-}
-
-func (x *Server_Grpc) Reset() {
-	*x = Server_Grpc{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[20]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Server_Grpc) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Server_Grpc) ProtoMessage() {}
-
-func (x *Server_Grpc) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[20]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Server_Grpc.ProtoReflect.Descriptor instead.
-func (*Server_Grpc) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{1, 1}
-}
-
-func (x *Server_Grpc) GetPort() uint32 {
-	if x != nil {
-		return x.Port
-	}
-	return 0
-}
-
-type Server_Rest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Port uint32 `protobuf:"varint,1,opt,name=port,proto3" json:"port,omitempty"`
-}
-
-func (x *Server_Rest) Reset() {
-	*x = Server_Rest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[21]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Server_Rest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Server_Rest) ProtoMessage() {}
-
-func (x *Server_Rest) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[21]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Server_Rest.ProtoReflect.Descriptor instead.
-func (*Server_Rest) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{1, 2}
-}
-
-func (x *Server_Rest) GetPort() uint32 {
-	if x != nil {
-		return x.Port
-	}
-	return 0
-}
-
-type Server_Config struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// Types that are assignable to Server:
-	//
-	//	*Server_Config_Unknown
-	//	*Server_Config_Grpc
-	//	*Server_Config_Rest
-	Server isServer_Config_Server `protobuf_oneof:"server"`
-}
-
-func (x *Server_Config) Reset() {
-	*x = Server_Config{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[22]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Server_Config) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Server_Config) ProtoMessage() {}
-
-func (x *Server_Config) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[22]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Server_Config.ProtoReflect.Descriptor instead.
-func (*Server_Config) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{1, 3}
-}
-
-func (m *Server_Config) GetServer() isServer_Config_Server {
-	if m != nil {
-		return m.Server
-	}
-	return nil
-}
-
-func (x *Server_Config) GetUnknown() *Server_Unknown {
-	if x, ok := x.GetServer().(*Server_Config_Unknown); ok {
-		return x.Unknown
-	}
-	return nil
-}
-
-func (x *Server_Config) GetGrpc() *Server_Grpc {
-	if x, ok := x.GetServer().(*Server_Config_Grpc); ok {
-		return x.Grpc
-	}
-	return nil
-}
-
-func (x *Server_Config) GetRest() *Server_Rest {
-	if x, ok := x.GetServer().(*Server_Config_Rest); ok {
-		return x.Rest
-	}
-	return nil
-}
-
-type isServer_Config_Server interface {
-	isServer_Config_Server()
-}
-
-type Server_Config_Unknown struct {
-	Unknown *Server_Unknown `protobuf:"bytes,3,opt,name=unknown,proto3,oneof"`
-}
-
-type Server_Config_Grpc struct {
-	Grpc *Server_Grpc `protobuf:"bytes,4,opt,name=grpc,proto3,oneof"`
-}
-
-type Server_Config_Rest struct {
-	Rest *Server_Rest `protobuf:"bytes,5,opt,name=rest,proto3,oneof"`
-}
-
-func (*Server_Config_Unknown) isServer_Config_Server() {}
-
-func (*Server_Config_Grpc) isServer_Config_Server() {}
-
-func (*Server_Config_Rest) isServer_Config_Server() {}
-
-type Config_AppConfig struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Name               string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Version            string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
-	StartupDurationSec uint32 `protobuf:"varint,3,opt,name=startup_duration_sec,json=startupDurationSec,proto3" json:"startup_duration_sec,omitempty"`
-}
-
-func (x *Config_AppConfig) Reset() {
-	*x = Config_AppConfig{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[24]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Config_AppConfig) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Config_AppConfig) ProtoMessage() {}
-
-func (x *Config_AppConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[24]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Config_AppConfig.ProtoReflect.Descriptor instead.
-func (*Config_AppConfig) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{2, 0}
-}
-
-func (x *Config_AppConfig) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *Config_AppConfig) GetVersion() string {
-	if x != nil {
-		return x.Version
-	}
-	return ""
-}
-
-func (x *Config_AppConfig) GetStartupDurationSec() uint32 {
-	if x != nil {
-		return x.StartupDurationSec
-	}
-	return 0
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{6}
 }
 
 type ApiVersion_Request struct {
@@ -1470,7 +330,7 @@ type ApiVersion_Request struct {
 func (x *ApiVersion_Request) Reset() {
 	*x = ApiVersion_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[26]
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1483,7 +343,7 @@ func (x *ApiVersion_Request) String() string {
 func (*ApiVersion_Request) ProtoMessage() {}
 
 func (x *ApiVersion_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[26]
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1496,7 +356,7 @@ func (x *ApiVersion_Request) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApiVersion_Request.ProtoReflect.Descriptor instead.
 func (*ApiVersion_Request) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{3, 0}
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{2, 0}
 }
 
 type ApiVersion_Response struct {
@@ -1510,7 +370,7 @@ type ApiVersion_Response struct {
 func (x *ApiVersion_Response) Reset() {
 	*x = ApiVersion_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[27]
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1523,7 +383,7 @@ func (x *ApiVersion_Response) String() string {
 func (*ApiVersion_Response) ProtoMessage() {}
 
 func (x *ApiVersion_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[27]
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1536,7 +396,7 @@ func (x *ApiVersion_Response) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApiVersion_Response.ProtoReflect.Descriptor instead.
 func (*ApiVersion_Response) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{3, 1}
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{2, 1}
 }
 
 func (x *ApiVersion_Response) GetVersion() string {
@@ -1544,92 +404,6 @@ func (x *ApiVersion_Response) GetVersion() string {
 		return x.Version
 	}
 	return ""
-}
-
-type PatchConfig_Request struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// TODO подумать
-	Config *Config `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
-}
-
-func (x *PatchConfig_Request) Reset() {
-	*x = PatchConfig_Request{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[28]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *PatchConfig_Request) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PatchConfig_Request) ProtoMessage() {}
-
-func (x *PatchConfig_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[28]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PatchConfig_Request.ProtoReflect.Descriptor instead.
-func (*PatchConfig_Request) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{4, 0}
-}
-
-func (x *PatchConfig_Request) GetConfig() *Config {
-	if x != nil {
-		return x.Config
-	}
-	return nil
-}
-
-type PatchConfig_Response struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *PatchConfig_Response) Reset() {
-	*x = PatchConfig_Response{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[29]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *PatchConfig_Response) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PatchConfig_Response) ProtoMessage() {}
-
-func (x *PatchConfig_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[29]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PatchConfig_Response.ProtoReflect.Descriptor instead.
-func (*PatchConfig_Response) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{4, 1}
 }
 
 type GetConfig_Request struct {
@@ -1643,7 +417,7 @@ type GetConfig_Request struct {
 func (x *GetConfig_Request) Reset() {
 	*x = GetConfig_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[30]
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1656,7 +430,7 @@ func (x *GetConfig_Request) String() string {
 func (*GetConfig_Request) ProtoMessage() {}
 
 func (x *GetConfig_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[30]
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1669,7 +443,7 @@ func (x *GetConfig_Request) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetConfig_Request.ProtoReflect.Descriptor instead.
 func (*GetConfig_Request) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{5, 0}
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{3, 0}
 }
 
 func (x *GetConfig_Request) GetServiceName() string {
@@ -1684,13 +458,13 @@ type GetConfig_Response struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Config *Config `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
+	Config []byte `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
 }
 
 func (x *GetConfig_Response) Reset() {
 	*x = GetConfig_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[31]
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1703,7 +477,7 @@ func (x *GetConfig_Response) String() string {
 func (*GetConfig_Response) ProtoMessage() {}
 
 func (x *GetConfig_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[31]
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1716,136 +490,42 @@ func (x *GetConfig_Response) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetConfig_Response.ProtoReflect.Descriptor instead.
 func (*GetConfig_Response) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{5, 1}
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{3, 1}
 }
 
-func (x *GetConfig_Response) GetConfig() *Config {
+func (x *GetConfig_Response) GetConfig() []byte {
 	if x != nil {
 		return x.Config
 	}
 	return nil
 }
 
-type GetConfigRaw_Request struct {
+type PostConfig_Request struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ServiceName string `protobuf:"bytes,1,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"`
-}
-
-func (x *GetConfigRaw_Request) Reset() {
-	*x = GetConfigRaw_Request{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[32]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GetConfigRaw_Request) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetConfigRaw_Request) ProtoMessage() {}
-
-func (x *GetConfigRaw_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[32]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetConfigRaw_Request.ProtoReflect.Descriptor instead.
-func (*GetConfigRaw_Request) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{6, 0}
-}
-
-func (x *GetConfigRaw_Request) GetServiceName() string {
-	if x != nil {
-		return x.ServiceName
-	}
-	return ""
-}
-
-type GetConfigRaw_Response struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Config []byte `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
-}
-
-func (x *GetConfigRaw_Response) Reset() {
-	*x = GetConfigRaw_Response{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[33]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GetConfigRaw_Response) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetConfigRaw_Response) ProtoMessage() {}
-
-func (x *GetConfigRaw_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[33]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetConfigRaw_Response.ProtoReflect.Descriptor instead.
-func (*GetConfigRaw_Response) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{6, 1}
-}
-
-func (x *GetConfigRaw_Response) GetConfig() []byte {
-	if x != nil {
-		return x.Config
-	}
-	return nil
-}
-
-type PatchConfigRaw_Request struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Raw         []byte `protobuf:"bytes,1,opt,name=raw,proto3" json:"raw,omitempty"`
+	Content     []byte `protobuf:"bytes,1,opt,name=content,proto3" json:"content,omitempty"`
 	ServiceName string `protobuf:"bytes,2,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"`
 }
 
-func (x *PatchConfigRaw_Request) Reset() {
-	*x = PatchConfigRaw_Request{}
+func (x *PostConfig_Request) Reset() {
+	*x = PostConfig_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[34]
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *PatchConfigRaw_Request) String() string {
+func (x *PostConfig_Request) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PatchConfigRaw_Request) ProtoMessage() {}
+func (*PostConfig_Request) ProtoMessage() {}
 
-func (x *PatchConfigRaw_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[34]
+func (x *PostConfig_Request) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1856,48 +536,48 @@ func (x *PatchConfigRaw_Request) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PatchConfigRaw_Request.ProtoReflect.Descriptor instead.
-func (*PatchConfigRaw_Request) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{7, 0}
+// Deprecated: Use PostConfig_Request.ProtoReflect.Descriptor instead.
+func (*PostConfig_Request) Descriptor() ([]byte, []int) {
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{4, 0}
 }
 
-func (x *PatchConfigRaw_Request) GetRaw() []byte {
+func (x *PostConfig_Request) GetContent() []byte {
 	if x != nil {
-		return x.Raw
+		return x.Content
 	}
 	return nil
 }
 
-func (x *PatchConfigRaw_Request) GetServiceName() string {
+func (x *PostConfig_Request) GetServiceName() string {
 	if x != nil {
 		return x.ServiceName
 	}
 	return ""
 }
 
-type PatchConfigRaw_Response struct {
+type PostConfig_Response struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *PatchConfigRaw_Response) Reset() {
-	*x = PatchConfigRaw_Response{}
+func (x *PostConfig_Response) Reset() {
+	*x = PostConfig_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[35]
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *PatchConfigRaw_Response) String() string {
+func (x *PostConfig_Response) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PatchConfigRaw_Response) ProtoMessage() {}
+func (*PostConfig_Response) ProtoMessage() {}
 
-func (x *PatchConfigRaw_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[35]
+func (x *PostConfig_Response) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1908,9 +588,102 @@ func (x *PatchConfigRaw_Response) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PatchConfigRaw_Response.ProtoReflect.Descriptor instead.
-func (*PatchConfigRaw_Response) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{7, 1}
+// Deprecated: Use PostConfig_Response.ProtoReflect.Descriptor instead.
+func (*PostConfig_Response) Descriptor() ([]byte, []int) {
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{4, 1}
+}
+
+type PatchConfig_Request struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ServiceName string            `protobuf:"bytes,1,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"`
+	PathToValue map[string]string `protobuf:"bytes,2,rep,name=path_to_value,json=pathToValue,proto3" json:"path_to_value,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+}
+
+func (x *PatchConfig_Request) Reset() {
+	*x = PatchConfig_Request{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PatchConfig_Request) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PatchConfig_Request) ProtoMessage() {}
+
+func (x *PatchConfig_Request) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PatchConfig_Request.ProtoReflect.Descriptor instead.
+func (*PatchConfig_Request) Descriptor() ([]byte, []int) {
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{5, 0}
+}
+
+func (x *PatchConfig_Request) GetServiceName() string {
+	if x != nil {
+		return x.ServiceName
+	}
+	return ""
+}
+
+func (x *PatchConfig_Request) GetPathToValue() map[string]string {
+	if x != nil {
+		return x.PathToValue
+	}
+	return nil
+}
+
+type PatchConfig_Response struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *PatchConfig_Response) Reset() {
+	*x = PatchConfig_Response{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PatchConfig_Response) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PatchConfig_Response) ProtoMessage() {}
+
+func (x *PatchConfig_Response) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PatchConfig_Response.ProtoReflect.Descriptor instead.
+func (*PatchConfig_Response) Descriptor() ([]byte, []int) {
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{5, 1}
 }
 
 type ListConfigs_Request struct {
@@ -1918,14 +691,14 @@ type ListConfigs_Request struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ListRequest *ListRequest `protobuf:"bytes,1,opt,name=listRequest,proto3" json:"listRequest,omitempty"`
-	ServiceName string       `protobuf:"bytes,2,opt,name=serviceName,proto3" json:"serviceName,omitempty"`
+	ListRequest   *ListRequest `protobuf:"bytes,1,opt,name=list_request,json=listRequest,proto3" json:"list_request,omitempty"`
+	SearchPattern string       `protobuf:"bytes,2,opt,name=search_pattern,json=searchPattern,proto3" json:"search_pattern,omitempty"`
 }
 
 func (x *ListConfigs_Request) Reset() {
 	*x = ListConfigs_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[36]
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1938,7 +711,7 @@ func (x *ListConfigs_Request) String() string {
 func (*ListConfigs_Request) ProtoMessage() {}
 
 func (x *ListConfigs_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[36]
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1951,7 +724,7 @@ func (x *ListConfigs_Request) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListConfigs_Request.ProtoReflect.Descriptor instead.
 func (*ListConfigs_Request) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{9, 0}
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{6, 0}
 }
 
 func (x *ListConfigs_Request) GetListRequest() *ListRequest {
@@ -1961,9 +734,9 @@ func (x *ListConfigs_Request) GetListRequest() *ListRequest {
 	return nil
 }
 
-func (x *ListConfigs_Request) GetServiceName() string {
+func (x *ListConfigs_Request) GetSearchPattern() string {
 	if x != nil {
-		return x.ServiceName
+		return x.SearchPattern
 	}
 	return ""
 }
@@ -1973,13 +746,13 @@ type ListConfigs_Response struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Services []*Config_AppConfig `protobuf:"bytes,1,rep,name=services,proto3" json:"services,omitempty"`
+	Services []*AppInfo `protobuf:"bytes,1,rep,name=services,proto3" json:"services,omitempty"`
 }
 
 func (x *ListConfigs_Response) Reset() {
 	*x = ListConfigs_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_matreshka_be_api_proto_msgTypes[37]
+		mi := &file_grpc_matreshka_be_api_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1992,7 +765,7 @@ func (x *ListConfigs_Response) String() string {
 func (*ListConfigs_Response) ProtoMessage() {}
 
 func (x *ListConfigs_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_matreshka_be_api_proto_msgTypes[37]
+	mi := &file_grpc_matreshka_be_api_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2005,10 +778,10 @@ func (x *ListConfigs_Response) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListConfigs_Response.ProtoReflect.Descriptor instead.
 func (*ListConfigs_Response) Descriptor() ([]byte, []int) {
-	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{9, 1}
+	return file_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{6, 1}
 }
 
-func (x *ListConfigs_Response) GetServices() []*Config_AppConfig {
+func (x *ListConfigs_Response) GetServices() []*AppInfo {
 	if x != nil {
 		return x.Services
 	}
@@ -2022,257 +795,98 @@ var file_grpc_matreshka_be_api_proto_rawDesc = []byte{
 	0x2d, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x10, 0x6d,
 	0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x1a,
 	0x1c, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x6e, 0x6e, 0x6f,
-	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xe2, 0x0a,
-	0x0a, 0x08, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x12, 0x39, 0x0a, 0x04, 0x63, 0x6f,
-	0x6e, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65,
-	0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73, 0x6f,
-	0x75, 0x72, 0x63, 0x65, 0x2e, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52,
-	0x04, 0x63, 0x6f, 0x6e, 0x6e, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x44, 0x0a, 0x0d, 0x72, 0x65, 0x73,
-	0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0e,
-	0x32, 0x1f, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f,
-	0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x2e, 0x54, 0x79, 0x70,
-	0x65, 0x52, 0x0c, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12,
-	0x4a, 0x0a, 0x0f, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x66,
-	0x69, 0x67, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65,
-	0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73, 0x6f,
-	0x75, 0x72, 0x63, 0x65, 0x2e, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52, 0x0e, 0x72, 0x65, 0x73,
-	0x6f, 0x75, 0x72, 0x63, 0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x1a, 0xa0, 0x01, 0x0a, 0x07,
-	0x55, 0x6e, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x12, 0x55, 0x0a, 0x0b, 0x65, 0x6e, 0x76, 0x69, 0x72,
-	0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x33, 0x2e, 0x6d,
-	0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e,
-	0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x2e, 0x55, 0x6e, 0x6b, 0x6e, 0x6f, 0x77, 0x6e,
-	0x2e, 0x45, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x45, 0x6e, 0x74, 0x72,
-	0x79, 0x52, 0x0b, 0x65, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x1a, 0x3e,
-	0x0a, 0x10, 0x45, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x45, 0x6e, 0x74,
-	0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x1a, 0x7a,
-	0x0a, 0x08, 0x50, 0x6f, 0x73, 0x74, 0x67, 0x72, 0x65, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x68, 0x6f,
-	0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x68, 0x6f, 0x73, 0x74, 0x12, 0x12,
-	0x0a, 0x04, 0x70, 0x6f, 0x72, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x04, 0x70, 0x6f,
-	0x72, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x64, 0x62, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x06, 0x64, 0x62, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x1b, 0x0a, 0x09, 0x75,
-	0x73, 0x65, 0x72, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08,
-	0x75, 0x73, 0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x70, 0x77, 0x64, 0x18,
-	0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x70, 0x77, 0x64, 0x1a, 0x65, 0x0a, 0x05, 0x52, 0x65,
-	0x64, 0x69, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x68, 0x6f, 0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x04, 0x68, 0x6f, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x6f, 0x72, 0x74, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x04, 0x70, 0x6f, 0x72, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x75,
-	0x73, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x75, 0x73, 0x65, 0x72, 0x12,
-	0x10, 0x0a, 0x03, 0x70, 0x77, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x70, 0x77,
-	0x64, 0x12, 0x0e, 0x0a, 0x02, 0x64, 0x62, 0x18, 0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02, 0x64,
-	0x62, 0x1a, 0x1c, 0x0a, 0x06, 0x53, 0x71, 0x6c, 0x69, 0x74, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x70,
-	0x61, 0x74, 0x68, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x70, 0x61, 0x74, 0x68, 0x1a,
-	0x4b, 0x0a, 0x04, 0x47, 0x72, 0x70, 0x63, 0x12, 0x2b, 0x0a, 0x11, 0x63, 0x6f, 0x6e, 0x6e, 0x65,
-	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x73, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x10, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x74,
-	0x72, 0x69, 0x6e, 0x67, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x1a, 0x23, 0x0a, 0x08,
-	0x54, 0x65, 0x6c, 0x65, 0x67, 0x72, 0x61, 0x6d, 0x12, 0x17, 0x0a, 0x07, 0x61, 0x70, 0x69, 0x5f,
-	0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x61, 0x70, 0x69, 0x4b, 0x65,
-	0x79, 0x1a, 0x39, 0x0a, 0x0a, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12,
-	0x2b, 0x0a, 0x11, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x73, 0x74,
-	0x72, 0x69, 0x6e, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x10, 0x63, 0x6f, 0x6e, 0x6e,
-	0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x1a, 0x88, 0x03, 0x0a,
-	0x06, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x3e, 0x0a, 0x07, 0x75, 0x6e, 0x6b, 0x6e, 0x6f,
-	0x77, 0x6e, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65,
-	0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73, 0x6f,
-	0x75, 0x72, 0x63, 0x65, 0x2e, 0x55, 0x6e, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x48, 0x00, 0x52, 0x07,
-	0x75, 0x6e, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x12, 0x41, 0x0a, 0x08, 0x70, 0x6f, 0x73, 0x74, 0x67,
-	0x72, 0x65, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x6d, 0x61, 0x74, 0x72,
-	0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73,
-	0x6f, 0x75, 0x72, 0x63, 0x65, 0x2e, 0x50, 0x6f, 0x73, 0x74, 0x67, 0x72, 0x65, 0x73, 0x48, 0x00,
-	0x52, 0x08, 0x70, 0x6f, 0x73, 0x74, 0x67, 0x72, 0x65, 0x73, 0x12, 0x38, 0x0a, 0x05, 0x72, 0x65,
-	0x64, 0x69, 0x73, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x6d, 0x61, 0x74, 0x72,
-	0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73,
-	0x6f, 0x75, 0x72, 0x63, 0x65, 0x2e, 0x52, 0x65, 0x64, 0x69, 0x73, 0x48, 0x00, 0x52, 0x05, 0x72,
-	0x65, 0x64, 0x69, 0x73, 0x12, 0x3b, 0x0a, 0x06, 0x73, 0x71, 0x6c, 0x69, 0x74, 0x65, 0x18, 0x07,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61,
-	0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
-	0x2e, 0x53, 0x71, 0x6c, 0x69, 0x74, 0x65, 0x48, 0x00, 0x52, 0x06, 0x73, 0x71, 0x6c, 0x69, 0x74,
-	0x65, 0x12, 0x35, 0x0a, 0x04, 0x67, 0x72, 0x70, 0x63, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x1f, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61,
-	0x70, 0x69, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x2e, 0x47, 0x72, 0x70, 0x63,
-	0x48, 0x00, 0x52, 0x04, 0x67, 0x72, 0x70, 0x63, 0x12, 0x41, 0x0a, 0x08, 0x74, 0x65, 0x6c, 0x65,
-	0x67, 0x72, 0x61, 0x6d, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x6d, 0x61, 0x74,
-	0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65,
-	0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x2e, 0x54, 0x65, 0x6c, 0x65, 0x67, 0x72, 0x61, 0x6d, 0x48,
-	0x00, 0x52, 0x08, 0x74, 0x65, 0x6c, 0x65, 0x67, 0x72, 0x61, 0x6d, 0x42, 0x0a, 0x0a, 0x08, 0x72,
-	0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x22, 0x98, 0x01, 0x0a, 0x04, 0x54, 0x79, 0x70, 0x65,
-	0x12, 0x17, 0x0a, 0x13, 0x55, 0x6e, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x52, 0x65, 0x73, 0x6f, 0x75,
-	0x72, 0x63, 0x65, 0x54, 0x79, 0x70, 0x65, 0x10, 0x00, 0x12, 0x18, 0x0a, 0x14, 0x50, 0x6f, 0x73,
-	0x74, 0x67, 0x72, 0x65, 0x73, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x54, 0x79, 0x70,
-	0x65, 0x10, 0x01, 0x12, 0x15, 0x0a, 0x11, 0x52, 0x65, 0x64, 0x69, 0x73, 0x52, 0x65, 0x73, 0x6f,
-	0x75, 0x72, 0x63, 0x65, 0x54, 0x79, 0x70, 0x65, 0x10, 0x02, 0x12, 0x16, 0x0a, 0x12, 0x53, 0x71,
-	0x6c, 0x69, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x54, 0x79, 0x70, 0x65,
-	0x10, 0x03, 0x12, 0x14, 0x0a, 0x10, 0x47, 0x72, 0x70, 0x63, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72,
-	0x63, 0x65, 0x54, 0x79, 0x70, 0x65, 0x10, 0x04, 0x12, 0x18, 0x0a, 0x14, 0x54, 0x65, 0x6c, 0x65,
-	0x67, 0x72, 0x61, 0x6d, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x54, 0x79, 0x70, 0x65,
-	0x10, 0x05, 0x22, 0x95, 0x05, 0x0a, 0x06, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x12, 0x21, 0x0a,
-	0x0c, 0x73, 0x77, 0x61, 0x67, 0x67, 0x65, 0x72, 0x5f, 0x6c, 0x69, 0x6e, 0x6b, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x0b, 0x73, 0x77, 0x61, 0x67, 0x67, 0x65, 0x72, 0x4c, 0x69, 0x6e, 0x6b,
-	0x12, 0x1f, 0x0a, 0x0b, 0x6d, 0x61, 0x6b, 0x6f, 0x73, 0x68, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x6d, 0x61, 0x6b, 0x6f, 0x73, 0x68, 0x4e, 0x61, 0x6d,
-	0x65, 0x12, 0x37, 0x0a, 0x06, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x18, 0x03, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x1f, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65,
-	0x5f, 0x61, 0x70, 0x69, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x43, 0x6f, 0x6e, 0x66,
-	0x69, 0x67, 0x52, 0x06, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x31, 0x0a, 0x04, 0x74, 0x79,
-	0x70, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1d, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65,
-	0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x53, 0x65, 0x72, 0x76,
-	0x65, 0x72, 0x2e, 0x54, 0x79, 0x70, 0x65, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x1a, 0x9e, 0x01,
-	0x0a, 0x07, 0x55, 0x6e, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x12, 0x53, 0x0a, 0x0b, 0x65, 0x6e, 0x76,
-	0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x31,
-	0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70,
-	0x69, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x55, 0x6e, 0x6b, 0x6e, 0x6f, 0x77, 0x6e,
-	0x2e, 0x45, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x45, 0x6e, 0x74, 0x72,
-	0x79, 0x52, 0x0b, 0x65, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x1a, 0x3e,
-	0x0a, 0x10, 0x45, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x45, 0x6e, 0x74,
-	0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x1a, 0x1a,
-	0x0a, 0x04, 0x47, 0x72, 0x70, 0x63, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x6f, 0x72, 0x74, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x0d, 0x52, 0x04, 0x70, 0x6f, 0x72, 0x74, 0x1a, 0x1a, 0x0a, 0x04, 0x52, 0x65,
-	0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x6f, 0x72, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d,
-	0x52, 0x04, 0x70, 0x6f, 0x72, 0x74, 0x1a, 0xba, 0x01, 0x0a, 0x06, 0x43, 0x6f, 0x6e, 0x66, 0x69,
-	0x67, 0x12, 0x3c, 0x0a, 0x07, 0x75, 0x6e, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x20, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62,
-	0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x55, 0x6e, 0x6b,
-	0x6e, 0x6f, 0x77, 0x6e, 0x48, 0x00, 0x52, 0x07, 0x75, 0x6e, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x12,
-	0x33, 0x0a, 0x04, 0x67, 0x72, 0x70, 0x63, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1d, 0x2e,
-	0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69,
-	0x2e, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x47, 0x72, 0x70, 0x63, 0x48, 0x00, 0x52, 0x04,
-	0x67, 0x72, 0x70, 0x63, 0x12, 0x33, 0x0a, 0x04, 0x72, 0x65, 0x73, 0x74, 0x18, 0x05, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x1d, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62,
-	0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x52, 0x65, 0x73,
-	0x74, 0x48, 0x00, 0x52, 0x04, 0x72, 0x65, 0x73, 0x74, 0x42, 0x08, 0x0a, 0x06, 0x73, 0x65, 0x72,
-	0x76, 0x65, 0x72, 0x22, 0x45, 0x0a, 0x04, 0x54, 0x79, 0x70, 0x65, 0x12, 0x15, 0x0a, 0x11, 0x55,
-	0x6e, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x54, 0x79, 0x70, 0x65,
-	0x10, 0x00, 0x12, 0x12, 0x0a, 0x0e, 0x47, 0x72, 0x70, 0x63, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72,
-	0x54, 0x79, 0x70, 0x65, 0x10, 0x01, 0x12, 0x12, 0x0a, 0x0e, 0x52, 0x65, 0x73, 0x74, 0x53, 0x65,
-	0x72, 0x76, 0x65, 0x72, 0x54, 0x79, 0x70, 0x65, 0x10, 0x02, 0x22, 0xb3, 0x03, 0x0a, 0x06, 0x43,
-	0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x41, 0x0a, 0x0a, 0x61, 0x70, 0x70, 0x5f, 0x63, 0x6f, 0x6e,
-	0x66, 0x69, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x6d, 0x61, 0x74, 0x72,
-	0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x43, 0x6f, 0x6e,
-	0x66, 0x69, 0x67, 0x2e, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52, 0x09, 0x61,
-	0x70, 0x70, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x38, 0x0a, 0x09, 0x72, 0x65, 0x73, 0x6f,
-	0x75, 0x72, 0x63, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x6d, 0x61,
-	0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x52,
-	0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x09, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
-	0x65, 0x73, 0x12, 0x32, 0x0a, 0x07, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x73, 0x18, 0x03, 0x20,
-	0x03, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f,
-	0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x52, 0x07, 0x73,
-	0x65, 0x72, 0x76, 0x65, 0x72, 0x73, 0x12, 0x4b, 0x0a, 0x0b, 0x65, 0x6e, 0x76, 0x69, 0x72, 0x6f,
-	0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x6d, 0x61,
-	0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x43,
-	0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x45, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e,
-	0x74, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x0b, 0x65, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d,
-	0x65, 0x6e, 0x74, 0x1a, 0x6b, 0x0a, 0x09, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67,
-	0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
-	0x6e, 0x61, 0x6d, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x30,
-	0x0a, 0x14, 0x73, 0x74, 0x61, 0x72, 0x74, 0x75, 0x70, 0x5f, 0x64, 0x75, 0x72, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x5f, 0x73, 0x65, 0x63, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x12, 0x73, 0x74,
-	0x61, 0x72, 0x74, 0x75, 0x70, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x65, 0x63,
-	0x1a, 0x3e, 0x0a, 0x10, 0x45, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x45,
-	0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01,
-	0x22, 0x3d, 0x0a, 0x0a, 0x41, 0x70, 0x69, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x1a, 0x09,
-	0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x0a, 0x08, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x22,
-	0x56, 0x0a, 0x0b, 0x50, 0x61, 0x74, 0x63, 0x68, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x1a, 0x3b,
-	0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x30, 0x0a, 0x06, 0x63, 0x6f, 0x6e,
-	0x66, 0x69, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x6d, 0x61, 0x74, 0x72,
-	0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x43, 0x6f, 0x6e,
-	0x66, 0x69, 0x67, 0x52, 0x06, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x1a, 0x0a, 0x0a, 0x08, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x77, 0x0a, 0x09, 0x47, 0x65, 0x74, 0x43, 0x6f,
-	0x6e, 0x66, 0x69, 0x67, 0x1a, 0x2c, 0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x37, 0x0a,
+	0x07, 0x41, 0x70, 0x70, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x18, 0x0a, 0x07,
+	0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x76,
+	0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x22, 0x3b, 0x0a, 0x0b, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x0d, 0x52, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6f,
+	0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x06, 0x6f, 0x66, 0x66,
+	0x73, 0x65, 0x74, 0x22, 0x3d, 0x0a, 0x0a, 0x41, 0x70, 0x69, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f,
+	0x6e, 0x1a, 0x09, 0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x0a, 0x08,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x76, 0x65, 0x72, 0x73,
+	0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69,
+	0x6f, 0x6e, 0x22, 0x5d, 0x0a, 0x09, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x1a,
+	0x2c, 0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x21, 0x0a, 0x0c, 0x73, 0x65,
+	0x72, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x1a, 0x22, 0x0a,
+	0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x63, 0x6f, 0x6e,
+	0x66, 0x69, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x06, 0x63, 0x6f, 0x6e, 0x66, 0x69,
+	0x67, 0x22, 0x60, 0x0a, 0x0a, 0x50, 0x6f, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x1a,
+	0x46, 0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f,
+	0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x07, 0x63, 0x6f, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x12, 0x21, 0x0a, 0x0c, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x5f,
+	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x73, 0x65, 0x72, 0x76,
+	0x69, 0x63, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x1a, 0x0a, 0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x22, 0xe4, 0x01, 0x0a, 0x0b, 0x50, 0x61, 0x74, 0x63, 0x68, 0x43, 0x6f, 0x6e,
+	0x66, 0x69, 0x67, 0x1a, 0xc8, 0x01, 0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
 	0x21, 0x0a, 0x0c, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18,
 	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4e, 0x61,
-	0x6d, 0x65, 0x1a, 0x3c, 0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x30,
-	0x0a, 0x06, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x18,
-	0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70,
-	0x69, 0x2e, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52, 0x06, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67,
-	0x22, 0x60, 0x0a, 0x0c, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52, 0x61, 0x77,
-	0x1a, 0x2c, 0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x21, 0x0a, 0x0c, 0x73,
-	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x0b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x1a, 0x22,
-	0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x63, 0x6f,
-	0x6e, 0x66, 0x69, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x06, 0x63, 0x6f, 0x6e, 0x66,
-	0x69, 0x67, 0x22, 0x5c, 0x0a, 0x0e, 0x50, 0x61, 0x74, 0x63, 0x68, 0x43, 0x6f, 0x6e, 0x66, 0x69,
-	0x67, 0x52, 0x61, 0x77, 0x1a, 0x3e, 0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
-	0x10, 0x0a, 0x03, 0x72, 0x61, 0x77, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x03, 0x72, 0x61,
-	0x77, 0x12, 0x21, 0x0a, 0x0c, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d,
-	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
-	0x4e, 0x61, 0x6d, 0x65, 0x1a, 0x0a, 0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x3b, 0x0a, 0x0b, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
-	0x14, 0x0a, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x05,
-	0x6c, 0x69, 0x6d, 0x69, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x22, 0xc7, 0x01,
-	0x0a, 0x0b, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x73, 0x1a, 0x6c, 0x0a,
-	0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x3f, 0x0a, 0x0b, 0x6c, 0x69, 0x73, 0x74,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1d, 0x2e,
-	0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69,
-	0x2e, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0b, 0x6c, 0x69,
-	0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x73, 0x65, 0x72,
-	0x76, 0x69, 0x63, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b,
-	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x1a, 0x4a, 0x0a, 0x08, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3e, 0x0a, 0x08, 0x73, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x6d, 0x61, 0x74, 0x72,
-	0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x43, 0x6f, 0x6e,
-	0x66, 0x69, 0x67, 0x2e, 0x41, 0x70, 0x70, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52, 0x08, 0x73,
-	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x32, 0xf4, 0x05, 0x0a, 0x0e, 0x4d, 0x61, 0x74, 0x72,
-	0x65, 0x73, 0x68, 0x6b, 0x61, 0x42, 0x65, 0x41, 0x50, 0x49, 0x12, 0x6b, 0x0a, 0x0a, 0x41, 0x70,
-	0x69, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x24, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65,
+	0x6d, 0x65, 0x12, 0x5a, 0x0a, 0x0d, 0x70, 0x61, 0x74, 0x68, 0x5f, 0x74, 0x6f, 0x5f, 0x76, 0x61,
+	0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x36, 0x2e, 0x6d, 0x61, 0x74, 0x72,
+	0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x50, 0x61, 0x74,
+	0x63, 0x68, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x2e, 0x50, 0x61, 0x74, 0x68, 0x54, 0x6f, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x45, 0x6e, 0x74, 0x72,
+	0x79, 0x52, 0x0b, 0x70, 0x61, 0x74, 0x68, 0x54, 0x6f, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x1a, 0x3e,
+	0x0a, 0x10, 0x50, 0x61, 0x74, 0x68, 0x54, 0x6f, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x45, 0x6e, 0x74,
+	0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x1a, 0x0a,
+	0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xc4, 0x01, 0x0a, 0x0b, 0x4c,
+	0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x73, 0x1a, 0x72, 0x0a, 0x07, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x40, 0x0a, 0x0c, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x72, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1d, 0x2e, 0x6d, 0x61,
+	0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x4c,
+	0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0b, 0x6c, 0x69, 0x73, 0x74,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x25, 0x0a, 0x0e, 0x73, 0x65, 0x61, 0x72, 0x63,
+	0x68, 0x5f, 0x70, 0x61, 0x74, 0x74, 0x65, 0x72, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x0d, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x50, 0x61, 0x74, 0x74, 0x65, 0x72, 0x6e, 0x1a, 0x41,
+	0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x35, 0x0a, 0x08, 0x73, 0x65,
+	0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x6d,
+	0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e,
+	0x41, 0x70, 0x70, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x08, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
+	0x73, 0x32, 0xf2, 0x04, 0x0a, 0x0e, 0x4d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x42,
+	0x65, 0x41, 0x50, 0x49, 0x12, 0x6b, 0x0a, 0x0a, 0x41, 0x70, 0x69, 0x56, 0x65, 0x72, 0x73, 0x69,
+	0x6f, 0x6e, 0x12, 0x24, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62,
+	0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x41, 0x70, 0x69, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e,
+	0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x25, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65,
 	0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x41, 0x70, 0x69, 0x56,
-	0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x25,
+	0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x10, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x0a, 0x12, 0x08, 0x2f, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f,
+	0x6e, 0x12, 0x76, 0x0a, 0x09, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x23,
 	0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70,
-	0x69, 0x2e, 0x41, 0x70, 0x69, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x10, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x0a, 0x12, 0x08, 0x2f,
-	0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x71, 0x0a, 0x0c, 0x55, 0x70, 0x73, 0x65, 0x72,
-	0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x25, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73,
-	0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x50, 0x61, 0x74, 0x63, 0x68,
-	0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26,
+	0x69, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f,
+	0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67,
+	0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x18, 0x12, 0x16, 0x2f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2f, 0x7b, 0x73, 0x65, 0x72, 0x76,
+	0x69, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x12, 0x75, 0x0a, 0x0b, 0x4c, 0x69, 0x73,
+	0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x73, 0x12, 0x25, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65,
+	0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x4c, 0x69, 0x73, 0x74,
+	0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x73, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x26, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61,
+	0x70, 0x69, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x73, 0x2e, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x17, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x11, 0x3a,
+	0x01, 0x2a, 0x22, 0x0c, 0x2f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2f, 0x6c, 0x69, 0x73, 0x74,
+	0x12, 0x7c, 0x0a, 0x0a, 0x50, 0x6f, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x24,
+	0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70,
+	0x69, 0x2e, 0x50, 0x6f, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x25, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61,
+	0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x50, 0x6f, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x66,
+	0x69, 0x67, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x21, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x1b, 0x3a, 0x01, 0x2a, 0x22, 0x16, 0x2f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2f,
+	0x7b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x12, 0x85,
+	0x01, 0x0a, 0x0b, 0x50, 0x61, 0x74, 0x63, 0x68, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x25,
 	0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70,
 	0x69, 0x2e, 0x50, 0x61, 0x74, 0x63, 0x68, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x12, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x0c, 0x3a, 0x01,
-	0x2a, 0x22, 0x07, 0x2f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x76, 0x0a, 0x09, 0x47, 0x65,
-	0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x23, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73,
-	0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f,
-	0x6e, 0x66, 0x69, 0x67, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x6d,
-	0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e,
-	0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x18, 0x12, 0x16, 0x2f, 0x63, 0x6f, 0x6e,
-	0x66, 0x69, 0x67, 0x2f, 0x7b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d,
-	0x65, 0x7d, 0x12, 0x83, 0x01, 0x0a, 0x0c, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67,
-	0x52, 0x61, 0x77, 0x12, 0x26, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f,
-	0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67,
-	0x52, 0x61, 0x77, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x27, 0x2e, 0x6d, 0x61,
-	0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x47,
-	0x65, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52, 0x61, 0x77, 0x2e, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x22, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1c, 0x12, 0x1a, 0x2f, 0x63,
-	0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2f, 0x72, 0x61, 0x77, 0x2f, 0x7b, 0x73, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x12, 0x8c, 0x01, 0x0a, 0x0e, 0x50, 0x61, 0x74,
-	0x63, 0x68, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52, 0x61, 0x77, 0x12, 0x28, 0x2e, 0x6d, 0x61,
-	0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x50,
-	0x61, 0x74, 0x63, 0x68, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52, 0x61, 0x77, 0x2e, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x29, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b,
 	0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x50, 0x61, 0x74, 0x63, 0x68, 0x43, 0x6f,
-	0x6e, 0x66, 0x69, 0x67, 0x52, 0x61, 0x77, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x25, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1f, 0x3a, 0x01, 0x2a, 0x32, 0x1a, 0x2f, 0x63, 0x6f,
-	0x6e, 0x66, 0x69, 0x67, 0x2f, 0x72, 0x61, 0x77, 0x2f, 0x7b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63,
-	0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x12, 0x75, 0x0a, 0x0b, 0x4c, 0x69, 0x73, 0x74, 0x43,
-	0x6f, 0x6e, 0x66, 0x69, 0x67, 0x73, 0x12, 0x25, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68,
-	0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f,
-	0x6e, 0x66, 0x69, 0x67, 0x73, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e,
-	0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69,
-	0x2e, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x73, 0x2e, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x17, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x11, 0x3a, 0x01, 0x2a,
-	0x22, 0x0c, 0x2f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2f, 0x6c, 0x69, 0x73, 0x74, 0x42, 0x10,
-	0x5a, 0x0e, 0x2f, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x61, 0x70, 0x69,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6e, 0x66, 0x69, 0x67, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x27, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x21, 0x3a, 0x01, 0x2a, 0x22, 0x1c, 0x2f, 0x63, 0x6f, 0x6e, 0x66, 0x69,
+	0x67, 0x2f, 0x70, 0x61, 0x74, 0x63, 0x68, 0x2f, 0x7b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
+	0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x42, 0x10, 0x5a, 0x0e, 0x2f, 0x6d, 0x61, 0x74, 0x72, 0x65,
+	0x73, 0x68, 0x6b, 0x61, 0x5f, 0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2287,92 +901,46 @@ func file_grpc_matreshka_be_api_proto_rawDescGZIP() []byte {
 	return file_grpc_matreshka_be_api_proto_rawDescData
 }
 
-var file_grpc_matreshka_be_api_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_grpc_matreshka_be_api_proto_msgTypes = make([]protoimpl.MessageInfo, 38)
+var file_grpc_matreshka_be_api_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_grpc_matreshka_be_api_proto_goTypes = []interface{}{
-	(Resource_Type)(0),              // 0: matreshka_be_api.Resource.Type
-	(Server_Type)(0),                // 1: matreshka_be_api.Server.Type
-	(*Resource)(nil),                // 2: matreshka_be_api.Resource
-	(*Server)(nil),                  // 3: matreshka_be_api.Server
-	(*Config)(nil),                  // 4: matreshka_be_api.Config
-	(*ApiVersion)(nil),              // 5: matreshka_be_api.ApiVersion
-	(*PatchConfig)(nil),             // 6: matreshka_be_api.PatchConfig
-	(*GetConfig)(nil),               // 7: matreshka_be_api.GetConfig
-	(*GetConfigRaw)(nil),            // 8: matreshka_be_api.GetConfigRaw
-	(*PatchConfigRaw)(nil),          // 9: matreshka_be_api.PatchConfigRaw
-	(*ListRequest)(nil),             // 10: matreshka_be_api.ListRequest
-	(*ListConfigs)(nil),             // 11: matreshka_be_api.ListConfigs
-	(*Resource_Unknown)(nil),        // 12: matreshka_be_api.Resource.Unknown
-	(*Resource_Postgres)(nil),       // 13: matreshka_be_api.Resource.Postgres
-	(*Resource_Redis)(nil),          // 14: matreshka_be_api.Resource.Redis
-	(*Resource_Sqlite)(nil),         // 15: matreshka_be_api.Resource.Sqlite
-	(*Resource_Grpc)(nil),           // 16: matreshka_be_api.Resource.Grpc
-	(*Resource_Telegram)(nil),       // 17: matreshka_be_api.Resource.Telegram
-	(*Resource_Connection)(nil),     // 18: matreshka_be_api.Resource.Connection
-	(*Resource_Config)(nil),         // 19: matreshka_be_api.Resource.Config
-	nil,                             // 20: matreshka_be_api.Resource.Unknown.EnvironmentEntry
-	(*Server_Unknown)(nil),          // 21: matreshka_be_api.Server.Unknown
-	(*Server_Grpc)(nil),             // 22: matreshka_be_api.Server.Grpc
-	(*Server_Rest)(nil),             // 23: matreshka_be_api.Server.Rest
-	(*Server_Config)(nil),           // 24: matreshka_be_api.Server.Config
-	nil,                             // 25: matreshka_be_api.Server.Unknown.EnvironmentEntry
-	(*Config_AppConfig)(nil),        // 26: matreshka_be_api.Config.AppConfig
-	nil,                             // 27: matreshka_be_api.Config.EnvironmentEntry
-	(*ApiVersion_Request)(nil),      // 28: matreshka_be_api.ApiVersion.Request
-	(*ApiVersion_Response)(nil),     // 29: matreshka_be_api.ApiVersion.Response
-	(*PatchConfig_Request)(nil),     // 30: matreshka_be_api.PatchConfig.Request
-	(*PatchConfig_Response)(nil),    // 31: matreshka_be_api.PatchConfig.Response
-	(*GetConfig_Request)(nil),       // 32: matreshka_be_api.GetConfig.Request
-	(*GetConfig_Response)(nil),      // 33: matreshka_be_api.GetConfig.Response
-	(*GetConfigRaw_Request)(nil),    // 34: matreshka_be_api.GetConfigRaw.Request
-	(*GetConfigRaw_Response)(nil),   // 35: matreshka_be_api.GetConfigRaw.Response
-	(*PatchConfigRaw_Request)(nil),  // 36: matreshka_be_api.PatchConfigRaw.Request
-	(*PatchConfigRaw_Response)(nil), // 37: matreshka_be_api.PatchConfigRaw.Response
-	(*ListConfigs_Request)(nil),     // 38: matreshka_be_api.ListConfigs.Request
-	(*ListConfigs_Response)(nil),    // 39: matreshka_be_api.ListConfigs.Response
+	(*AppInfo)(nil),              // 0: matreshka_be_api.AppInfo
+	(*ListRequest)(nil),          // 1: matreshka_be_api.ListRequest
+	(*ApiVersion)(nil),           // 2: matreshka_be_api.ApiVersion
+	(*GetConfig)(nil),            // 3: matreshka_be_api.GetConfig
+	(*PostConfig)(nil),           // 4: matreshka_be_api.PostConfig
+	(*PatchConfig)(nil),          // 5: matreshka_be_api.PatchConfig
+	(*ListConfigs)(nil),          // 6: matreshka_be_api.ListConfigs
+	(*ApiVersion_Request)(nil),   // 7: matreshka_be_api.ApiVersion.Request
+	(*ApiVersion_Response)(nil),  // 8: matreshka_be_api.ApiVersion.Response
+	(*GetConfig_Request)(nil),    // 9: matreshka_be_api.GetConfig.Request
+	(*GetConfig_Response)(nil),   // 10: matreshka_be_api.GetConfig.Response
+	(*PostConfig_Request)(nil),   // 11: matreshka_be_api.PostConfig.Request
+	(*PostConfig_Response)(nil),  // 12: matreshka_be_api.PostConfig.Response
+	(*PatchConfig_Request)(nil),  // 13: matreshka_be_api.PatchConfig.Request
+	(*PatchConfig_Response)(nil), // 14: matreshka_be_api.PatchConfig.Response
+	nil,                          // 15: matreshka_be_api.PatchConfig.Request.PathToValueEntry
+	(*ListConfigs_Request)(nil),  // 16: matreshka_be_api.ListConfigs.Request
+	(*ListConfigs_Response)(nil), // 17: matreshka_be_api.ListConfigs.Response
 }
 var file_grpc_matreshka_be_api_proto_depIdxs = []int32{
-	18, // 0: matreshka_be_api.Resource.conn:type_name -> matreshka_be_api.Resource.Connection
-	0,  // 1: matreshka_be_api.Resource.resource_type:type_name -> matreshka_be_api.Resource.Type
-	19, // 2: matreshka_be_api.Resource.resource_config:type_name -> matreshka_be_api.Resource.Config
-	24, // 3: matreshka_be_api.Server.config:type_name -> matreshka_be_api.Server.Config
-	1,  // 4: matreshka_be_api.Server.type:type_name -> matreshka_be_api.Server.Type
-	26, // 5: matreshka_be_api.Config.app_config:type_name -> matreshka_be_api.Config.AppConfig
-	2,  // 6: matreshka_be_api.Config.resources:type_name -> matreshka_be_api.Resource
-	3,  // 7: matreshka_be_api.Config.servers:type_name -> matreshka_be_api.Server
-	27, // 8: matreshka_be_api.Config.environment:type_name -> matreshka_be_api.Config.EnvironmentEntry
-	20, // 9: matreshka_be_api.Resource.Unknown.environment:type_name -> matreshka_be_api.Resource.Unknown.EnvironmentEntry
-	12, // 10: matreshka_be_api.Resource.Config.unknown:type_name -> matreshka_be_api.Resource.Unknown
-	13, // 11: matreshka_be_api.Resource.Config.postgres:type_name -> matreshka_be_api.Resource.Postgres
-	14, // 12: matreshka_be_api.Resource.Config.redis:type_name -> matreshka_be_api.Resource.Redis
-	15, // 13: matreshka_be_api.Resource.Config.sqlite:type_name -> matreshka_be_api.Resource.Sqlite
-	16, // 14: matreshka_be_api.Resource.Config.grpc:type_name -> matreshka_be_api.Resource.Grpc
-	17, // 15: matreshka_be_api.Resource.Config.telegram:type_name -> matreshka_be_api.Resource.Telegram
-	25, // 16: matreshka_be_api.Server.Unknown.environment:type_name -> matreshka_be_api.Server.Unknown.EnvironmentEntry
-	21, // 17: matreshka_be_api.Server.Config.unknown:type_name -> matreshka_be_api.Server.Unknown
-	22, // 18: matreshka_be_api.Server.Config.grpc:type_name -> matreshka_be_api.Server.Grpc
-	23, // 19: matreshka_be_api.Server.Config.rest:type_name -> matreshka_be_api.Server.Rest
-	4,  // 20: matreshka_be_api.PatchConfig.Request.config:type_name -> matreshka_be_api.Config
-	4,  // 21: matreshka_be_api.GetConfig.Response.config:type_name -> matreshka_be_api.Config
-	10, // 22: matreshka_be_api.ListConfigs.Request.listRequest:type_name -> matreshka_be_api.ListRequest
-	26, // 23: matreshka_be_api.ListConfigs.Response.services:type_name -> matreshka_be_api.Config.AppConfig
-	28, // 24: matreshka_be_api.MatreshkaBeAPI.ApiVersion:input_type -> matreshka_be_api.ApiVersion.Request
-	30, // 25: matreshka_be_api.MatreshkaBeAPI.UpsertConfig:input_type -> matreshka_be_api.PatchConfig.Request
-	32, // 26: matreshka_be_api.MatreshkaBeAPI.GetConfig:input_type -> matreshka_be_api.GetConfig.Request
-	34, // 27: matreshka_be_api.MatreshkaBeAPI.GetConfigRaw:input_type -> matreshka_be_api.GetConfigRaw.Request
-	36, // 28: matreshka_be_api.MatreshkaBeAPI.PatchConfigRaw:input_type -> matreshka_be_api.PatchConfigRaw.Request
-	38, // 29: matreshka_be_api.MatreshkaBeAPI.ListConfigs:input_type -> matreshka_be_api.ListConfigs.Request
-	29, // 30: matreshka_be_api.MatreshkaBeAPI.ApiVersion:output_type -> matreshka_be_api.ApiVersion.Response
-	31, // 31: matreshka_be_api.MatreshkaBeAPI.UpsertConfig:output_type -> matreshka_be_api.PatchConfig.Response
-	33, // 32: matreshka_be_api.MatreshkaBeAPI.GetConfig:output_type -> matreshka_be_api.GetConfig.Response
-	35, // 33: matreshka_be_api.MatreshkaBeAPI.GetConfigRaw:output_type -> matreshka_be_api.GetConfigRaw.Response
-	37, // 34: matreshka_be_api.MatreshkaBeAPI.PatchConfigRaw:output_type -> matreshka_be_api.PatchConfigRaw.Response
-	39, // 35: matreshka_be_api.MatreshkaBeAPI.ListConfigs:output_type -> matreshka_be_api.ListConfigs.Response
-	30, // [30:36] is the sub-list for method output_type
-	24, // [24:30] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	15, // 0: matreshka_be_api.PatchConfig.Request.path_to_value:type_name -> matreshka_be_api.PatchConfig.Request.PathToValueEntry
+	1,  // 1: matreshka_be_api.ListConfigs.Request.list_request:type_name -> matreshka_be_api.ListRequest
+	0,  // 2: matreshka_be_api.ListConfigs.Response.services:type_name -> matreshka_be_api.AppInfo
+	7,  // 3: matreshka_be_api.MatreshkaBeAPI.ApiVersion:input_type -> matreshka_be_api.ApiVersion.Request
+	9,  // 4: matreshka_be_api.MatreshkaBeAPI.GetConfig:input_type -> matreshka_be_api.GetConfig.Request
+	16, // 5: matreshka_be_api.MatreshkaBeAPI.ListConfigs:input_type -> matreshka_be_api.ListConfigs.Request
+	11, // 6: matreshka_be_api.MatreshkaBeAPI.PostConfig:input_type -> matreshka_be_api.PostConfig.Request
+	13, // 7: matreshka_be_api.MatreshkaBeAPI.PatchConfig:input_type -> matreshka_be_api.PatchConfig.Request
+	8,  // 8: matreshka_be_api.MatreshkaBeAPI.ApiVersion:output_type -> matreshka_be_api.ApiVersion.Response
+	10, // 9: matreshka_be_api.MatreshkaBeAPI.GetConfig:output_type -> matreshka_be_api.GetConfig.Response
+	17, // 10: matreshka_be_api.MatreshkaBeAPI.ListConfigs:output_type -> matreshka_be_api.ListConfigs.Response
+	12, // 11: matreshka_be_api.MatreshkaBeAPI.PostConfig:output_type -> matreshka_be_api.PostConfig.Response
+	14, // 12: matreshka_be_api.MatreshkaBeAPI.PatchConfig:output_type -> matreshka_be_api.PatchConfig.Response
+	8,  // [8:13] is the sub-list for method output_type
+	3,  // [3:8] is the sub-list for method input_type
+	3,  // [3:3] is the sub-list for extension type_name
+	3,  // [3:3] is the sub-list for extension extendee
+	0,  // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_grpc_matreshka_be_api_proto_init() }
@@ -2382,7 +950,7 @@ func file_grpc_matreshka_be_api_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_grpc_matreshka_be_api_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Resource); i {
+			switch v := v.(*AppInfo); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2394,90 +962,6 @@ func file_grpc_matreshka_be_api_proto_init() {
 			}
 		}
 		file_grpc_matreshka_be_api_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Server); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Config); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ApiVersion); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PatchConfig); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetConfig); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetConfigRaw); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PatchConfigRaw); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ListRequest); i {
 			case 0:
 				return &v.state
@@ -2489,7 +973,55 @@ func file_grpc_matreshka_be_api_proto_init() {
 				return nil
 			}
 		}
-		file_grpc_matreshka_be_api_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_grpc_matreshka_be_api_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ApiVersion); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_grpc_matreshka_be_api_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetConfig); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_grpc_matreshka_be_api_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PostConfig); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_grpc_matreshka_be_api_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PatchConfig); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_grpc_matreshka_be_api_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ListConfigs); i {
 			case 0:
 				return &v.state
@@ -2501,163 +1033,7 @@ func file_grpc_matreshka_be_api_proto_init() {
 				return nil
 			}
 		}
-		file_grpc_matreshka_be_api_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Resource_Unknown); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Resource_Postgres); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Resource_Redis); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Resource_Sqlite); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Resource_Grpc); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Resource_Telegram); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Resource_Connection); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Resource_Config); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Server_Unknown); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Server_Grpc); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Server_Rest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Server_Config); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Config_AppConfig); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
+		file_grpc_matreshka_be_api_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ApiVersion_Request); i {
 			case 0:
 				return &v.state
@@ -2669,7 +1045,7 @@ func file_grpc_matreshka_be_api_proto_init() {
 				return nil
 			}
 		}
-		file_grpc_matreshka_be_api_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
+		file_grpc_matreshka_be_api_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ApiVersion_Response); i {
 			case 0:
 				return &v.state
@@ -2681,31 +1057,7 @@ func file_grpc_matreshka_be_api_proto_init() {
 				return nil
 			}
 		}
-		file_grpc_matreshka_be_api_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PatchConfig_Request); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PatchConfig_Response); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_grpc_matreshka_be_api_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
+		file_grpc_matreshka_be_api_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetConfig_Request); i {
 			case 0:
 				return &v.state
@@ -2717,7 +1069,7 @@ func file_grpc_matreshka_be_api_proto_init() {
 				return nil
 			}
 		}
-		file_grpc_matreshka_be_api_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
+		file_grpc_matreshka_be_api_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetConfig_Response); i {
 			case 0:
 				return &v.state
@@ -2729,8 +1081,8 @@ func file_grpc_matreshka_be_api_proto_init() {
 				return nil
 			}
 		}
-		file_grpc_matreshka_be_api_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetConfigRaw_Request); i {
+		file_grpc_matreshka_be_api_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PostConfig_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2741,8 +1093,8 @@ func file_grpc_matreshka_be_api_proto_init() {
 				return nil
 			}
 		}
-		file_grpc_matreshka_be_api_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetConfigRaw_Response); i {
+		file_grpc_matreshka_be_api_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PostConfig_Response); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2753,8 +1105,8 @@ func file_grpc_matreshka_be_api_proto_init() {
 				return nil
 			}
 		}
-		file_grpc_matreshka_be_api_proto_msgTypes[34].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PatchConfigRaw_Request); i {
+		file_grpc_matreshka_be_api_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PatchConfig_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2765,8 +1117,8 @@ func file_grpc_matreshka_be_api_proto_init() {
 				return nil
 			}
 		}
-		file_grpc_matreshka_be_api_proto_msgTypes[35].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PatchConfigRaw_Response); i {
+		file_grpc_matreshka_be_api_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PatchConfig_Response); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2777,7 +1129,7 @@ func file_grpc_matreshka_be_api_proto_init() {
 				return nil
 			}
 		}
-		file_grpc_matreshka_be_api_proto_msgTypes[36].Exporter = func(v interface{}, i int) interface{} {
+		file_grpc_matreshka_be_api_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ListConfigs_Request); i {
 			case 0:
 				return &v.state
@@ -2789,7 +1141,7 @@ func file_grpc_matreshka_be_api_proto_init() {
 				return nil
 			}
 		}
-		file_grpc_matreshka_be_api_proto_msgTypes[37].Exporter = func(v interface{}, i int) interface{} {
+		file_grpc_matreshka_be_api_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ListConfigs_Response); i {
 			case 0:
 				return &v.state
@@ -2802,32 +1154,18 @@ func file_grpc_matreshka_be_api_proto_init() {
 			}
 		}
 	}
-	file_grpc_matreshka_be_api_proto_msgTypes[17].OneofWrappers = []interface{}{
-		(*Resource_Config_Unknown)(nil),
-		(*Resource_Config_Postgres)(nil),
-		(*Resource_Config_Redis)(nil),
-		(*Resource_Config_Sqlite)(nil),
-		(*Resource_Config_Grpc)(nil),
-		(*Resource_Config_Telegram)(nil),
-	}
-	file_grpc_matreshka_be_api_proto_msgTypes[22].OneofWrappers = []interface{}{
-		(*Server_Config_Unknown)(nil),
-		(*Server_Config_Grpc)(nil),
-		(*Server_Config_Rest)(nil),
-	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_grpc_matreshka_be_api_proto_rawDesc,
-			NumEnums:      2,
-			NumMessages:   38,
+			NumEnums:      0,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_grpc_matreshka_be_api_proto_goTypes,
 		DependencyIndexes: file_grpc_matreshka_be_api_proto_depIdxs,
-		EnumInfos:         file_grpc_matreshka_be_api_proto_enumTypes,
 		MessageInfos:      file_grpc_matreshka_be_api_proto_msgTypes,
 	}.Build()
 	File_grpc_matreshka_be_api_proto = out.File

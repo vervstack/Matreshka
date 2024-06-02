@@ -28,5 +28,3 @@ gen-server: .pre-gen-server local-link .gen-server
     	--go_out=./pkg/ \
 	    --validate_out="lang=go:./pkg" \
     	./api/grpc/*.proto
-
-#ts_import_roots=./pkg,ts_import_root_aliases=base:./pkg

@@ -16,38 +16,6 @@
     "application/json"
   ],
   "paths": {
-    "/config": {
-      "post": {
-        "operationId": "MatreshkaBeAPI_UpsertConfig",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/matreshka_be_apiPatchConfigResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/matreshka_be_apiPatchConfigRequest"
-            }
-          }
-        ],
-        "tags": [
-          "MatreshkaBeAPI"
-        ]
-      }
-    },
     "/config/list": {
       "post": {
         "operationId": "MatreshkaBeAPI_ListConfigs",
@@ -80,42 +48,14 @@
         ]
       }
     },
-    "/config/raw/{serviceName}": {
-      "get": {
-        "operationId": "MatreshkaBeAPI_GetConfigRaw",
+    "/config/patch/{serviceName}": {
+      "post": {
+        "operationId": "MatreshkaBeAPI_PatchConfig",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiGetConfigRawResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "serviceName",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "MatreshkaBeAPI"
-        ]
-      },
-      "patch": {
-        "operationId": "MatreshkaBeAPI_PatchConfigRaw",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/matreshka_be_apiPatchConfigRawResponse"
+              "$ref": "#/definitions/matreshka_be_apiPatchConfigResponse"
             }
           },
           "default": {
@@ -137,7 +77,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPIPatchConfigRawBody"
+              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPIPatchConfigBody"
             }
           }
         ],
@@ -174,6 +114,42 @@
         "tags": [
           "MatreshkaBeAPI"
         ]
+      },
+      "post": {
+        "operationId": "MatreshkaBeAPI_PostConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiPostConfigResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serviceName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPIPostConfigBody"
+            }
+          }
+        ],
+        "tags": [
+          "MatreshkaBeAPI"
+        ]
       }
     },
     "/version": {
@@ -200,97 +176,6 @@
     }
   },
   "definitions": {
-    "ConfigAppConfig": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "version": {
-          "type": "string"
-        },
-        "startupDurationSec": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
-    },
-    "ResourceConnection": {
-      "type": "object",
-      "properties": {
-        "connectionString": {
-          "type": "string"
-        }
-      }
-    },
-    "ResourcePostgres": {
-      "type": "object",
-      "properties": {
-        "host": {
-          "type": "string"
-        },
-        "port": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "dbName": {
-          "type": "string"
-        },
-        "userName": {
-          "type": "string"
-        },
-        "pwd": {
-          "type": "string"
-        }
-      }
-    },
-    "ResourceRedis": {
-      "type": "object",
-      "properties": {
-        "host": {
-          "type": "string"
-        },
-        "port": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "user": {
-          "type": "string"
-        },
-        "pwd": {
-          "type": "string"
-        },
-        "db": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "ResourceSqlite": {
-      "type": "object",
-      "properties": {
-        "path": {
-          "type": "string"
-        }
-      }
-    },
-    "ResourceTelegram": {
-      "type": "object",
-      "properties": {
-        "apiKey": {
-          "type": "string"
-        }
-      }
-    },
-    "ServerRest": {
-      "type": "object",
-      "properties": {
-        "port": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
-    },
     "matreshka_be_apiApiVersionResponse": {
       "type": "object",
       "properties": {
@@ -299,40 +184,14 @@
         }
       }
     },
-    "matreshka_be_apiConfig": {
+    "matreshka_be_apiAppInfo": {
       "type": "object",
       "properties": {
-        "appConfig": {
-          "$ref": "#/definitions/ConfigAppConfig"
+        "name": {
+          "type": "string"
         },
-        "resources": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/matreshka_be_apiResource"
-          }
-        },
-        "servers": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/matreshka_be_apiServer"
-          }
-        },
-        "environment": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "matreshka_be_apiGetConfigRawResponse": {
-      "type": "object",
-      "properties": {
-        "config": {
-          "type": "string",
-          "format": "byte"
+        "version": {
+          "type": "string"
         }
       }
     },
@@ -340,7 +199,8 @@
       "type": "object",
       "properties": {
         "config": {
-          "$ref": "#/definitions/matreshka_be_apiConfig"
+          "type": "string",
+          "format": "byte"
         }
       }
     },
@@ -350,7 +210,7 @@
         "listRequest": {
           "$ref": "#/definitions/matreshka_be_apiListRequest"
         },
-        "serviceName": {
+        "searchPattern": {
           "type": "string"
         }
       }
@@ -362,7 +222,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/ConfigAppConfig"
+            "$ref": "#/definitions/matreshka_be_apiAppInfo"
           }
         }
       }
@@ -380,163 +240,31 @@
         }
       }
     },
-    "matreshka_be_apiMatreshkaBeAPIPatchConfigRawBody": {
+    "matreshka_be_apiMatreshkaBeAPIPatchConfigBody": {
       "type": "object",
       "properties": {
-        "raw": {
-          "type": "string",
-          "format": "byte"
+        "pathToValue": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
     },
-    "matreshka_be_apiPatchConfigRawResponse": {
-      "type": "object"
-    },
-    "matreshka_be_apiPatchConfigRequest": {
+    "matreshka_be_apiMatreshkaBeAPIPostConfigBody": {
       "type": "object",
       "properties": {
-        "config": {
-          "$ref": "#/definitions/matreshka_be_apiConfig",
-          "title": "TODO подумать"
+        "content": {
+          "type": "string",
+          "format": "byte"
         }
       }
     },
     "matreshka_be_apiPatchConfigResponse": {
       "type": "object"
     },
-    "matreshka_be_apiResource": {
-      "type": "object",
-      "properties": {
-        "conn": {
-          "$ref": "#/definitions/ResourceConnection"
-        },
-        "name": {
-          "type": "string"
-        },
-        "resourceType": {
-          "$ref": "#/definitions/matreshka_be_apiResourceType"
-        },
-        "resourceConfig": {
-          "$ref": "#/definitions/matreshka_be_apiResourceConfig"
-        }
-      }
-    },
-    "matreshka_be_apiResourceConfig": {
-      "type": "object",
-      "properties": {
-        "unknown": {
-          "$ref": "#/definitions/matreshka_be_apiResourceUnknown"
-        },
-        "postgres": {
-          "$ref": "#/definitions/ResourcePostgres"
-        },
-        "redis": {
-          "$ref": "#/definitions/ResourceRedis"
-        },
-        "sqlite": {
-          "$ref": "#/definitions/ResourceSqlite"
-        },
-        "grpc": {
-          "$ref": "#/definitions/matreshka_be_apiResourceGrpc"
-        },
-        "telegram": {
-          "$ref": "#/definitions/ResourceTelegram"
-        }
-      }
-    },
-    "matreshka_be_apiResourceGrpc": {
-      "type": "object",
-      "properties": {
-        "connectionString": {
-          "type": "string"
-        },
-        "module": {
-          "type": "string"
-        }
-      }
-    },
-    "matreshka_be_apiResourceType": {
-      "type": "string",
-      "enum": [
-        "UnknownResourceType",
-        "PostgresResourceType",
-        "RedisResourceType",
-        "SqliteResourceType",
-        "GrpcResourceType",
-        "TelegramResourceType"
-      ],
-      "default": "UnknownResourceType"
-    },
-    "matreshka_be_apiResourceUnknown": {
-      "type": "object",
-      "properties": {
-        "environment": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "matreshka_be_apiServer": {
-      "type": "object",
-      "properties": {
-        "swaggerLink": {
-          "type": "string"
-        },
-        "makoshName": {
-          "type": "string"
-        },
-        "config": {
-          "$ref": "#/definitions/matreshka_be_apiServerConfig"
-        },
-        "type": {
-          "$ref": "#/definitions/matreshka_be_apiServerType"
-        }
-      }
-    },
-    "matreshka_be_apiServerConfig": {
-      "type": "object",
-      "properties": {
-        "unknown": {
-          "$ref": "#/definitions/matreshka_be_apiServerUnknown"
-        },
-        "grpc": {
-          "$ref": "#/definitions/matreshka_be_apiServerGrpc"
-        },
-        "rest": {
-          "$ref": "#/definitions/ServerRest"
-        }
-      }
-    },
-    "matreshka_be_apiServerGrpc": {
-      "type": "object",
-      "properties": {
-        "port": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
-    },
-    "matreshka_be_apiServerType": {
-      "type": "string",
-      "enum": [
-        "UnknownServerType",
-        "GrpcServerType",
-        "RestServerType"
-      ],
-      "default": "UnknownServerType"
-    },
-    "matreshka_be_apiServerUnknown": {
-      "type": "object",
-      "properties": {
-        "environment": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      }
+    "matreshka_be_apiPostConfigResponse": {
+      "type": "object"
     },
     "protobufAny": {
       "type": "object",
