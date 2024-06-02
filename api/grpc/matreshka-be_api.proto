@@ -27,7 +27,7 @@ service MatreshkaBeAPI {
 
   rpc PostConfig(PostConfig.Request) returns (PostConfig.Response) {
     option (google.api.http) = {
-      post: "/config/{service_name}",
+      post: "/config/create/{service_name}",
       body: "*"
     };
   }

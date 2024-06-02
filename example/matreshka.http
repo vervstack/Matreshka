@@ -127,9 +127,7 @@ GET {{matreshka-api}}/config/test_service
 POST {{matreshka-api}}/config/list
 Content-Type: application/json
 
-{
-
-}
+{}
 
 
 ### Patch config

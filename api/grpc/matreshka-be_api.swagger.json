@@ -16,6 +16,44 @@
     "application/json"
   ],
   "paths": {
+    "/config/create/{serviceName}": {
+      "post": {
+        "operationId": "MatreshkaBeAPI_PostConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiPostConfigResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serviceName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPIPostConfigBody"
+            }
+          }
+        ],
+        "tags": [
+          "MatreshkaBeAPI"
+        ]
+      }
+    },
     "/config/list": {
       "post": {
         "operationId": "MatreshkaBeAPI_ListConfigs",
@@ -109,42 +147,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          }
-        ],
-        "tags": [
-          "MatreshkaBeAPI"
-        ]
-      },
-      "post": {
-        "operationId": "MatreshkaBeAPI_PostConfig",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/matreshka_be_apiPostConfigResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "serviceName",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPIPostConfigBody"
-            }
           }
         ],
         "tags": [

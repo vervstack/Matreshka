@@ -81,7 +81,7 @@ export class MatreshkaBeAPI {
     return fm.fetchReq<ListConfigsRequest, ListConfigsResponse>(`/config/list`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
   }
   static PostConfig(req: PostConfigRequest, initReq?: fm.InitReq): Promise<PostConfigResponse> {
-    return fm.fetchReq<PostConfigRequest, PostConfigResponse>(`/config/${req["serviceName"]}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
+    return fm.fetchReq<PostConfigRequest, PostConfigResponse>(`/config/create/${req["serviceName"]}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
   }
   static PatchConfig(req: PatchConfigRequest, initReq?: fm.InitReq): Promise<PatchConfigResponse> {
     return fm.fetchReq<PatchConfigRequest, PatchConfigResponse>(`/config/patch/${req["serviceName"]}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})

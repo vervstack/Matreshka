@@ -40,15 +40,15 @@ func NewServer(
 	srv := grpc.NewServer()
 
 	// Register your servers here
-	matreshka_api.RegisterMatreshkaBeAPIServer(srv, &App{
-		version:    cfg.GetAppInfo().Version,
-		storage:    storage,
-		cfgService: cfgService,
-	})
+	matreshka_api.RegisterMatreshkaBeAPIServer(srv,
+		&App{
+			version:    cfg.GetAppInfo().Version,
+			storage:    storage,
+			cfgService: cfgService,
+		})
 
 	return &Server{
-		grpcServer: srv,
-
+		grpcServer:    srv,
 		serverAddress: ":" + server.GetPortStr(),
 	}, nil
 }
