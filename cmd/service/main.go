@@ -27,18 +27,18 @@ func main() {
 		logrus.Fatalf("error reading config %s", err.Error())
 	}
 
-	if cfg.AppInfo().StartupDuration == 0 {
+	if cfg.GetAppInfo().StartupDuration == 0 {
 		logrus.Fatalf("no startup duration in config")
 	}
 
-	ctx, cancel := context.WithTimeout(ctx, cfg.AppInfo().StartupDuration)
+	ctx, cancel := context.WithTimeout(ctx, cfg.GetAppInfo().StartupDuration)
 	closer.Add(func() error {
 		cancel()
 		return nil
 	})
 
 	mngr := transport.NewManager()
-	grpcConfig, err := cfg.Api().GRPC(config.ApiGrpc)
+	grpcConfig, err := cfg.GetServers().GRPC(config.ServerGrpc)
 	if err != nil {
 		logrus.Fatalf("error getting grpc from config")
 	}

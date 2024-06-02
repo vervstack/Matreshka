@@ -2,7 +2,6 @@ module github.com/godverv/matreshka-be
 
 go 1.22
 
-
 require (
 	github.com/Red-Sock/trace-errors v0.0.6
 	github.com/godverv/matreshka v0.0.19
@@ -18,6 +17,7 @@ require (
 )
 
 require (
+	github.com/Red-Sock/evon v0.0.5 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
