@@ -6,4 +6,4 @@ data_sources: []
 server:
     - name: grpc
       port: 50050
-environment: {}
+environment: []

@@ -14,14 +14,14 @@ func (d *inMemory) GetConfig(_ context.Context, req domain.GetConfigReq) (*matre
 }
 
 func (d *inMemory) getConfig(serviceName string) *matreshka.AppConfig {
-	d.m.RLock()
-	a, _ := d.mp[serviceName]
-	d.m.RUnlock()
+	d.mu.RLock()
+	a, _ := d.data[serviceName]
+	d.mu.RUnlock()
 
 	if a == nil {
 		return nil
 	}
 
-	cfg := matreshka.MergeConfigs(matreshka.NewEmptyConfig(), *a)
+	cfg := matreshka.MergeConfigs(matreshka.NewEmptyConfig(), a.appConfig)
 	return &cfg
 }

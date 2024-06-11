@@ -9,9 +9,14 @@ import (
 	"github.com/godverv/matreshka-be/internal/data"
 )
 
+type config struct {
+	appConfig matreshka.AppConfig
+	values    map[string]interface{}
+}
+
 type inMemory struct {
-	m  sync.RWMutex
-	mp map[string]*matreshka.AppConfig
+	mu   sync.RWMutex
+	data map[string]*config
 }
 
 //go:embed full_config.yaml
@@ -19,8 +24,8 @@ var testCfg []byte
 
 func New() data.Data {
 	d := &inMemory{
-		m:  sync.RWMutex{},
-		mp: make(map[string]*matreshka.AppConfig),
+		mu:   sync.RWMutex{},
+		data: make(map[string]*config),
 	}
 
 	c := matreshka.NewEmptyConfig()
