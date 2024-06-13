@@ -43,4 +43,7 @@ require (
 	modernc.org/token v1.1.0 // indirect
 )
 
-replace github.com/Red-Sock/evon v0.0.7 => /Users/alexbukov/Yandex.Disk.localized/проекты/redsock/evon
+replace (
+	github.com/Red-Sock/evon v0.0.7 => /Users/alexbukov/Yandex.Disk.localized/проекты/redsock/evon
+	github.com/godverv/matreshka v0.0.23 => /Users/alexbukov/Yandex.Disk.localized/проекты/redsock/Matreshka
+)
