@@ -10,6 +10,7 @@ import (
 
 	"github.com/godverv/matreshka-be/internal/config"
 	"github.com/godverv/matreshka-be/internal/data/in_memory"
+	v1 "github.com/godverv/matreshka-be/internal/service/v1"
 	"github.com/godverv/matreshka-be/internal/transport"
 	"github.com/godverv/matreshka-be/internal/transport/grpc"
 	"github.com/godverv/matreshka-be/internal/utils/closer"
@@ -43,8 +44,9 @@ func main() {
 	}
 
 	data := in_memory.New()
+	srv := v1.New(data)
 
-	grpcServer, err := grpc.NewServer(cfg, grpcConfig, data)
+	grpcServer, err := grpc.NewServer(cfg, grpcConfig, srv, data)
 	if err != nil {
 		logrus.Fatalf("error creating grpc server")
 	}

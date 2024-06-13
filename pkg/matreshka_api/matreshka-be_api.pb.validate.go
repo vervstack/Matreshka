@@ -735,6 +735,242 @@ var _ interface {
 	ErrorName() string
 } = ListConfigsValidationError{}
 
+// Validate checks the field values on Node with the rules defined in the proto
+// definition for this message. If any rules are violated, the first error
+// encountered is returned, or nil if there are no violations.
+func (m *Node) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Node with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in NodeMultiError, or nil if none found.
+func (m *Node) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Node) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	// no validation rules for Value
+
+	for idx, item := range m.GetInnerNodes() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, NodeValidationError{
+						field:  fmt.Sprintf("InnerNodes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, NodeValidationError{
+						field:  fmt.Sprintf("InnerNodes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return NodeValidationError{
+					field:  fmt.Sprintf("InnerNodes[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return NodeMultiError(errors)
+	}
+
+	return nil
+}
+
+// NodeMultiError is an error wrapping multiple validation errors returned by
+// Node.ValidateAll() if the designated constraints aren't met.
+type NodeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m NodeMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m NodeMultiError) AllErrors() []error { return m }
+
+// NodeValidationError is the validation error returned by Node.Validate if the
+// designated constraints aren't met.
+type NodeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e NodeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e NodeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e NodeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e NodeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e NodeValidationError) ErrorName() string { return "NodeValidationError" }
+
+// Error satisfies the builtin error interface
+func (e NodeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sNode.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = NodeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = NodeValidationError{}
+
+// Validate checks the field values on GetConfigNode with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *GetConfigNode) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetConfigNode with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in GetConfigNodeMultiError, or
+// nil if none found.
+func (m *GetConfigNode) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetConfigNode) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return GetConfigNodeMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetConfigNodeMultiError is an error wrapping multiple validation errors
+// returned by GetConfigNode.ValidateAll() if the designated constraints
+// aren't met.
+type GetConfigNodeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetConfigNodeMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetConfigNodeMultiError) AllErrors() []error { return m }
+
+// GetConfigNodeValidationError is the validation error returned by
+// GetConfigNode.Validate if the designated constraints aren't met.
+type GetConfigNodeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetConfigNodeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetConfigNodeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetConfigNodeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetConfigNodeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetConfigNodeValidationError) ErrorName() string { return "GetConfigNodeValidationError" }
+
+// Error satisfies the builtin error interface
+func (e GetConfigNodeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetConfigNode.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetConfigNodeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetConfigNodeValidationError{}
+
 // Validate checks the field values on ApiVersion_Request with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -1833,3 +2069,238 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ListConfigs_ResponseValidationError{}
+
+// Validate checks the field values on GetConfigNode_Request with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetConfigNode_Request) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetConfigNode_Request with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetConfigNode_RequestMultiError, or nil if none found.
+func (m *GetConfigNode_Request) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetConfigNode_Request) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ServiceName
+
+	if len(errors) > 0 {
+		return GetConfigNode_RequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetConfigNode_RequestMultiError is an error wrapping multiple validation
+// errors returned by GetConfigNode_Request.ValidateAll() if the designated
+// constraints aren't met.
+type GetConfigNode_RequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetConfigNode_RequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetConfigNode_RequestMultiError) AllErrors() []error { return m }
+
+// GetConfigNode_RequestValidationError is the validation error returned by
+// GetConfigNode_Request.Validate if the designated constraints aren't met.
+type GetConfigNode_RequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetConfigNode_RequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetConfigNode_RequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetConfigNode_RequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetConfigNode_RequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetConfigNode_RequestValidationError) ErrorName() string {
+	return "GetConfigNode_RequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetConfigNode_RequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetConfigNode_Request.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetConfigNode_RequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetConfigNode_RequestValidationError{}
+
+// Validate checks the field values on GetConfigNode_Response with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetConfigNode_Response) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetConfigNode_Response with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetConfigNode_ResponseMultiError, or nil if none found.
+func (m *GetConfigNode_Response) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetConfigNode_Response) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetRoot()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetConfigNode_ResponseValidationError{
+					field:  "Root",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetConfigNode_ResponseValidationError{
+					field:  "Root",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRoot()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetConfigNode_ResponseValidationError{
+				field:  "Root",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetConfigNode_ResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetConfigNode_ResponseMultiError is an error wrapping multiple validation
+// errors returned by GetConfigNode_Response.ValidateAll() if the designated
+// constraints aren't met.
+type GetConfigNode_ResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetConfigNode_ResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetConfigNode_ResponseMultiError) AllErrors() []error { return m }
+
+// GetConfigNode_ResponseValidationError is the validation error returned by
+// GetConfigNode_Response.Validate if the designated constraints aren't met.
+type GetConfigNode_ResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetConfigNode_ResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetConfigNode_ResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetConfigNode_ResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetConfigNode_ResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetConfigNode_ResponseValidationError) ErrorName() string {
+	return "GetConfigNode_ResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetConfigNode_ResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetConfigNode_Response.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetConfigNode_ResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetConfigNode_ResponseValidationError{}

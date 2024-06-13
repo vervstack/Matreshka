@@ -8,15 +8,15 @@ import (
 )
 
 func (d *inMemory) UpsertConfig(_ context.Context, cfg matreshka.AppConfig) error {
+	c := Config{}
+	c.values = map[string]*evon.Node{}
+	c.Cfg = &cfg
 
-	// TODO now it's total update. Thinking in advance to merge two configs before inserting
-	splited := evon.MarshalEnv(&cfg)
-	c := config{
-		appConfig: cfg,
-		values:    map[string]interface{}{},
-	}
-	for _, s := range splited {
-		c.values[s.Name] = s.Value
+	nodes := evon.MarshalEnv(&cfg)
+
+	for idx := range nodes {
+		c.values[nodes[idx].Name] = &nodes[idx]
+		c.nodes = append(c.nodes, &nodes[idx])
 	}
 
 	d.mu.Lock()

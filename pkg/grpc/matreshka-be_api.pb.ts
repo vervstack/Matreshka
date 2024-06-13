@@ -70,12 +70,32 @@ export type ListConfigsResponse = {
 export type ListConfigs = {
 }
 
+export type Node = {
+  name?: string
+  value?: string
+  innerNodes?: Node[]
+}
+
+export type GetConfigNodeRequest = {
+  serviceName?: string
+}
+
+export type GetConfigNodeResponse = {
+  root?: Node
+}
+
+export type GetConfigNode = {
+}
+
 export class MatreshkaBeAPI {
   static ApiVersion(req: ApiVersionRequest, initReq?: fm.InitReq): Promise<ApiVersionResponse> {
     return fm.fetchReq<ApiVersionRequest, ApiVersionResponse>(`/version?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"})
   }
   static GetConfig(req: GetConfigRequest, initReq?: fm.InitReq): Promise<GetConfigResponse> {
     return fm.fetchReq<GetConfigRequest, GetConfigResponse>(`/config/${req["serviceName"]}?${fm.renderURLSearchParams(req, ["serviceName"])}`, {...initReq, method: "GET"})
+  }
+  static GetConfigNodes(req: GetConfigNodeRequest, initReq?: fm.InitReq): Promise<GetConfigNodeResponse> {
+    return fm.fetchReq<GetConfigNodeRequest, GetConfigNodeResponse>(`/config/nodes/${req["serviceName"]}?${fm.renderURLSearchParams(req, ["serviceName"])}`, {...initReq, method: "GET"})
   }
   static ListConfigs(req: ListConfigsRequest, initReq?: fm.InitReq): Promise<ListConfigsResponse> {
     return fm.fetchReq<ListConfigsRequest, ListConfigsResponse>(`/config/list`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})

@@ -86,6 +86,36 @@
         ]
       }
     },
+    "/config/nodes/{serviceName}": {
+      "get": {
+        "operationId": "MatreshkaBeAPI_GetConfigNodes",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiGetConfigNodeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serviceName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MatreshkaBeAPI"
+        ]
+      }
+    },
     "/config/patch/{serviceName}": {
       "post": {
         "operationId": "MatreshkaBeAPI_PatchConfig",
@@ -197,6 +227,14 @@
         }
       }
     },
+    "matreshka_be_apiGetConfigNodeResponse": {
+      "type": "object",
+      "properties": {
+        "root": {
+          "$ref": "#/definitions/matreshka_be_apiNode"
+        }
+      }
+    },
     "matreshka_be_apiGetConfigResponse": {
       "type": "object",
       "properties": {
@@ -259,6 +297,24 @@
         "content": {
           "type": "string",
           "format": "byte"
+        }
+      }
+    },
+    "matreshka_be_apiNode": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "innerNodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/matreshka_be_apiNode"
+          }
         }
       }
     },

@@ -1,6 +1,10 @@
 ### Get config
 GET {{matreshka-api}}/config/test_service
 
+### Get config
+GET {{matreshka-api}}/config/nodes/test_service
+
+
 ### List configs
 POST {{matreshka-api}}/config/list
 Content-Type: application/json
@@ -13,7 +17,9 @@ POST {{matreshka-api}}/config/patch/test_service
 Content-Type: application/json
 
 {
+  "service_name": "test_service",
   "path_to_value": {
-    "1": "2"
+    "ENVIRONMENT_TEST-SERVER-URL": "https://test.redsock.ru",
+    "ENVIRONMENT_TEST-SERVER-URL_TYPE": "string"
   }
 }

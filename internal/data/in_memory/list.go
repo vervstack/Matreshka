@@ -15,7 +15,7 @@ func (d *inMemory) ListConfigs(_ context.Context, _ domain.ListConfigsRequest) (
 	out := make([]matreshka.AppInfo, 0, len(d.data))
 
 	for _, c := range d.data {
-		out = append(out, c.appConfig.AppInfo)
+		out = append(out, c.Cfg.AppInfo)
 	}
 
 	return out, nil

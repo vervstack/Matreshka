@@ -18,6 +18,7 @@ import (
 
 	"github.com/godverv/matreshka-be/internal/config"
 	"github.com/godverv/matreshka-be/internal/data"
+	"github.com/godverv/matreshka-be/internal/service"
 	"github.com/godverv/matreshka-be/pkg/matreshka_api"
 )
 
@@ -33,6 +34,7 @@ type Server struct {
 func NewServer(
 	cfg config.Config,
 	server *servers.GRPC,
+	service service.ConfigService,
 	storage data.Data,
 ) (*Server, error) {
 	srv := grpc.NewServer()
@@ -41,6 +43,7 @@ func NewServer(
 	matreshka_api.RegisterMatreshkaBeAPIServer(srv,
 		&App{
 			version: cfg.GetAppInfo().Version,
+			service: service,
 			storage: storage,
 		})
 

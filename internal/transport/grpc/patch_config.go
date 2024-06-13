@@ -14,7 +14,7 @@ func (a *App) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*a
 	var patchReq domain.PatchConfigRequest
 
 	patchReq.ServiceName = req.GetServiceName()
-	patchReq.Batch = make([]domain.PatchConfig, len(req.GetPathToValue()))
+	patchReq.Batch = make([]domain.PatchConfig, 0, len(req.GetPathToValue()))
 
 	for k, v := range req.GetPathToValue() {
 		patchReq.Batch = append(patchReq.Batch, domain.PatchConfig{
@@ -23,7 +23,7 @@ func (a *App) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*a
 		})
 	}
 
-	err := a.storage.PatchConfig(ctx, patchReq)
+	err := a.service.PatchConfig(ctx, patchReq)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
