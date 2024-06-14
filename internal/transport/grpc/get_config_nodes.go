@@ -32,8 +32,10 @@ func (a *App) GetConfigNodes(ctx context.Context, req *api.GetConfigNode_Request
 
 func toApiNode(node evon.Node) *api.Node {
 	resp := &api.Node{
-		Name:  node.Name,
-		Value: fmt.Sprint(node.Value),
+		Name: node.Name,
+	}
+	if node.Value != nil {
+		resp.Value = fmt.Sprint(node.Value)
 	}
 
 	for _, innerNode := range node.InnerNodes {

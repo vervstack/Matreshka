@@ -102,7 +102,7 @@ message ListConfigs {
 
 message Node {
   string name = 1;
-  string value = 2;
+  optional string value = 2;
   repeated Node inner_nodes = 3;
 }
 

@@ -18,9 +18,9 @@ func (d *inMemory) UpsertConfig(_ context.Context, cfg matreshka.AppConfig) erro
 		return errors.Wrap(err, "error marshalling config to variables")
 	}
 
-	for idx := range nodes {
-		c.values[nodes[idx].Name] = &nodes[idx]
-		c.nodes = append(c.nodes, &nodes[idx])
+	for idx := range nodes.InnerNodes {
+		c.values[nodes.InnerNodes[idx].Name] = nodes.InnerNodes[idx]
+		c.nodes = append(c.nodes, nodes.InnerNodes[idx])
 	}
 
 	d.mu.Lock()
