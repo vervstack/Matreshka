@@ -83,7 +83,7 @@ message PostConfig {
 message PatchConfig {
   message Request {
     string service_name = 1;
-    map<string, string> path_to_value = 2;
+    repeated Node changes = 2;
   }
 
   message Response {}

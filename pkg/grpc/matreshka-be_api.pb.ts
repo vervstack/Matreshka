@@ -1,109 +1,103 @@
 /* eslint-disable */
 // @ts-nocheck
-/*
-* This file is a generated Typescript file for GRPC Gateway, DO NOT MODIFY
-*/
 
-import * as fm from "../fetch.pb"
+/**
+ * This file is a generated Typescript file for GRPC Gateway, DO NOT MODIFY
+ */
+
+import * as fm from "../fetch.pb";
+
+
 export type AppInfo = {
-  name?: string
-  version?: string
-}
+  name?: string;
+  version?: string;
+};
 
 export type ListRequest = {
-  limit?: number
-  offset?: number
-}
+  limit?: number;
+  offset?: number;
+};
 
-export type ApiVersionRequest = {
-}
+export type ApiVersionRequest = Record<string, never>;
 
 export type ApiVersionResponse = {
-  version?: string
-}
+  version?: string;
+};
 
-export type ApiVersion = {
-}
+export type ApiVersion = Record<string, never>;
 
 export type GetConfigRequest = {
-  serviceName?: string
-}
+  serviceName?: string;
+};
 
 export type GetConfigResponse = {
-  config?: Uint8Array
-}
+  config?: Uint8Array;
+};
 
-export type GetConfig = {
-}
+export type GetConfig = Record<string, never>;
 
 export type PostConfigRequest = {
-  content?: Uint8Array
-  serviceName?: string
-}
+  content?: Uint8Array;
+  serviceName?: string;
+};
 
-export type PostConfigResponse = {
-}
+export type PostConfigResponse = Record<string, never>;
 
-export type PostConfig = {
-}
+export type PostConfig = Record<string, never>;
 
 export type PatchConfigRequest = {
-  serviceName?: string
-  pathToValue?: {[key: string]: string}
-}
+  serviceName?: string;
+  changes?: Node[];
+};
 
-export type PatchConfigResponse = {
-}
+export type PatchConfigResponse = Record<string, never>;
 
-export type PatchConfig = {
-}
+export type PatchConfig = Record<string, never>;
 
 export type ListConfigsRequest = {
-  listRequest?: ListRequest
-  searchPattern?: string
-}
+  listRequest?: ListRequest;
+  searchPattern?: string;
+};
 
 export type ListConfigsResponse = {
-  services?: AppInfo[]
-}
+  services?: AppInfo[];
+};
 
-export type ListConfigs = {
-}
+export type ListConfigs = Record<string, never>;
 
 export type Node = {
-  name?: string
-  value?: string
-  innerNodes?: Node[]
-}
+  name?: string;
+  value?: string;
+  innerNodes?: Node[];
+};
 
 export type GetConfigNodeRequest = {
-  serviceName?: string
-}
+  serviceName?: string;
+};
 
 export type GetConfigNodeResponse = {
-  root?: Node
-}
+  root?: Node;
+};
 
-export type GetConfigNode = {
-}
+export type GetConfigNode = Record<string, never>;
 
 export class MatreshkaBeAPI {
-  static ApiVersion(req: ApiVersionRequest, initReq?: fm.InitReq): Promise<ApiVersionResponse> {
-    return fm.fetchReq<ApiVersionRequest, ApiVersionResponse>(`/version?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"})
+  static ApiVersion(this:void, req: ApiVersionRequest, initReq?: fm.InitReq): Promise<ApiVersionResponse> {
+    return fm.fetchRequest<ApiVersionResponse>(`/version?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"});
   }
-  static GetConfig(req: GetConfigRequest, initReq?: fm.InitReq): Promise<GetConfigResponse> {
-    return fm.fetchReq<GetConfigRequest, GetConfigResponse>(`/config/${req["serviceName"]}?${fm.renderURLSearchParams(req, ["serviceName"])}`, {...initReq, method: "GET"})
+  static GetConfig(this:void, req: GetConfigRequest, initReq?: fm.InitReq): Promise<GetConfigResponse> {
+    return fm.fetchRequest<GetConfigResponse>(`/config/${req.serviceName}?${fm.renderURLSearchParams(req, ["serviceName"])}`, {...initReq, method: "GET"});
   }
-  static GetConfigNodes(req: GetConfigNodeRequest, initReq?: fm.InitReq): Promise<GetConfigNodeResponse> {
-    return fm.fetchReq<GetConfigNodeRequest, GetConfigNodeResponse>(`/config/nodes/${req["serviceName"]}?${fm.renderURLSearchParams(req, ["serviceName"])}`, {...initReq, method: "GET"})
+  static GetConfigNodes(this:void, req: GetConfigNodeRequest, initReq?: fm.InitReq): Promise<GetConfigNodeResponse> {
+    return fm.fetchRequest<GetConfigNodeResponse>(`/config/nodes/${req.serviceName}?${fm.renderURLSearchParams(req, ["serviceName"])}`, {...initReq, method: "GET"});
   }
-  static ListConfigs(req: ListConfigsRequest, initReq?: fm.InitReq): Promise<ListConfigsResponse> {
-    return fm.fetchReq<ListConfigsRequest, ListConfigsResponse>(`/config/list`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
+  static ListConfigs(this:void, req: ListConfigsRequest, initReq?: fm.InitReq): Promise<ListConfigsResponse> {
+    return fm.fetchRequest<ListConfigsResponse>(`/config/list`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
-  static PostConfig(req: PostConfigRequest, initReq?: fm.InitReq): Promise<PostConfigResponse> {
-    return fm.fetchReq<PostConfigRequest, PostConfigResponse>(`/config/create/${req["serviceName"]}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
+  static PostConfig(this:void, req: PostConfigRequest, initReq?: fm.InitReq): Promise<PostConfigResponse> {
+    return fm.fetchRequest<PostConfigResponse>(`/config/create/${req.serviceName}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
-  static PatchConfig(req: PatchConfigRequest, initReq?: fm.InitReq): Promise<PatchConfigResponse> {
-    return fm.fetchReq<PatchConfigRequest, PatchConfigResponse>(`/config/patch/${req["serviceName"]}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
+  static PatchConfig(this:void, req: PatchConfigRequest, initReq?: fm.InitReq): Promise<PatchConfigResponse> {
+    return fm.fetchRequest<PatchConfigResponse>(`/config/patch/${req.serviceName}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
 }

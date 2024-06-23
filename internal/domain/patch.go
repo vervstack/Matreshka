@@ -6,6 +6,6 @@ type PatchConfigRequest struct {
 }
 
 type PatchConfig struct {
-	FieldPath  string
+	FieldName  string
 	FieldValue any
 }

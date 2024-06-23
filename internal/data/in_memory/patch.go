@@ -19,13 +19,13 @@ func (d *inMemory) PatchConfig(ctx context.Context, req domain.PatchConfigReques
 	}
 
 	for _, b := range req.Batch {
-		v := cfg.values[strings.ToUpper(b.FieldPath)]
+		v := cfg.values[strings.ToUpper(b.FieldName)]
 		if v == nil {
 			v = &evon.Node{
-				Name: b.FieldPath,
+				Name: b.FieldName,
 			}
 
-			cfg.values[strings.ToUpper(b.FieldPath)] = v
+			cfg.values[strings.ToUpper(b.FieldName)] = v
 			cfg.nodes = append(cfg.nodes, v)
 		}
 		v.Value = b.FieldValue

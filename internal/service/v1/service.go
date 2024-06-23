@@ -14,16 +14,11 @@ type ConfigService struct {
 	allowedSegments []string
 }
 
-const (
-	environmentSegment = "ENVIRONMENT"
-	dataSourceSegment  = "SERVERS"
-	serverSegment      = "DATA_SOURCES"
-)
-
 func New(data data.Data) *ConfigService {
 	return &ConfigService{
 		data: data,
 		allowedSegments: []string{
+			appInfo,
 			environmentSegment,
 			dataSourceSegment,
 			serverSegment,

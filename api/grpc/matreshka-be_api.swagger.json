@@ -283,10 +283,11 @@
     "matreshka_be_apiMatreshkaBeAPIPatchConfigBody": {
       "type": "object",
       "properties": {
-        "pathToValue": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
+        "changes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/matreshka_be_apiNode"
           }
         }
       }

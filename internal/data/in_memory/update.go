@@ -13,15 +13,12 @@ func (d *inMemory) UpsertConfig(_ context.Context, cfg matreshka.AppConfig) erro
 	c.values = map[string]*evon.Node{}
 	c.Cfg = &cfg
 
-	nodes, err := evon.MarshalEnv(&cfg)
+	node, err := evon.MarshalEnv(&cfg)
 	if err != nil {
 		return errors.Wrap(err, "error marshalling config to variables")
 	}
-
-	for idx := range nodes.InnerNodes {
-		c.values[nodes.InnerNodes[idx].Name] = nodes.InnerNodes[idx]
-		c.nodes = append(c.nodes, nodes.InnerNodes[idx])
-	}
+	c.nodes = node.InnerNodes
+	c.values = evon.NodesToStorage(node.InnerNodes)
 
 	d.mu.Lock()
 	d.data[cfg.Name] = &c

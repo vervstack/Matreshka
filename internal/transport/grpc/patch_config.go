@@ -14,13 +14,14 @@ func (a *App) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*a
 	var patchReq domain.PatchConfigRequest
 
 	patchReq.ServiceName = req.GetServiceName()
-	patchReq.Batch = make([]domain.PatchConfig, 0, len(req.GetPathToValue()))
+	patchReq.Batch = make([]domain.PatchConfig, 0, len(req.GetChanges()))
 
-	for k, v := range req.GetPathToValue() {
-		patchReq.Batch = append(patchReq.Batch, domain.PatchConfig{
-			FieldPath:  k,
-			FieldValue: v,
-		})
+	for _, change := range req.GetChanges() {
+		patchReq.Batch = append(patchReq.Batch,
+			domain.PatchConfig{
+				FieldName:  change.Name,
+				FieldValue: change.Value,
+			})
 	}
 
 	err := a.service.PatchConfig(ctx, patchReq)

@@ -758,8 +758,6 @@ func (m *Node) validate(all bool) error {
 
 	// no validation rules for Name
 
-	// no validation rules for Value
-
 	for idx, item := range m.GetInnerNodes() {
 		_, _ = idx, item
 
@@ -792,6 +790,10 @@ func (m *Node) validate(all bool) error {
 			}
 		}
 
+	}
+
+	if m.Value != nil {
+		// no validation rules for Value
 	}
 
 	if len(errors) > 0 {
@@ -1617,7 +1619,39 @@ func (m *PatchConfig_Request) validate(all bool) error {
 
 	// no validation rules for ServiceName
 
-	// no validation rules for PathToValue
+	for idx, item := range m.GetChanges() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, PatchConfig_RequestValidationError{
+						field:  fmt.Sprintf("Changes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, PatchConfig_RequestValidationError{
+						field:  fmt.Sprintf("Changes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return PatchConfig_RequestValidationError{
+					field:  fmt.Sprintf("Changes[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
 
 	if len(errors) > 0 {
 		return PatchConfig_RequestMultiError(errors)

@@ -35,7 +35,8 @@ func toApiNode(node evon.Node) *api.Node {
 		Name: node.Name,
 	}
 	if node.Value != nil {
-		resp.Value = fmt.Sprint(node.Value)
+		v := fmt.Sprint(node.Value)
+		resp.Value = &v
 	}
 
 	for _, innerNode := range node.InnerNodes {
