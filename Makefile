@@ -19,7 +19,6 @@ gen-server-grpc: .pre-gen-server-grpc .deps-grpc .gen-server-grpc
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
 	go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
-	go install github.com/dpup/protoc-gen-grpc-gateway-ts@latest
 
 	rm -rf api/google
 	rm -rf api/validate

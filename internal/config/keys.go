@@ -3,5 +3,6 @@
 package config
 
 const (
-	ServerGrpc = "grpc"
+	ResourceSqlite = "sqlite"
+	ServerGrpc     = "grpc"
 )

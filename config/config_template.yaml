@@ -2,7 +2,9 @@ app_info:
     name: matreshka-be
     version: v1.0.27
     startup_duration: 10s
-data_sources: []
+data_sources:
+    - resource_name: sqlite
+      path: ./data/sqlite/matreshka-be.db
 server:
     - name: grpc
       port: 50050
