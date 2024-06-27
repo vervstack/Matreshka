@@ -11,8 +11,8 @@ import (
 
 type Data interface {
 	GetConfig(ctx context.Context, serviceName domain.GetConfigReq) (*evon.Node, error)
-	ListConfigs(ctx context.Context, req domain.ListConfigsRequest) ([]matreshka.AppInfo, error)
+	ListConfigs(ctx context.Context, req domain.ListConfigsRequest) ([]string, error)
 
-	UpsertConfig(ctx context.Context, config matreshka.AppConfig) error
+	SaveConfig(ctx context.Context, serviceConfig string, config matreshka.AppConfig) error
 	PatchConfig(ctx context.Context, req domain.PatchConfigRequest) error
 }

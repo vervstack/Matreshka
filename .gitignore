@@ -20,5 +20,5 @@ config/dev.yaml
 api/*
 !api/grpc
 
-data
+/data
 

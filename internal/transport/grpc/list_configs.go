@@ -28,11 +28,11 @@ func (a *App) ListConfigs(ctx context.Context, req *api.ListConfigs_Request) (*a
 		Services: make([]*api.AppInfo, 0, len(infos)),
 	}
 
-	for _, c := range infos {
-		resp.Services = append(resp.Services, &api.AppInfo{
-			Name:    c.Name,
-			Version: c.Version,
-		})
+	for _, name := range infos {
+		resp.Services = append(resp.Services,
+			&api.AppInfo{
+				Name: name,
+			})
 	}
 
 	return resp, nil

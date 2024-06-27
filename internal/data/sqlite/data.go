@@ -14,13 +14,13 @@ import (
 )
 
 type Provider struct {
-	db *sql.DB
+	conn *sql.DB
 }
 
 func New(cfg *resources.Sqlite) (*Provider, error) {
 	err := os.MkdirAll(path.Dir(cfg.Path), 0777)
 	if err != nil {
-		return nil, errors.Wrap(err, "error creating dir for sqlite db")
+		return nil, errors.Wrap(err, "error creating dir for sqlite conn")
 	}
 
 	conn, err := sql.Open("sqlite", cfg.Path)
@@ -30,7 +30,7 @@ func New(cfg *resources.Sqlite) (*Provider, error) {
 
 	err = conn.Ping()
 	if err != nil {
-		return nil, errors.Wrap(err, "error pinging db")
+		return nil, errors.Wrap(err, "error pinging conn")
 	}
 
 	err = checkMigrate(conn)
@@ -39,7 +39,7 @@ func New(cfg *resources.Sqlite) (*Provider, error) {
 	}
 
 	return &Provider{
-		db: conn,
+		conn: conn,
 	}, nil
 }
 
@@ -50,7 +50,7 @@ func checkMigrate(conn *sql.DB) error {
 		return errors.Wrap(err, "error setting dialect")
 	}
 
-	err = goose.Up(conn, "./migrations")
+	err = goose.Up(conn, "./migrations/sqlite")
 	if err != nil {
 		return errors.Wrap(err, "error performing up")
 	}

@@ -1,4 +1,4 @@
-package in_memory
+package data
 
 import (
 	"github.com/Red-Sock/evon"
@@ -7,6 +7,6 @@ import (
 
 type Config struct {
 	Cfg    *matreshka.AppConfig
-	values map[string]*evon.Node `env:"-"`
-	nodes  []*evon.Node          `env:"-"`
+	Values map[string]*evon.Node `env:"-"`
+	Nodes  []*evon.Node          `env:"-"`
 }
