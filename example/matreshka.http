@@ -2,7 +2,7 @@
 GET {{matreshka-api}}/config/test_service
 
 ### Get config
-GET {{matreshka-api}}/config/nodes/test_service
+GET {{matreshka-api}}/config/nodes/red-cart
 
 
 ### List configs

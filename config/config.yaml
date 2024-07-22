@@ -7,6 +7,6 @@ data_sources:
     path: ./data/sqlite/matreshka-be.db
 server:
   - name: grpc
-    port: 50050
+    port: 53891
 environment: []
 
