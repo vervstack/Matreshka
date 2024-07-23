@@ -4,8 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
+	errors "github.com/Red-Sock/trace-errors"
 
 	"github.com/godverv/matreshka-be/internal/domain"
 	api "github.com/godverv/matreshka-be/pkg/matreshka_api"
@@ -19,7 +18,7 @@ func (a *App) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*a
 
 	err := a.service.PatchConfig(ctx, patchReq)
 	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
+		return nil, errors.Wrap(err)
 	}
 
 	return &api.PatchConfig_Response{}, nil

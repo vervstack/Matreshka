@@ -5,6 +5,7 @@ import (
 
 	"github.com/Red-Sock/evon"
 	errors "github.com/Red-Sock/trace-errors"
+	"google.golang.org/grpc/codes"
 )
 
 func (p *Provider) GetConfig(ctx context.Context, serviceName string) (*evon.Node, error) {
@@ -21,7 +22,7 @@ func (p *Provider) GetConfig(ctx context.Context, serviceName string) (*evon.Nod
 	}
 	defer row.Close()
 
-	root := &evon.Node{}
+	var rootNodes []*evon.Node
 
 	for row.Next() {
 		var node evon.Node
@@ -30,13 +31,14 @@ func (p *Provider) GetConfig(ctx context.Context, serviceName string) (*evon.Nod
 			return nil, errors.Wrap(err, "error scanning node")
 		}
 
-		root.InnerNodes = append(root.InnerNodes, &node)
+		rootNodes = append(rootNodes, &node)
 	}
 
-	err = row.Err()
-	if err != nil {
-		return nil, errors.Wrap(err, "error during scanning")
+	if len(rootNodes) == 0 {
+		return nil, errors.New("no nodes found", codes.NotFound)
 	}
 
-	return root, nil
+	return &evon.Node{
+		InnerNodes: rootNodes,
+	}, nil
 }

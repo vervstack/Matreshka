@@ -12,6 +12,8 @@ import (
 	"github.com/godverv/matreshka/servers"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	"github.com/godverv/matreshka-be/pkg/matreshka_api"
 )
@@ -215,6 +217,41 @@ func (s *PatchConfigSuite) Test_PatchConfigDataSources() {
 	})
 
 	require.Equal(s.T(), patchedConfig, newConfig)
+}
+
+func (s *PatchConfigSuite) Test_PatchWithInvalidName() {
+	serviceName := s.T().Name()
+	testEnv.create(s.T(), serviceName, fullConfigBytes)
+
+	invalidPatch := &matreshka_api.PatchConfig_Request{
+		ServiceName: serviceName,
+		Changes: []*matreshka_api.Node{
+			{
+				Name: "invalid_name",
+			},
+		},
+	}
+	resp, err := testEnv.grpcClient.PatchConfig(s.ctx, invalidPatch)
+	expectedErr := status.New(codes.InvalidArgument, "[{invalid_name <nil>}]\ninvalid patch name").Err()
+	require.Equal(s.T(), err, expectedErr)
+	require.Nil(s.T(), resp)
+}
+
+func (s *PatchConfigSuite) Test_PatchNotExistingConfig() {
+	serviceName := s.T().Name()
+
+	invalidPatch := &matreshka_api.PatchConfig_Request{
+		ServiceName: serviceName,
+		Changes: []*matreshka_api.Node{
+			{
+				Name: "DATA-SOURCES_TELEGRAM-BOT_API-KEY",
+			},
+		},
+	}
+	resp, err := testEnv.grpcClient.PatchConfig(s.ctx, invalidPatch)
+	expectedErr := status.New(codes.NotFound, "no nodes found").Err()
+	require.Equal(s.T(), err, expectedErr)
+	require.Nil(s.T(), resp)
 }
 
 func Test_PatchConfig(t *testing.T) {
