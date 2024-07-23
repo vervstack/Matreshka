@@ -46,8 +46,13 @@ func initApp() error {
 	}
 
 	_, err = a.DbConn.Exec(`
-		DELETE FROM configs;
-		DELETE FROM configs_values;`)
+		DELETE 
+		FROM configs 	   
+	    WHERE true;
+		
+		DELETE 
+		FROM configs_values
+		WHERE true;`)
 	if err != nil {
 		return errors.Wrap(err, "error db clean up")
 	}

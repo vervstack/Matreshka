@@ -9,11 +9,6 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-const (
-	createOnce  = "create-once-config"
-	createTwice = "create-twice-config"
-)
-
 type CreateConfigSuite struct {
 	suite.Suite
 	ctx context.Context
@@ -25,9 +20,10 @@ func (s *CreateConfigSuite) SetupSuite() {
 }
 
 // Simply create and read created config
-func (s *CreateConfigSuite) Test_CreateAndRead() {
-	testEnv.create(s.T(), createOnce, fullConfigBytes)
-	readConfig := testEnv.get(s.T(), createOnce)
+func (s *CreateConfigSuite) Test_CreateOnceAndRead() {
+	serviceName := s.T().Name()
+	testEnv.create(s.T(), serviceName, fullConfigBytes)
+	readConfig := testEnv.get(s.T(), serviceName)
 
 	expectedCfg := getFullConfig(s.T())
 
@@ -36,16 +32,17 @@ func (s *CreateConfigSuite) Test_CreateAndRead() {
 
 // Create config, then replace it with different config
 func (s *CreateConfigSuite) Test_FullUpdate() {
-	testEnv.create(s.T(), createTwice, fullConfigBytes)
+	serviceName := s.T().Name()
+	testEnv.create(s.T(), serviceName, fullConfigBytes)
 
 	newConfig := getFullConfig(s.T())
 	newConfig.DataSources = matreshka.DataSources{}
 	newConfigBytes, err := newConfig.Marshal()
 	require.NoError(s.T(), err)
 
-	testEnv.create(s.T(), createTwice, newConfigBytes)
+	testEnv.create(s.T(), serviceName, newConfigBytes)
 
-	readConfig := testEnv.get(s.T(), createTwice)
+	readConfig := testEnv.get(s.T(), serviceName)
 
 	require.Equal(s.T(), readConfig, newConfig)
 }

@@ -56,15 +56,6 @@ func (c *ConfigService) PatchConfig(ctx context.Context, configPatch domain.Patc
 
 	p.validateEnvironmentChanges(cfg)
 
-	updateReq := domain.PatchConfigRequest{
-		ServiceName: configPatch.ServiceName,
-		Batch:       append(p.upsert, p.envUpsert...),
-	}
-	err = c.data.UpdateValues(ctx, updateReq)
-	if err != nil {
-		return errors.Wrap(err, "error patching config in data storage")
-	}
-
 	deleteReq := domain.PatchConfigRequest{
 		ServiceName: configPatch.ServiceName,
 		Batch:       p.delete,
@@ -72,6 +63,15 @@ func (c *ConfigService) PatchConfig(ctx context.Context, configPatch domain.Patc
 	err = c.data.DeleteValues(ctx, deleteReq)
 	if err != nil {
 		return errors.Wrap(err, "error deleting values")
+	}
+
+	updateReq := domain.PatchConfigRequest{
+		ServiceName: configPatch.ServiceName,
+		Batch:       append(p.upsert, p.envUpsert...),
+	}
+	err = c.data.UpsertValues(ctx, updateReq)
+	if err != nil {
+		return errors.Wrap(err, "error patching config in data storage")
 	}
 
 	if len(p.invalid) != 0 {

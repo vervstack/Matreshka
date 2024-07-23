@@ -14,6 +14,6 @@ type Data interface {
 	ListConfigs(ctx context.Context, req domain.ListConfigsRequest) ([]string, error)
 
 	SaveConfig(ctx context.Context, serviceConfig string, config matreshka.AppConfig) error
-	UpdateValues(ctx context.Context, req domain.PatchConfigRequest) error
+	UpsertValues(ctx context.Context, req domain.PatchConfigRequest) error
 	DeleteValues(ctx context.Context, req domain.PatchConfigRequest) error
 }

@@ -2,8 +2,6 @@ package sqlite
 
 import (
 	"context"
-	"strconv"
-	"strings"
 
 	errors "github.com/Red-Sock/trace-errors"
 
@@ -15,37 +13,35 @@ func (p *Provider) DeleteValues(ctx context.Context, req domain.PatchConfigReque
 		return nil
 	}
 
-	sb := strings.Builder{}
-	sb.WriteString(`AND (`)
-
-	args := make([]any, 0, len(req.Batch)+1)
-	args = append(args, req.ServiceName)
-
-	for i, patch := range req.Batch {
-		sb.WriteString(`key like $`)
-		sb.WriteString(strconv.Itoa(i + 2))
-		sb.WriteString(`||'%'`)
-		sb.WriteString("\n")
-		args = append(args, patch.FieldName)
-
-		if i != len(req.Batch)-1 {
-			sb.WriteString(" OR ")
-		} else {
-			sb.WriteString(")")
-		}
-	}
-
-	_, err := p.conn.ExecContext(ctx, `
-		DELETE FROM configs_values
-		WHERE config_id = (
+	var cfgId int
+	err := p.conn.QueryRowContext(ctx, `
 			SELECT
 				id
 			FROM configs c
-			WHERE c.name = $1
-)
-`+sb.String(), args...)
+			WHERE c.name = $1`, req.ServiceName).
+		Scan(&cfgId)
+	if err != nil {
+		return errors.Wrap(err, "error getting service id")
+	}
+
+	deleteQ, err := p.conn.PrepareContext(ctx, `
+		DELETE FROM configs_values
+		WHERE config_id = $1 
+		AND (
+		    key = $2
+		    OR 
+		    key like $2 ||'_%'
+		    )`)
 	if err != nil {
 		return errors.Wrap(err, "error deleting values")
 	}
+
+	for _, patch := range req.Batch {
+		_, err = deleteQ.ExecContext(ctx, cfgId, patch.FieldName)
+		if err != nil {
+			return errors.Wrap(err, "error deleting value from db: "+patch.FieldName)
+		}
+	}
+
 	return nil
 }

@@ -8,7 +8,7 @@ import (
 	"github.com/godverv/matreshka-be/internal/domain"
 )
 
-func (p *Provider) UpdateValues(ctx context.Context, req domain.PatchConfigRequest) error {
+func (p *Provider) UpsertValues(ctx context.Context, req domain.PatchConfigRequest) error {
 	var configId int
 	err := p.conn.QueryRowContext(ctx, `
 			SELECT 
