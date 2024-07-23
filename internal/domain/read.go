@@ -9,3 +9,8 @@ type ListConfigsRequest struct {
 	ListRequest
 	SearchPattern string
 }
+
+type ConfigListItem struct {
+	Name    string
+	Version string
+}

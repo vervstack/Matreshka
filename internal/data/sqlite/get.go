@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc/codes"
 )
 
-func (p *Provider) GetConfig(ctx context.Context, serviceName string) (*evon.Node, error) {
+func (p *Provider) GetConfig(ctx context.Context, serviceName string) (evon.Node, error) {
 	row, err := p.conn.QueryContext(ctx, `
 			SELECT 
 				cv.key,
@@ -18,7 +18,7 @@ func (p *Provider) GetConfig(ctx context.Context, serviceName string) (*evon.Nod
 			AND 		c.name 				  = $1
 `, serviceName)
 	if err != nil {
-		return nil, errors.Wrap(err, "error getting config values")
+		return evon.Node{}, errors.Wrap(err, "error getting config values")
 	}
 	defer row.Close()
 
@@ -28,17 +28,17 @@ func (p *Provider) GetConfig(ctx context.Context, serviceName string) (*evon.Nod
 		var node evon.Node
 		err = row.Scan(&node.Name, &node.Value)
 		if err != nil {
-			return nil, errors.Wrap(err, "error scanning node")
+			return evon.Node{}, errors.Wrap(err, "error scanning node")
 		}
 
 		rootNodes = append(rootNodes, &node)
 	}
 
 	if len(rootNodes) == 0 {
-		return nil, errors.New("no nodes found", codes.NotFound)
+		return evon.Node{}, errors.New("no nodes found", codes.NotFound)
 	}
 
-	return &evon.Node{
+	return evon.Node{
 		InnerNodes: rootNodes,
 	}, nil
 }

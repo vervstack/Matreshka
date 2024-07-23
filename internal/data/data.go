@@ -10,8 +10,8 @@ import (
 )
 
 type Data interface {
-	GetConfig(ctx context.Context, serviceName string) (*evon.Node, error)
-	ListConfigs(ctx context.Context, req domain.ListConfigsRequest) ([]string, error)
+	GetConfig(ctx context.Context, serviceName string) (evon.Node, error)
+	ListConfigs(ctx context.Context, req domain.ListConfigsRequest) ([]domain.ConfigListItem, error)
 
 	SaveConfig(ctx context.Context, serviceConfig string, config matreshka.AppConfig) error
 	UpsertValues(ctx context.Context, req domain.PatchConfigRequest) error

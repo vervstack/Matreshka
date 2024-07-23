@@ -5,8 +5,7 @@ import (
 	"fmt"
 
 	"github.com/Red-Sock/evon"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
+	errors "github.com/Red-Sock/trace-errors"
 
 	api "github.com/godverv/matreshka-be/pkg/matreshka_api"
 )
@@ -14,15 +13,11 @@ import (
 func (a *App) GetConfigNodes(ctx context.Context, req *api.GetConfigNode_Request) (*api.GetConfigNode_Response, error) {
 	cfgNode, err := a.storage.GetConfig(ctx, req.GetServiceName())
 	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
-	}
-
-	if cfgNode == nil {
-		return nil, status.Error(codes.NotFound, "config not found")
+		return nil, errors.Wrap(err)
 	}
 
 	resp := &api.GetConfigNode_Response{
-		Root: toApiNode(*cfgNode),
+		Root: toApiNode(cfgNode),
 	}
 
 	return resp, nil
