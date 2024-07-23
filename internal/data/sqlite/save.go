@@ -30,6 +30,22 @@ func (p *Provider) SaveConfig(ctx context.Context, serviceName string, cfg matre
 	if err != nil {
 		return errors.Wrap(err, "error upserting config")
 	}
+
+	// TODO если чото отъебёт - потеряем весь конфиг, нужно от обратного: то что не обновляли - удалить
+	_, err = p.conn.ExecContext(ctx, `
+		DELETE FROM configs_values
+	    WHERE config_id = $1`, configId)
+
+	prep, err := p.conn.PrepareContext(ctx, `
+		 INSERT INTO configs_values
+		    	(config_id, key, value) 
+		 VALUES ($1, $2, $3)
+		 ON CONFLICT (config_id, key) 
+		 DO UPDATE SET value = excluded.value`)
+	if err != nil {
+		return errors.Wrap(err, "error preparing")
+	}
+
 	for _, v := range values {
 		if v.Value == nil {
 			continue
@@ -39,13 +55,9 @@ func (p *Provider) SaveConfig(ctx context.Context, serviceName string, cfg matre
 			continue
 		}
 
-		_, err = p.conn.ExecContext(ctx, `
-		INSERT INTO configs_values
-		    	(config_id, key, value) 
-		 VALUES ($1, $2, $3)`,
-			configId, v.Name, fmt.Sprint(v.Value))
+		_, err = prep.ExecContext(ctx, configId, v.Name, fmt.Sprint(v.Value))
 		if err != nil {
-			return errors.Wrap(err, "")
+			return errors.Wrap(err, "error inserting config value")
 		}
 	}
 

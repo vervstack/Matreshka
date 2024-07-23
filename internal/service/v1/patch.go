@@ -6,6 +6,7 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/Red-Sock/evon"
 	errors "github.com/Red-Sock/trace-errors"
 
 	"github.com/godverv/matreshka-be/internal/domain"
@@ -18,64 +19,134 @@ const (
 	serverSegment      = "DATA-SOURCES"
 )
 
+type patch struct {
+	invalid   []domain.PatchConfig
+	upsert    []domain.PatchConfig
+	envUpsert []domain.PatchConfig
+	delete    []domain.PatchConfig
+}
+
 func (c *ConfigService) PatchConfig(ctx context.Context, configPatch domain.PatchConfigRequest) error {
-	invalidPatchName := make([]string, 0)
-	batchesToUpsert := make([]domain.PatchConfig, 0, len(configPatch.Batch))
-	batchesToDelete := make([]domain.PatchConfig, 0)
-
-	for patchIdx := range configPatch.Batch {
-		configPatch.Batch[patchIdx].FieldName = strings.ToUpper(configPatch.Batch[patchIdx].FieldName)
-
-		var hit bool
-		for _, segment := range c.allowedSegments {
-			hit = strings.HasPrefix(configPatch.Batch[patchIdx].FieldName, segment)
-			if hit {
-				break
-			}
-		}
-		if !hit {
-			invalidPatchName = append(invalidPatchName, configPatch.Batch[patchIdx].FieldName)
+	p := patch{}
+	for _, ptch := range configPatch.Batch {
+		var ok bool
+		ptch.FieldName, ok = validateName(ptch)
+		if !ok {
+			p.invalid = append(p.invalid, ptch)
 			continue
 		}
 
-		patch := domain.PatchConfig{
-			FieldName: configPatch.Batch[patchIdx].FieldName,
-		}
-		var upsert, del bool
-		patch.FieldValue, upsert, del = extractUpdateValue(configPatch.Batch[patchIdx].FieldValue)
-		if upsert {
-			batchesToUpsert = append(batchesToUpsert, patch)
-		} else if del {
-			batchesToDelete = append(batchesToDelete, patch)
+		val := extractValue(ptch.FieldValue)
+		if val == nil {
+			p.delete = append(p.delete, ptch)
+		} else {
+			if strings.HasPrefix(ptch.FieldName, environmentSegment) {
+				p.envUpsert = append(p.envUpsert, ptch)
+			} else {
+				p.upsert = append(p.upsert, ptch)
+			}
+
 		}
 	}
 
-	dataReq := domain.PatchConfigRequest{
+	cfg, err := c.data.GetConfig(ctx, configPatch.ServiceName)
+	if err != nil {
+		return errors.Wrap(err, "error getting nodes")
+	}
+
+	p.validateEnvironmentChanges(cfg)
+
+	updateReq := domain.PatchConfigRequest{
 		ServiceName: configPatch.ServiceName,
-		Batch:       batchesToUpsert,
+		Batch:       append(p.upsert, p.envUpsert...),
 	}
-
-	err := c.data.PatchConfig(ctx, dataReq)
+	err = c.data.UpdateValues(ctx, updateReq)
 	if err != nil {
 		return errors.Wrap(err, "error patching config in data storage")
 	}
 
-	if len(invalidPatchName) != 0 {
-		return errors.Wrap(ErrInvalidPatchName, fmt.Sprint(invalidPatchName))
+	deleteReq := domain.PatchConfigRequest{
+		ServiceName: configPatch.ServiceName,
+		Batch:       p.delete,
+	}
+	err = c.data.DeleteValues(ctx, deleteReq)
+	if err != nil {
+		return errors.Wrap(err, "error deleting values")
+	}
+
+	if len(p.invalid) != 0 {
+		return errors.Wrap(ErrInvalidPatchName, fmt.Sprint(p.invalid))
 	}
 
 	return nil
 }
 
-func extractUpdateValue(in any) (value any, toUpsert, toDelete bool) {
+func (p *patch) validateEnvironmentChanges(cfg *evon.Node) {
+	nodeStorage := evon.NodesToStorage(cfg.InnerNodes)
+
+	newEnvValues := make(map[string]domain.PatchConfig)
+	typesMap := make(map[string]domain.PatchConfig)
+	enumMap := make(map[string]domain.PatchConfig)
+
+	envUpsert := make([]domain.PatchConfig, 0, len(newEnvValues))
+
+	for _, valuePatch := range p.envUpsert {
+		// already exists -> simply update value
+		_, ok := nodeStorage[valuePatch.FieldName]
+		if ok {
+			envUpsert = append(envUpsert, valuePatch)
+			continue
+		}
+
+		if strings.HasSuffix(valuePatch.FieldName, "_TYPE") {
+			typesMap[valuePatch.FieldName[:len(valuePatch.FieldName)-5]] = valuePatch
+			continue
+		}
+
+		if strings.HasSuffix(valuePatch.FieldName, "_ENUM") {
+			enumMap[valuePatch.FieldName] = valuePatch
+			continue
+		}
+
+		newEnvValues[valuePatch.FieldName] = valuePatch
+	}
+
+	for key, patchVal := range newEnvValues {
+		typeVal, ok := typesMap[key]
+		if !ok {
+			p.invalid = append(p.invalid, patchVal)
+			continue
+		}
+
+		envUpsert = append(envUpsert, patchVal, typeVal)
+		enumVal, ok := enumMap[key]
+		if ok {
+			envUpsert = append(envUpsert, enumVal)
+		}
+	}
+
+	p.envUpsert = envUpsert
+}
+
+func extractValue(in any) any {
 	inRef := reflect.ValueOf(in)
-	if inRef.Kind() != reflect.Ptr {
-		return inRef.Interface(), true, false
-	}
-
 	if inRef.IsNil() {
-		return nil, false, true
+		return nil
 	}
 
-	return inRef.Elem().Interface(), true, false
+	if inRef.Kind() != reflect.Ptr {
+		return inRef.Interface()
+	}
+
+	return inRef.Elem().Interface()
+}
+
+func validateName(patch domain.PatchConfig) (newName string, ok bool) {
+	for _, segment := range allowedSegments {
+		if strings.HasPrefix(patch.FieldName, segment) {
+			return strings.ToUpper(patch.FieldName), true
+		}
+	}
+
+	return patch.FieldName, false
 }

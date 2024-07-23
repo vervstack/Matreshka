@@ -1,0 +1,28 @@
+package app
+
+import (
+	errors "github.com/Red-Sock/trace-errors"
+
+	sqliteclient "github.com/godverv/matreshka-be/internal/clients/sqlite"
+	"github.com/godverv/matreshka-be/internal/config"
+	"github.com/godverv/matreshka-be/internal/data/sqlite"
+)
+
+func (a *App) InitSqlite(cfg config.Config) (err error) {
+	sqliteConf, err := cfg.GetDataSources().Sqlite(config.ResourceSqlite)
+	if err != nil {
+		return errors.Wrap(err, "error getting sqlite from config")
+	}
+
+	a.DbConn, err = sqliteclient.NewConn(sqliteConf)
+	if err != nil {
+		return errors.Wrap(err, "error getting sqlite connection")
+	}
+
+	a.DataProvider, err = sqlite.New(a.DbConn)
+	if err != nil {
+		return errors.Wrap(err, "error initializing sqlite")
+	}
+
+	return nil
+}

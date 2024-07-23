@@ -8,13 +8,11 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/godverv/matreshka-be/internal/domain"
 	api "github.com/godverv/matreshka-be/pkg/matreshka_api"
 )
 
 func (a *App) GetConfigNodes(ctx context.Context, req *api.GetConfigNode_Request) (*api.GetConfigNode_Response, error) {
-	getConfigReq := domain.GetConfigReq{ServiceName: req.GetServiceName()}
-	cfgNode, err := a.storage.GetConfig(ctx, getConfigReq)
+	cfgNode, err := a.storage.GetConfig(ctx, req.GetServiceName())
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

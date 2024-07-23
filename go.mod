@@ -4,8 +4,8 @@ go 1.22
 
 require (
 	github.com/Red-Sock/evon v0.0.13
-	github.com/Red-Sock/trace-errors v0.0.6
-	github.com/godverv/matreshka v0.0.28
+	github.com/Red-Sock/trace-errors v0.0.7
+	github.com/godverv/matreshka v0.0.29
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.20.0
 	github.com/pkg/errors v0.9.1
 	github.com/pressly/goose/v3 v3.21.1
@@ -15,7 +15,7 @@ require (
 	google.golang.org/genproto/googleapis/api v0.0.0-20240701130421-f6361c86f094
 	google.golang.org/grpc v1.64.0
 	google.golang.org/protobuf v1.34.2
-	modernc.org/sqlite v1.30.1
+	modernc.org/sqlite v1.30.2
 )
 
 require (

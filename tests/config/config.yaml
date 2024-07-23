@@ -1,0 +1,11 @@
+app_info:
+  name: 'matreshka-be'
+data_sources:
+  - resource_name: sqlite
+    path: "./data/test.db"
+    migrations_folder: ./../migrations
+server:
+  - name: grpc
+    port: 999
+environment: []
+

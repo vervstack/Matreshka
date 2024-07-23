@@ -8,20 +8,19 @@ import (
 
 var ErrInvalidPatchName = errors.New("invalid patch name")
 
+var allowedSegments = []string{
+	appInfo,
+	environmentSegment,
+	dataSourceSegment,
+	serverSegment,
+}
+
 type ConfigService struct {
 	data data.Data
-
-	allowedSegments []string
 }
 
 func New(data data.Data) *ConfigService {
 	return &ConfigService{
 		data: data,
-		allowedSegments: []string{
-			appInfo,
-			environmentSegment,
-			dataSourceSegment,
-			serverSegment,
-		},
 	}
 }

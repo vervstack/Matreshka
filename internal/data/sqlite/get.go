@@ -5,11 +5,9 @@ import (
 
 	"github.com/Red-Sock/evon"
 	errors "github.com/Red-Sock/trace-errors"
-
-	"github.com/godverv/matreshka-be/internal/domain"
 )
 
-func (p *Provider) GetConfig(ctx context.Context, req domain.GetConfigReq) (*evon.Node, error) {
+func (p *Provider) GetConfig(ctx context.Context, serviceName string) (*evon.Node, error) {
 	row, err := p.conn.QueryContext(ctx, `
 			SELECT 
 				cv.key,
@@ -17,7 +15,7 @@ func (p *Provider) GetConfig(ctx context.Context, req domain.GetConfigReq) (*evo
 			FROM 		configs_values AS cv
 			INNER JOIN 	configs 	   AS c  ON c.id = cv.config_id
 			AND 		c.name 				  = $1
-`, req.ServiceName)
+`, serviceName)
 	if err != nil {
 		return nil, errors.Wrap(err, "error getting config values")
 	}

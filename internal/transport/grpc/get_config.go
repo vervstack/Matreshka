@@ -4,20 +4,16 @@ import (
 	"context"
 
 	"github.com/Red-Sock/evon"
+	errors "github.com/Red-Sock/trace-errors"
 	"github.com/godverv/matreshka"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/godverv/matreshka-be/internal/domain"
 	api "github.com/godverv/matreshka-be/pkg/matreshka_api"
 )
 
 func (a *App) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.GetConfig_Response, error) {
-	r := domain.GetConfigReq{
-		ServiceName: req.GetServiceName(),
-	}
-
-	cfgNode, err := a.storage.GetConfig(ctx, r)
+	cfgNode, err := a.storage.GetConfig(ctx, req.GetServiceName())
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
@@ -28,7 +24,10 @@ func (a *App) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.G
 	var cfg matreshka.AppConfig
 
 	nodeStorage := evon.NodesToStorage([]*evon.Node{cfgNode})
-	evon.UnmarshalWithNodes(nodeStorage, &cfg)
+	err = evon.UnmarshalWithNodes(nodeStorage, &cfg)
+	if err != nil {
+		return nil, errors.Wrap(err, "error unmarshalling config")
+	}
 
 	resp := &api.GetConfig_Response{}
 
