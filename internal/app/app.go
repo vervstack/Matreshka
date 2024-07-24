@@ -14,6 +14,7 @@ import (
 	"github.com/godverv/matreshka-be/internal/data"
 	"github.com/godverv/matreshka-be/internal/service"
 	"github.com/godverv/matreshka-be/internal/transport"
+	"github.com/godverv/matreshka-be/internal/transport/grpc"
 	"github.com/godverv/matreshka-be/internal/utils/closer"
 )
 
@@ -25,7 +26,8 @@ type App struct {
 	DataProvider data.Data
 	Srv          service.ConfigService
 
-	Server *transport.ServersManager
+	GrpcApi *grpc.Server
+	Server  *transport.ServersManager
 }
 
 func New() (app App, err error) {
@@ -56,7 +58,7 @@ func (a *App) Start() error {
 
 	err := a.Server.Start(ctx)
 	if err != nil {
-		return errors.New("error starting Server manager")
+		return errors.Wrap(err, "error starting Server manager")
 	}
 
 	closer.Add(func() error { return a.Server.Stop(ctx) })

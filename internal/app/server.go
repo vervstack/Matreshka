@@ -16,12 +16,9 @@ func (a *App) InitServer() error {
 		return errors.New("error getting grpc from config")
 	}
 
-	grpcServer, err := grpc.NewServer(a.Cfg, grpcConfig, a.Srv, a.DataProvider)
-	if err != nil {
-		return errors.New("error creating grpc Server")
-	}
+	a.GrpcApi = grpc.NewServer(a.Cfg, grpcConfig, a.Srv, a.DataProvider)
 
-	a.Server.AddServer(grpcServer)
+	a.Server.AddServer(a.GrpcApi)
 
 	return nil
 }

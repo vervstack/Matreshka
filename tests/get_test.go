@@ -6,9 +6,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/suite"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 
+	"github.com/godverv/matreshka-be/internal/data/storage"
 	"github.com/godverv/matreshka-be/pkg/matreshka_api"
 )
 
@@ -28,10 +27,10 @@ func (s *GetTestSuite) Test_GetConfig_NotFound() {
 	getReq := &matreshka_api.GetConfig_Request{
 		ServiceName: serviceName,
 	}
-	resp, err := testEnv.grpcClient.GetConfig(s.ctx, getReq)
+	resp, err := testEnv.grpcApi.GetConfig(s.ctx, getReq)
 
-	expectedErr := status.New(codes.NotFound, "no nodes found").Err()
-	s.Equal(expectedErr, err)
+	expectedErr := storage.ErrNoNodes
+	s.ErrorIs(err, expectedErr)
 	s.Nil(resp)
 }
 
@@ -41,10 +40,10 @@ func (s *GetTestSuite) Test_GetNodes_NotFound() {
 	getReq := &matreshka_api.GetConfigNode_Request{
 		ServiceName: serviceName,
 	}
-	resp, err := testEnv.grpcClient.GetConfigNodes(s.ctx, getReq)
+	resp, err := testEnv.grpcApi.GetConfigNodes(s.ctx, getReq)
 
-	expectedErr := status.New(codes.NotFound, "no nodes found").Err()
-	s.Equal(expectedErr, err)
+	expectedErr := storage.ErrNoNodes
+	s.ErrorIs(err, expectedErr)
 	s.Nil(resp)
 }
 
@@ -174,7 +173,7 @@ func (s *GetTestSuite) Test_GetNodes() {
 	getReq := &matreshka_api.GetConfigNode_Request{
 		ServiceName: serviceName,
 	}
-	resp, err := testEnv.grpcClient.GetConfigNodes(s.ctx, getReq)
+	resp, err := testEnv.grpcApi.GetConfigNodes(s.ctx, getReq)
 	s.NoError(err)
 
 	sort.Slice(expectedConfig, func(i, j int) bool {

@@ -1,12 +1,13 @@
-package v1
+package servicev1
 
 import (
 	errors "github.com/Red-Sock/trace-errors"
+	"google.golang.org/grpc/codes"
 
 	"github.com/godverv/matreshka-be/internal/data"
 )
 
-var ErrInvalidPatchName = errors.New("invalid patch name")
+var ErrInvalidPatchName = errors.New("invalid patched env var name", codes.InvalidArgument)
 
 var allowedSegments = []string{
 	appInfo,

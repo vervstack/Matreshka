@@ -12,9 +12,10 @@ import (
 	"github.com/godverv/matreshka/servers"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 
+	"github.com/godverv/matreshka-be/internal/service/servicev1"
+
+	"github.com/godverv/matreshka-be/internal/data/storage"
 	"github.com/godverv/matreshka-be/pkg/matreshka_api"
 )
 
@@ -84,7 +85,7 @@ func (s *PatchConfigSuite) Test_PatchConfigEnvironment() {
 		)
 	}
 
-	patchResp, err := testEnv.grpcClient.PatchConfig(s.ctx, patchReq)
+	patchResp, err := testEnv.grpcApi.PatchConfig(s.ctx, patchReq)
 	require.NoError(s.T(), err)
 	require.NotNil(s.T(), patchResp)
 
@@ -147,7 +148,7 @@ func (s *PatchConfigSuite) Test_PatchConfigServers() {
 			})
 	}
 
-	patchResp, err := testEnv.grpcClient.PatchConfig(s.ctx, patchReq)
+	patchResp, err := testEnv.grpcApi.PatchConfig(s.ctx, patchReq)
 	require.NoError(s.T(), err)
 	require.NotNil(s.T(), patchResp)
 
@@ -206,7 +207,7 @@ func (s *PatchConfigSuite) Test_PatchConfigDataSources() {
 			})
 	}
 
-	patchResp, err := testEnv.grpcClient.PatchConfig(s.ctx, patchReq)
+	patchResp, err := testEnv.grpcApi.PatchConfig(s.ctx, patchReq)
 	require.NoError(s.T(), err)
 	require.NotNil(s.T(), patchResp)
 
@@ -231,9 +232,9 @@ func (s *PatchConfigSuite) Test_PatchWithInvalidName() {
 			},
 		},
 	}
-	resp, err := testEnv.grpcClient.PatchConfig(s.ctx, invalidPatch)
-	expectedErr := status.New(codes.InvalidArgument, "[{invalid_name <nil>}]\ninvalid patch name").Err()
-	require.Equal(s.T(), err, expectedErr)
+	resp, err := testEnv.grpcApi.PatchConfig(s.ctx, invalidPatch)
+	expectedErr := servicev1.ErrInvalidPatchName
+	s.ErrorIs(err, expectedErr)
 	require.Nil(s.T(), resp)
 }
 
@@ -248,10 +249,10 @@ func (s *PatchConfigSuite) Test_PatchNotExistingConfig() {
 			},
 		},
 	}
-	resp, err := testEnv.grpcClient.PatchConfig(s.ctx, invalidPatch)
-	expectedErr := status.New(codes.NotFound, "no nodes found").Err()
-	require.Equal(s.T(), err, expectedErr)
-	require.Nil(s.T(), resp)
+	resp, err := testEnv.grpcApi.PatchConfig(s.ctx, invalidPatch)
+	expectedErr := storage.ErrNoNodes
+	s.ErrorIs(err, expectedErr)
+	s.Nil(resp)
 }
 
 func Test_PatchConfig(t *testing.T) {

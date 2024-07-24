@@ -1,4 +1,4 @@
-package v1
+package servicev1
 
 import (
 	"context"
@@ -8,7 +8,6 @@ import (
 
 	"github.com/Red-Sock/evon"
 	errors "github.com/Red-Sock/trace-errors"
-	"google.golang.org/grpc/codes"
 
 	"github.com/godverv/matreshka-be/internal/domain"
 )
@@ -76,7 +75,7 @@ func (c *ConfigService) PatchConfig(ctx context.Context, configPatch domain.Patc
 	}
 
 	if len(p.invalid) != 0 {
-		return errors.Wrap(ErrInvalidPatchName, fmt.Sprint(p.invalid), codes.InvalidArgument)
+		return errors.Wrap(ErrInvalidPatchName, fmt.Sprint(p.invalid))
 	}
 
 	return nil

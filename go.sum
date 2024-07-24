@@ -1,5 +1,7 @@
 github.com/Red-Sock/evon v0.0.13 h1:5Z0BryEoe1n6hs6zGScD6t7XE9KRe9W7cv9BIG5Ye5w=
 github.com/Red-Sock/evon v0.0.13/go.mod h1:BSqhsH7BWJu59QFmyzpIc7kqNQkvVi5Gb1MhZMx7mlc=
+github.com/Red-Sock/trace-errors v0.0.8 h1:jge0JG2v88uKWa4b5x7WA+CXyCbuuoqoHsmFozPS8EM=
+github.com/Red-Sock/trace-errors v0.0.8/go.mod h1:1BIdyb04fvWLX4nYuD24oUuNI3nQl0PGXtY1qWl0WXE=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
