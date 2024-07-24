@@ -56,7 +56,7 @@ func (a *App) Start() error {
 
 	err := a.Server.Start(ctx)
 	if err != nil {
-		return errors.New("error starting Server manager")
+		return errors.Wrap(err, "error starting Server manager")
 	}
 
 	closer.Add(func() error { return a.Server.Stop(ctx) })
