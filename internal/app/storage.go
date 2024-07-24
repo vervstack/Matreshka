@@ -5,7 +5,7 @@ import (
 
 	sqliteclient "github.com/godverv/matreshka-be/internal/clients/sqlite"
 	"github.com/godverv/matreshka-be/internal/config"
-	"github.com/godverv/matreshka-be/internal/data/sqlite"
+	"github.com/godverv/matreshka-be/internal/data/storage"
 )
 
 func (a *App) InitSqlite(cfg config.Config) (err error) {
@@ -19,7 +19,7 @@ func (a *App) InitSqlite(cfg config.Config) (err error) {
 		return errors.Wrap(err, "error getting sqlite connection")
 	}
 
-	a.DataProvider, err = sqlite.New(a.DbConn)
+	a.DataProvider, err = storage.New(a.DbConn)
 	if err != nil {
 		return errors.Wrap(err, "error initializing sqlite")
 	}

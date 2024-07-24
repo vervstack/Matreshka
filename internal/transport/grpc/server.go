@@ -23,12 +23,13 @@ import (
 )
 
 type Server struct {
-	serverMux cmux.CMux
+	App
 
-	grpcServer *grpc.Server
-
+	serverMux     cmux.CMux
+	grpcServer    *grpc.Server
 	serverAddress string
-	m             sync.Mutex
+
+	m sync.Mutex
 }
 
 func NewServer(
@@ -36,21 +37,21 @@ func NewServer(
 	server *servers.GRPC,
 	service service.ConfigService,
 	storage data.Data,
-) (*Server, error) {
+) *Server {
 	srv := grpc.NewServer()
-
-	// Register your servers here
-	matreshka_api.RegisterMatreshkaBeAPIServer(srv,
-		&App{
+	s := &Server{
+		App: App{
 			version: cfg.GetAppInfo().Version,
 			service: service,
 			storage: storage,
-		})
-
-	return &Server{
+		},
 		grpcServer:    srv,
 		serverAddress: ":" + server.GetPortStr(),
-	}, nil
+	}
+
+	matreshka_api.RegisterMatreshkaBeAPIServer(srv, s)
+
+	return s
 }
 
 func (s *Server) Start(_ context.Context) error {

@@ -1,7 +1,7 @@
 package app
 
 import (
-	v1 "github.com/godverv/matreshka-be/internal/service/v1"
+	v1 "github.com/godverv/matreshka-be/internal/service/servicev1"
 )
 
 func (a *App) InitService() {

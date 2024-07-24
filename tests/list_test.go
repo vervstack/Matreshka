@@ -27,7 +27,7 @@ func (s *ListSuite) Test_ListWithPattern() {
 	listReq := &matreshka_api.ListConfigs_Request{
 		SearchPattern: s.serviceName,
 	}
-	resp, err := testEnv.grpcClient.ListConfigs(s.ctx, listReq)
+	resp, err := testEnv.grpcApi.ListConfigs(s.ctx, listReq)
 	s.NoError(err)
 
 	expectedList := []*matreshka_api.AppInfo{{

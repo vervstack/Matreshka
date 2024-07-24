@@ -1,4 +1,4 @@
-package sqlite
+package storage
 
 import (
 	"context"
@@ -7,6 +7,8 @@ import (
 	errors "github.com/Red-Sock/trace-errors"
 	"google.golang.org/grpc/codes"
 )
+
+var ErrNoNodes = errors.New("no nodes found", codes.NotFound)
 
 func (p *Provider) GetConfig(ctx context.Context, serviceName string) (evon.Node, error) {
 	row, err := p.conn.QueryContext(ctx, `
@@ -35,7 +37,7 @@ func (p *Provider) GetConfig(ctx context.Context, serviceName string) (evon.Node
 	}
 
 	if len(rootNodes) == 0 {
-		return evon.Node{}, errors.New("no nodes found", codes.NotFound)
+		return evon.Node{}, errors.Wrap(ErrNoNodes)
 	}
 
 	return evon.Node{
