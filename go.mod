@@ -4,7 +4,7 @@ go 1.22
 
 require (
 	github.com/Red-Sock/evon v0.0.13
-	github.com/Red-Sock/trace-errors v0.0.7
+	github.com/Red-Sock/trace-errors v0.0.8
 	github.com/godverv/matreshka v0.0.29
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.20.0
 	github.com/pkg/errors v0.9.1
@@ -45,5 +45,3 @@ require (
 	modernc.org/strutil v1.2.0 // indirect
 	modernc.org/token v1.1.0 // indirect
 )
-
-replace github.com/Red-Sock/trace-errors => /Users/alexbukov/Yandex.Disk.localized/проекты/redsock/trace-errors
