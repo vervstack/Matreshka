@@ -6,9 +6,11 @@ require (
 	github.com/Red-Sock/evon v0.0.14
 	github.com/Red-Sock/trace-errors v0.0.9
 	github.com/godverv/matreshka v0.0.32
+	github.com/gorilla/mux v1.8.1
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.21.0
 	github.com/pkg/errors v0.9.1
 	github.com/pressly/goose/v3 v3.21.1
+	github.com/rs/cors v1.11.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/soheilhy/cmux v0.1.5
 	github.com/stretchr/testify v1.9.0
