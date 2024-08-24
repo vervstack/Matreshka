@@ -2,74 +2,110 @@ package transport
 
 import (
 	"context"
-	stderrs "errors"
+	"net"
+	"net/http"
 
-	"github.com/pkg/errors"
+	errors "github.com/Red-Sock/trace-errors"
+	"github.com/soheilhy/cmux"
+	"golang.org/x/sync/errgroup"
+	"google.golang.org/grpc"
 )
 
-type Server interface {
-	Start(ctx context.Context) error
-	Stop(ctx context.Context) error
-}
-
 type ServersManager struct {
-	serverPool []Server
+	restListener net.Listener
+	grpcListener net.Listener
+
+	//	=
+	mux       cmux.CMux
+	serverMux *http.ServeMux
+	// =
+	grpc *grpc.Server
+	http *http.Server
 }
 
-func NewManager() *ServersManager {
-	return &ServersManager{}
+func NewManager(port string) (*ServersManager, error) {
+	listener, err := net.Listen("tcp", ":8080")
+	if err != nil {
+		return nil, errors.Wrap(err, "error opening listener")
+	}
+
+	mux := cmux.New(listener)
+
+	serverMux := http.NewServeMux()
+
+	s := &ServersManager{
+
+		mux:          mux,
+		grpcListener: mux.Match(cmux.HTTP2()),
+		restListener: mux.Match(cmux.Any()),
+
+		serverMux: serverMux,
+		http: &http.Server{
+			Handler: setUpCors().Handler(serverMux),
+		},
+
+		grpc: grpc.NewServer(),
+	}
+
+	return s, nil
 }
 
-func (m *ServersManager) AddServer(server Server) {
-	m.serverPool = append(m.serverPool, server)
+func (m *ServersManager) AddGrpcServer(newGrpcService func(server *grpc.Server) (gateway http.Handler)) {
+	gateway := newGrpcService(m.grpc)
+	m.AddRestServer("/api/*", gateway)
+}
+
+func (m *ServersManager) AddRestServer(path string, handler http.Handler) {
+	m.serverMux.Handle(path, handler)
 }
 
 func (m *ServersManager) Start(ctx context.Context) error {
-	var errs []error
+	errGroup, ctx := errgroup.WithContext(ctx)
 
-	for sID := range m.serverPool {
-		err := m.serverPool[sID].Start(ctx)
+	errGroup.Go(func() error {
+		err := m.mux.Serve()
 		if err != nil {
-			errs = append(errs, err)
+			return errors.Wrap(err, "error serving main mux")
 		}
-	}
-
-	if len(errs) == 0 {
 		return nil
-	}
+	})
 
-	finalError := errors.New("error starting servers")
+	errGroup.Go(
+		func() error {
+			err := m.grpc.Serve(m.grpcListener)
+			if err != nil {
+				if !errors.Is(err, http.ErrServerClosed) {
+					return errors.Wrap(err, "error listening grpc server")
+				}
+			}
+			return nil
+		})
 
-	for _, err := range errs {
-		finalError = errors.Wrap(finalError, err.Error())
-	}
-	errStop := m.Stop(ctx)
-	if errStop != nil {
-		finalError = stderrs.Join(finalError, errStop)
-	}
+	errGroup.Go(func() error {
+		err := m.http.Serve(m.restListener)
+		if err != nil {
+			if !errors.Is(err, http.ErrServerClosed) {
+				return errors.Wrap(err, "error listening http server")
+			}
+		}
+		return nil
+	})
 
-	return finalError
+	errC := make(chan error, 1)
+	go func() {
+		errC <- errGroup.Wait()
+	}()
+
+	select {
+	case <-ctx.Done():
+		return nil
+	case err := <-errC:
+		return errors.Wrap(err)
+	}
 }
 
-func (m *ServersManager) Stop(ctx context.Context) error {
-	var errs []error
+func (m *ServersManager) Stop() error {
+	m.grpc.GracefulStop()
 
-	for sID := range m.serverPool {
-		err := m.serverPool[sID].Stop(ctx)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-
-	if len(errs) == 0 {
-		return nil
-	}
-
-	finalError := errors.New("error stopping servers")
-
-	for _, err := range errs {
-		finalError = errors.Wrap(finalError, err.Error())
-	}
-
-	return finalError
+	return nil
 }

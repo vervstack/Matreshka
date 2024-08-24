@@ -8,5 +8,7 @@ data_sources:
 server:
   - name: grpc
     port: 53891
+  - name: rest
+    port: 8080
 environment: []
 

@@ -303,7 +303,6 @@ func local_request_MatreshkaBeAPI_PatchConfig_0(ctx context.Context, marshaler r
 // UnaryRPC     :call MatreshkaBeAPIServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterMatreshkaBeAPIHandlerFromEndpoint instead.
-// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterMatreshkaBeAPIHandlerServer(ctx context.Context, mux *runtime.ServeMux, server MatreshkaBeAPIServer) error {
 
 	mux.Handle("GET", pattern_MatreshkaBeAPI_ApiVersion_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -314,7 +313,7 @@ func RegisterMatreshkaBeAPIHandlerServer(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/ApiVersion", runtime.WithHTTPPathPattern("/version"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/ApiVersion", runtime.WithHTTPPathPattern("/api/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -339,7 +338,7 @@ func RegisterMatreshkaBeAPIHandlerServer(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/GetConfig", runtime.WithHTTPPathPattern("/config/{service_name}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/GetConfig", runtime.WithHTTPPathPattern("/api/config/{service_name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -364,7 +363,7 @@ func RegisterMatreshkaBeAPIHandlerServer(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/GetConfigNodes", runtime.WithHTTPPathPattern("/config/nodes/{service_name}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/GetConfigNodes", runtime.WithHTTPPathPattern("/api/config/nodes/{service_name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -389,7 +388,7 @@ func RegisterMatreshkaBeAPIHandlerServer(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/ListConfigs", runtime.WithHTTPPathPattern("/config/list"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/ListConfigs", runtime.WithHTTPPathPattern("/api/config/list"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -414,7 +413,7 @@ func RegisterMatreshkaBeAPIHandlerServer(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/PostConfig", runtime.WithHTTPPathPattern("/config/create/{service_name}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/PostConfig", runtime.WithHTTPPathPattern("/api/config/create/{service_name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -439,7 +438,7 @@ func RegisterMatreshkaBeAPIHandlerServer(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/PatchConfig", runtime.WithHTTPPathPattern("/config/patch/{service_name}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/PatchConfig", runtime.WithHTTPPathPattern("/api/config/patch/{service_name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -462,21 +461,21 @@ func RegisterMatreshkaBeAPIHandlerServer(ctx context.Context, mux *runtime.Serve
 // RegisterMatreshkaBeAPIHandlerFromEndpoint is same as RegisterMatreshkaBeAPIHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
 func RegisterMatreshkaBeAPIHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
-	conn, err := grpc.NewClient(endpoint, opts...)
+	conn, err := grpc.DialContext(ctx, endpoint, opts...)
 	if err != nil {
 		return err
 	}
 	defer func() {
 		if err != nil {
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 			return
 		}
 		go func() {
 			<-ctx.Done()
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 		}()
 	}()
@@ -494,7 +493,7 @@ func RegisterMatreshkaBeAPIHandler(ctx context.Context, mux *runtime.ServeMux, c
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "MatreshkaBeAPIClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "MatreshkaBeAPIClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "MatreshkaBeAPIClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+// "MatreshkaBeAPIClient" to call the correct interceptors.
 func RegisterMatreshkaBeAPIHandlerClient(ctx context.Context, mux *runtime.ServeMux, client MatreshkaBeAPIClient) error {
 
 	mux.Handle("GET", pattern_MatreshkaBeAPI_ApiVersion_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -503,7 +502,7 @@ func RegisterMatreshkaBeAPIHandlerClient(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/ApiVersion", runtime.WithHTTPPathPattern("/version"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/ApiVersion", runtime.WithHTTPPathPattern("/api/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -525,7 +524,7 @@ func RegisterMatreshkaBeAPIHandlerClient(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/GetConfig", runtime.WithHTTPPathPattern("/config/{service_name}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/GetConfig", runtime.WithHTTPPathPattern("/api/config/{service_name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -547,7 +546,7 @@ func RegisterMatreshkaBeAPIHandlerClient(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/GetConfigNodes", runtime.WithHTTPPathPattern("/config/nodes/{service_name}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/GetConfigNodes", runtime.WithHTTPPathPattern("/api/config/nodes/{service_name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -569,7 +568,7 @@ func RegisterMatreshkaBeAPIHandlerClient(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/ListConfigs", runtime.WithHTTPPathPattern("/config/list"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/ListConfigs", runtime.WithHTTPPathPattern("/api/config/list"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -591,7 +590,7 @@ func RegisterMatreshkaBeAPIHandlerClient(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/PostConfig", runtime.WithHTTPPathPattern("/config/create/{service_name}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/PostConfig", runtime.WithHTTPPathPattern("/api/config/create/{service_name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -613,7 +612,7 @@ func RegisterMatreshkaBeAPIHandlerClient(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/PatchConfig", runtime.WithHTTPPathPattern("/config/patch/{service_name}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/matreshka_be_api.MatreshkaBeAPI/PatchConfig", runtime.WithHTTPPathPattern("/api/config/patch/{service_name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -633,17 +632,17 @@ func RegisterMatreshkaBeAPIHandlerClient(ctx context.Context, mux *runtime.Serve
 }
 
 var (
-	pattern_MatreshkaBeAPI_ApiVersion_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"version"}, ""))
+	pattern_MatreshkaBeAPI_ApiVersion_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"api", "version"}, ""))
 
-	pattern_MatreshkaBeAPI_GetConfig_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"config", "service_name"}, ""))
+	pattern_MatreshkaBeAPI_GetConfig_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"api", "config", "service_name"}, ""))
 
-	pattern_MatreshkaBeAPI_GetConfigNodes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"config", "nodes", "service_name"}, ""))
+	pattern_MatreshkaBeAPI_GetConfigNodes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "config", "nodes", "service_name"}, ""))
 
-	pattern_MatreshkaBeAPI_ListConfigs_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"config", "list"}, ""))
+	pattern_MatreshkaBeAPI_ListConfigs_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "config", "list"}, ""))
 
-	pattern_MatreshkaBeAPI_PostConfig_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"config", "create", "service_name"}, ""))
+	pattern_MatreshkaBeAPI_PostConfig_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "config", "create", "service_name"}, ""))
 
-	pattern_MatreshkaBeAPI_PatchConfig_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"config", "patch", "service_name"}, ""))
+	pattern_MatreshkaBeAPI_PatchConfig_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "config", "patch", "service_name"}, ""))
 )
 
 var (

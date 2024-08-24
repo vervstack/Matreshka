@@ -3,22 +3,21 @@ package app
 import (
 	errors "github.com/Red-Sock/trace-errors"
 
-	"github.com/godverv/matreshka-be/internal/config"
 	"github.com/godverv/matreshka-be/internal/transport"
 	"github.com/godverv/matreshka-be/internal/transport/grpc"
+	"github.com/godverv/matreshka-be/internal/transport/web_client"
 )
 
 func (a *App) InitServer() error {
-	a.Server = transport.NewManager()
-
-	grpcConfig, err := a.Cfg.GetServers().GRPC(config.ServerGrpc)
+	var err error
+	a.Server, err = transport.NewManager(":8080") // TODO
 	if err != nil {
-		return errors.New("error getting grpc from config")
+		return errors.Wrap(err, "error creating new server manager")
 	}
 
-	a.GrpcApi = grpc.NewServer(a.Cfg, grpcConfig, a.Srv, a.DataProvider)
+	a.Server.AddGrpcServer(grpc.NewServer(a.Cfg, a.Srv, a.DataProvider))
 
-	a.Server.AddServer(a.GrpcApi)
+	a.Server.AddRestServer("/*", web_client.NewServer())
 
 	return nil
 }

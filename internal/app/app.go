@@ -27,7 +27,8 @@ type App struct {
 	Srv          service.ConfigService
 
 	GrpcApi *grpc.Server
-	Server  *transport.ServersManager
+
+	Server *transport.ServersManager
 }
 
 func New() (app App, err error) {
@@ -61,7 +62,7 @@ func (a *App) Start() error {
 		return errors.Wrap(err, "error starting Server manager")
 	}
 
-	closer.Add(func() error { return a.Server.Stop(ctx) })
+	closer.Add(func() error { return a.Server.Stop() })
 
 	waitingForTheEnd()
 

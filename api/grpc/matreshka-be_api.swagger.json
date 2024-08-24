@@ -16,7 +16,7 @@
     "application/json"
   ],
   "paths": {
-    "/config/create/{serviceName}": {
+    "/api/config/create/{serviceName}": {
       "post": {
         "operationId": "MatreshkaBeAPI_PostConfig",
         "responses": {
@@ -54,7 +54,7 @@
         ]
       }
     },
-    "/config/list": {
+    "/api/config/list": {
       "post": {
         "operationId": "MatreshkaBeAPI_ListConfigs",
         "responses": {
@@ -86,7 +86,7 @@
         ]
       }
     },
-    "/config/nodes/{serviceName}": {
+    "/api/config/nodes/{serviceName}": {
       "get": {
         "operationId": "MatreshkaBeAPI_GetConfigNodes",
         "responses": {
@@ -116,7 +116,7 @@
         ]
       }
     },
-    "/config/patch/{serviceName}": {
+    "/api/config/patch/{serviceName}": {
       "post": {
         "operationId": "MatreshkaBeAPI_PatchConfig",
         "responses": {
@@ -154,7 +154,7 @@
         ]
       }
     },
-    "/config/{serviceName}": {
+    "/api/config/{serviceName}": {
       "get": {
         "operationId": "MatreshkaBeAPI_GetConfig",
         "responses": {
@@ -184,7 +184,7 @@
         ]
       }
     },
-    "/version": {
+    "/api/version": {
       "get": {
         "operationId": "MatreshkaBeAPI_ApiVersion",
         "responses": {

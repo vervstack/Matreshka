@@ -83,21 +83,21 @@ export type GetConfigNode = Record<string, never>;
 
 export class MatreshkaBeAPI {
   static ApiVersion(this:void, req: ApiVersionRequest, initReq?: fm.InitReq): Promise<ApiVersionResponse> {
-    return fm.fetchRequest<ApiVersionResponse>(`/version?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"});
+    return fm.fetchRequest<ApiVersionResponse>(`/api/version?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"});
   }
   static GetConfig(this:void, req: GetConfigRequest, initReq?: fm.InitReq): Promise<GetConfigResponse> {
-    return fm.fetchRequest<GetConfigResponse>(`/config/${req.serviceName}?${fm.renderURLSearchParams(req, ["serviceName"])}`, {...initReq, method: "GET"});
+    return fm.fetchRequest<GetConfigResponse>(`/api/config/${req.serviceName}?${fm.renderURLSearchParams(req, ["serviceName"])}`, {...initReq, method: "GET"});
   }
   static GetConfigNodes(this:void, req: GetConfigNodeRequest, initReq?: fm.InitReq): Promise<GetConfigNodeResponse> {
-    return fm.fetchRequest<GetConfigNodeResponse>(`/config/nodes/${req.serviceName}?${fm.renderURLSearchParams(req, ["serviceName"])}`, {...initReq, method: "GET"});
+    return fm.fetchRequest<GetConfigNodeResponse>(`/api/config/nodes/${req.serviceName}?${fm.renderURLSearchParams(req, ["serviceName"])}`, {...initReq, method: "GET"});
   }
   static ListConfigs(this:void, req: ListConfigsRequest, initReq?: fm.InitReq): Promise<ListConfigsResponse> {
-    return fm.fetchRequest<ListConfigsResponse>(`/config/list`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
+    return fm.fetchRequest<ListConfigsResponse>(`/api/config/list`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
   static PostConfig(this:void, req: PostConfigRequest, initReq?: fm.InitReq): Promise<PostConfigResponse> {
-    return fm.fetchRequest<PostConfigResponse>(`/config/create/${req.serviceName}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
+    return fm.fetchRequest<PostConfigResponse>(`/api/config/create/${req.serviceName}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
   static PatchConfig(this:void, req: PatchConfigRequest, initReq?: fm.InitReq): Promise<PatchConfigResponse> {
-    return fm.fetchRequest<PatchConfigResponse>(`/config/patch/${req.serviceName}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
+    return fm.fetchRequest<PatchConfigResponse>(`/api/config/patch/${req.serviceName}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
 }
