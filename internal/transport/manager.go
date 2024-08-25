@@ -12,19 +12,28 @@ import (
 )
 
 type ServersManager struct {
-	restListener net.Listener
+	ctx context.Context
+
+	mux cmux.CMux
+
+	grpcServer
+	// Implementations
+	// RPC
+	grpc         *grpc.Server
 	grpcListener net.Listener
 
-	//	=
-	mux       cmux.CMux
-	serverMux *http.ServeMux
-	// =
-	grpc *grpc.Server
-	http *http.Server
+	// Http
+	http         *http.Server
+	serverMux    *http.ServeMux
+	restListener net.Listener
 }
 
-func NewManager(port string) (*ServersManager, error) {
-	listener, err := net.Listen("tcp", ":8080")
+func NewManager(ctx context.Context, port string) (*ServersManager, error) {
+	if port[0] != ':' {
+		port = ":" + port
+	}
+
+	listener, err := net.Listen("tcp", port)
 	if err != nil {
 		return nil, errors.Wrap(err, "error opening listener")
 	}
@@ -34,25 +43,20 @@ func NewManager(port string) (*ServersManager, error) {
 	serverMux := http.NewServeMux()
 
 	s := &ServersManager{
+		ctx: ctx,
+		mux: mux,
 
-		mux:          mux,
-		grpcListener: mux.Match(cmux.HTTP2()),
+		grpcServer: newGrpcServer(ctx, mux.Match(cmux.HTTP2()), serverMux),
+
 		restListener: mux.Match(cmux.Any()),
 
 		serverMux: serverMux,
 		http: &http.Server{
 			Handler: setUpCors().Handler(serverMux),
 		},
-
-		grpc: grpc.NewServer(),
 	}
 
 	return s, nil
-}
-
-func (m *ServersManager) AddGrpcServer(newGrpcService func(server *grpc.Server) (gateway http.Handler)) {
-	gateway := newGrpcService(m.grpc)
-	m.AddRestServer("/api/*", gateway)
 }
 
 func (m *ServersManager) AddRestServer(path string, handler http.Handler) {
@@ -70,16 +74,7 @@ func (m *ServersManager) Start(ctx context.Context) error {
 		return nil
 	})
 
-	errGroup.Go(
-		func() error {
-			err := m.grpc.Serve(m.grpcListener)
-			if err != nil {
-				if !errors.Is(err, http.ErrServerClosed) {
-					return errors.Wrap(err, "error listening grpc server")
-				}
-			}
-			return nil
-		})
+	errGroup.Go(m.grpcServer.Start)
 
 	errGroup.Go(func() error {
 		err := m.http.Serve(m.restListener)

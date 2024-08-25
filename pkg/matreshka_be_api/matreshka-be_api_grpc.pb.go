@@ -4,7 +4,7 @@
 // - protoc             v4.25.1
 // source: grpc/matreshka-be_api.proto
 
-package matreshka_api
+package matreshka_be_api
 
 import (
 	context "context"

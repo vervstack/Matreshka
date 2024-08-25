@@ -16,7 +16,7 @@ import (
 	"github.com/godverv/matreshka-be/internal/service/servicev1"
 
 	"github.com/godverv/matreshka-be/internal/data/storage"
-	"github.com/godverv/matreshka-be/pkg/matreshka_api"
+	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
 type PatchConfigSuite struct {
@@ -35,7 +35,7 @@ func (s *PatchConfigSuite) Test_PatchConfigEnvironment() {
 
 	newConfig := getFullConfig(s.T())
 
-	patchReq := &matreshka_api.PatchConfig_Request{
+	patchReq := &matreshka_be_api.PatchConfig_Request{
 		ServiceName: serviceName,
 	}
 
@@ -45,7 +45,7 @@ func (s *PatchConfigSuite) Test_PatchConfigEnvironment() {
 
 		patchStr := fmt.Sprint(newConfig.Environment[0].Value)
 		patchReq.Changes = append(patchReq.Changes,
-			&matreshka_api.Node{
+			&matreshka_be_api.Node{
 				Name:  "ENVIRONMENT_AVAILABLE-PORTS",
 				Value: &patchStr,
 			})
@@ -53,7 +53,7 @@ func (s *PatchConfigSuite) Test_PatchConfigEnvironment() {
 	// Delete environment variable
 	{
 		patchReq.Changes = append(patchReq.Changes,
-			&matreshka_api.Node{
+			&matreshka_be_api.Node{
 				Name: "ENVIRONMENT_WELCOME-STRING",
 			})
 		newConfig.Environment = newConfig.Environment[:len(newConfig.Environment)-1]
@@ -72,10 +72,10 @@ func (s *PatchConfigSuite) Test_PatchConfigEnvironment() {
 		newConfig.Environment = append(newConfig.Environment, newEnvVar)
 
 		patchReq.Changes = append(patchReq.Changes,
-			&matreshka_api.Node{
+			&matreshka_be_api.Node{
 				Name:  "ENVIRONMENT_NEW-VALUE",
 				Value: &someValue,
-				InnerNodes: []*matreshka_api.Node{
+				InnerNodes: []*matreshka_be_api.Node{
 					{
 						Name:  "TYPE",
 						Value: &valueType,
@@ -104,7 +104,7 @@ func (s *PatchConfigSuite) Test_PatchConfigServers() {
 
 	newConfig := getFullConfig(s.T())
 
-	patchReq := &matreshka_api.PatchConfig_Request{
+	patchReq := &matreshka_be_api.PatchConfig_Request{
 		ServiceName: serviceName,
 	}
 
@@ -117,7 +117,7 @@ func (s *PatchConfigSuite) Test_PatchConfigServers() {
 
 		portStr := newConfig.Servers[0].GetPortStr()
 		patchReq.Changes = append(patchReq.Changes,
-			&matreshka_api.Node{
+			&matreshka_be_api.Node{
 				Name:  "SERVERS_GRPC_PORT",
 				Value: &portStr,
 			})
@@ -128,7 +128,7 @@ func (s *PatchConfigSuite) Test_PatchConfigServers() {
 		newConfig.Servers = newConfig.Servers[:1]
 
 		patchReq.Changes = append(patchReq.Changes,
-			&matreshka_api.Node{
+			&matreshka_be_api.Node{
 				Name: "SERVERS_REST_PORT",
 			})
 	}
@@ -142,7 +142,7 @@ func (s *PatchConfigSuite) Test_PatchConfigServers() {
 			})
 		portStr := newConfig.Servers[1].GetPortStr()
 		patchReq.Changes = append(patchReq.Changes,
-			&matreshka_api.Node{
+			&matreshka_be_api.Node{
 				Name:  "SERVERS_REST-API-GATEWAY_PORT",
 				Value: &portStr,
 			})
@@ -167,7 +167,7 @@ func (s *PatchConfigSuite) Test_PatchConfigDataSources() {
 
 	newConfig := getFullConfig(s.T())
 
-	patchReq := &matreshka_api.PatchConfig_Request{
+	patchReq := &matreshka_be_api.PatchConfig_Request{
 		ServiceName: serviceName,
 	}
 
@@ -177,7 +177,7 @@ func (s *PatchConfigSuite) Test_PatchConfigDataSources() {
 		pg.Port = 5433
 		portStr := strconv.Itoa(int(pg.Port))
 		patchReq.Changes = append(patchReq.Changes,
-			&matreshka_api.Node{
+			&matreshka_be_api.Node{
 				Name:  "DATA-SOURCES_POSTGRES_PORT",
 				Value: &portStr,
 			})
@@ -187,7 +187,7 @@ func (s *PatchConfigSuite) Test_PatchConfigDataSources() {
 	{
 		newConfig.DataSources = newConfig.DataSources[:3]
 		patchReq.Changes = append(patchReq.Changes,
-			&matreshka_api.Node{
+			&matreshka_be_api.Node{
 				Name: "DATA-SOURCES_TELEGRAM",
 			})
 	}
@@ -201,7 +201,7 @@ func (s *PatchConfigSuite) Test_PatchConfigDataSources() {
 		}
 		newConfig.DataSources = append(newConfig.DataSources, tg)
 		patchReq.Changes = append(patchReq.Changes,
-			&matreshka_api.Node{
+			&matreshka_be_api.Node{
 				Name:  "DATA-SOURCES_TELEGRAM-BOT_API-KEY",
 				Value: &tg.ApiKey,
 			})
@@ -224,9 +224,9 @@ func (s *PatchConfigSuite) Test_PatchWithInvalidName() {
 	serviceName := s.T().Name()
 	testEnv.create(s.T(), serviceName, fullConfigBytes)
 
-	invalidPatch := &matreshka_api.PatchConfig_Request{
+	invalidPatch := &matreshka_be_api.PatchConfig_Request{
 		ServiceName: serviceName,
-		Changes: []*matreshka_api.Node{
+		Changes: []*matreshka_be_api.Node{
 			{
 				Name: "invalid_name",
 			},
@@ -241,9 +241,9 @@ func (s *PatchConfigSuite) Test_PatchWithInvalidName() {
 func (s *PatchConfigSuite) Test_PatchNotExistingConfig() {
 	serviceName := s.T().Name()
 
-	invalidPatch := &matreshka_api.PatchConfig_Request{
+	invalidPatch := &matreshka_be_api.PatchConfig_Request{
 		ServiceName: serviceName,
-		Changes: []*matreshka_api.Node{
+		Changes: []*matreshka_be_api.Node{
 			{
 				Name: "DATA-SOURCES_TELEGRAM-BOT_API-KEY",
 			},

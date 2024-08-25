@@ -7,10 +7,10 @@ import (
 	"github.com/Red-Sock/evon"
 	errors "github.com/Red-Sock/trace-errors"
 
-	api "github.com/godverv/matreshka-be/pkg/matreshka_api"
+	api "github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
-func (a *App) GetConfigNodes(ctx context.Context, req *api.GetConfigNode_Request) (*api.GetConfigNode_Response, error) {
+func (a *Impl) GetConfigNodes(ctx context.Context, req *api.GetConfigNode_Request) (*api.GetConfigNode_Response, error) {
 	cfgNode, err := a.storage.GetConfig(ctx, req.GetServiceName())
 	if err != nil {
 		return nil, errors.Wrap(err)

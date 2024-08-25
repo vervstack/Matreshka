@@ -14,12 +14,12 @@ import (
 
 	"github.com/godverv/matreshka-be/internal/app"
 	"github.com/godverv/matreshka-be/internal/transport/grpc"
-	"github.com/godverv/matreshka-be/pkg/matreshka_api"
+	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
 type Env struct {
 	app     app.App
-	grpcApi *grpc.Server
+	grpcApi *grpc.Impl
 }
 
 //go:embed config/test.config.yaml
@@ -75,7 +75,7 @@ func getFullConfig(t *testing.T) matreshka.AppConfig {
 }
 
 func (e *Env) create(t *testing.T, serviceName string, config []byte) {
-	createReq := &matreshka_api.PostConfig_Request{
+	createReq := &matreshka_be_api.PostConfig_Request{
 		Content:     config,
 		ServiceName: serviceName,
 	}
@@ -88,7 +88,7 @@ func (e *Env) create(t *testing.T, serviceName string, config []byte) {
 
 func (e *Env) get(t *testing.T, serviceName string) matreshka.AppConfig {
 	ctx := context.Background()
-	getReq := &matreshka_api.GetConfig_Request{
+	getReq := &matreshka_be_api.GetConfig_Request{
 		ServiceName: serviceName,
 	}
 	getResp, err := testEnv.grpcApi.GetConfig(ctx, getReq)

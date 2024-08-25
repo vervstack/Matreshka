@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/godverv/matreshka-be/pkg/matreshka_api"
+	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
 type ListSuite struct {
@@ -24,13 +24,13 @@ func (s *ListSuite) SetupSuite() {
 }
 
 func (s *ListSuite) Test_ListWithPattern() {
-	listReq := &matreshka_api.ListConfigs_Request{
+	listReq := &matreshka_be_api.ListConfigs_Request{
 		SearchPattern: s.serviceName,
 	}
 	resp, err := testEnv.grpcApi.ListConfigs(s.ctx, listReq)
 	s.NoError(err)
 
-	expectedList := []*matreshka_api.AppInfo{{
+	expectedList := []*matreshka_be_api.AppInfo{{
 		Name:    s.serviceName,
 		Version: "v0.0.1",
 	}}

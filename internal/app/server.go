@@ -10,7 +10,8 @@ import (
 
 func (a *App) InitServer() error {
 	var err error
-	a.Server, err = transport.NewManager(":8080") // TODO
+	// под каждый порт будет свой инит сервер менеджера в который будет передаваться конструирование
+	a.Server, err = transport.NewManager(a.Ctx, ":8080") // TODO брать з конфига
 	if err != nil {
 		return errors.Wrap(err, "error creating new server manager")
 	}

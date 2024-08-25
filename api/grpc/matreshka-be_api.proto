@@ -4,7 +4,7 @@ package matreshka_be_api;
 
 import "google/api/annotations.proto";
 
-option go_package = "/matreshka_api";
+option go_package = "/matreshka_be_api";
 
 service MatreshkaBeAPI {
   rpc ApiVersion(ApiVersion.Request) returns (ApiVersion.Response) {

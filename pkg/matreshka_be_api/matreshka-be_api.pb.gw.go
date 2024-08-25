@@ -2,11 +2,11 @@
 // source: grpc/matreshka-be_api.proto
 
 /*
-Package matreshka_api is a reverse proxy.
+Package matreshka_be_api is a reverse proxy.
 
 It translates gRPC into RESTful JSON APIs.
 */
-package matreshka_api
+package matreshka_be_api
 
 import (
 	"context"

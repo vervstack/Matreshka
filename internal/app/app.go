@@ -19,6 +19,7 @@ import (
 )
 
 type App struct {
+	Ctx context.Context
 	Cfg config.Config
 
 	DbConn *sql.DB
@@ -26,13 +27,15 @@ type App struct {
 	DataProvider data.Data
 	Srv          service.ConfigService
 
-	GrpcApi *grpc.Server
+	GrpcApi *grpc.Impl
 
 	Server *transport.ServersManager
 }
 
 func New() (app App, err error) {
 	logrus.Println("starting app")
+
+	app.Ctx = context.Background()
 
 	err = app.InitConfig()
 	if err != nil {

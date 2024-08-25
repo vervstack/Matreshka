@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/godverv/matreshka-be/pkg/matreshka_api"
+	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
 type GetVersionSuite struct {
@@ -15,7 +15,7 @@ type GetVersionSuite struct {
 
 func (s *GetVersionSuite) Test_GetVersion() {
 	ctx := context.Background()
-	resp, err := testEnv.grpcApi.ApiVersion(ctx, &matreshka_api.ApiVersion_Request{})
+	resp, err := testEnv.grpcApi.ApiVersion(ctx, &matreshka_be_api.ApiVersion_Request{})
 
 	s.Require().NoError(err)
 	s.Require().NotNil(resp)

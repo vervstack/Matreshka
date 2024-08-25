@@ -9,10 +9,10 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	api "github.com/godverv/matreshka-be/pkg/matreshka_api"
+	api "github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
-func (a *App) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.GetConfig_Response, error) {
+func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.GetConfig_Response, error) {
 	cfgNode, err := a.storage.GetConfig(ctx, req.GetServiceName())
 	if err != nil {
 		return nil, errors.Wrap(err)
