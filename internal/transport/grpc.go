@@ -35,7 +35,7 @@ func newGrpcServer(ctx context.Context, listener net.Listener, gatewayMux *http.
 	}
 }
 
-func (s *grpcServer) Start() error {
+func (s *grpcServer) start() error {
 	err := s.server.Serve(s.listener)
 	if err != nil {
 		if !errors.Is(err, http.ErrServerClosed) {
@@ -46,9 +46,8 @@ func (s *grpcServer) Start() error {
 	return nil
 }
 
-func (s *grpcServer) Stop() error {
+func (s *grpcServer) stop() error {
 	s.server.GracefulStop()
-
 	return nil
 }
 

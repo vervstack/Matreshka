@@ -8,8 +8,8 @@ import (
 	"github.com/godverv/matreshka-be/internal/data/storage"
 )
 
-func (a *App) InitSqlite(cfg config.Config) (err error) {
-	sqliteConf, err := cfg.GetDataSources().Sqlite(config.ResourceSqlite)
+func (a *App) InitSqlite() (err error) {
+	sqliteConf, err := a.Cfg.GetDataSources().Sqlite(config.ResourceSqlite)
 	if err != nil {
 		return errors.Wrap(err, "error getting sqlite from config")
 	}

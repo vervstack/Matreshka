@@ -8,7 +8,6 @@ import (
 	errors "github.com/Red-Sock/trace-errors"
 	"github.com/soheilhy/cmux"
 	"golang.org/x/sync/errgroup"
-	"google.golang.org/grpc"
 )
 
 type ServersManager struct {
@@ -17,15 +16,7 @@ type ServersManager struct {
 	mux cmux.CMux
 
 	grpcServer
-	// Implementations
-	// RPC
-	grpc         *grpc.Server
-	grpcListener net.Listener
-
-	// Http
-	http         *http.Server
-	serverMux    *http.ServeMux
-	restListener net.Listener
+	httpServer
 }
 
 func NewManager(ctx context.Context, port string) (*ServersManager, error) {
@@ -47,26 +38,17 @@ func NewManager(ctx context.Context, port string) (*ServersManager, error) {
 		mux: mux,
 
 		grpcServer: newGrpcServer(ctx, mux.Match(cmux.HTTP2()), serverMux),
-
-		restListener: mux.Match(cmux.Any()),
-
-		serverMux: serverMux,
-		http: &http.Server{
-			Handler: setUpCors().Handler(serverMux),
-		},
+		httpServer: newHttpServer(mux.Match(cmux.Any()), serverMux),
 	}
 
 	return s, nil
-}
-
-func (m *ServersManager) AddRestServer(path string, handler http.Handler) {
-	m.serverMux.Handle(path, handler)
 }
 
 func (m *ServersManager) Start(ctx context.Context) error {
 	errGroup, ctx := errgroup.WithContext(ctx)
 
 	errGroup.Go(func() error {
+		// TODO Проверить не возвращается ли из функции ошибка закрытия сервера как в других обработчиках
 		err := m.mux.Serve()
 		if err != nil {
 			return errors.Wrap(err, "error serving main mux")
@@ -74,17 +56,8 @@ func (m *ServersManager) Start(ctx context.Context) error {
 		return nil
 	})
 
-	errGroup.Go(m.grpcServer.Start)
-
-	errGroup.Go(func() error {
-		err := m.http.Serve(m.restListener)
-		if err != nil {
-			if !errors.Is(err, http.ErrServerClosed) {
-				return errors.Wrap(err, "error listening http server")
-			}
-		}
-		return nil
-	})
+	errGroup.Go(m.grpcServer.start)
+	errGroup.Go(m.httpServer.start)
 
 	errC := make(chan error, 1)
 	go func() {
@@ -100,7 +73,15 @@ func (m *ServersManager) Start(ctx context.Context) error {
 }
 
 func (m *ServersManager) Stop() error {
-	m.grpc.GracefulStop()
+	eg, _ := errgroup.WithContext(m.ctx)
+
+	eg.Go(m.grpcServer.stop)
+	eg.Go(m.httpServer.stop)
+
+	err := eg.Wait()
+	if err != nil {
+		return errors.Wrap(err, "error stopping server")
+	}
 
 	return nil
 }

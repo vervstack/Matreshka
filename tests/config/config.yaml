@@ -6,6 +6,6 @@ data_sources:
     migrations_folder: ./../migrations
 server:
   - name: grpc
-    port: 999
+    port: 8080
 environment: []
 

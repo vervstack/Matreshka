@@ -1,23 +1,5 @@
 package transport
 
-import (
-	"net/http"
-
-	"github.com/rs/cors"
-)
-
-func setUpCors() *cors.Cors {
-	return cors.New(cors.Options{
-		AllowedOrigins: []string{"*"},
-		AllowedMethods: []string{
-			http.MethodPost,
-			http.MethodGet,
-		},
-		AllowedHeaders:   []string{"*"},
-		AllowCredentials: false,
-	})
-}
-
 //func corsFunc(h http.Handler) http.Handler {
 //	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 //		if allowedOrigin(r.Header.Get("Origin")) {

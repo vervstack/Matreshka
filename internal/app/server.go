@@ -18,7 +18,7 @@ func (a *App) InitServer() error {
 
 	a.Server.AddGrpcServer(grpc.NewServer(a.Cfg, a.Srv, a.DataProvider))
 
-	a.Server.AddRestServer("/*", web_client.NewServer())
+	a.Server.AddHttpHandler("/*", web_client.NewServer())
 
 	return nil
 }

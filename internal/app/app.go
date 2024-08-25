@@ -14,7 +14,6 @@ import (
 	"github.com/godverv/matreshka-be/internal/data"
 	"github.com/godverv/matreshka-be/internal/service"
 	"github.com/godverv/matreshka-be/internal/transport"
-	"github.com/godverv/matreshka-be/internal/transport/grpc"
 	"github.com/godverv/matreshka-be/internal/utils/closer"
 )
 
@@ -26,8 +25,6 @@ type App struct {
 
 	DataProvider data.Data
 	Srv          service.ConfigService
-
-	GrpcApi *grpc.Impl
 
 	Server *transport.ServersManager
 }
@@ -42,7 +39,7 @@ func New() (app App, err error) {
 		return App{}, errors.Wrap(err, "error initializing config")
 	}
 
-	err = app.InitSqlite(app.Cfg)
+	err = app.InitSqlite()
 	if err != nil {
 		return App{}, errors.Wrap(err, "error initializing sqlite storage")
 	}
