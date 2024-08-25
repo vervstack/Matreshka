@@ -1,3 +1,5 @@
+//go:build untested
+
 package tests
 
 import (

@@ -1,7 +1,11 @@
+//go:build integration
+
 package tests
 
 import (
 	"context"
+	"io"
+	"net/http"
 	"testing"
 
 	"github.com/stretchr/testify/suite"
@@ -19,6 +23,16 @@ func (s *GetVersionSuite) Test_GetVersion() {
 
 	s.Require().NoError(err)
 	s.Require().NotNil(resp)
+}
+
+func (s *GetVersionSuite) Test_Gateway() {
+	resp, err := http.Get("http://localhost:8080/api/version")
+	s.Require().NoError(err)
+
+	bd, err := io.ReadAll(resp.Body)
+	s.Require().NoError(err)
+
+	s.Require().Equal(`{"version":"v1.0.32"}`, string(bd))
 }
 
 func Test_GetVersion(t *testing.T) {

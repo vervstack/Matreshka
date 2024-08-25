@@ -10,6 +10,7 @@ import (
 
 func (a *App) InitServer() error {
 	var err error
+
 	// под каждый порт будет свой инит сервер менеджера в который будет передаваться конструирование
 	a.Server, err = transport.NewManager(a.Ctx, ":8080") // TODO брать з конфига
 	if err != nil {
@@ -17,7 +18,6 @@ func (a *App) InitServer() error {
 	}
 
 	a.Server.AddGrpcServer(grpc.NewServer(a.Cfg, a.Srv, a.DataProvider))
-
 	a.Server.AddHttpHandler("/*", web_client.NewServer())
 
 	return nil

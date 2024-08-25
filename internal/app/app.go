@@ -7,6 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/Red-Sock/toolbox/closer"
 	errors "github.com/Red-Sock/trace-errors"
 	"github.com/sirupsen/logrus"
 
@@ -14,7 +15,6 @@ import (
 	"github.com/godverv/matreshka-be/internal/data"
 	"github.com/godverv/matreshka-be/internal/service"
 	"github.com/godverv/matreshka-be/internal/transport"
-	"github.com/godverv/matreshka-be/internal/utils/closer"
 )
 
 type App struct {
