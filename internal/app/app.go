@@ -8,6 +8,7 @@ import (
 	errors "github.com/Red-Sock/trace-errors"
 	"github.com/godverv/matreshka-be/internal/clients/sqldb"
 	"github.com/godverv/matreshka-be/internal/config"
+	"github.com/godverv/matreshka-be/internal/transport"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 )
@@ -18,6 +19,8 @@ type App struct {
 	Cfg  config.Config
 	/* Data source connection */
 	Sqlite *sqldb.DB
+	/* Servers managers */
+	Server *transport.ServersManager
 }
 
 func New() (app App, err error) {
@@ -31,6 +34,11 @@ func New() (app App, err error) {
 	err = app.InitDataSources()
 	if err != nil {
 		return App{}, errors.Wrap(err, "error during data sources initialization")
+	}
+
+	err = app.InitServers()
+	if err != nil {
+		return App{}, errors.Wrap(err, "error during server initialization")
 	}
 
 	return app, nil

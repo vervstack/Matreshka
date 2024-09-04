@@ -6,3 +6,10 @@ data_sources:
     - resource_name: sqlite
       path: ./data/sqlite/matreshka-be.db
       migrations_folder: ./migrations
+servers:
+    8080:
+        /{FS}:
+            dist: web/dist
+        /{GRPC}:
+            module: pkg/matreshka_be_api
+            gateway: /api
