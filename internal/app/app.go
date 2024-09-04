@@ -1,65 +1,41 @@
 package app
 
 import (
-	"context"
-	"database/sql"
-
 	"github.com/Red-Sock/toolbox"
 	"github.com/Red-Sock/toolbox/closer"
 	errors "github.com/Red-Sock/trace-errors"
+	"github.com/godverv/matreshka-be/internal/clients/sqldb"
 	"github.com/sirupsen/logrus"
+	"golang.org/x/net/context"
 
 	"github.com/godverv/matreshka-be/internal/config"
-	"github.com/godverv/matreshka-be/internal/data"
-	"github.com/godverv/matreshka-be/internal/service"
-	"github.com/godverv/matreshka-be/internal/transport"
 )
 
 type App struct {
 	Ctx  context.Context
 	Stop func()
 	Cfg  config.Config
-
-	DbConn *sql.DB
-
-	DataProvider data.Data
-	Srv          service.ConfigService
-
-	Server *transport.ServersManager
+	/* Data source connection */
+	Sqlite *sqldb.DB
 }
 
 func New() (app App, err error) {
 	logrus.Println("starting app")
-
-	app.Ctx, app.Stop = context.WithCancel(context.Background())
 
 	err = app.InitConfig()
 	if err != nil {
 		return App{}, errors.Wrap(err, "error initializing config")
 	}
 
-	err = app.InitSqlite()
+	err = app.InitDataSources()
 	if err != nil {
-		return App{}, errors.Wrap(err, "error initializing sqlite storage")
-	}
-
-	app.InitService()
-
-	err = app.InitServer()
-	if err != nil {
-		return app, errors.Wrap(err, "errors initializing servers")
+		return App{}, errors.Wrap(err, "error during data sources initialization")
 	}
 
 	return app, nil
 }
 
-func (a *App) Start() error {
-	err := a.Server.Start(a.Ctx)
-	if err != nil {
-		return errors.Wrap(err, "error starting Server manager")
-	}
-	closer.Add(func() error { return a.Server.Stop() })
-
+func (a *App) Start() (err error) {
 	toolbox.WaitForInterrupt()
 
 	logrus.Println("shutting down the app")
