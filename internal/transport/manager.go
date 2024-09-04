@@ -20,54 +20,39 @@ type ServersManager struct {
 }
 
 func NewManager(ctx context.Context, port string) (*ServersManager, error) {
-	if port[0] != ':' {
-		port = ":" + port
-	}
-
 	listener, err := net.Listen("tcp", port)
 	if err != nil {
 		return nil, errors.Wrap(err, "error opening listener")
 	}
 
-	mux := cmux.New(listener)
-
-	serverMux := http.NewServeMux()
+	mainMux := cmux.New(listener)
+	httpMux := http.NewServeMux()
 
 	s := &ServersManager{
 		ctx: ctx,
-		mux: mux,
+		mux: mainMux,
 
-		grpcServer: newGrpcServer(ctx, mux.Match(cmux.HTTP2()), serverMux),
-		httpServer: newHttpServer(mux.Match(cmux.Any()), serverMux),
+		grpcServer: newGrpcServer(ctx, mainMux.Match(cmux.HTTP2()), httpMux),
+		httpServer: newHttpServer(mainMux.Match(cmux.Any()), httpMux),
 	}
 
 	return s, nil
 }
 
 func (m *ServersManager) Start(ctx context.Context) error {
-	errGroup, ctx := errgroup.WithContext(ctx)
+	errGroup, _ := errgroup.WithContext(ctx)
 
-	errGroup.Go(func() error {
-		// TODO Проверить не возвращается ли из функции ошибка закрытия сервера как в других обработчиках
-		err := m.mux.Serve()
-		if err != nil {
-			return errors.Wrap(err, "error serving main mux")
-		}
-		return nil
-	})
-
+	errGroup.Go(m.mux.Serve)
 	errGroup.Go(m.grpcServer.start)
 	errGroup.Go(m.httpServer.start)
 
 	errC := make(chan error, 1)
-	go func() {
-		errC <- errGroup.Wait()
-	}()
 
 	select {
 	case <-ctx.Done():
 		return nil
-	case err := <-errC:
+	case errC <- errGroup.Wait():
+		err := <-errC
 		return errors.Wrap(err)
 	}
 }
@@ -77,6 +62,7 @@ func (m *ServersManager) Stop() error {
 
 	eg.Go(m.grpcServer.stop)
 	eg.Go(m.httpServer.stop)
+	eg.Go(func() error { m.mux.Close(); return nil })
 
 	err := eg.Wait()
 	if err != nil {

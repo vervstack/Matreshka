@@ -3,10 +3,8 @@ package app
 import (
 	"context"
 	"database/sql"
-	"os"
-	"os/signal"
-	"syscall"
 
+	"github.com/Red-Sock/toolbox"
 	"github.com/Red-Sock/toolbox/closer"
 	errors "github.com/Red-Sock/trace-errors"
 	"github.com/sirupsen/logrus"
@@ -18,8 +16,9 @@ import (
 )
 
 type App struct {
-	Ctx context.Context
-	Cfg config.Config
+	Ctx  context.Context
+	Stop func()
+	Cfg  config.Config
 
 	DbConn *sql.DB
 
@@ -32,7 +31,7 @@ type App struct {
 func New() (app App, err error) {
 	logrus.Println("starting app")
 
-	app.Ctx = context.Background()
+	app.Ctx, app.Stop = context.WithCancel(context.Background())
 
 	err = app.InitConfig()
 	if err != nil {
@@ -55,16 +54,13 @@ func New() (app App, err error) {
 }
 
 func (a *App) Start() error {
-	ctx := context.Background()
-
-	err := a.Server.Start(ctx)
+	err := a.Server.Start(a.Ctx)
 	if err != nil {
 		return errors.Wrap(err, "error starting Server manager")
 	}
-
 	closer.Add(func() error { return a.Server.Stop() })
 
-	waitingForTheEnd()
+	toolbox.WaitForInterrupt()
 
 	logrus.Println("shutting down the app")
 
@@ -74,13 +70,4 @@ func (a *App) Start() error {
 	}
 
 	return nil
-}
-
-// rscli comment: an obligatory function for tool to work properly.
-// must be called in the main function above
-// also this is an LP song name reference, so no rules can be applied to the function name
-func waitingForTheEnd() {
-	done := make(chan os.Signal, 1)
-	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-	<-done
 }
