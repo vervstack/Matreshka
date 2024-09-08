@@ -51,7 +51,7 @@ func Load() (Config, error) {
 
 	defaultConfig.AppInfo = rootConfig.AppInfo
 
-	err = rootConfig.DataSources.ParseToStruct(defaultConfig.DataSources)
+	err = rootConfig.DataSources.ParseToStruct(&defaultConfig.DataSources)
 	if err != nil {
 		return defaultConfig, errors.Wrap(err, "error parsing data sources to struct")
 	}

@@ -7,10 +7,10 @@ import (
 )
 
 type Provider struct {
-	conn sqldb.DB
+	conn *sqldb.DB
 }
 
-func New(conn sqldb.DB) (*Provider, error) {
+func New(conn *sqldb.DB) (*Provider, error) {
 	return &Provider{
 		conn: conn,
 	}, nil
