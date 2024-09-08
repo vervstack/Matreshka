@@ -6,7 +6,6 @@ import (
 
 	errors "github.com/Red-Sock/trace-errors"
 	"github.com/rs/cors"
-	"github.com/sirupsen/logrus"
 )
 
 type httpServer struct {
@@ -32,7 +31,6 @@ func (s *httpServer) AddHttpHandler(path string, handler http.Handler) {
 }
 
 func (s *httpServer) start() error {
-	logrus.Infof("starting http server at: %s", s.listener.Addr())
 	err := s.server.Serve(s.listener)
 	if err != nil {
 		if !errors.Is(err, http.ErrServerClosed) {
