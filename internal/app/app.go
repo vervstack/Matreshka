@@ -52,6 +52,11 @@ func New() (app App, err error) {
 }
 
 func (a *App) Start() (err error) {
+	err = a.Server.Start
+	if err != nil {
+		return errors.Wrap(err, "error starting Server manager")
+	}
+	closer.Add(func() error { return a.Server.Stop() })
 	toolbox.WaitForInterrupt()
 
 	logrus.Println("shutting down the app")

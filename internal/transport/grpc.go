@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	errors "github.com/Red-Sock/trace-errors"
+	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
 
@@ -36,6 +37,8 @@ func newGrpcServer(ctx context.Context, listener net.Listener, gatewayMux *http.
 }
 
 func (s *grpcServer) start() error {
+	logrus.Infof("starting grpc server at: %s", s.listener.Addr())
+
 	err := s.server.Serve(s.listener)
 	if err != nil {
 		if !errors.Is(err, http.ErrServerClosed) {
