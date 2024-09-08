@@ -9,7 +9,6 @@ import (
 
 	"github.com/godverv/matreshka/environment"
 	"github.com/godverv/matreshka/resources"
-	"github.com/godverv/matreshka/servers"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 
