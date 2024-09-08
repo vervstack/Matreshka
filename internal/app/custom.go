@@ -3,7 +3,13 @@
 
 package app
 
-type Custom struct{}
+import (
+	"github.com/godverv/matreshka-be/internal/service"
+)
+
+type Custom struct {
+	Srv service.ConfigService
+}
 
 func (c Custom) Init(a *App) error {
 	// Repository, Service logic, transport registration happens here
