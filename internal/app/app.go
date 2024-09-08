@@ -18,7 +18,7 @@ type App struct {
 	Stop func()
 	Cfg  config.Config
 	/* Data source connection */
-	Sqlite sqldb.DB
+	Sqlite *sqldb.DB
 	/* Servers managers */
 	Server *transport.ServersManager
 
