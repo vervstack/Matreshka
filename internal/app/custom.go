@@ -21,5 +21,7 @@ func (c Custom) Init(a App) (err error) {
 	c.DataProvider, err = storage.New(a.Sqlite)
 
 	c.Srv = v1.New(c.DataProvider)
+
+	_ = a.Server
 	return nil
 }
