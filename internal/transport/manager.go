@@ -19,7 +19,7 @@ type ServersManager struct {
 	httpServer
 }
 
-func NewManager(ctx context.Context, port string) (*ServersManager, error) {
+func NewServerManager(ctx context.Context, port string) (*ServersManager, error) {
 	listener, err := net.Listen("tcp", port)
 	if err != nil {
 		return nil, errors.Wrap(err, "error opening listener")

@@ -4,16 +4,23 @@
 package app
 
 import (
+	"net/http"
+
 	"github.com/godverv/matreshka-be/internal/data"
 	"github.com/godverv/matreshka-be/internal/data/storage"
 	"github.com/godverv/matreshka-be/internal/service"
 	v1 "github.com/godverv/matreshka-be/internal/service/servicev1"
+	"github.com/godverv/matreshka-be/internal/transport/grpc"
+	"github.com/godverv/matreshka-be/internal/transport/web_client"
 )
 
 type Custom struct {
 	DataProvider data.Data
 
 	Srv service.ConfigService
+
+	grpcImpl  *grpc.Impl
+	webClient http.Handler
 }
 
 func (c Custom) Init(a App) (err error) {
@@ -22,6 +29,11 @@ func (c Custom) Init(a App) (err error) {
 
 	c.Srv = v1.New(c.DataProvider)
 
-	_ = a.Server
+	c.grpcImpl = grpc.NewServer(a.Cfg, c.Srv, c.DataProvider)
+
+	a.Server.AddGrpcServer(c.grpcImpl)
+
+	c.webClient = web_client.NewServer()
+	a.Server.AddHttpHandler("/", c.webClient)
 	return nil
 }
