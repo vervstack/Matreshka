@@ -16,7 +16,7 @@ type Custom struct {
 	Srv service.ConfigService
 }
 
-func (c Custom) Init(a *App) (err error) {
+func (c Custom) Init(a App) (err error) {
 	// Repository, Service logic, transport registration happens here
 	c.DataProvider, err = storage.New(a.Sqlite)
 
