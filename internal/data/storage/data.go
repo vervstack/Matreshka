@@ -7,11 +7,10 @@ import (
 )
 
 type Provider struct {
-	conn *sqldb.DB
+	conn sqldb.DB
 }
 
 func New(conn sqldb.DB) (*Provider, error) {
-	conn
 	return &Provider{
 		conn: conn,
 	}, nil
