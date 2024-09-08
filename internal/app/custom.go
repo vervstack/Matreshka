@@ -4,14 +4,22 @@
 package app
 
 import (
+	"github.com/godverv/matreshka-be/internal/data"
+	"github.com/godverv/matreshka-be/internal/data/storage"
 	"github.com/godverv/matreshka-be/internal/service"
+	v1 "github.com/godverv/matreshka-be/internal/service/servicev1"
 )
 
 type Custom struct {
+	DataProvider data.Data
+
 	Srv service.ConfigService
 }
 
-func (c Custom) Init(a *App) error {
+func (c Custom) Init(a *App) (err error) {
 	// Repository, Service logic, transport registration happens here
+	c.DataProvider, err = storage.New(a.Sqlite)
+
+	c.Srv = v1.New(c.DataProvider)
 	return nil
 }
