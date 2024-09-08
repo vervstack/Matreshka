@@ -21,6 +21,8 @@ type App struct {
 	Sqlite *sqldb.DB
 	/* Servers managers */
 	Server *transport.ServersManager
+
+	Custom Custom
 }
 
 func New() (app App, err error) {
@@ -39,6 +41,11 @@ func New() (app App, err error) {
 	err = app.InitServers()
 	if err != nil {
 		return App{}, errors.Wrap(err, "error during server initialization")
+	}
+
+	err = app.Custom.Init(app)
+	if err != nil {
+		return App{}, errors.Wrap(err, "error initializing custom app properties")
 	}
 
 	return app, nil
