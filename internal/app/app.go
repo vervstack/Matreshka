@@ -52,7 +52,7 @@ func New() (app App, err error) {
 }
 
 func (a *App) Start() (err error) {
-	err = a.Server.Start
+	err = a.Server.Start()
 	if err != nil {
 		return errors.Wrap(err, "error starting Server manager")
 	}
