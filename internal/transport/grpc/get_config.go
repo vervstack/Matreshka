@@ -20,7 +20,7 @@ func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.
 
 	var cfg matreshka.AppConfig
 
-	nodeStorage := evon.NodesToStorage([]*evon.Node{&cfgNode})
+	nodeStorage := evon.NodesToStorage([]*evon.Node{cfgNode})
 	err = evon.UnmarshalWithNodes(nodeStorage, &cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "error unmarshalling config")

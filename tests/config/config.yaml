@@ -5,7 +5,9 @@ data_sources:
     path: "./data/test.db"
     migrations_folder: ./../migrations
 server:
-  - name: grpc
-    port: 8080
+  "50051":
+    /{GRPC}:
+      module: pkg/matreshka_be_api
+      gateway: /api
 environment: []
 

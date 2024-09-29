@@ -54,7 +54,7 @@ func (c *ConfigService) PatchConfig(ctx context.Context, configPatch domain.Patc
 		return errors.Wrap(err, "error getting nodes")
 	}
 
-	p.validateEnvironmentChanges(&cfg)
+	p.validateEnvironmentChanges(cfg)
 
 	deleteReq := domain.PatchConfigRequest{
 		ServiceName: configPatch.ServiceName,

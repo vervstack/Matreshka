@@ -3,7 +3,7 @@ module github.com/godverv/matreshka-be
 go 1.22
 
 require (
-	github.com/Red-Sock/evon v0.0.14
+	github.com/Red-Sock/evon v0.0.15
 	github.com/Red-Sock/toolbox v0.0.4
 	github.com/Red-Sock/trace-errors v0.0.9
 	github.com/godverv/matreshka v0.0.35
@@ -16,7 +16,7 @@ require (
 	golang.org/x/net v0.29.0
 	golang.org/x/sync v0.8.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20240903143218-8af14fe29dc1
-	google.golang.org/grpc v1.66.0
+	google.golang.org/grpc v1.66.1
 	google.golang.org/protobuf v1.34.2
 	modernc.org/sqlite v1.33.0
 )

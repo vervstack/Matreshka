@@ -1,0 +1,12 @@
+### Get config
+GET {{matreshka-api}}/config/{{example_service_name}}
+
+### Get config by nodes
+GET {{matreshka-api}}/config/nodes/{{example_service_name}}
+
+
+### List configs
+POST {{matreshka-api}}/config/list
+Content-Type: application/json
+
+{}

@@ -29,6 +29,10 @@ func New(cfg resources.SqlResource) (*DB, error) {
 	})
 
 	goose.SetLogger(logrus.StandardLogger())
+	err = goose.SetDialect("sqlite")
+	if err != nil {
+		return nil, errors.Wrap(err, "error setting goose dialect")
+	}
 
 	err = goose.Up(conn, cfg.MigrationFolder())
 	if err != nil {

@@ -23,7 +23,7 @@ func (a *Impl) GetConfigNodes(ctx context.Context, req *api.GetConfigNode_Reques
 	return resp, nil
 }
 
-func toApiNode(node evon.Node) *api.Node {
+func toApiNode(node *evon.Node) *api.Node {
 	resp := &api.Node{
 		Name: node.Name,
 	}
@@ -33,7 +33,7 @@ func toApiNode(node evon.Node) *api.Node {
 	}
 
 	for _, innerNode := range node.InnerNodes {
-		resp.InnerNodes = append(resp.InnerNodes, toApiNode(*innerNode))
+		resp.InnerNodes = append(resp.InnerNodes, toApiNode(innerNode))
 	}
 
 	return resp

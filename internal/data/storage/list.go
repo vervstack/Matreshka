@@ -12,7 +12,7 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 	rows, err := p.conn.QueryContext(ctx, `
 		SELECT 
 		    cfg.name,
-		    version.value
+		    coalesce(version.value, '')
 		FROM configs cfg
 		LEFT JOIN configs_values AS version
 		ON        version.config_id = cfg.id

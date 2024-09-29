@@ -10,7 +10,7 @@ import (
 
 var ErrNoNodes = errors.New("no nodes found", codes.NotFound)
 
-func (p *Provider) GetConfig(ctx context.Context, serviceName string) (evon.Node, error) {
+func (p *Provider) GetConfig(ctx context.Context, serviceName string) (*evon.Node, error) {
 	row, err := p.conn.QueryContext(ctx, `
 			SELECT 
 				cv.key,
@@ -20,7 +20,7 @@ func (p *Provider) GetConfig(ctx context.Context, serviceName string) (evon.Node
 			AND 		c.name 				  = $1
 `, serviceName)
 	if err != nil {
-		return evon.Node{}, errors.Wrap(err, "error getting config values")
+		return nil, errors.Wrap(err, "error getting config values")
 	}
 	defer row.Close()
 
@@ -30,17 +30,16 @@ func (p *Provider) GetConfig(ctx context.Context, serviceName string) (evon.Node
 		var node evon.Node
 		err = row.Scan(&node.Name, &node.Value)
 		if err != nil {
-			return evon.Node{}, errors.Wrap(err, "error scanning node")
+			return nil, errors.Wrap(err, "error scanning node")
 		}
 
 		rootNodes = append(rootNodes, &node)
 	}
 
 	if len(rootNodes) == 0 {
-		return evon.Node{}, errors.Wrap(ErrNoNodes)
+		return nil, errors.Wrap(ErrNoNodes)
 	}
 
-	return evon.Node{
-		InnerNodes: rootNodes,
-	}, nil
+	ns := evon.NodesToStorage(rootNodes)
+	return ns[""], nil
 }
