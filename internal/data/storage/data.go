@@ -1,16 +1,16 @@
 package storage
 
 import (
-	_ "modernc.org/sqlite"
+	"database/sql"
 
-	"github.com/godverv/matreshka-be/internal/clients/sqldb"
+	_ "modernc.org/sqlite"
 )
 
 type Provider struct {
-	conn *sqldb.DB
+	conn *sql.DB
 }
 
-func New(conn *sqldb.DB) (*Provider, error) {
+func New(conn *sql.DB) (*Provider, error) {
 	return &Provider{
 		conn: conn,
 	}, nil
