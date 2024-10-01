@@ -19,21 +19,21 @@ type Custom struct {
 
 	Srv service.ConfigService
 
-	grpcImpl  *grpc.Impl
-	webClient http.Handler
+	GrpcImpl  *grpc.Impl
+	WebClient http.Handler
 }
 
-func (c Custom) Init(a App) (err error) {
+func (c *Custom) Init(a App) (err error) {
 	// Repository, Service logic, transport registration happens here
 	c.DataProvider, err = storage.New(a.Sqlite)
 
 	c.Srv = v1.New(c.DataProvider)
 
-	c.grpcImpl = grpc.NewServer(a.Cfg, c.Srv, c.DataProvider)
+	c.GrpcImpl = grpc.NewServer(a.Cfg, c.Srv, c.DataProvider)
 
-	a.Server.AddGrpcServer(c.grpcImpl)
+	a.Server.AddGrpcServer(c.GrpcImpl)
 
-	c.webClient = web_client.NewServer()
-	a.Server.AddHttpHandler("/", c.webClient)
+	c.WebClient = web_client.NewServer()
+	a.Server.AddHttpHandler("/", c.WebClient)
 	return nil
 }

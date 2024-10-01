@@ -18,7 +18,7 @@ func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.
 		return nil, errors.Wrap(err)
 	}
 
-	var cfg matreshka.AppConfig
+	cfg := matreshka.NewEmptyConfig()
 
 	nodeStorage := evon.NodesToStorage([]*evon.Node{cfgNode})
 	err = evon.UnmarshalWithNodes(nodeStorage, &cfg)

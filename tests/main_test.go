@@ -5,21 +5,19 @@ import (
 	_ "embed"
 	"os"
 	"testing"
-	"time"
 
 	errors "github.com/Red-Sock/trace-errors"
 	"github.com/godverv/matreshka"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/require"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/godverv/matreshka-be/internal/app"
+	"github.com/godverv/matreshka-be/internal/transport/grpc"
 	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
 type Env struct {
-	grpcApi matreshka_be_api.MatreshkaBeAPIClient
+	grpcApi *grpc.Impl
 }
 
 //go:embed config/test.config.yaml
@@ -39,17 +37,12 @@ func TestMain(m *testing.M) {
 }
 
 func initApp() error {
-	a := app.App{}
-	err := a.InitConfig()
+	a, err := app.New()
 	if err != nil {
 		return errors.Wrap(err, "error initializing config")
 	}
-	err = a.InitSqlite()
-	if err != nil {
-		return errors.Wrap(err, "error initializing sqlite")
-	}
 
-	_, err = a.DbConn.Exec(`
+	_, err = a.Sqlite.Exec(`
 		DELETE 
 		FROM configs 	   
 	    WHERE true;
@@ -61,15 +54,7 @@ func initApp() error {
 		return errors.Wrap(err, "error db clean up")
 	}
 
-	cl, err := grpc.NewClient("localhost:8080",
-		grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		return errors.Wrap(err, "error creating grpc client")
-	}
-
-	testEnv.grpcApi = matreshka_be_api.NewMatreshkaBeAPIClient(cl)
-
-	time.Sleep(500 * time.Millisecond)
+	testEnv.grpcApi = a.Custom.GrpcImpl
 
 	return nil
 }
