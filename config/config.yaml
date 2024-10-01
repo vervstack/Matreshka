@@ -1,10 +1,10 @@
 app_info:
   name: matreshka-be
-  version: v1.0.34
+  version: v1.0.35
   startup_duration: 10s
 data_sources:
   - resource_name: sqlite
-    path: ./data/sqlite/matreshka-be.db
+    path: ./matreshka-be.db
 servers:
    "8080":
      /{FS}:
