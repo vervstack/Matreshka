@@ -3,8 +3,8 @@
 package app
 
 import (
+	"database/sql"
 	errors "github.com/Red-Sock/trace-errors"
-	"github.com/godverv/matreshka-be/internal/clients/sqldb"
 )
 
 func (a *App) InitDataSources() (err error) {

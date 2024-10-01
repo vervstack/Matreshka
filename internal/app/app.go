@@ -3,10 +3,10 @@
 package app
 
 import (
+	"database/sql"
 	"github.com/Red-Sock/toolbox"
 	"github.com/Red-Sock/toolbox/closer"
 	errors "github.com/Red-Sock/trace-errors"
-	"github.com/godverv/matreshka-be/internal/clients/sqldb"
 	"github.com/godverv/matreshka-be/internal/config"
 	"github.com/godverv/matreshka-be/internal/transport"
 	"github.com/sirupsen/logrus"
@@ -18,7 +18,7 @@ type App struct {
 	Stop func()
 	Cfg  config.Config
 	/* Data source connection */
-	Sqlite *sqldb.DB
+	Sqlite *sql.DB
 	/* Servers managers */
 	Server *transport.ServersManager
 
