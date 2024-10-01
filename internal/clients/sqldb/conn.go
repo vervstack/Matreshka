@@ -11,9 +11,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type DB sql.DB
-
-func New(cfg resources.SqlResource) (*DB, error) {
+func New(cfg resources.SqlResource) (*sql.DB, error) {
 	dialect := cfg.SqlDialect()
 	connStr := cfg.ConnectionString()
 
@@ -33,5 +31,5 @@ func New(cfg resources.SqlResource) (*DB, error) {
 		return nil, errors.Wrap(err, "error performing up")
 	}
 
-	return (*DB)(conn), nil
+	return conn, nil
 }
