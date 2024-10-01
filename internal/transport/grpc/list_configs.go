@@ -7,10 +7,10 @@ import (
 	"google.golang.org/grpc/status"
 
 	"github.com/godverv/matreshka-be/internal/domain"
-	api "github.com/godverv/matreshka-be/pkg/matreshka_api"
+	api "github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
-func (a *App) ListConfigs(ctx context.Context, req *api.ListConfigs_Request) (*api.ListConfigs_Response, error) {
+func (a *Impl) ListConfigs(ctx context.Context, req *api.ListConfigs_Request) (*api.ListConfigs_Response, error) {
 	listReq := domain.ListConfigsRequest{
 		ListRequest: domain.ListRequest{
 			Limit:  req.GetListRequest().GetLimit(),

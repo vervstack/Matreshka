@@ -7,10 +7,10 @@ import (
 	errors "github.com/Red-Sock/trace-errors"
 
 	"github.com/godverv/matreshka-be/internal/domain"
-	api "github.com/godverv/matreshka-be/pkg/matreshka_api"
+	api "github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
-func (a *App) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*api.PatchConfig_Response, error) {
+func (a *Impl) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*api.PatchConfig_Response, error) {
 	patchReq := domain.PatchConfigRequest{
 		ServiceName: req.GetServiceName(),
 		Batch:       fromNodeToPatch(&api.Node{InnerNodes: req.GetChanges()}),

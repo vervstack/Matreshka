@@ -14,7 +14,8 @@ func (p *Provider) DeleteValues(ctx context.Context, req domain.PatchConfigReque
 	}
 
 	var cfgId int
-	err := p.conn.QueryRowContext(ctx, `
+	err := p.conn.
+		QueryRowContext(ctx, `
 			SELECT
 				id
 			FROM configs c

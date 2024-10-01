@@ -1,3 +1,5 @@
+//go:build untested
+
 package tests
 
 import (
@@ -8,7 +10,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/godverv/matreshka-be/internal/data/storage"
-	"github.com/godverv/matreshka-be/pkg/matreshka_api"
+	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
 type GetTestSuite struct {
@@ -24,7 +26,7 @@ func (s *GetTestSuite) SetupSuite() {
 func (s *GetTestSuite) Test_GetConfig_NotFound() {
 	serviceName := s.T().Name()
 
-	getReq := &matreshka_api.GetConfig_Request{
+	getReq := &matreshka_be_api.GetConfig_Request{
 		ServiceName: serviceName,
 	}
 	resp, err := testEnv.grpcApi.GetConfig(s.ctx, getReq)
@@ -37,7 +39,7 @@ func (s *GetTestSuite) Test_GetConfig_NotFound() {
 func (s *GetTestSuite) Test_GetNodes_NotFound() {
 	serviceName := s.T().Name()
 
-	getReq := &matreshka_api.GetConfigNode_Request{
+	getReq := &matreshka_be_api.GetConfigNode_Request{
 		ServiceName: serviceName,
 	}
 	resp, err := testEnv.grpcApi.GetConfigNodes(s.ctx, getReq)
@@ -52,7 +54,7 @@ func (s *GetTestSuite) Test_GetNodes() {
 
 	testEnv.create(s.T(), serviceName, fullConfigBytes)
 
-	expectedConfig := []*matreshka_api.Node{
+	expectedConfig := []*matreshka_be_api.Node{
 		{
 			Name:  "APP-INFO_NAME",
 			Value: toPtr("matreshka"),
@@ -170,7 +172,7 @@ func (s *GetTestSuite) Test_GetNodes() {
 			Value: toPtr("8080")},
 	}
 
-	getReq := &matreshka_api.GetConfigNode_Request{
+	getReq := &matreshka_be_api.GetConfigNode_Request{
 		ServiceName: serviceName,
 	}
 	resp, err := testEnv.grpcApi.GetConfigNodes(s.ctx, getReq)

@@ -5,7 +5,6 @@ import (
 	_ "embed"
 	"os"
 	"testing"
-	"time"
 
 	errors "github.com/Red-Sock/trace-errors"
 	"github.com/godverv/matreshka"
@@ -14,12 +13,11 @@ import (
 
 	"github.com/godverv/matreshka-be/internal/app"
 	"github.com/godverv/matreshka-be/internal/transport/grpc"
-	"github.com/godverv/matreshka-be/pkg/matreshka_api"
+	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
 type Env struct {
-	app     app.App
-	grpcApi *grpc.Server
+	grpcApi *grpc.Impl
 }
 
 //go:embed config/test.config.yaml
@@ -41,10 +39,10 @@ func TestMain(m *testing.M) {
 func initApp() error {
 	a, err := app.New()
 	if err != nil {
-		return errors.Wrap(err, "error during app init")
+		return errors.Wrap(err, "error initializing config")
 	}
 
-	_, err = a.DbConn.Exec(`
+	_, err = a.Sqlite.Exec(`
 		DELETE 
 		FROM configs 	   
 	    WHERE true;
@@ -56,10 +54,7 @@ func initApp() error {
 		return errors.Wrap(err, "error db clean up")
 	}
 
-	testEnv.app = a
-	testEnv.grpcApi = a.GrpcApi
-
-	time.Sleep(500 * time.Millisecond)
+	testEnv.grpcApi = a.Custom.GrpcImpl
 
 	return nil
 }
@@ -75,7 +70,7 @@ func getFullConfig(t *testing.T) matreshka.AppConfig {
 }
 
 func (e *Env) create(t *testing.T, serviceName string, config []byte) {
-	createReq := &matreshka_api.PostConfig_Request{
+	createReq := &matreshka_be_api.PostConfig_Request{
 		Content:     config,
 		ServiceName: serviceName,
 	}
@@ -88,7 +83,7 @@ func (e *Env) create(t *testing.T, serviceName string, config []byte) {
 
 func (e *Env) get(t *testing.T, serviceName string) matreshka.AppConfig {
 	ctx := context.Background()
-	getReq := &matreshka_api.GetConfig_Request{
+	getReq := &matreshka_be_api.GetConfig_Request{
 		ServiceName: serviceName,
 	}
 	getResp, err := testEnv.grpcApi.GetConfig(ctx, getReq)

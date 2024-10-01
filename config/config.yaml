@@ -5,8 +5,12 @@ app_info:
 data_sources:
   - resource_name: sqlite
     path: ./data/sqlite/matreshka-be.db
-server:
-  - name: grpc
-    port: 53891
+servers:
+   "8080":
+     /{FS}:
+       dist: web/dist
+     /{GRPC}:
+       module: pkg/matreshka_be_api
+       gateway: /api
 environment: []
 

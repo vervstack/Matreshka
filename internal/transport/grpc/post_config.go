@@ -7,10 +7,10 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	api "github.com/godverv/matreshka-be/pkg/matreshka_api"
+	api "github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
-func (a *App) PostConfig(ctx context.Context, req *api.PostConfig_Request) (*api.PostConfig_Response, error) {
+func (a *Impl) PostConfig(ctx context.Context, req *api.PostConfig_Request) (*api.PostConfig_Response, error) {
 	var cfg matreshka.AppConfig
 	err := cfg.Unmarshal(req.Content)
 	if err != nil {
