@@ -45,7 +45,7 @@ func NewServerManager(ctx context.Context, port string) (*ServersManager, error)
 
 func (m *ServersManager) Start() error {
 	errGroup, ctx := errgroup.WithContext(m.ctx)
-	logrus.Infof("accepting connections at: http://0.0.0.0%s", m.portRO)
+	logrus.Infof("accepting connections at: http://localhost%s", m.portRO)
 	errGroup.Go(m.mux.Serve)
 	errGroup.Go(m.grpcServer.start)
 	errGroup.Go(m.httpServer.start)

@@ -2,8 +2,6 @@ module github.com/godverv/matreshka-be
 
 go 1.22.0
 
-toolchain go1.22.1
-
 require (
 	github.com/Red-Sock/evon v0.0.15
 	github.com/Red-Sock/toolbox v0.0.4

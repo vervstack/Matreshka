@@ -1,5 +1,8 @@
+### Version
+GET {{matreshka-api}}/api/version
+
 ### Get config
-GET {{matreshka-api}}/config/red-cart
+GET {{matreshka-api}}/api/config/red-cart
 
 ### Get config
 GET {{matreshka-api}}/config/nodes/red-cart
