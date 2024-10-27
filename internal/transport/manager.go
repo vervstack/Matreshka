@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	errors "github.com/Red-Sock/trace-errors"
-	"github.com/sirupsen/logrus"
 	"github.com/soheilhy/cmux"
 	"golang.org/x/sync/errgroup"
 )
@@ -18,8 +17,6 @@ type ServersManager struct {
 
 	grpcServer
 	httpServer
-
-	portRO string
 }
 
 func NewServerManager(ctx context.Context, port string) (*ServersManager, error) {
@@ -32,9 +29,8 @@ func NewServerManager(ctx context.Context, port string) (*ServersManager, error)
 	httpMux := http.NewServeMux()
 
 	s := &ServersManager{
-		portRO: port,
-		ctx:    ctx,
-		mux:    mainMux,
+		ctx: ctx,
+		mux: mainMux,
 
 		grpcServer: newGrpcServer(ctx, mainMux.Match(cmux.HTTP2()), httpMux),
 		httpServer: newHttpServer(mainMux.Match(cmux.Any()), httpMux),
@@ -44,8 +40,8 @@ func NewServerManager(ctx context.Context, port string) (*ServersManager, error)
 }
 
 func (m *ServersManager) Start() error {
-	errGroup, ctx := errgroup.WithContext(m.ctx)
-	logrus.Infof("accepting connections at: http://localhost%s", m.portRO)
+	errGroup, ctx := errgroup.WithContext(context.Background())
+
 	errGroup.Go(m.mux.Serve)
 	errGroup.Go(m.grpcServer.start)
 	errGroup.Go(m.httpServer.start)

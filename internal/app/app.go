@@ -43,7 +43,7 @@ func New() (app App, err error) {
 		return App{}, errors.Wrap(err, "error during server initialization")
 	}
 
-	err = app.Custom.Init(app)
+	err = app.Custom.Init(&app)
 	if err != nil {
 		return App{}, errors.Wrap(err, "error initializing custom app properties")
 	}
