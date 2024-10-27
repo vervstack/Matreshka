@@ -7,7 +7,7 @@ data_sources:
       path: ./data/sqlite/matreshka-be.db
       migrations_folder: ./migrations
 servers:
-    8080:
+    80:
         /{FS}:
             dist: web/dist
         /{GRPC}:

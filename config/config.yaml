@@ -6,7 +6,7 @@ data_sources:
   - resource_name: sqlite
     path: ./matreshka-be.db
 servers:
-   "8080":
+   80:
      /{FS}:
        dist: web/dist
      /{GRPC}:
