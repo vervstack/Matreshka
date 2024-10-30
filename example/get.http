@@ -1,12 +1,15 @@
 ### Get config
-GET {{matreshka-api}}/config/{{example_service_name}}
+GET {{matreshka-api}}/api/config/{{example_service_name}}
+
+### Get config not existing config
+GET {{matreshka-api}}/api/config/unknown
 
 ### Get config by nodes
-GET {{matreshka-api}}/config/nodes/{{example_service_name}}
+GET {{matreshka-api}}/api/config/nodes/{{example_service_name}}
 
 
 ### List configs
-POST {{matreshka-api}}/config/list
+POST {{matreshka-api}}/api/config/list
 Content-Type: application/json
 
 {}

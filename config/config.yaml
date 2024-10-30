@@ -1,16 +1,15 @@
 app_info:
-  name: matreshka-be
-  version: v1.0.37
-  startup_duration: 10s
+    name: matreshka-be
+    version: v1.0.37
+    startup_duration: 10s
 data_sources:
-  - resource_name: sqlite
-    path: ./matreshka-be.db
+    - resource_name: sqlite
+      path: ./matreshka-be.db
+      migrations_folder: ./migrations
 servers:
-   80:
-     /{FS}:
-       dist: web/dist
-     /{GRPC}:
-       module: pkg/matreshka_be_api
-       gateway: /api
-environment: []
-
+    80:
+        /{FS}:
+            dist: web/dist
+        /{GRPC}:
+            module: pkg/matreshka_be_api
+            gateway: /api
