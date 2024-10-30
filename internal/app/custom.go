@@ -31,7 +31,7 @@ func (c *Custom) Init(a *App) (err error) {
 
 	c.GrpcImpl = grpc.NewServer(a.Cfg, c.Srv, c.DataProvider)
 
-	a.Server.AddGrpcServer(c.GrpcImpl)
+	a.Server.AddImplementation(c.GrpcImpl)
 
 	c.WebClient = web_client.NewServer()
 	a.Server.AddHttpHandler("/", c.WebClient)
