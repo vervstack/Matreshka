@@ -9,15 +9,15 @@ import (
 	"google.golang.org/grpc"
 
 	"github.com/godverv/matreshka-be/internal/config"
-	"github.com/godverv/matreshka-be/internal/data"
 	"github.com/godverv/matreshka-be/internal/service"
+	"github.com/godverv/matreshka-be/internal/storage"
 	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
 func NewServer(
 	cfg config.Config,
 	service service.ConfigService,
-	storage data.Data,
+	storage storage.Data,
 ) *Impl {
 	return &Impl{
 		version: cfg.AppInfo.Version,

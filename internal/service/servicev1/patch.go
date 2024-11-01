@@ -49,7 +49,7 @@ func (c *ConfigService) PatchConfig(ctx context.Context, configPatch domain.Patc
 		}
 	}
 
-	cfg, err := c.data.GetConfig(ctx, configPatch.ServiceName)
+	cfg, err := c.configStorage.GetConfigNodes(ctx, configPatch.ServiceName)
 	if err != nil {
 		return errors.Wrap(err, "error getting nodes")
 	}
@@ -60,7 +60,7 @@ func (c *ConfigService) PatchConfig(ctx context.Context, configPatch domain.Patc
 		ServiceName: configPatch.ServiceName,
 		Batch:       p.delete,
 	}
-	err = c.data.DeleteValues(ctx, deleteReq)
+	err = c.configStorage.DeleteValues(ctx, deleteReq)
 	if err != nil {
 		return errors.Wrap(err, "error deleting values")
 	}
@@ -69,7 +69,7 @@ func (c *ConfigService) PatchConfig(ctx context.Context, configPatch domain.Patc
 		ServiceName: configPatch.ServiceName,
 		Batch:       append(p.upsert, p.envUpsert...),
 	}
-	err = c.data.UpsertValues(ctx, updateReq)
+	err = c.configStorage.UpsertValues(ctx, updateReq)
 	if err != nil {
 		return errors.Wrap(err, "error patching config in data storage")
 	}

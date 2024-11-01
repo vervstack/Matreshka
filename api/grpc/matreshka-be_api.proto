@@ -30,7 +30,7 @@ service MatreshkaBeAPI {
     };
   }
 
-  rpc PostConfig(PostConfig.Request) returns (PostConfig.Response) {
+  rpc CreateConfig(CreateConfig.Request) returns (CreateConfig.Response) {
     option (google.api.http) = {
       post: "/api/config/create/{service_name}",
       body: "*"
@@ -71,13 +71,15 @@ message GetConfig {
   }
 }
 
-message PostConfig {
+message CreateConfig {
   message Request {
-    bytes content = 1;
-    string service_name = 2;
+    string service_name = 1;
   }
 
-  message Response {}
+  message Response {
+    string error_message = 1;
+    string http_status_code = 2;
+  }
 }
 
 message PatchConfig {

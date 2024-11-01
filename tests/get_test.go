@@ -9,7 +9,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/godverv/matreshka-be/internal/data/storage"
+	"github.com/godverv/matreshka-be/internal/storage/sqlite"
 	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
@@ -31,7 +31,7 @@ func (s *GetTestSuite) Test_GetConfig_NotFound() {
 	}
 	resp, err := testEnv.grpcApi.GetConfig(s.ctx, getReq)
 
-	expectedErr := storage.ErrNoNodes
+	expectedErr := sqlite.ErrNoNodes
 	s.ErrorIs(err, expectedErr)
 	s.Nil(resp)
 }
@@ -44,7 +44,7 @@ func (s *GetTestSuite) Test_GetNodes_NotFound() {
 	}
 	resp, err := testEnv.grpcApi.GetConfigNodes(s.ctx, getReq)
 
-	expectedErr := storage.ErrNoNodes
+	expectedErr := sqlite.ErrNoNodes
 	s.ErrorIs(err, expectedErr)
 	s.Nil(resp)
 }

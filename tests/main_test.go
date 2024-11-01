@@ -70,13 +70,13 @@ func getFullConfig(t *testing.T) matreshka.AppConfig {
 }
 
 func (e *Env) create(t *testing.T, serviceName string, config []byte) {
-	createReq := &matreshka_be_api.PostConfig_Request{
+	createReq := &matreshka_be_api.CreateConfig_Request{
 		Content:     config,
 		ServiceName: serviceName,
 	}
 	ctx := context.Background()
 
-	postResp, err := testEnv.grpcApi.PostConfig(ctx, createReq)
+	postResp, err := testEnv.grpcApi.CreateConfig(ctx, createReq)
 	require.NoError(t, err)
 	require.NotNil(t, postResp)
 }

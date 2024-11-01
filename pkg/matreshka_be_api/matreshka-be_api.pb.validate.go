@@ -438,22 +438,22 @@ var _ interface {
 	ErrorName() string
 } = GetConfigValidationError{}
 
-// Validate checks the field values on PostConfig with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
+// Validate checks the field values on CreateConfig with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *PostConfig) Validate() error {
+func (m *CreateConfig) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on PostConfig with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in PostConfigMultiError, or
+// ValidateAll checks the field values on CreateConfig with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in CreateConfigMultiError, or
 // nil if none found.
-func (m *PostConfig) ValidateAll() error {
+func (m *CreateConfig) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *PostConfig) validate(all bool) error {
+func (m *CreateConfig) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -461,18 +461,18 @@ func (m *PostConfig) validate(all bool) error {
 	var errors []error
 
 	if len(errors) > 0 {
-		return PostConfigMultiError(errors)
+		return CreateConfigMultiError(errors)
 	}
 
 	return nil
 }
 
-// PostConfigMultiError is an error wrapping multiple validation errors
-// returned by PostConfig.ValidateAll() if the designated constraints aren't met.
-type PostConfigMultiError []error
+// CreateConfigMultiError is an error wrapping multiple validation errors
+// returned by CreateConfig.ValidateAll() if the designated constraints aren't met.
+type CreateConfigMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m PostConfigMultiError) Error() string {
+func (m CreateConfigMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -481,11 +481,11 @@ func (m PostConfigMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m PostConfigMultiError) AllErrors() []error { return m }
+func (m CreateConfigMultiError) AllErrors() []error { return m }
 
-// PostConfigValidationError is the validation error returned by
-// PostConfig.Validate if the designated constraints aren't met.
-type PostConfigValidationError struct {
+// CreateConfigValidationError is the validation error returned by
+// CreateConfig.Validate if the designated constraints aren't met.
+type CreateConfigValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -493,22 +493,22 @@ type PostConfigValidationError struct {
 }
 
 // Field function returns field value.
-func (e PostConfigValidationError) Field() string { return e.field }
+func (e CreateConfigValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e PostConfigValidationError) Reason() string { return e.reason }
+func (e CreateConfigValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e PostConfigValidationError) Cause() error { return e.cause }
+func (e CreateConfigValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e PostConfigValidationError) Key() bool { return e.key }
+func (e CreateConfigValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e PostConfigValidationError) ErrorName() string { return "PostConfigValidationError" }
+func (e CreateConfigValidationError) ErrorName() string { return "CreateConfigValidationError" }
 
 // Error satisfies the builtin error interface
-func (e PostConfigValidationError) Error() string {
+func (e CreateConfigValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -520,14 +520,14 @@ func (e PostConfigValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sPostConfig.%s: %s%s",
+		"invalid %sCreateConfig.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = PostConfigValidationError{}
+var _ error = CreateConfigValidationError{}
 
 var _ interface {
 	Field() string
@@ -535,7 +535,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = PostConfigValidationError{}
+} = CreateConfigValidationError{}
 
 // Validate checks the field values on PatchConfig with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
@@ -1387,46 +1387,44 @@ var _ interface {
 	ErrorName() string
 } = GetConfig_ResponseValidationError{}
 
-// Validate checks the field values on PostConfig_Request with the rules
+// Validate checks the field values on CreateConfig_Request with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *PostConfig_Request) Validate() error {
+func (m *CreateConfig_Request) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on PostConfig_Request with the rules
+// ValidateAll checks the field values on CreateConfig_Request with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// PostConfig_RequestMultiError, or nil if none found.
-func (m *PostConfig_Request) ValidateAll() error {
+// CreateConfig_RequestMultiError, or nil if none found.
+func (m *CreateConfig_Request) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *PostConfig_Request) validate(all bool) error {
+func (m *CreateConfig_Request) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
-
-	// no validation rules for Content
 
 	// no validation rules for ServiceName
 
 	if len(errors) > 0 {
-		return PostConfig_RequestMultiError(errors)
+		return CreateConfig_RequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// PostConfig_RequestMultiError is an error wrapping multiple validation errors
-// returned by PostConfig_Request.ValidateAll() if the designated constraints
-// aren't met.
-type PostConfig_RequestMultiError []error
+// CreateConfig_RequestMultiError is an error wrapping multiple validation
+// errors returned by CreateConfig_Request.ValidateAll() if the designated
+// constraints aren't met.
+type CreateConfig_RequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m PostConfig_RequestMultiError) Error() string {
+func (m CreateConfig_RequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1435,11 +1433,11 @@ func (m PostConfig_RequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m PostConfig_RequestMultiError) AllErrors() []error { return m }
+func (m CreateConfig_RequestMultiError) AllErrors() []error { return m }
 
-// PostConfig_RequestValidationError is the validation error returned by
-// PostConfig_Request.Validate if the designated constraints aren't met.
-type PostConfig_RequestValidationError struct {
+// CreateConfig_RequestValidationError is the validation error returned by
+// CreateConfig_Request.Validate if the designated constraints aren't met.
+type CreateConfig_RequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1447,24 +1445,24 @@ type PostConfig_RequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e PostConfig_RequestValidationError) Field() string { return e.field }
+func (e CreateConfig_RequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e PostConfig_RequestValidationError) Reason() string { return e.reason }
+func (e CreateConfig_RequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e PostConfig_RequestValidationError) Cause() error { return e.cause }
+func (e CreateConfig_RequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e PostConfig_RequestValidationError) Key() bool { return e.key }
+func (e CreateConfig_RequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e PostConfig_RequestValidationError) ErrorName() string {
-	return "PostConfig_RequestValidationError"
+func (e CreateConfig_RequestValidationError) ErrorName() string {
+	return "CreateConfig_RequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e PostConfig_RequestValidationError) Error() string {
+func (e CreateConfig_RequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1476,14 +1474,14 @@ func (e PostConfig_RequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sPostConfig_Request.%s: %s%s",
+		"invalid %sCreateConfig_Request.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = PostConfig_RequestValidationError{}
+var _ error = CreateConfig_RequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -1491,44 +1489,48 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = PostConfig_RequestValidationError{}
+} = CreateConfig_RequestValidationError{}
 
-// Validate checks the field values on PostConfig_Response with the rules
+// Validate checks the field values on CreateConfig_Response with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *PostConfig_Response) Validate() error {
+func (m *CreateConfig_Response) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on PostConfig_Response with the rules
+// ValidateAll checks the field values on CreateConfig_Response with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// PostConfig_ResponseMultiError, or nil if none found.
-func (m *PostConfig_Response) ValidateAll() error {
+// CreateConfig_ResponseMultiError, or nil if none found.
+func (m *CreateConfig_Response) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *PostConfig_Response) validate(all bool) error {
+func (m *CreateConfig_Response) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
+	// no validation rules for ErrorMessage
+
+	// no validation rules for HttpStatusCode
+
 	if len(errors) > 0 {
-		return PostConfig_ResponseMultiError(errors)
+		return CreateConfig_ResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// PostConfig_ResponseMultiError is an error wrapping multiple validation
-// errors returned by PostConfig_Response.ValidateAll() if the designated
+// CreateConfig_ResponseMultiError is an error wrapping multiple validation
+// errors returned by CreateConfig_Response.ValidateAll() if the designated
 // constraints aren't met.
-type PostConfig_ResponseMultiError []error
+type CreateConfig_ResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m PostConfig_ResponseMultiError) Error() string {
+func (m CreateConfig_ResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1537,11 +1539,11 @@ func (m PostConfig_ResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m PostConfig_ResponseMultiError) AllErrors() []error { return m }
+func (m CreateConfig_ResponseMultiError) AllErrors() []error { return m }
 
-// PostConfig_ResponseValidationError is the validation error returned by
-// PostConfig_Response.Validate if the designated constraints aren't met.
-type PostConfig_ResponseValidationError struct {
+// CreateConfig_ResponseValidationError is the validation error returned by
+// CreateConfig_Response.Validate if the designated constraints aren't met.
+type CreateConfig_ResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1549,24 +1551,24 @@ type PostConfig_ResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e PostConfig_ResponseValidationError) Field() string { return e.field }
+func (e CreateConfig_ResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e PostConfig_ResponseValidationError) Reason() string { return e.reason }
+func (e CreateConfig_ResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e PostConfig_ResponseValidationError) Cause() error { return e.cause }
+func (e CreateConfig_ResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e PostConfig_ResponseValidationError) Key() bool { return e.key }
+func (e CreateConfig_ResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e PostConfig_ResponseValidationError) ErrorName() string {
-	return "PostConfig_ResponseValidationError"
+func (e CreateConfig_ResponseValidationError) ErrorName() string {
+	return "CreateConfig_ResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e PostConfig_ResponseValidationError) Error() string {
+func (e CreateConfig_ResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1578,14 +1580,14 @@ func (e PostConfig_ResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sPostConfig_Response.%s: %s%s",
+		"invalid %sCreateConfig_Response.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = PostConfig_ResponseValidationError{}
+var _ error = CreateConfig_ResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -1593,7 +1595,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = PostConfig_ResponseValidationError{}
+} = CreateConfig_ResponseValidationError{}
 
 // Validate checks the field values on PatchConfig_Request with the rules
 // defined in the proto definition for this message. If any rules are

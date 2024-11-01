@@ -6,16 +6,17 @@ package app
 import (
 	"net/http"
 
-	"github.com/godverv/matreshka-be/internal/data"
-	"github.com/godverv/matreshka-be/internal/data/storage"
 	"github.com/godverv/matreshka-be/internal/service"
 	v1 "github.com/godverv/matreshka-be/internal/service/servicev1"
+	"github.com/godverv/matreshka-be/internal/storage"
+	"github.com/godverv/matreshka-be/internal/storage/sqlite"
+	"github.com/godverv/matreshka-be/internal/storage/tx_manager"
 	"github.com/godverv/matreshka-be/internal/transport/grpc"
 	"github.com/godverv/matreshka-be/internal/transport/web_client"
 )
 
 type Custom struct {
-	DataProvider data.Data
+	DataProvider storage.Data
 
 	Srv service.ConfigService
 
@@ -25,9 +26,11 @@ type Custom struct {
 
 func (c *Custom) Init(a *App) (err error) {
 	// Repository, Service logic, transport registration happens here
-	c.DataProvider, err = storage.New(a.Sqlite)
+	c.DataProvider = sqlite.New(a.Sqlite)
 
-	c.Srv = v1.New(c.DataProvider)
+	txManager := tx_manager.New(a.Sqlite)
+
+	c.Srv = v1.New(c.DataProvider, txManager)
 
 	c.GrpcImpl = grpc.NewServer(a.Cfg, c.Srv, c.DataProvider)
 

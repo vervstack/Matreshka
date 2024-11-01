@@ -18,12 +18,12 @@
   "paths": {
     "/api/config/create/{serviceName}": {
       "post": {
-        "operationId": "MatreshkaBeAPI_PostConfig",
+        "operationId": "MatreshkaBeAPI_CreateConfig",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiPostConfigResponse"
+              "$ref": "#/definitions/matreshka_be_apiCreateConfigResponse"
             }
           },
           "default": {
@@ -45,7 +45,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPIPostConfigBody"
+              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPICreateConfigBody"
             }
           }
         ],
@@ -227,6 +227,17 @@
         }
       }
     },
+    "matreshka_be_apiCreateConfigResponse": {
+      "type": "object",
+      "properties": {
+        "errorMessage": {
+          "type": "string"
+        },
+        "httpStatusCode": {
+          "type": "string"
+        }
+      }
+    },
     "matreshka_be_apiGetConfigNodeResponse": {
       "type": "object",
       "properties": {
@@ -280,6 +291,9 @@
         }
       }
     },
+    "matreshka_be_apiMatreshkaBeAPICreateConfigBody": {
+      "type": "object"
+    },
     "matreshka_be_apiMatreshkaBeAPIPatchConfigBody": {
       "type": "object",
       "properties": {
@@ -289,15 +303,6 @@
             "type": "object",
             "$ref": "#/definitions/matreshka_be_apiNode"
           }
-        }
-      }
-    },
-    "matreshka_be_apiMatreshkaBeAPIPostConfigBody": {
-      "type": "object",
-      "properties": {
-        "content": {
-          "type": "string",
-          "format": "byte"
         }
       }
     },
@@ -320,9 +325,6 @@
       }
     },
     "matreshka_be_apiPatchConfigResponse": {
-      "type": "object"
-    },
-    "matreshka_be_apiPostConfigResponse": {
       "type": "object"
     },
     "protobufAny": {

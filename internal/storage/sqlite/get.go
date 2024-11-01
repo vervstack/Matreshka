@@ -1,16 +1,15 @@
-package storage
+package sqlite
 
 import (
 	"context"
 
 	"github.com/Red-Sock/evon"
 	errors "github.com/Red-Sock/trace-errors"
-	"google.golang.org/grpc/codes"
+
+	"github.com/godverv/matreshka-be/internal/storage"
 )
 
-var ErrNoNodes = errors.New("no nodes found", codes.NotFound)
-
-func (p *Provider) GetConfig(ctx context.Context, serviceName string) (*evon.Node, error) {
+func (p *Provider) GetConfigNodes(ctx context.Context, serviceName string) (*evon.Node, error) {
 	row, err := p.conn.QueryContext(ctx, `
 			SELECT 
 				cv.key,
@@ -37,7 +36,7 @@ func (p *Provider) GetConfig(ctx context.Context, serviceName string) (*evon.Nod
 	}
 
 	if len(rootNodes) == 0 {
-		return nil, errors.Wrap(ErrNoNodes)
+		return nil, errors.Wrap(storage.ErrNoNodes)
 	}
 
 	ns := evon.NodesToStorage(rootNodes)

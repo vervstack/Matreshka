@@ -14,7 +14,7 @@ import (
 
 	"github.com/godverv/matreshka-be/internal/service/servicev1"
 
-	"github.com/godverv/matreshka-be/internal/data/storage"
+	"github.com/godverv/matreshka-be/internal/storage/sqlite"
 	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
@@ -212,7 +212,7 @@ func (s *PatchConfigSuite) Test_PatchNotExistingConfig() {
 		},
 	}
 	resp, err := testEnv.grpcApi.PatchConfig(s.ctx, invalidPatch)
-	expectedErr := storage.ErrNoNodes
+	expectedErr := sqlite.ErrNoNodes
 	s.ErrorIs(err, expectedErr)
 	s.Nil(resp)
 }

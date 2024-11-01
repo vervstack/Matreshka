@@ -13,7 +13,7 @@ import (
 )
 
 func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.GetConfig_Response, error) {
-	cfgNode, err := a.storage.GetConfig(ctx, req.GetServiceName())
+	cfgNode, err := a.storage.GetConfigNodes(ctx, req.GetServiceName())
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}

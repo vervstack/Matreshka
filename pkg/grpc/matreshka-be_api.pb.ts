@@ -36,14 +36,16 @@ export type GetConfigResponse = {
 
 export type GetConfig = Record<string, never>;
 
-export type PostConfigRequest = {
-  content?: Uint8Array;
+export type CreateConfigRequest = {
   serviceName?: string;
 };
 
-export type PostConfigResponse = Record<string, never>;
+export type CreateConfigResponse = {
+  errorMessage?: string;
+  httpStatusCode?: string;
+};
 
-export type PostConfig = Record<string, never>;
+export type CreateConfig = Record<string, never>;
 
 export type PatchConfigRequest = {
   serviceName?: string;
@@ -94,8 +96,8 @@ export class MatreshkaBeAPI {
   static ListConfigs(this:void, req: ListConfigsRequest, initReq?: fm.InitReq): Promise<ListConfigsResponse> {
     return fm.fetchRequest<ListConfigsResponse>(`/api/config/list`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
-  static PostConfig(this:void, req: PostConfigRequest, initReq?: fm.InitReq): Promise<PostConfigResponse> {
-    return fm.fetchRequest<PostConfigResponse>(`/api/config/create/${req.serviceName}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
+  static CreateConfig(this:void, req: CreateConfigRequest, initReq?: fm.InitReq): Promise<CreateConfigResponse> {
+    return fm.fetchRequest<CreateConfigResponse>(`/api/config/create/${req.serviceName}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
   static PatchConfig(this:void, req: PatchConfigRequest, initReq?: fm.InitReq): Promise<PatchConfigResponse> {
     return fm.fetchRequest<PatchConfigResponse>(`/api/config/patch/${req.serviceName}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});

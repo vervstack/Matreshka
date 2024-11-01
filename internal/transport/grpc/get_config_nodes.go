@@ -11,7 +11,7 @@ import (
 )
 
 func (a *Impl) GetConfigNodes(ctx context.Context, req *api.GetConfigNode_Request) (*api.GetConfigNode_Response, error) {
-	cfgNode, err := a.storage.GetConfig(ctx, req.GetServiceName())
+	cfgNode, err := a.storage.GetConfigNodes(ctx, req.GetServiceName())
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}

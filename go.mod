@@ -8,6 +8,7 @@ require (
 	github.com/Red-Sock/trace-errors v0.0.9
 	github.com/godverv/matreshka v0.0.36
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.22.0
+	github.com/jmoiron/sqlx v1.4.0
 	github.com/pressly/goose/v3 v3.22.1
 	github.com/rs/cors v1.11.1
 	github.com/sirupsen/logrus v1.9.3
