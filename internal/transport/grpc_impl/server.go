@@ -1,4 +1,4 @@
-package grpc
+package grpc_impl
 
 import (
 	"context"
@@ -30,14 +30,16 @@ func (a *Impl) Register(srv *grpc.Server) {
 	matreshka_be_api.RegisterMatreshkaBeAPIServer(srv, a)
 }
 
-func (a *Impl) Gateway(ctx context.Context) (route string, handler http.Handler) {
+func (a *Impl) Gateway(ctx context.Context, endpoint string, opts ...grpc.DialOption) (route string, handler http.Handler) {
 	gwHttpMux := runtime.NewServeMux(
 		runtime.WithMarshalerOption(
 			runtime.MIMEWildcard, &runtime.JSONPb{},
 		),
 	)
 
-	err := matreshka_be_api.RegisterMatreshkaBeAPIHandlerServer(ctx, gwHttpMux, a)
+	err := matreshka_be_api.RegisterMatreshkaBeAPIHandlerFromEndpoint(ctx, gwHttpMux,
+		endpoint, opts)
+	//err := matreshka_be_api.RegisterMatreshkaBeAPIHandlerServer(ctx, gwHttpMux, a)
 	if err != nil {
 		logrus.Errorf("error registering grpc2http handler: %s", err)
 	}

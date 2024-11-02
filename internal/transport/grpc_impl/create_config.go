@@ -1,8 +1,7 @@
-package grpc
+package grpc_impl
 
 import (
 	"context"
-	"net/http"
 	"time"
 
 	errors "github.com/Red-Sock/trace-errors"
@@ -21,17 +20,10 @@ func (a *Impl) CreateConfig(ctx context.Context, req *api.CreateConfig_Request) 
 		StartupDuration: 5 * time.Second,
 	}
 
-	resp, err := a.service.CreateConfig(ctx, req.GetServiceName(), cfg)
+	err := a.service.CreateConfig(ctx, req.GetServiceName(), cfg)
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}
 
-	out := &api.CreateConfig_Response{}
-
-	if resp != nil {
-		out.ErrorMessage = resp.UserError
-		out.HttpStatusCode = http.StatusText(resp.HTTPCode)
-	}
-
-	return out, err
+	return &api.CreateConfig_Response{}, nil
 }

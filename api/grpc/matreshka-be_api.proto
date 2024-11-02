@@ -76,10 +76,7 @@ message CreateConfig {
     string service_name = 1;
   }
 
-  message Response {
-    string error_message = 1;
-    string http_status_code = 2;
-  }
+  message Response {}
 }
 
 message PatchConfig {

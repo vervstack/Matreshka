@@ -20,11 +20,15 @@ var allowedSegments = []string{
 type ConfigService struct {
 	configStorage storage.Data
 	txManager     *tx_manager.TxManager
+
+	validator validator
 }
 
 func New(data storage.Data, txManager *tx_manager.TxManager) *ConfigService {
 	return &ConfigService{
 		configStorage: data,
 		txManager:     txManager,
+
+		validator: newValidator(),
 	}
 }

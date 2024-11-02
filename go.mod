@@ -5,10 +5,9 @@ go 1.22.1
 require (
 	github.com/Red-Sock/evon v0.0.15
 	github.com/Red-Sock/toolbox v0.0.5
-	github.com/Red-Sock/trace-errors v0.0.9
+	github.com/Red-Sock/trace-errors v0.0.10
 	github.com/godverv/matreshka v0.0.36
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.22.0
-	github.com/jmoiron/sqlx v1.4.0
 	github.com/pressly/goose/v3 v3.22.1
 	github.com/rs/cors v1.11.1
 	github.com/sirupsen/logrus v1.9.3
@@ -48,3 +47,5 @@ require (
 	modernc.org/strutil v1.2.0 // indirect
 	modernc.org/token v1.1.0 // indirect
 )
+
+replace github.com/Red-Sock/trace-errors => /Users/alexbukov/Yandex.Disk.localized/проекты/redsock/trace-errors

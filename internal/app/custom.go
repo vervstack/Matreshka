@@ -6,12 +6,15 @@ package app
 import (
 	"net/http"
 
+	"google.golang.org/grpc"
+
 	"github.com/godverv/matreshka-be/internal/service"
 	v1 "github.com/godverv/matreshka-be/internal/service/servicev1"
+	"github.com/godverv/matreshka-be/internal/service/user_errors"
 	"github.com/godverv/matreshka-be/internal/storage"
 	"github.com/godverv/matreshka-be/internal/storage/sqlite"
 	"github.com/godverv/matreshka-be/internal/storage/tx_manager"
-	"github.com/godverv/matreshka-be/internal/transport/grpc"
+	"github.com/godverv/matreshka-be/internal/transport/grpc_impl"
 	"github.com/godverv/matreshka-be/internal/transport/web_client"
 )
 
@@ -20,7 +23,7 @@ type Custom struct {
 
 	Srv service.ConfigService
 
-	GrpcImpl  *grpc.Impl
+	GrpcImpl  *grpc_impl.Impl
 	WebClient http.Handler
 }
 
@@ -32,9 +35,10 @@ func (c *Custom) Init(a *App) (err error) {
 
 	c.Srv = v1.New(c.DataProvider, txManager)
 
-	c.GrpcImpl = grpc.NewServer(a.Cfg, c.Srv, c.DataProvider)
+	c.GrpcImpl = grpc_impl.NewServer(a.Cfg, c.Srv, c.DataProvider)
 
-	a.Server.AddImplementation(c.GrpcImpl)
+	a.Server.AddImplementation(c.GrpcImpl,
+		grpc.UnaryInterceptor(user_errors.ErrorInterceptor()))
 
 	c.WebClient = web_client.NewServer()
 	a.Server.AddHttpHandler("/", c.WebClient)

@@ -228,15 +228,7 @@
       }
     },
     "matreshka_be_apiCreateConfigResponse": {
-      "type": "object",
-      "properties": {
-        "errorMessage": {
-          "type": "string"
-        },
-        "httpStatusCode": {
-          "type": "string"
-        }
-      }
+      "type": "object"
     },
     "matreshka_be_apiGetConfigNodeResponse": {
       "type": "object",

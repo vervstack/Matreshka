@@ -1513,10 +1513,6 @@ func (m *CreateConfig_Response) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for ErrorMessage
-
-	// no validation rules for HttpStatusCode
-
 	if len(errors) > 0 {
 		return CreateConfig_ResponseMultiError(errors)
 	}

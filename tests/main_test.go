@@ -12,12 +12,12 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/godverv/matreshka-be/internal/app"
-	"github.com/godverv/matreshka-be/internal/transport/grpc"
+	"github.com/godverv/matreshka-be/internal/transport/grpc_impl"
 	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
 type Env struct {
-	grpcApi *grpc.Impl
+	grpcApi *grpc_impl.Impl
 }
 
 //go:embed config/test.config.yaml

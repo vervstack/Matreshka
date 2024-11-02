@@ -40,10 +40,7 @@ export type CreateConfigRequest = {
   serviceName?: string;
 };
 
-export type CreateConfigResponse = {
-  errorMessage?: string;
-  httpStatusCode?: string;
-};
+export type CreateConfigResponse = Record<string, never>;
 
 export type CreateConfig = Record<string, never>;
 
