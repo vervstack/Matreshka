@@ -9,3 +9,8 @@ type PatchConfig struct {
 	FieldName  string
 	FieldValue any
 }
+
+type RenameRequest struct {
+	OldName string
+	NewName string
+}

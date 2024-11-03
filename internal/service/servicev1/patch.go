@@ -2,6 +2,7 @@ package servicev1
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"reflect"
 	"strings"
@@ -10,6 +11,7 @@ import (
 	errors "github.com/Red-Sock/trace-errors"
 
 	"github.com/godverv/matreshka-be/internal/domain"
+	"github.com/godverv/matreshka-be/internal/service/user_errors"
 )
 
 const (
@@ -19,71 +21,51 @@ const (
 	serverSegment      = "DATA-SOURCES"
 )
 
-type patch struct {
-	invalid   []domain.PatchConfig
-	upsert    []domain.PatchConfig
-	envUpsert []domain.PatchConfig
-	delete    []domain.PatchConfig
-}
-
 func (c *ConfigService) PatchConfig(ctx context.Context, configPatch domain.PatchConfigRequest) error {
-	p := patch{}
-	for _, ptch := range configPatch.Batch {
-		var ok bool
-		ptch.FieldName, ok = validateName(ptch)
-		if !ok {
-			p.invalid = append(p.invalid, ptch)
-			continue
-		}
-
-		val := extractValue(ptch.FieldValue)
-		if val == nil {
-			p.delete = append(p.delete, ptch)
-		} else {
-			if strings.HasPrefix(ptch.FieldName, environmentSegment) {
-				p.envUpsert = append(p.envUpsert, ptch)
-			} else {
-				p.upsert = append(p.upsert, ptch)
-			}
-
-		}
-	}
+	p := newPatch(configPatch.Batch)
 
 	cfg, err := c.configStorage.GetConfigNodes(ctx, configPatch.ServiceName)
 	if err != nil {
 		return errors.Wrap(err, "error getting nodes")
 	}
 
-	p.validateEnvironmentChanges(cfg)
+	p.normalizeEnvironmentChanges(cfg)
 
-	deleteReq := domain.PatchConfigRequest{
+	valuesToDelete := domain.PatchConfigRequest{
 		ServiceName: configPatch.ServiceName,
 		Batch:       p.delete,
 	}
-	err = c.configStorage.DeleteValues(ctx, deleteReq)
-	if err != nil {
-		return errors.Wrap(err, "error deleting values")
-	}
 
-	updateReq := domain.PatchConfigRequest{
+	valuesToUpdate := domain.PatchConfigRequest{
 		ServiceName: configPatch.ServiceName,
 		Batch:       append(p.upsert, p.envUpsert...),
 	}
-	err = c.configStorage.UpsertValues(ctx, updateReq)
-	if err != nil {
-		return errors.Wrap(err, "error patching config in data storage")
-	}
+
+	err = c.txManager.Execute(func(tx *sql.Tx) error {
+		configStorage := c.configStorage.WithTx(tx)
+
+		err = configStorage.DeleteValues(ctx, valuesToDelete)
+		if err != nil {
+			return errors.Wrap(err, "error deleting values")
+		}
+
+		err = configStorage.UpsertValues(ctx, valuesToUpdate)
+		if err != nil {
+			return errors.Wrap(err, "error patching config in data storage")
+		}
+
+		return nil
+	})
 
 	if len(p.invalid) != 0 {
-		return errors.Wrap(ErrInvalidPatchName, fmt.Sprint(p.invalid))
+		return errors.Wrap(user_errors.ErrValidation, "Invalid patched env var name: "+fmt.Sprint(p.invalid))
 	}
 
 	return nil
 }
 
-func (p *patch) validateEnvironmentChanges(cfg *evon.Node) {
+func (p *patch) normalizeEnvironmentChanges(cfg *evon.Node) {
 	nodeStorage := evon.NodesToStorage(cfg.InnerNodes)
-
 	newEnvValues := make(map[string]domain.PatchConfig)
 	typesMap := make(map[string]domain.PatchConfig)
 	enumMap := make(map[string]domain.PatchConfig)
@@ -126,6 +108,38 @@ func (p *patch) validateEnvironmentChanges(cfg *evon.Node) {
 	}
 
 	p.envUpsert = envUpsert
+}
+
+type patch struct {
+	invalid   []domain.PatchConfig
+	upsert    []domain.PatchConfig
+	envUpsert []domain.PatchConfig
+	delete    []domain.PatchConfig
+}
+
+func newPatch(batch []domain.PatchConfig) patch {
+	p := patch{}
+	for _, ptch := range batch {
+		var ok bool
+		ptch.FieldName, ok = validateName(ptch)
+		if !ok {
+			p.invalid = append(p.invalid, ptch)
+			continue
+		}
+
+		val := extractValue(ptch.FieldValue)
+		if val == nil {
+			p.delete = append(p.delete, ptch)
+		} else {
+			if strings.HasPrefix(ptch.FieldName, environmentSegment) {
+				p.envUpsert = append(p.envUpsert, ptch)
+			} else {
+				p.upsert = append(p.upsert, ptch)
+			}
+
+		}
+	}
+	return p
 }
 
 func extractValue(in any) any {

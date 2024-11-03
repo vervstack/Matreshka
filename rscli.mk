@@ -6,7 +6,6 @@ build-local-container:
 			--platform linux/arm64 \
 			-t matreshka_be:local .
 
-
 ### Grpc server generation
 gen-server-grpc: .pre-gen-server-grpc .deps-grpc .gen-server-grpc
 
