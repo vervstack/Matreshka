@@ -21,35 +21,29 @@ const (
 	serverSegment      = "DATA-SOURCES"
 )
 
-func (c *ConfigService) PatchConfig(ctx context.Context, configPatch domain.PatchConfigRequest) error {
-	p := newPatch(configPatch.Batch)
+func (c *ConfigService) PatchConfig(ctx context.Context, req domain.PatchConfigRequest) error {
+	p := newPatch(req.Batch)
 
-	cfg, err := c.configStorage.GetConfigNodes(ctx, configPatch.ServiceName)
+	cfgNodes, err := c.configStorage.GetConfigNodes(ctx, req.ServiceName)
 	if err != nil {
 		return errors.Wrap(err, "error getting nodes")
 	}
 
-	p.normalizeEnvironmentChanges(cfg)
-
-	valuesToDelete := domain.PatchConfigRequest{
-		ServiceName: configPatch.ServiceName,
-		Batch:       p.delete,
+	if cfgNodes == nil {
+		return errors.Wrap(user_errors.ErrNotFound, "error getting nodes")
 	}
 
-	valuesToUpdate := domain.PatchConfigRequest{
-		ServiceName: configPatch.ServiceName,
-		Batch:       append(p.upsert, p.envUpsert...),
-	}
+	p.normalizeEnvironmentChanges(cfgNodes)
 
 	err = c.txManager.Execute(func(tx *sql.Tx) error {
 		configStorage := c.configStorage.WithTx(tx)
 
-		err = configStorage.DeleteValues(ctx, valuesToDelete)
+		err = configStorage.DeleteValues(ctx, req.ServiceName, p.delete)
 		if err != nil {
 			return errors.Wrap(err, "error deleting values")
 		}
 
-		err = configStorage.UpsertValues(ctx, valuesToUpdate)
+		err = configStorage.UpsertValues(ctx, req.ServiceName, append(p.upsert, p.envUpsert...))
 		if err != nil {
 			return errors.Wrap(err, "error patching config in data storage")
 		}
@@ -66,6 +60,7 @@ func (c *ConfigService) PatchConfig(ctx context.Context, configPatch domain.Patc
 
 func (p *patch) normalizeEnvironmentChanges(cfg *evon.Node) {
 	nodeStorage := evon.NodesToStorage(cfg.InnerNodes)
+
 	newEnvValues := make(map[string]domain.PatchConfig)
 	typesMap := make(map[string]domain.PatchConfig)
 	enumMap := make(map[string]domain.PatchConfig)

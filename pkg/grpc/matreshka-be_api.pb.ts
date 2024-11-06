@@ -36,14 +36,6 @@ export type GetConfigResponse = {
 
 export type GetConfig = Record<string, never>;
 
-export type CreateConfigRequest = {
-  serviceName?: string;
-};
-
-export type CreateConfigResponse = Record<string, never>;
-
-export type CreateConfig = Record<string, never>;
-
 export type PatchConfigRequest = {
   serviceName?: string;
   changes?: Node[];
@@ -80,6 +72,16 @@ export type GetConfigNodeResponse = {
 
 export type GetConfigNode = Record<string, never>;
 
+export type CreateConfigRequest = {
+  serviceName?: string;
+};
+
+export type CreateConfigResponse = {
+  id?: string;
+};
+
+export type CreateConfig = Record<string, never>;
+
 export class MatreshkaBeAPI {
   static ApiVersion(this:void, req: ApiVersionRequest, initReq?: fm.InitReq): Promise<ApiVersionResponse> {
     return fm.fetchRequest<ApiVersionResponse>(`/api/version?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"});
@@ -94,9 +96,9 @@ export class MatreshkaBeAPI {
     return fm.fetchRequest<ListConfigsResponse>(`/api/config/list`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
   static CreateConfig(this:void, req: CreateConfigRequest, initReq?: fm.InitReq): Promise<CreateConfigResponse> {
-    return fm.fetchRequest<CreateConfigResponse>(`/api/config/create/${req.serviceName}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
+    return fm.fetchRequest<CreateConfigResponse>(`/api/config/${req.serviceName}/new`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
   static PatchConfig(this:void, req: PatchConfigRequest, initReq?: fm.InitReq): Promise<PatchConfigResponse> {
-    return fm.fetchRequest<PatchConfigResponse>(`/api/config/patch/${req.serviceName}`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
+    return fm.fetchRequest<PatchConfigResponse>(`/api/config/${req.serviceName}/patch`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
 }

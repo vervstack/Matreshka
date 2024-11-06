@@ -13,22 +13,27 @@ import (
 )
 
 func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.GetConfig_Response, error) {
-	cfgNode, err := a.storage.GetConfigNodes(ctx, req.GetServiceName())
+	cfgNodes, err := a.storage.GetConfigNodes(ctx, req.GetServiceName())
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}
 
-	cfg := matreshka.NewEmptyConfig()
+	if cfgNodes == nil {
+		return nil, status.Error(codes.NotFound, "config not found")
+	}
 
-	nodeStorage := evon.NodesToStorage([]*evon.Node{cfgNode})
-	err = evon.UnmarshalWithNodes(nodeStorage, &cfg)
+	targetConfig := matreshka.NewEmptyConfig()
+
+	nodeStorage := evon.NodesToStorage([]*evon.Node{cfgNodes})
+
+	err = evon.UnmarshalWithNodes(nodeStorage, &targetConfig)
 	if err != nil {
 		return nil, errors.Wrap(err, "error unmarshalling config")
 	}
 
 	resp := &api.GetConfig_Response{}
 
-	resp.Config, err = cfg.Marshal()
+	resp.Config, err = targetConfig.Marshal()
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

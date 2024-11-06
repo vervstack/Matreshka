@@ -5,8 +5,6 @@ import (
 
 	"github.com/Red-Sock/evon"
 	errors "github.com/Red-Sock/trace-errors"
-
-	"github.com/godverv/matreshka-be/internal/storage"
 )
 
 func (p *Provider) GetConfigNodes(ctx context.Context, serviceName string) (*evon.Node, error) {
@@ -36,7 +34,7 @@ func (p *Provider) GetConfigNodes(ctx context.Context, serviceName string) (*evo
 	}
 
 	if len(rootNodes) == 0 {
-		return nil, errors.Wrap(storage.ErrNoNodes)
+		return nil, nil
 	}
 
 	ns := evon.NodesToStorage(rootNodes)

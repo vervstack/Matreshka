@@ -1,3 +1,6 @@
 ### Creates new matreshka config
 POST {{matreshka-api}}/api/config/create/{{example_service_name}}
 Content-Type: application/json
+
+### Full matreshka config
+POST {{}}

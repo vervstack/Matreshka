@@ -16,44 +16,6 @@
     "application/json"
   ],
   "paths": {
-    "/api/config/create/{serviceName}": {
-      "post": {
-        "operationId": "MatreshkaBeAPI_CreateConfig",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/matreshka_be_apiCreateConfigResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "serviceName",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPICreateConfigBody"
-            }
-          }
-        ],
-        "tags": [
-          "MatreshkaBeAPI"
-        ]
-      }
-    },
     "/api/config/list": {
       "post": {
         "operationId": "MatreshkaBeAPI_ListConfigs",
@@ -116,7 +78,75 @@
         ]
       }
     },
-    "/api/config/patch/{serviceName}": {
+    "/api/config/{serviceName}": {
+      "get": {
+        "operationId": "MatreshkaBeAPI_GetConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiGetConfigResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serviceName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MatreshkaBeAPI"
+        ]
+      }
+    },
+    "/api/config/{serviceName}/new": {
+      "post": {
+        "operationId": "MatreshkaBeAPI_CreateConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiCreateConfigResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serviceName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPICreateConfigBody"
+            }
+          }
+        ],
+        "tags": [
+          "MatreshkaBeAPI"
+        ]
+      }
+    },
+    "/api/config/{serviceName}/patch": {
       "post": {
         "operationId": "MatreshkaBeAPI_PatchConfig",
         "responses": {
@@ -147,36 +177,6 @@
             "schema": {
               "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPIPatchConfigBody"
             }
-          }
-        ],
-        "tags": [
-          "MatreshkaBeAPI"
-        ]
-      }
-    },
-    "/api/config/{serviceName}": {
-      "get": {
-        "operationId": "MatreshkaBeAPI_GetConfig",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/matreshka_be_apiGetConfigResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "serviceName",
-            "in": "path",
-            "required": true,
-            "type": "string"
           }
         ],
         "tags": [
@@ -228,7 +228,13 @@
       }
     },
     "matreshka_be_apiCreateConfigResponse": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
     },
     "matreshka_be_apiGetConfigNodeResponse": {
       "type": "object",

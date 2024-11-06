@@ -32,13 +32,14 @@ service MatreshkaBeAPI {
 
   rpc CreateConfig(CreateConfig.Request) returns (CreateConfig.Response) {
     option (google.api.http) = {
-      post: "/api/config/create/{service_name}",
+      post: "/api/config/{service_name}/new",
       body: "*"
     };
   }
+
   rpc PatchConfig(PatchConfig.Request) returns (PatchConfig.Response) {
     option (google.api.http) = {
-      post: "/api/config/patch/{service_name}",
+      post: "/api/config/{service_name}/patch",
       body: "*"
     };
   }
@@ -69,14 +70,6 @@ message GetConfig {
   message Response {
     bytes config = 1;
   }
-}
-
-message CreateConfig {
-  message Request {
-    string service_name = 1;
-  }
-
-  message Response {}
 }
 
 message PatchConfig {
@@ -112,5 +105,15 @@ message GetConfigNode {
 
   message Response {
     Node root = 1;
+  }
+}
+
+message CreateConfig {
+  message Request {
+      string service_name = 1;
+  }
+
+  message Response {
+    int64 id = 1;
   }
 }

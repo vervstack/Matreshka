@@ -7,17 +7,22 @@ import (
 	"github.com/Red-Sock/evon"
 	errors "github.com/Red-Sock/trace-errors"
 
+	"github.com/godverv/matreshka-be/internal/service/user_errors"
 	api "github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
 func (a *Impl) GetConfigNodes(ctx context.Context, req *api.GetConfigNode_Request) (*api.GetConfigNode_Response, error) {
-	cfgNode, err := a.storage.GetConfigNodes(ctx, req.GetServiceName())
+	cfgNodes, err := a.storage.GetConfigNodes(ctx, req.GetServiceName())
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}
 
+	if cfgNodes == nil {
+		return nil, errors.Wrap(user_errors.ErrNotFound, "service with name "+req.ServiceName+" not found")
+	}
+
 	resp := &api.GetConfigNode_Response{
-		Root: toApiNode(cfgNode),
+		Root: toApiNode(cfgNodes),
 	}
 
 	return resp, nil

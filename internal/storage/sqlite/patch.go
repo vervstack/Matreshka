@@ -8,27 +8,30 @@ import (
 	"github.com/godverv/matreshka-be/internal/domain"
 )
 
-func (p *Provider) UpsertValues(ctx context.Context, req domain.PatchConfigRequest) error {
-	var configId int
-	err := p.conn.QueryRowContext(ctx, `
-			SELECT 
-				id
-			FROM configs 
-			WHERE name = $1`,
-		req.ServiceName).
-		Scan(&configId)
-	if err != nil {
-		return errors.Wrap(err, "error getting service config id")
+func (p *Provider) UpsertValues(ctx context.Context, cfgName string, batch []domain.PatchConfig) error {
+	if len(batch) == 0 {
+		return nil
 	}
 
-	for _, b := range req.Batch {
+	var cfgId int64
+	err := p.conn.QueryRowContext(ctx, `
+		SELECT id 
+		FROM configs
+		WHERE name = $1
+		LIMIT 1`, cfgName).
+		Scan(&cfgId)
+	if err != nil {
+		return errors.Wrap(err, "error getting config id by name")
+	}
+
+	for _, b := range batch {
 		_, err := p.conn.ExecContext(ctx, `
 			INSERT INTO configs_values 
 					(config_id, key, value)
 			VALUES 	(       $1,  $2,    $3) 
 			ON CONFLICT (config_id, key) 
 			DO UPDATE SET value = excluded.value`,
-			configId, b.FieldName, b.FieldValue)
+			cfgId, b.FieldName, b.FieldValue)
 		if err != nil {
 			return errors.Wrap(err, "error upserting config")
 		}
