@@ -19,10 +19,10 @@ func (c *ConfigService) CreateConfig(ctx context.Context, serviceName string) (i
 		return 0, errors.Wrap(err)
 	}
 
-	newCfg := c.newConfig(serviceName)
+	newCfg := c.initNewConfig(serviceName)
 
 	var createdCfgId int64
-	newCfgPatch, err := c.toPatch(newCfg)
+	newCfgPatch, err := c.convertConfigToPatch(newCfg)
 	if err != nil {
 		return 0, errors.Wrap(err, "error converting config to patch")
 	}
@@ -58,7 +58,7 @@ func (c *ConfigService) CreateConfig(ctx context.Context, serviceName string) (i
 	return createdCfgId, nil
 }
 
-func (c *ConfigService) toPatch(cfg matreshka.AppConfig) ([]domain.PatchConfig, error) {
+func (c *ConfigService) convertConfigToPatch(cfg matreshka.AppConfig) ([]domain.PatchConfig, error) {
 	newCfgNodes, err := evon.MarshalEnv(&cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "error marshalling config")
@@ -78,7 +78,7 @@ func (c *ConfigService) toPatch(cfg matreshka.AppConfig) ([]domain.PatchConfig, 
 	return cfgPatch, nil
 }
 
-func (c *ConfigService) newConfig(serviceName string) matreshka.AppConfig {
+func (c *ConfigService) initNewConfig(serviceName string) matreshka.AppConfig {
 	newCfg := matreshka.NewEmptyConfig()
 
 	newCfg.AppInfo = matreshka.AppInfo{

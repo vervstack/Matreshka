@@ -22,7 +22,7 @@ const (
 )
 
 func (c *ConfigService) PatchConfig(ctx context.Context, req domain.PatchConfigRequest) error {
-	p := newPatch(req.Batch)
+	patchToUpdate := newPatch(req.Batch)
 
 	cfgNodes, err := c.configStorage.GetConfigNodes(ctx, req.ServiceName)
 	if err != nil {
@@ -30,20 +30,24 @@ func (c *ConfigService) PatchConfig(ctx context.Context, req domain.PatchConfigR
 	}
 
 	if cfgNodes == nil {
-		return errors.Wrap(user_errors.ErrNotFound, "error getting nodes")
+		_, err = c.CreateConfig(ctx, req.ServiceName)
+		if err != nil {
+			return errors.Wrap(err, "error creating config to patch to")
+		}
+		cfgNodes = &evon.Node{}
 	}
 
-	p.normalizeEnvironmentChanges(cfgNodes)
+	patchToUpdate.normalizeEnvironmentChanges(cfgNodes)
 
 	err = c.txManager.Execute(func(tx *sql.Tx) error {
 		configStorage := c.configStorage.WithTx(tx)
 
-		err = configStorage.DeleteValues(ctx, req.ServiceName, p.delete)
+		err = configStorage.DeleteValues(ctx, req.ServiceName, patchToUpdate.delete)
 		if err != nil {
 			return errors.Wrap(err, "error deleting values")
 		}
 
-		err = configStorage.UpsertValues(ctx, req.ServiceName, append(p.upsert, p.envUpsert...))
+		err = configStorage.UpsertValues(ctx, req.ServiceName, append(patchToUpdate.upsert, patchToUpdate.envUpsert...))
 		if err != nil {
 			return errors.Wrap(err, "error patching config in data storage")
 		}
@@ -51,8 +55,8 @@ func (c *ConfigService) PatchConfig(ctx context.Context, req domain.PatchConfigR
 		return nil
 	})
 
-	if len(p.invalid) != 0 {
-		return errors.Wrap(user_errors.ErrValidation, "Invalid patched env var name: "+fmt.Sprint(p.invalid))
+	if len(patchToUpdate.invalid) != 0 {
+		return errors.Wrap(user_errors.ErrValidation, "Invalid patched env var name: "+fmt.Sprint(patchToUpdate.invalid))
 	}
 
 	return nil
