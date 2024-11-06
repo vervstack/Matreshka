@@ -4,17 +4,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Red-Sock/evon"
 	errors "github.com/Red-Sock/trace-errors"
-	"github.com/godverv/matreshka"
 )
 
-func (p *Provider) SaveConfig(ctx context.Context, serviceName string, cfg matreshka.AppConfig) error {
-	node, err := evon.MarshalEnv(&cfg)
-	if err != nil {
-		return errors.Wrap(err, "error marshalling config to variables")
-	}
-	values := evon.NodesToStorage(node.InnerNodes)
+func (p *Provider) Create(ctx context.Context, serviceName string) error {
 
 	var configId int
 	err = p.conn.QueryRowContext(ctx,
