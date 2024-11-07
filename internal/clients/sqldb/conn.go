@@ -1,6 +1,7 @@
 package sqldb
 
 import (
+	"context"
 	"database/sql"
 
 	"github.com/Red-Sock/toolbox/closer"
@@ -11,7 +12,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func New(cfg resources.SqlResource) (DB, error) {
+func New(cfg resources.SqlResource) (*sql.DB, error) {
 	dialect := cfg.SqlDialect()
 	connStr := cfg.ConnectionString()
 
