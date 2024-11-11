@@ -6,7 +6,7 @@ require (
 	github.com/Red-Sock/evon v0.0.15
 	github.com/Red-Sock/toolbox v0.0.5
 	github.com/Red-Sock/trace-errors v0.0.10
-	github.com/godverv/matreshka v0.0.36
+	github.com/godverv/matreshka v0.0.37
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.23.0
 	github.com/pressly/goose/v3 v3.22.1
 	github.com/rs/cors v1.11.1
