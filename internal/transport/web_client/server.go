@@ -19,7 +19,7 @@ func NewServer() http.Handler {
 	}
 
 	ffs := http.FileServer(http.FS(stripped))
-	mux.Handle("/*", ffs)
+	mux.Handle("/", ffs)
 
 	return mux
 }

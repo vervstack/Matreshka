@@ -1,12 +1,12 @@
 module github.com/godverv/matreshka-be
 
-go 1.22.0
+go 1.23.3
 
 require (
 	github.com/Red-Sock/evon v0.0.15
 	github.com/Red-Sock/toolbox v0.0.5
-	github.com/Red-Sock/trace-errors v0.0.11
-	github.com/godverv/matreshka v0.0.37
+	github.com/Red-Sock/trace-errors v0.0.13
+	github.com/godverv/matreshka v0.0.41
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.23.0
 	github.com/pressly/goose/v3 v3.22.1
 	github.com/rs/cors v1.11.1
@@ -36,9 +36,9 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/exp v0.0.0-20241009180824-f66d83c29e7c // indirect
 	golang.org/x/net v0.30.0 // indirect
-	golang.org/x/sys v0.26.0 // indirect
+	golang.org/x/sys v0.27.0 // indirect
 	golang.org/x/text v0.19.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20241104194629-dd2ea8efbc28 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20241113202542-65e8d215514f // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	modernc.org/gc/v3 v3.0.0-20241004144649-1aea3fae8852 // indirect
 	modernc.org/libc v1.61.0 // indirect
