@@ -9,19 +9,19 @@ import (
 	"google.golang.org/grpc"
 
 	"github.com/godverv/matreshka-be/internal/service"
-	v1 "github.com/godverv/matreshka-be/internal/service/servicev1"
+	"github.com/godverv/matreshka-be/internal/service/servicev1"
 	"github.com/godverv/matreshka-be/internal/service/user_errors"
 	"github.com/godverv/matreshka-be/internal/storage"
 	"github.com/godverv/matreshka-be/internal/storage/sqlite"
 	"github.com/godverv/matreshka-be/internal/storage/tx_manager"
 	"github.com/godverv/matreshka-be/internal/transport/grpc_impl"
-	"github.com/godverv/matreshka-be/internal/transport/web_client"
+	"github.com/godverv/matreshka-be/internal/transport/web"
 )
 
 type Custom struct {
 	DataProvider storage.Data
 
-	Srv service.ConfigService
+	Service service.ConfigService
 
 	GrpcImpl  *grpc_impl.Impl
 	WebClient http.Handler
@@ -33,14 +33,14 @@ func (c *Custom) Init(a *App) (err error) {
 
 	txManager := tx_manager.New(a.Sqlite)
 
-	c.Srv = v1.New(c.DataProvider, txManager)
+	c.Service = servicev1.New(c.DataProvider, txManager)
 
-	c.GrpcImpl = grpc_impl.NewServer(a.Cfg, c.Srv, c.DataProvider)
+	c.GrpcImpl = grpc_impl.NewServer(a.Cfg, c.Service, c.DataProvider)
 
-	a.Server.AddImplementation(c.GrpcImpl,
+	a.ServerMaster.AddImplementation(c.GrpcImpl,
 		grpc.UnaryInterceptor(user_errors.ErrorInterceptor()))
 
-	c.WebClient = web_client.NewServer()
-	a.Server.AddHttpHandler("/", c.WebClient)
+	c.WebClient = web.NewServer()
+	a.ServerMaster.AddHttpHandler("/", c.WebClient)
 	return nil
 }
