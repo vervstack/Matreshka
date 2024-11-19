@@ -16,6 +16,7 @@ import (
 	"github.com/godverv/matreshka-be/internal/storage/tx_manager"
 	"github.com/godverv/matreshka-be/internal/transport/grpc_impl"
 	"github.com/godverv/matreshka-be/internal/transport/web"
+	docs "github.com/godverv/matreshka-be/pkg/docs/api"
 )
 
 type Custom struct {
@@ -42,5 +43,7 @@ func (c *Custom) Init(a *App) (err error) {
 
 	c.WebClient = web.NewServer()
 	a.ServerMaster.AddHttpHandler("/", c.WebClient)
+
+	a.ServerMaster.AddHttpHandler(docs.Swagger())
 	return nil
 }
