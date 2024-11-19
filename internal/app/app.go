@@ -5,7 +5,6 @@ package app
 import (
 	"context"
 	"database/sql"
-
 	"github.com/Red-Sock/toolbox"
 	"github.com/Red-Sock/toolbox/closer"
 	errors "github.com/Red-Sock/trace-errors"
@@ -23,7 +22,7 @@ type App struct {
 	/* Data source connection */
 	Sqlite *sql.DB
 	/* Servers managers */
-	Server *transport.ServersManager
+	ServerMaster *transport.ServersManager
 
 	Custom Custom
 }
@@ -57,8 +56,8 @@ func New() (app App, err error) {
 func (a *App) Start() (err error) {
 	var eg *errgroup.Group
 	eg, a.Ctx = errgroup.WithContext(a.Ctx)
-	eg.Go(a.Server.Start)
-	closer.Add(func() error { return a.Server.Stop() })
+	eg.Go(a.ServerMaster.Start)
+	closer.Add(func() error { return a.ServerMaster.Stop() })
 
 	interaptedC := func() chan struct{} {
 		c := make(chan struct{})
