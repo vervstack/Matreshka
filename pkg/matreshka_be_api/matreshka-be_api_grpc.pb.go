@@ -25,6 +25,7 @@ const (
 	MatreshkaBeAPI_ListConfigs_FullMethodName    = "/matreshka_be_api.MatreshkaBeAPI/ListConfigs"
 	MatreshkaBeAPI_CreateConfig_FullMethodName   = "/matreshka_be_api.MatreshkaBeAPI/CreateConfig"
 	MatreshkaBeAPI_PatchConfig_FullMethodName    = "/matreshka_be_api.MatreshkaBeAPI/PatchConfig"
+	MatreshkaBeAPI_RenameConfig_FullMethodName   = "/matreshka_be_api.MatreshkaBeAPI/RenameConfig"
 )
 
 // MatreshkaBeAPIClient is the client API for MatreshkaBeAPI service.
@@ -37,6 +38,7 @@ type MatreshkaBeAPIClient interface {
 	ListConfigs(ctx context.Context, in *ListConfigs_Request, opts ...grpc.CallOption) (*ListConfigs_Response, error)
 	CreateConfig(ctx context.Context, in *CreateConfig_Request, opts ...grpc.CallOption) (*CreateConfig_Response, error)
 	PatchConfig(ctx context.Context, in *PatchConfig_Request, opts ...grpc.CallOption) (*PatchConfig_Response, error)
+	RenameConfig(ctx context.Context, in *RenameConfig_Request, opts ...grpc.CallOption) (*RenameConfig_Response, error)
 }
 
 type matreshkaBeAPIClient struct {
@@ -107,6 +109,16 @@ func (c *matreshkaBeAPIClient) PatchConfig(ctx context.Context, in *PatchConfig_
 	return out, nil
 }
 
+func (c *matreshkaBeAPIClient) RenameConfig(ctx context.Context, in *RenameConfig_Request, opts ...grpc.CallOption) (*RenameConfig_Response, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RenameConfig_Response)
+	err := c.cc.Invoke(ctx, MatreshkaBeAPI_RenameConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MatreshkaBeAPIServer is the server API for MatreshkaBeAPI service.
 // All implementations must embed UnimplementedMatreshkaBeAPIServer
 // for forward compatibility.
@@ -117,6 +129,7 @@ type MatreshkaBeAPIServer interface {
 	ListConfigs(context.Context, *ListConfigs_Request) (*ListConfigs_Response, error)
 	CreateConfig(context.Context, *CreateConfig_Request) (*CreateConfig_Response, error)
 	PatchConfig(context.Context, *PatchConfig_Request) (*PatchConfig_Response, error)
+	RenameConfig(context.Context, *RenameConfig_Request) (*RenameConfig_Response, error)
 	mustEmbedUnimplementedMatreshkaBeAPIServer()
 }
 
@@ -144,6 +157,9 @@ func (UnimplementedMatreshkaBeAPIServer) CreateConfig(context.Context, *CreateCo
 }
 func (UnimplementedMatreshkaBeAPIServer) PatchConfig(context.Context, *PatchConfig_Request) (*PatchConfig_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PatchConfig not implemented")
+}
+func (UnimplementedMatreshkaBeAPIServer) RenameConfig(context.Context, *RenameConfig_Request) (*RenameConfig_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RenameConfig not implemented")
 }
 func (UnimplementedMatreshkaBeAPIServer) mustEmbedUnimplementedMatreshkaBeAPIServer() {}
 func (UnimplementedMatreshkaBeAPIServer) testEmbeddedByValue()                        {}
@@ -274,6 +290,24 @@ func _MatreshkaBeAPI_PatchConfig_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MatreshkaBeAPI_RenameConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RenameConfig_Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MatreshkaBeAPIServer).RenameConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MatreshkaBeAPI_RenameConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MatreshkaBeAPIServer).RenameConfig(ctx, req.(*RenameConfig_Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MatreshkaBeAPI_ServiceDesc is the grpc.ServiceDesc for MatreshkaBeAPI service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -304,6 +338,10 @@ var MatreshkaBeAPI_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PatchConfig",
 			Handler:    _MatreshkaBeAPI_PatchConfig_Handler,
+		},
+		{
+			MethodName: "RenameConfig",
+			Handler:    _MatreshkaBeAPI_RenameConfig_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

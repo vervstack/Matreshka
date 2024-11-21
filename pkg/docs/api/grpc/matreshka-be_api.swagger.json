@@ -184,6 +184,42 @@
         ]
       }
     },
+    "/api/config/{serviceName}/rename/{newName}": {
+      "post": {
+        "operationId": "MatreshkaBeAPI_RenameConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiRenameConfigResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serviceName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "newName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MatreshkaBeAPI"
+        ]
+      }
+    },
     "/api/version": {
       "get": {
         "operationId": "MatreshkaBeAPI_ApiVersion",
@@ -324,6 +360,14 @@
     },
     "matreshka_be_apiPatchConfigResponse": {
       "type": "object"
+    },
+    "matreshka_be_apiRenameConfigResponse": {
+      "type": "object",
+      "properties": {
+        "newName": {
+          "type": "string"
+        }
+      }
     },
     "protobufAny": {
       "type": "object",

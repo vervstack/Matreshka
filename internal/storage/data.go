@@ -19,5 +19,7 @@ type Data interface {
 	UpsertValues(ctx context.Context, serviceName string, req []domain.PatchConfig) error
 	DeleteValues(ctx context.Context, serviceName string, req []domain.PatchConfig) error
 
+	Rename(ctx context.Context, oldName string, newName string) error
+
 	WithTx(tx *sql.Tx) Data
 }

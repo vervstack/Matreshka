@@ -404,6 +404,42 @@ func (*CreateConfig) Descriptor() ([]byte, []int) {
 	return file_api_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{8}
 }
 
+type RenameConfig struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *RenameConfig) Reset() {
+	*x = RenameConfig{}
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RenameConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RenameConfig) ProtoMessage() {}
+
+func (x *RenameConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RenameConfig.ProtoReflect.Descriptor instead.
+func (*RenameConfig) Descriptor() ([]byte, []int) {
+	return file_api_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{9}
+}
+
 type ApiVersion_Request struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -412,7 +448,7 @@ type ApiVersion_Request struct {
 
 func (x *ApiVersion_Request) Reset() {
 	*x = ApiVersion_Request{}
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[9]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -424,7 +460,7 @@ func (x *ApiVersion_Request) String() string {
 func (*ApiVersion_Request) ProtoMessage() {}
 
 func (x *ApiVersion_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[9]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -450,7 +486,7 @@ type ApiVersion_Response struct {
 
 func (x *ApiVersion_Response) Reset() {
 	*x = ApiVersion_Response{}
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[10]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -462,7 +498,7 @@ func (x *ApiVersion_Response) String() string {
 func (*ApiVersion_Response) ProtoMessage() {}
 
 func (x *ApiVersion_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[10]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -495,7 +531,7 @@ type GetConfig_Request struct {
 
 func (x *GetConfig_Request) Reset() {
 	*x = GetConfig_Request{}
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[11]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -507,7 +543,7 @@ func (x *GetConfig_Request) String() string {
 func (*GetConfig_Request) ProtoMessage() {}
 
 func (x *GetConfig_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[11]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -540,7 +576,7 @@ type GetConfig_Response struct {
 
 func (x *GetConfig_Response) Reset() {
 	*x = GetConfig_Response{}
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[12]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -552,7 +588,7 @@ func (x *GetConfig_Response) String() string {
 func (*GetConfig_Response) ProtoMessage() {}
 
 func (x *GetConfig_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[12]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -586,7 +622,7 @@ type PatchConfig_Request struct {
 
 func (x *PatchConfig_Request) Reset() {
 	*x = PatchConfig_Request{}
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[13]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -598,7 +634,7 @@ func (x *PatchConfig_Request) String() string {
 func (*PatchConfig_Request) ProtoMessage() {}
 
 func (x *PatchConfig_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[13]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -636,7 +672,7 @@ type PatchConfig_Response struct {
 
 func (x *PatchConfig_Response) Reset() {
 	*x = PatchConfig_Response{}
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[14]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -648,7 +684,7 @@ func (x *PatchConfig_Response) String() string {
 func (*PatchConfig_Response) ProtoMessage() {}
 
 func (x *PatchConfig_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[14]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -675,7 +711,7 @@ type ListConfigs_Request struct {
 
 func (x *ListConfigs_Request) Reset() {
 	*x = ListConfigs_Request{}
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[15]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -687,7 +723,7 @@ func (x *ListConfigs_Request) String() string {
 func (*ListConfigs_Request) ProtoMessage() {}
 
 func (x *ListConfigs_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[15]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -727,7 +763,7 @@ type ListConfigs_Response struct {
 
 func (x *ListConfigs_Response) Reset() {
 	*x = ListConfigs_Response{}
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[16]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -739,7 +775,7 @@ func (x *ListConfigs_Response) String() string {
 func (*ListConfigs_Response) ProtoMessage() {}
 
 func (x *ListConfigs_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[16]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -772,7 +808,7 @@ type GetConfigNode_Request struct {
 
 func (x *GetConfigNode_Request) Reset() {
 	*x = GetConfigNode_Request{}
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[17]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -784,7 +820,7 @@ func (x *GetConfigNode_Request) String() string {
 func (*GetConfigNode_Request) ProtoMessage() {}
 
 func (x *GetConfigNode_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[17]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -817,7 +853,7 @@ type GetConfigNode_Response struct {
 
 func (x *GetConfigNode_Response) Reset() {
 	*x = GetConfigNode_Response{}
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[18]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -829,7 +865,7 @@ func (x *GetConfigNode_Response) String() string {
 func (*GetConfigNode_Response) ProtoMessage() {}
 
 func (x *GetConfigNode_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[18]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -862,7 +898,7 @@ type CreateConfig_Request struct {
 
 func (x *CreateConfig_Request) Reset() {
 	*x = CreateConfig_Request{}
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[19]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -874,7 +910,7 @@ func (x *CreateConfig_Request) String() string {
 func (*CreateConfig_Request) ProtoMessage() {}
 
 func (x *CreateConfig_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[19]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -907,7 +943,7 @@ type CreateConfig_Response struct {
 
 func (x *CreateConfig_Response) Reset() {
 	*x = CreateConfig_Response{}
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[20]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -919,7 +955,7 @@ func (x *CreateConfig_Response) String() string {
 func (*CreateConfig_Response) ProtoMessage() {}
 
 func (x *CreateConfig_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[20]
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -940,6 +976,104 @@ func (x *CreateConfig_Response) GetId() int64 {
 		return x.Id
 	}
 	return 0
+}
+
+type RenameConfig_Request struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ServiceName string `protobuf:"bytes,1,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"`
+	NewName     string `protobuf:"bytes,2,opt,name=new_name,json=newName,proto3" json:"new_name,omitempty"`
+}
+
+func (x *RenameConfig_Request) Reset() {
+	*x = RenameConfig_Request{}
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RenameConfig_Request) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RenameConfig_Request) ProtoMessage() {}
+
+func (x *RenameConfig_Request) ProtoReflect() protoreflect.Message {
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RenameConfig_Request.ProtoReflect.Descriptor instead.
+func (*RenameConfig_Request) Descriptor() ([]byte, []int) {
+	return file_api_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{9, 0}
+}
+
+func (x *RenameConfig_Request) GetServiceName() string {
+	if x != nil {
+		return x.ServiceName
+	}
+	return ""
+}
+
+func (x *RenameConfig_Request) GetNewName() string {
+	if x != nil {
+		return x.NewName
+	}
+	return ""
+}
+
+type RenameConfig_Response struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	NewName string `protobuf:"bytes,1,opt,name=new_name,json=newName,proto3" json:"new_name,omitempty"`
+}
+
+func (x *RenameConfig_Response) Reset() {
+	*x = RenameConfig_Response{}
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RenameConfig_Response) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RenameConfig_Response) ProtoMessage() {}
+
+func (x *RenameConfig_Response) ProtoReflect() protoreflect.Message {
+	mi := &file_api_grpc_matreshka_be_api_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RenameConfig_Response.ProtoReflect.Descriptor instead.
+func (*RenameConfig_Response) Descriptor() ([]byte, []int) {
+	return file_api_grpc_matreshka_be_api_proto_rawDescGZIP(), []int{9, 1}
+}
+
+func (x *RenameConfig_Response) GetNewName() string {
+	if x != nil {
+		return x.NewName
+	}
+	return ""
 }
 
 var File_api_grpc_matreshka_be_api_proto protoreflect.FileDescriptor
@@ -1008,7 +1142,15 @@ var file_api_grpc_matreshka_be_api_proto_rawDesc = []byte{
 	0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x73, 0x65, 0x72, 0x76, 0x69,
 	0x63, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x1a, 0x1a, 0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
 	0x73, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02,
-	0x69, 0x64, 0x32, 0xa1, 0x06, 0x0a, 0x0e, 0x4d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61,
+	0x69, 0x64, 0x22, 0x7e, 0x0a, 0x0c, 0x52, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x43, 0x6f, 0x6e, 0x66,
+	0x69, 0x67, 0x1a, 0x47, 0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x21, 0x0a,
+	0x0c, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x0b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4e, 0x61, 0x6d, 0x65,
+	0x12, 0x19, 0x0a, 0x08, 0x6e, 0x65, 0x77, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x07, 0x6e, 0x65, 0x77, 0x4e, 0x61, 0x6d, 0x65, 0x1a, 0x25, 0x0a, 0x08, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x19, 0x0a, 0x08, 0x6e, 0x65, 0x77, 0x5f, 0x6e,
+	0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6e, 0x65, 0x77, 0x4e, 0x61,
+	0x6d, 0x65, 0x32, 0xb9, 0x07, 0x0a, 0x0e, 0x4d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61,
 	0x42, 0x65, 0x41, 0x50, 0x49, 0x12, 0x6f, 0x0a, 0x0a, 0x41, 0x70, 0x69, 0x56, 0x65, 0x72, 0x73,
 	0x69, 0x6f, 0x6e, 0x12, 0x24, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f,
 	0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x41, 0x70, 0x69, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f,
@@ -1058,9 +1200,18 @@ var file_api_grpc_matreshka_be_api_proto_rawDesc = []byte{
 	0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2b, 0x82, 0xd3, 0xe4, 0x93, 0x02,
 	0x25, 0x3a, 0x01, 0x2a, 0x22, 0x20, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x6f, 0x6e, 0x66, 0x69,
 	0x67, 0x2f, 0x7b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x7d,
-	0x2f, 0x70, 0x61, 0x74, 0x63, 0x68, 0x42, 0x13, 0x5a, 0x11, 0x2f, 0x6d, 0x61, 0x74, 0x72, 0x65,
-	0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x2f, 0x70, 0x61, 0x74, 0x63, 0x68, 0x12, 0x95, 0x01, 0x0a, 0x0c, 0x52, 0x65, 0x6e, 0x61, 0x6d,
+	0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x26, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73,
+	0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x6e, 0x61, 0x6d,
+	0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x27, 0x2e, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f, 0x61,
+	0x70, 0x69, 0x2e, 0x52, 0x65, 0x6e, 0x61, 0x6d, 0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x34, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2e,
+	0x22, 0x2c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2f, 0x7b, 0x73,
+	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x2f, 0x72, 0x65, 0x6e,
+	0x61, 0x6d, 0x65, 0x2f, 0x7b, 0x6e, 0x65, 0x77, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x42, 0x13,
+	0x5a, 0x11, 0x2f, 0x6d, 0x61, 0x74, 0x72, 0x65, 0x73, 0x68, 0x6b, 0x61, 0x5f, 0x62, 0x65, 0x5f,
+	0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1075,7 +1226,7 @@ func file_api_grpc_matreshka_be_api_proto_rawDescGZIP() []byte {
 	return file_api_grpc_matreshka_be_api_proto_rawDescData
 }
 
-var file_api_grpc_matreshka_be_api_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
+var file_api_grpc_matreshka_be_api_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_api_grpc_matreshka_be_api_proto_goTypes = []any{
 	(*AppInfo)(nil),                // 0: matreshka_be_api.AppInfo
 	(*ListRequest)(nil),            // 1: matreshka_be_api.ListRequest
@@ -1086,18 +1237,21 @@ var file_api_grpc_matreshka_be_api_proto_goTypes = []any{
 	(*Node)(nil),                   // 6: matreshka_be_api.Node
 	(*GetConfigNode)(nil),          // 7: matreshka_be_api.GetConfigNode
 	(*CreateConfig)(nil),           // 8: matreshka_be_api.CreateConfig
-	(*ApiVersion_Request)(nil),     // 9: matreshka_be_api.ApiVersion.Request
-	(*ApiVersion_Response)(nil),    // 10: matreshka_be_api.ApiVersion.Response
-	(*GetConfig_Request)(nil),      // 11: matreshka_be_api.GetConfig.Request
-	(*GetConfig_Response)(nil),     // 12: matreshka_be_api.GetConfig.Response
-	(*PatchConfig_Request)(nil),    // 13: matreshka_be_api.PatchConfig.Request
-	(*PatchConfig_Response)(nil),   // 14: matreshka_be_api.PatchConfig.Response
-	(*ListConfigs_Request)(nil),    // 15: matreshka_be_api.ListConfigs.Request
-	(*ListConfigs_Response)(nil),   // 16: matreshka_be_api.ListConfigs.Response
-	(*GetConfigNode_Request)(nil),  // 17: matreshka_be_api.GetConfigNode.Request
-	(*GetConfigNode_Response)(nil), // 18: matreshka_be_api.GetConfigNode.Response
-	(*CreateConfig_Request)(nil),   // 19: matreshka_be_api.CreateConfig.Request
-	(*CreateConfig_Response)(nil),  // 20: matreshka_be_api.CreateConfig.Response
+	(*RenameConfig)(nil),           // 9: matreshka_be_api.RenameConfig
+	(*ApiVersion_Request)(nil),     // 10: matreshka_be_api.ApiVersion.Request
+	(*ApiVersion_Response)(nil),    // 11: matreshka_be_api.ApiVersion.Response
+	(*GetConfig_Request)(nil),      // 12: matreshka_be_api.GetConfig.Request
+	(*GetConfig_Response)(nil),     // 13: matreshka_be_api.GetConfig.Response
+	(*PatchConfig_Request)(nil),    // 14: matreshka_be_api.PatchConfig.Request
+	(*PatchConfig_Response)(nil),   // 15: matreshka_be_api.PatchConfig.Response
+	(*ListConfigs_Request)(nil),    // 16: matreshka_be_api.ListConfigs.Request
+	(*ListConfigs_Response)(nil),   // 17: matreshka_be_api.ListConfigs.Response
+	(*GetConfigNode_Request)(nil),  // 18: matreshka_be_api.GetConfigNode.Request
+	(*GetConfigNode_Response)(nil), // 19: matreshka_be_api.GetConfigNode.Response
+	(*CreateConfig_Request)(nil),   // 20: matreshka_be_api.CreateConfig.Request
+	(*CreateConfig_Response)(nil),  // 21: matreshka_be_api.CreateConfig.Response
+	(*RenameConfig_Request)(nil),   // 22: matreshka_be_api.RenameConfig.Request
+	(*RenameConfig_Response)(nil),  // 23: matreshka_be_api.RenameConfig.Response
 }
 var file_api_grpc_matreshka_be_api_proto_depIdxs = []int32{
 	6,  // 0: matreshka_be_api.Node.inner_nodes:type_name -> matreshka_be_api.Node
@@ -1105,20 +1259,22 @@ var file_api_grpc_matreshka_be_api_proto_depIdxs = []int32{
 	1,  // 2: matreshka_be_api.ListConfigs.Request.list_request:type_name -> matreshka_be_api.ListRequest
 	0,  // 3: matreshka_be_api.ListConfigs.Response.services:type_name -> matreshka_be_api.AppInfo
 	6,  // 4: matreshka_be_api.GetConfigNode.Response.root:type_name -> matreshka_be_api.Node
-	9,  // 5: matreshka_be_api.MatreshkaBeAPI.ApiVersion:input_type -> matreshka_be_api.ApiVersion.Request
-	11, // 6: matreshka_be_api.MatreshkaBeAPI.GetConfig:input_type -> matreshka_be_api.GetConfig.Request
-	17, // 7: matreshka_be_api.MatreshkaBeAPI.GetConfigNodes:input_type -> matreshka_be_api.GetConfigNode.Request
-	15, // 8: matreshka_be_api.MatreshkaBeAPI.ListConfigs:input_type -> matreshka_be_api.ListConfigs.Request
-	19, // 9: matreshka_be_api.MatreshkaBeAPI.CreateConfig:input_type -> matreshka_be_api.CreateConfig.Request
-	13, // 10: matreshka_be_api.MatreshkaBeAPI.PatchConfig:input_type -> matreshka_be_api.PatchConfig.Request
-	10, // 11: matreshka_be_api.MatreshkaBeAPI.ApiVersion:output_type -> matreshka_be_api.ApiVersion.Response
-	12, // 12: matreshka_be_api.MatreshkaBeAPI.GetConfig:output_type -> matreshka_be_api.GetConfig.Response
-	18, // 13: matreshka_be_api.MatreshkaBeAPI.GetConfigNodes:output_type -> matreshka_be_api.GetConfigNode.Response
-	16, // 14: matreshka_be_api.MatreshkaBeAPI.ListConfigs:output_type -> matreshka_be_api.ListConfigs.Response
-	20, // 15: matreshka_be_api.MatreshkaBeAPI.CreateConfig:output_type -> matreshka_be_api.CreateConfig.Response
-	14, // 16: matreshka_be_api.MatreshkaBeAPI.PatchConfig:output_type -> matreshka_be_api.PatchConfig.Response
-	11, // [11:17] is the sub-list for method output_type
-	5,  // [5:11] is the sub-list for method input_type
+	10, // 5: matreshka_be_api.MatreshkaBeAPI.ApiVersion:input_type -> matreshka_be_api.ApiVersion.Request
+	12, // 6: matreshka_be_api.MatreshkaBeAPI.GetConfig:input_type -> matreshka_be_api.GetConfig.Request
+	18, // 7: matreshka_be_api.MatreshkaBeAPI.GetConfigNodes:input_type -> matreshka_be_api.GetConfigNode.Request
+	16, // 8: matreshka_be_api.MatreshkaBeAPI.ListConfigs:input_type -> matreshka_be_api.ListConfigs.Request
+	20, // 9: matreshka_be_api.MatreshkaBeAPI.CreateConfig:input_type -> matreshka_be_api.CreateConfig.Request
+	14, // 10: matreshka_be_api.MatreshkaBeAPI.PatchConfig:input_type -> matreshka_be_api.PatchConfig.Request
+	22, // 11: matreshka_be_api.MatreshkaBeAPI.RenameConfig:input_type -> matreshka_be_api.RenameConfig.Request
+	11, // 12: matreshka_be_api.MatreshkaBeAPI.ApiVersion:output_type -> matreshka_be_api.ApiVersion.Response
+	13, // 13: matreshka_be_api.MatreshkaBeAPI.GetConfig:output_type -> matreshka_be_api.GetConfig.Response
+	19, // 14: matreshka_be_api.MatreshkaBeAPI.GetConfigNodes:output_type -> matreshka_be_api.GetConfigNode.Response
+	17, // 15: matreshka_be_api.MatreshkaBeAPI.ListConfigs:output_type -> matreshka_be_api.ListConfigs.Response
+	21, // 16: matreshka_be_api.MatreshkaBeAPI.CreateConfig:output_type -> matreshka_be_api.CreateConfig.Response
+	15, // 17: matreshka_be_api.MatreshkaBeAPI.PatchConfig:output_type -> matreshka_be_api.PatchConfig.Response
+	23, // 18: matreshka_be_api.MatreshkaBeAPI.RenameConfig:output_type -> matreshka_be_api.RenameConfig.Response
+	12, // [12:19] is the sub-list for method output_type
+	5,  // [5:12] is the sub-list for method input_type
 	5,  // [5:5] is the sub-list for extension type_name
 	5,  // [5:5] is the sub-list for extension extendee
 	0,  // [0:5] is the sub-list for field type_name
@@ -1136,7 +1292,7 @@ func file_api_grpc_matreshka_be_api_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_api_grpc_matreshka_be_api_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   21,
+			NumMessages:   24,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

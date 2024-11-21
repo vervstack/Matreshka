@@ -43,6 +43,12 @@ service MatreshkaBeAPI {
       body: "*"
     };
   }
+
+  rpc RenameConfig(RenameConfig.Request) returns (RenameConfig.Response) {
+    option (google.api.http) = {
+      post: "/api/config/{service_name}/rename/{new_name}",
+    };
+  }
 }
 
 message AppInfo {
@@ -110,10 +116,20 @@ message GetConfigNode {
 
 message CreateConfig {
   message Request {
-      string service_name = 1;
+    string service_name = 1;
   }
 
   message Response {
     int64 id = 1;
+  }
+}
+
+message RenameConfig {
+  message Request {
+    string service_name = 1;
+    string new_name = 2;
+  }
+  message Response {
+    string new_name = 1;
   }
 }

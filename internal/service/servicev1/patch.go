@@ -47,7 +47,8 @@ func (c *ConfigService) PatchConfig(ctx context.Context, req domain.PatchConfigR
 			return errors.Wrap(err, "error deleting values")
 		}
 
-		err = configStorage.UpsertValues(ctx, req.ServiceName, append(patchToUpdate.upsert, patchToUpdate.envUpsert...))
+		upsertReq := append(patchToUpdate.upsert, patchToUpdate.envUpsert...)
+		err = configStorage.UpsertValues(ctx, req.ServiceName, upsertReq)
 		if err != nil {
 			return errors.Wrap(err, "error patching config in data storage")
 		}
@@ -162,4 +163,14 @@ func validateName(patch domain.PatchConfig) (newName string, ok bool) {
 	}
 
 	return patch.FieldName, false
+}
+
+func clearName(name string) string {
+	fromIdx := strings.Index(name, "/")
+	if fromIdx == -1 {
+		return name
+	}
+	newName := (name)[fromIdx+1:]
+	newName = strings.ReplaceAll(newName, "/", "-")
+	return newName
 }

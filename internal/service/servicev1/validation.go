@@ -17,7 +17,7 @@ func newValidator() validator {
 		validServiceNameSymbols: map[rune]struct{}{},
 	}
 
-	for _, r := range []rune(`ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.`) {
+	for _, r := range []rune(`ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_`) {
 		v.validServiceNameSymbols[r] = struct{}{}
 	}
 
