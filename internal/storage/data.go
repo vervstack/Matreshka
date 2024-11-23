@@ -12,7 +12,7 @@ import (
 type Data interface {
 	// GetConfigNodes returns root node of parsed config
 	GetConfigNodes(ctx context.Context, serviceName string) (*evon.Node, error)
-	ListConfigs(ctx context.Context, req domain.ListConfigsRequest) ([]domain.ConfigListItem, error)
+	ListConfigs(ctx context.Context, req domain.ListConfigsRequest) (domain.ListConfigsResponse, error)
 
 	Create(ctx context.Context, serviceConfig string) (int64, error)
 

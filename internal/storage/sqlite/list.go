@@ -2,14 +2,26 @@ package sqlite
 
 import (
 	"context"
+	"fmt"
 
 	errors "github.com/Red-Sock/trace-errors"
 
 	"github.com/godverv/matreshka-be/internal/domain"
+	api "github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
-func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsRequest) ([]domain.ConfigListItem, error) {
-	rows, err := p.conn.QueryContext(ctx, `
+func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsRequest) (out domain.ListConfigsResponse, err error) {
+	err = p.conn.QueryRow(`
+			SELECT 
+				count(cfg.id)
+			FROM configs cfg
+			WHERE name LIKE '%'||$1||'%'`, req.SearchPattern).
+		Scan(&out.TotalRecords)
+	if err != nil {
+		return domain.ListConfigsResponse{}, errors.Wrap(err, "error scanning total amount of configs")
+	}
+
+	q := `
 		SELECT 
 		    cfg.name,
 		    coalesce(version.value, '')
@@ -17,16 +29,21 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 		LEFT JOIN configs_values AS version
 		ON        version.config_id = cfg.id
 		AND       version.key       = 'APP-INFO_VERSION'
-		WHERE name LIKE '%'||$1||'%'
-		LIMIT $2
-		OFFSET $3
-		`, req.SearchPattern, req.Limit, req.Offset)
+		WHERE name LIKE '%'||$1||'%'`
+	args := []any{req.SearchPattern}
+
+	q += "\nORDER BY " + extractSort(req.Sort)
+	q += fmt.Sprintf("\nLIMIT %d OFFSET %d",
+		req.Paging.Limit, req.Paging.Offset)
+
+	rows, err := p.conn.QueryContext(ctx, q, args...)
 	if err != nil {
-		return nil, errors.Wrap(err, "error listing configs")
+		return domain.ListConfigsResponse{}, errors.Wrap(err, "error listing configs")
 	}
 	defer rows.Close()
 
-	out := make([]domain.ConfigListItem, 0, req.Limit)
+	out.List = make([]domain.ConfigListItem, 0, req.Paging.Limit)
+
 	for rows.Next() {
 		var item domain.ConfigListItem
 		err = rows.Scan(
@@ -34,11 +51,27 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 			&item.Version,
 		)
 		if err != nil {
-			return nil, errors.Wrap(err, "error scanning row")
+			return out, errors.Wrap(err, "error scanning row")
 		}
 
-		out = append(out, item)
+		out.List = append(out.List, item)
 	}
 
 	return out, nil
+}
+
+func extractSort(sort domain.Sort) (field string) {
+	switch sort.SortType {
+	case api.Sort_default:
+		field = "id "
+	case api.Sort_by_name:
+		field = "name "
+	case api.Sort_by_updated_at:
+		field = "updated_at "
+	}
+	if sort.Desc {
+		field += "DESC"
+	}
+
+	return
 }
