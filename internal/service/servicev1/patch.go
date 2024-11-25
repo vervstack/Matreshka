@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+	"time"
 
 	"github.com/Red-Sock/evon"
 	errors "github.com/Red-Sock/trace-errors"
@@ -51,6 +52,11 @@ func (c *ConfigService) PatchConfig(ctx context.Context, req domain.PatchConfigR
 		err = configStorage.UpsertValues(ctx, req.ServiceName, upsertReq)
 		if err != nil {
 			return errors.Wrap(err, "error patching config in data storage")
+		}
+
+		err = configStorage.SetUpdatedAt(ctx, req.ServiceName, time.Now())
+		if err != nil {
+			return errors.Wrap(err, "error updating time")
 		}
 
 		return nil

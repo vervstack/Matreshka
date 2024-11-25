@@ -260,6 +260,10 @@
         },
         "version": {
           "type": "string"
+        },
+        "updatedAtUtcTimestamp": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },

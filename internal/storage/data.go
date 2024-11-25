@@ -3,6 +3,7 @@ package storage
 import (
 	"context"
 	"database/sql"
+	"time"
 
 	"github.com/Red-Sock/evon"
 
@@ -18,6 +19,7 @@ type Data interface {
 
 	UpsertValues(ctx context.Context, serviceName string, req []domain.PatchConfig) error
 	DeleteValues(ctx context.Context, serviceName string, req []domain.PatchConfig) error
+	SetUpdatedAt(ctx context.Context, serviceName string, req time.Time) error
 
 	Rename(ctx context.Context, oldName string, newName string) error
 

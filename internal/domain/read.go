@@ -1,6 +1,8 @@
 package domain
 
 import (
+	"time"
+
 	"github.com/Red-Sock/evon"
 
 	api "github.com/godverv/matreshka-be/pkg/matreshka_be_api"
@@ -19,8 +21,9 @@ type ListConfigsResponse struct {
 }
 
 type ConfigListItem struct {
-	Name    string
-	Version string
+	Name      string
+	Version   string
+	UpdatedAt time.Time
 }
 
 type ConfigDescription struct {

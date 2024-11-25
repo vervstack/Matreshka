@@ -38,8 +38,9 @@ func (a *Impl) ListConfigs(ctx context.Context, req *api.ListConfigs_Request) (*
 	for _, item := range configs.List {
 		resp.Services = append(resp.Services,
 			&api.AppInfo{
-				Name:    item.Name,
-				Version: item.Version,
+				Name:                  item.Name,
+				Version:               item.Version,
+				UpdatedAtUtcTimestamp: item.UpdatedAt.UTC().Unix(),
 			})
 	}
 

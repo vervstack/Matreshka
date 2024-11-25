@@ -24,7 +24,8 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 	q := `
 		SELECT 
 		    cfg.name,
-		    coalesce(version.value, '')
+		    coalesce(version.value, ''),
+		    updated_at
 		FROM configs cfg
 		LEFT JOIN configs_values AS version
 		ON        version.config_id = cfg.id
@@ -49,6 +50,7 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 		err = rows.Scan(
 			&item.Name,
 			&item.Version,
+			&item.UpdatedAt,
 		)
 		if err != nil {
 			return out, errors.Wrap(err, "error scanning row")

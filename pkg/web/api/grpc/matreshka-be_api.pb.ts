@@ -17,6 +17,7 @@ export enum SortType {
 export type AppInfo = {
   name?: string;
   version?: string;
+  updatedAtUtcTimestamp?: string;
 };
 
 export type Paging = {
