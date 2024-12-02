@@ -20,7 +20,7 @@ func (s *ListSuite) SetupSuite() {
 	s.ctx = context.Background()
 
 	s.serviceName = s.T().Name()
-	testEnv.create(s.T(), s.serviceName, fullConfigBytes)
+	testEnv.create(s.T(), s.serviceName)
 }
 
 func (s *ListSuite) Test_ListWithPattern() {
