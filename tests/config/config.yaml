@@ -4,8 +4,8 @@ data_sources:
   - resource_name: sqlite
     path: "./data/test.db"
     migrations_folder: ./../migrations
-server:
-  "50051":
+servers:
+  50051:
     /{GRPC}:
       module: pkg/matreshka_be_api
       gateway: /api

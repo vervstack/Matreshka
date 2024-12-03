@@ -3,7 +3,9 @@ package tests
 import (
 	"context"
 	"testing"
+	"time"
 
+	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 
 	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
@@ -27,14 +29,23 @@ func (s *ListSuite) Test_ListWithPattern() {
 	listReq := &matreshka_be_api.ListConfigs_Request{
 		SearchPattern: s.serviceName,
 	}
-	resp, err := testEnv.grpcApi.ListConfigs(s.ctx, listReq)
-	s.NoError(err)
+	start := time.Now().Add(-time.Minute).UTC()
 
-	expectedList := []*matreshka_be_api.AppInfo{{
-		Name:    s.serviceName,
-		Version: "v0.0.1",
-	}}
-	s.Equal(expectedList, resp.Services)
+	resp, err := testEnv.grpcApi.ListConfigs(s.ctx, listReq)
+	require.NoError(s.T(), err)
+
+	expectedList := &matreshka_be_api.ListConfigs_Response{
+		Services: []*matreshka_be_api.AppInfo{{
+			Name:    s.serviceName,
+			Version: "v0.0.1",
+		}},
+		TotalRecords: 1,
+	}
+
+	tm := time.Unix(resp.Services[0].UpdatedAtUtcTimestamp, 0).UTC()
+	require.True(s.T(), tm.After(start), "new service's config timestamp MUST be over %v got %v", start, tm)
+	resp.Services[0].UpdatedAtUtcTimestamp = 0
+	require.Equal(s.T(), expectedList, resp)
 }
 
 func Test_List(t *testing.T) {
