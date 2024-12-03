@@ -3,6 +3,7 @@ package grpc_impl
 import (
 	"context"
 
+	"github.com/Red-Sock/toolbox"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -12,31 +13,34 @@ import (
 
 func (a *Impl) ListConfigs(ctx context.Context, req *api.ListConfigs_Request) (*api.ListConfigs_Response, error) {
 	listReq := domain.ListConfigsRequest{
-		ListRequest: domain.ListRequest{
-			Limit:  req.GetListRequest().GetLimit(),
-			Offset: req.GetListRequest().GetOffset(),
+		Paging: domain.Paging{
+			Limit:  toolbox.Coalesce(req.GetPaging().GetLimit(), 10),
+			Offset: req.GetPaging().GetOffset(),
 		},
+		Sort: domain.Sort{
+			SortType: req.Sort.GetType(),
+			Desc:     req.Sort.GetDesc(),
+		},
+
 		SearchPattern: req.GetSearchPattern(),
 	}
 
-	if listReq.Limit == 0 {
-		listReq.Limit = 10
-	}
-
-	infos, err := a.storage.ListConfigs(ctx, listReq)
+	configs, err := a.storage.ListConfigs(ctx, listReq)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
 	resp := &api.ListConfigs_Response{
-		Services: make([]*api.AppInfo, 0, len(infos)),
+		Services:     make([]*api.AppInfo, 0, len(configs.List)),
+		TotalRecords: configs.TotalRecords,
 	}
 
-	for _, item := range infos {
+	for _, item := range configs.List {
 		resp.Services = append(resp.Services,
 			&api.AppInfo{
-				Name:    item.Name,
-				Version: item.Version,
+				Name:                  item.Name,
+				Version:               item.Version,
+				UpdatedAtUtcTimestamp: item.UpdatedAt.UTC().Unix(),
 			})
 	}
 

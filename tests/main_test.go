@@ -69,9 +69,8 @@ func getFullConfig(t *testing.T) matreshka.AppConfig {
 	return fullConfig
 }
 
-func (e *Env) create(t *testing.T, serviceName string, config []byte) {
+func (e *Env) create(t *testing.T, serviceName string) {
 	createReq := &matreshka_be_api.CreateConfig_Request{
-		Content:     config,
 		ServiceName: serviceName,
 	}
 	ctx := context.Background()

@@ -1,7 +1,7 @@
 include rscli.mk
 
 fe_src_folder='data/fe-src/'
-fe_dist_folder='internal/transport/web_client/dist'
+fe_dist_folder='internal/transport/web/dist'
 
 .fetch-fe:
 	rm -rf $(fe_src_folder)

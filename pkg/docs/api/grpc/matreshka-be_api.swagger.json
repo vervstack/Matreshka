@@ -184,6 +184,42 @@
         ]
       }
     },
+    "/api/config/{serviceName}/rename/{newName}": {
+      "post": {
+        "operationId": "MatreshkaBeAPI_RenameConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiRenameConfigResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serviceName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "newName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MatreshkaBeAPI"
+        ]
+      }
+    },
     "/api/version": {
       "get": {
         "operationId": "MatreshkaBeAPI_ApiVersion",
@@ -224,6 +260,10 @@
         },
         "version": {
           "type": "string"
+        },
+        "updatedAtUtcTimestamp": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },
@@ -256,11 +296,14 @@
     "matreshka_be_apiListConfigsRequest": {
       "type": "object",
       "properties": {
-        "listRequest": {
-          "$ref": "#/definitions/matreshka_be_apiListRequest"
+        "paging": {
+          "$ref": "#/definitions/matreshka_be_apiPaging"
         },
         "searchPattern": {
           "type": "string"
+        },
+        "sort": {
+          "$ref": "#/definitions/matreshka_be_apiSort"
         }
       }
     },
@@ -273,17 +316,8 @@
             "type": "object",
             "$ref": "#/definitions/matreshka_be_apiAppInfo"
           }
-        }
-      }
-    },
-    "matreshka_be_apiListRequest": {
-      "type": "object",
-      "properties": {
-        "limit": {
-          "type": "integer",
-          "format": "int64"
         },
-        "offset": {
+        "totalRecords": {
           "type": "integer",
           "format": "int64"
         }
@@ -322,8 +356,49 @@
         }
       }
     },
+    "matreshka_be_apiPaging": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
     "matreshka_be_apiPatchConfigResponse": {
       "type": "object"
+    },
+    "matreshka_be_apiRenameConfigResponse": {
+      "type": "object",
+      "properties": {
+        "newName": {
+          "type": "string"
+        }
+      }
+    },
+    "matreshka_be_apiSort": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/matreshka_be_apiSortType"
+        },
+        "desc": {
+          "type": "boolean"
+        }
+      }
+    },
+    "matreshka_be_apiSortType": {
+      "type": "string",
+      "enum": [
+        "default",
+        "by_name",
+        "by_updated_at"
+      ],
+      "default": "default"
     },
     "protobufAny": {
       "type": "object",

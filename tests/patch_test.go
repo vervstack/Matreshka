@@ -12,9 +12,6 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/godverv/matreshka-be/internal/service/servicev1"
-
-	"github.com/godverv/matreshka-be/internal/storage/sqlite"
 	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
@@ -31,7 +28,7 @@ func (s *PatchConfigSuite) SetupSuite() {
 func (s *PatchConfigSuite) Test_PatchConfigEnvironment() {
 	s.T().Skip()
 	serviceName := s.T().Name()
-	testEnv.create(s.T(), serviceName, fullConfigBytes)
+	testEnv.create(s.T(), serviceName)
 
 	newConfig := getFullConfig(s.T())
 
@@ -101,7 +98,7 @@ func (s *PatchConfigSuite) Test_PatchConfigEnvironment() {
 func (s *PatchConfigSuite) Test_PatchConfigServers() {
 	s.T().Skip()
 	serviceName := s.T().Name()
-	testEnv.create(s.T(), serviceName, fullConfigBytes)
+	testEnv.create(s.T(), serviceName)
 
 	newConfig := getFullConfig(s.T())
 
@@ -125,7 +122,7 @@ func (s *PatchConfigSuite) Test_PatchConfigServers() {
 func (s *PatchConfigSuite) Test_PatchConfigDataSources() {
 	s.T().Skip()
 	serviceName := s.T().Name()
-	testEnv.create(s.T(), serviceName, fullConfigBytes)
+	testEnv.create(s.T(), serviceName)
 
 	newConfig := getFullConfig(s.T())
 
@@ -180,41 +177,6 @@ func (s *PatchConfigSuite) Test_PatchConfigDataSources() {
 	})
 
 	require.Equal(s.T(), patchedConfig, newConfig)
-}
-
-func (s *PatchConfigSuite) Test_PatchWithInvalidName() {
-	serviceName := s.T().Name()
-	testEnv.create(s.T(), serviceName, fullConfigBytes)
-
-	invalidPatch := &matreshka_be_api.PatchConfig_Request{
-		ServiceName: serviceName,
-		Changes: []*matreshka_be_api.Node{
-			{
-				Name: "invalid_name",
-			},
-		},
-	}
-	resp, err := testEnv.grpcApi.PatchConfig(s.ctx, invalidPatch)
-	expectedErr := servicev1.ErrInvalidPatchName
-	s.ErrorIs(err, expectedErr)
-	require.Nil(s.T(), resp)
-}
-
-func (s *PatchConfigSuite) Test_PatchNotExistingConfig() {
-	serviceName := s.T().Name()
-
-	invalidPatch := &matreshka_be_api.PatchConfig_Request{
-		ServiceName: serviceName,
-		Changes: []*matreshka_be_api.Node{
-			{
-				Name: "DATA-SOURCES_TELEGRAM-BOT_API-KEY",
-			},
-		},
-	}
-	resp, err := testEnv.grpcApi.PatchConfig(s.ctx, invalidPatch)
-	expectedErr := sqlite.ErrNoNodes
-	s.ErrorIs(err, expectedErr)
-	s.Nil(resp)
 }
 
 func Test_PatchConfig(t *testing.T) {

@@ -20,6 +20,6 @@ config/dev.yaml
 .idea
 api/*
 !api/grpc
-
+proto_deps
 /data
 

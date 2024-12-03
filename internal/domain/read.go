@@ -1,22 +1,29 @@
 package domain
 
 import (
+	"time"
+
 	"github.com/Red-Sock/evon"
+
+	api "github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )
 
-type ListRequest struct {
-	Limit  uint32
-	Offset uint32
-}
-
 type ListConfigsRequest struct {
-	ListRequest
+	Paging Paging
+	Sort   Sort
+
 	SearchPattern string
 }
 
+type ListConfigsResponse struct {
+	List         []ConfigListItem
+	TotalRecords uint32
+}
+
 type ConfigListItem struct {
-	Name    string
-	Version string
+	Name      string
+	Version   string
+	UpdatedAt time.Time
 }
 
 type ConfigDescription struct {
@@ -27,4 +34,14 @@ type ConfigDescription struct {
 type ConfigEnvVals struct {
 	ConfigDescription
 	Nodes *evon.Node
+}
+
+type Paging struct {
+	Limit  uint32
+	Offset uint32
+}
+
+type Sort struct {
+	SortType api.Sort_Type
+	Desc     bool
 }
