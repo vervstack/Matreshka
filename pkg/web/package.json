@@ -1,6 +1,26 @@
 {
-  "name": "matreshka-api",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT"
+  "name": "@godverv/matreshka",
+  "description": "Matreshka Grpc API contracts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "files": [
+    "dist/",
+    "fetch.pb.ts"
+  ],
+  "dependencies": {
+    "tsc": "2.0.4",
+    "typescript": "5.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/godverv/Matreshka-be.git"
+  },
+  "author": {
+    "name": "AlexSkilled",
+    "email": "olegthander@yandex.ru"
+  },
+  "license": "Red-Beer"
 }
