@@ -5,7 +5,7 @@ import (
 
 	"go.redsock.ru/evon"
 
-	api "github.com/godverv/matreshka-be/pkg/matreshka_be_api"
+	api "go.verv.tech/matreshka-be/pkg/matreshka_be_api"
 )
 
 type ListConfigsRequest struct {

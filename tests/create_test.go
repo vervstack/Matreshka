@@ -6,9 +6,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/godverv/matreshka"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
+	"go.verv.tech/matreshka"
 )
 
 type CreateConfigSuite struct {

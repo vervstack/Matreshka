@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/sirupsen/logrus"
 
-	"github.com/godverv/matreshka-be/internal/app"
+	"go.verv.tech/matreshka-be/internal/app"
 )
 
 func main() {

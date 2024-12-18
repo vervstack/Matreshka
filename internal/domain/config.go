@@ -1,7 +1,7 @@
 package domain
 
 import (
-	"github.com/godverv/matreshka"
+	"go.verv.tech/matreshka"
 )
 
 type Config struct {

@@ -7,8 +7,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/godverv/matreshka-be/internal/domain"
-	api "github.com/godverv/matreshka-be/pkg/matreshka_be_api"
+	"go.verv.tech/matreshka-be/internal/domain"
+	api "go.verv.tech/matreshka-be/pkg/matreshka_be_api"
 )
 
 func (a *Impl) ListConfigs(ctx context.Context, req *api.ListConfigs_Request) (*api.ListConfigs_Response, error) {

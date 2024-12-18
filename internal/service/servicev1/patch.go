@@ -11,8 +11,8 @@ import (
 	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
 
-	"github.com/godverv/matreshka-be/internal/domain"
-	"github.com/godverv/matreshka-be/internal/service/user_errors"
+	"go.verv.tech/matreshka-be/internal/domain"
+	"go.verv.tech/matreshka-be/internal/service/user_errors"
 )
 
 const (

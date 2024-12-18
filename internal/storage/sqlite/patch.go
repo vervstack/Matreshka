@@ -5,7 +5,7 @@ import (
 
 	errors "go.redsock.ru/rerrors"
 
-	"github.com/godverv/matreshka-be/internal/domain"
+	"go.verv.tech/matreshka-be/internal/domain"
 )
 
 func (p *Provider) UpsertValues(ctx context.Context, cfgName string, batch []domain.PatchConfig) error {

@@ -10,7 +10,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
+	"go.verv.tech/matreshka-be/pkg/matreshka_be_api"
 )
 
 type GetVersionSuite struct {

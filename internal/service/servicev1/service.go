@@ -1,8 +1,8 @@
 package servicev1
 
 import (
-	"github.com/godverv/matreshka-be/internal/storage"
-	"github.com/godverv/matreshka-be/internal/storage/tx_manager"
+	"go.verv.tech/matreshka-be/internal/storage"
+	"go.verv.tech/matreshka-be/internal/storage/tx_manager"
 )
 
 var allowedSegments = []string{

@@ -5,15 +5,15 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/godverv/matreshka-be/internal/service"
-	"github.com/godverv/matreshka-be/internal/service/servicev1"
-	"github.com/godverv/matreshka-be/internal/service/user_errors"
-	"github.com/godverv/matreshka-be/internal/storage"
-	"github.com/godverv/matreshka-be/internal/storage/sqlite"
-	"github.com/godverv/matreshka-be/internal/storage/tx_manager"
-	"github.com/godverv/matreshka-be/internal/transport/grpc_impl"
-	"github.com/godverv/matreshka-be/internal/transport/web"
-	docs "github.com/godverv/matreshka-be/pkg/docs/api"
+	"go.verv.tech/matreshka-be/internal/service"
+	"go.verv.tech/matreshka-be/internal/service/servicev1"
+	"go.verv.tech/matreshka-be/internal/service/user_errors"
+	"go.verv.tech/matreshka-be/internal/storage"
+	"go.verv.tech/matreshka-be/internal/storage/sqlite"
+	"go.verv.tech/matreshka-be/internal/storage/tx_manager"
+	"go.verv.tech/matreshka-be/internal/transport/grpc_impl"
+	"go.verv.tech/matreshka-be/internal/transport/web"
+	docs "go.verv.tech/matreshka-be/pkg/docs/api"
 )
 
 type Custom struct {

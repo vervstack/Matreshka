@@ -7,7 +7,7 @@ import (
 
 	"go.redsock.ru/evon"
 
-	"github.com/godverv/matreshka-be/internal/domain"
+	"go.verv.tech/matreshka-be/internal/domain"
 )
 
 type Data interface {

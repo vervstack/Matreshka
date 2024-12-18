@@ -6,14 +6,14 @@ import (
 	"os"
 	"testing"
 
-	"github.com/godverv/matreshka"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/require"
 	errors "go.redsock.ru/rerrors"
+	"go.verv.tech/matreshka"
 
-	"github.com/godverv/matreshka-be/internal/app"
-	"github.com/godverv/matreshka-be/internal/transport/grpc_impl"
-	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
+	"go.verv.tech/matreshka-be/internal/app"
+	"go.verv.tech/matreshka-be/internal/transport/grpc_impl"
+	"go.verv.tech/matreshka-be/pkg/matreshka_be_api"
 )
 
 type Env struct {

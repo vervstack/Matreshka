@@ -7,12 +7,12 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/godverv/matreshka/environment"
-	"github.com/godverv/matreshka/resources"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
+	"go.verv.tech/matreshka/environment"
+	"go.verv.tech/matreshka/resources"
 
-	"github.com/godverv/matreshka-be/pkg/matreshka_be_api"
+	"go.verv.tech/matreshka-be/pkg/matreshka_be_api"
 )
 
 type PatchConfigSuite struct {

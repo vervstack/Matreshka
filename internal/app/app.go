@@ -5,14 +5,14 @@ package app
 import (
 	"context"
 	"database/sql"
-	"github.com/godverv/matreshka-be/internal/transport"
 	"github.com/sirupsen/logrus"
 	errors "go.redsock.ru/rerrors"
 	"go.redsock.ru/toolbox"
 	"go.redsock.ru/toolbox/closer"
+	"go.verv.tech/matreshka-be/internal/transport"
 	"golang.org/x/sync/errgroup"
 
-	"github.com/godverv/matreshka-be/internal/config"
+	"go.verv.tech/matreshka-be/internal/config"
 )
 
 type App struct {

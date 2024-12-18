@@ -5,12 +5,12 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/godverv/matreshka"
 	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
+	"go.verv.tech/matreshka"
 
-	"github.com/godverv/matreshka-be/internal/domain"
-	"github.com/godverv/matreshka-be/internal/service/user_errors"
+	"go.verv.tech/matreshka-be/internal/domain"
+	"go.verv.tech/matreshka-be/internal/service/user_errors"
 )
 
 func (c *ConfigService) CreateConfig(ctx context.Context, serviceName string) (int64, error) {

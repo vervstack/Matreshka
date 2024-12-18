@@ -3,8 +3,8 @@
 package app
 
 import (
-	"github.com/godverv/matreshka-be/internal/clients/sqldb"
 	errors "go.redsock.ru/rerrors"
+	"go.verv.tech/matreshka-be/internal/clients/sqldb"
 )
 
 func (a *App) InitDataSources() (err error) {
