@@ -5,7 +5,7 @@ import (
 	"net"
 	"net/http"
 
-	errors "github.com/Red-Sock/trace-errors"
+	errors "go.redsock.ru/rerrors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

@@ -3,7 +3,7 @@ package sqlite
 import (
 	"context"
 
-	errors "github.com/Red-Sock/trace-errors"
+	errors "go.redsock.ru/rerrors"
 )
 
 func (p *Provider) Rename(ctx context.Context, oldName string, newName string) error {

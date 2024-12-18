@@ -1,8 +1,8 @@
 package storage
 
 import (
-	"github.com/Red-Sock/evon"
 	"github.com/godverv/matreshka"
+	"go.redsock.ru/evon"
 )
 
 type Config struct {

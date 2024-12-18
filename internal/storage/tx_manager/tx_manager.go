@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	stdErrors "errors"
 
-	errors "github.com/Red-Sock/trace-errors"
+	errors "go.redsock.ru/rerrors"
 )
 
 type TxManager struct {

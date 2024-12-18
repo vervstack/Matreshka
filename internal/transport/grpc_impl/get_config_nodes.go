@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Red-Sock/evon"
-	errors "github.com/Red-Sock/trace-errors"
+	"go.redsock.ru/evon"
+	errors "go.redsock.ru/rerrors"
 
 	"github.com/godverv/matreshka-be/internal/service/user_errors"
 	api "github.com/godverv/matreshka-be/pkg/matreshka_be_api"

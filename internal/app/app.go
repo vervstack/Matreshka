@@ -5,11 +5,11 @@ package app
 import (
 	"context"
 	"database/sql"
-	"github.com/Red-Sock/toolbox"
-	"github.com/Red-Sock/toolbox/closer"
-	errors "github.com/Red-Sock/trace-errors"
 	"github.com/godverv/matreshka-be/internal/transport"
 	"github.com/sirupsen/logrus"
+	errors "go.redsock.ru/rerrors"
+	"go.redsock.ru/toolbox"
+	"go.redsock.ru/toolbox/closer"
 	"golang.org/x/sync/errgroup"
 
 	"github.com/godverv/matreshka-be/internal/config"

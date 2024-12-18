@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	errors "github.com/Red-Sock/trace-errors"
+	errors "go.redsock.ru/rerrors"
 )
 
 func (p *Provider) SetUpdatedAt(ctx context.Context, serviceName string, time time.Time) error {

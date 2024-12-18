@@ -5,8 +5,8 @@ package app
 import (
 	"context"
 
-	"github.com/Red-Sock/toolbox/closer"
-	errors "github.com/Red-Sock/trace-errors"
+	errors "go.redsock.ru/rerrors"
+	"go.redsock.ru/toolbox/closer"
 
 	"github.com/godverv/matreshka-be/internal/config"
 )

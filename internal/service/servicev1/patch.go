@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Red-Sock/evon"
-	errors "github.com/Red-Sock/trace-errors"
+	"go.redsock.ru/evon"
+	errors "go.redsock.ru/rerrors"
 
 	"github.com/godverv/matreshka-be/internal/domain"
 	"github.com/godverv/matreshka-be/internal/service/user_errors"

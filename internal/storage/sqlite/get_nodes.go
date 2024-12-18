@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Red-Sock/evon"
-	errors "github.com/Red-Sock/trace-errors"
+	"go.redsock.ru/evon"
+	errors "go.redsock.ru/rerrors"
 )
 
 func (p *Provider) GetNodes(ctx context.Context, names ...string) ([]*evon.Node, error) {

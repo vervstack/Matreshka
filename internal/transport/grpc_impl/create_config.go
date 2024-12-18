@@ -3,7 +3,7 @@ package grpc_impl
 import (
 	"context"
 
-	errors "github.com/Red-Sock/trace-errors"
+	errors "go.redsock.ru/rerrors"
 
 	api "github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )

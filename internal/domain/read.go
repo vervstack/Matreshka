@@ -3,7 +3,7 @@ package domain
 import (
 	"time"
 
-	"github.com/Red-Sock/evon"
+	"go.redsock.ru/evon"
 
 	api "github.com/godverv/matreshka-be/pkg/matreshka_be_api"
 )

@@ -5,9 +5,9 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/Red-Sock/evon"
-	errors "github.com/Red-Sock/trace-errors"
 	"github.com/godverv/matreshka"
+	"go.redsock.ru/evon"
+	errors "go.redsock.ru/rerrors"
 
 	"github.com/godverv/matreshka-be/internal/domain"
 	"github.com/godverv/matreshka-be/internal/service/user_errors"

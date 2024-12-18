@@ -3,7 +3,7 @@ package servicev1
 import (
 	"context"
 
-	errors "github.com/Red-Sock/trace-errors"
+	errors "go.redsock.ru/rerrors"
 )
 
 func (c *ConfigService) Rename(ctx context.Context, oldName, newName string) error {

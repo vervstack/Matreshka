@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"text/template"
 
-	errors "github.com/Red-Sock/trace-errors"
 	"github.com/rs/cors"
+	errors "go.redsock.ru/rerrors"
 )
 
 type httpServer struct {

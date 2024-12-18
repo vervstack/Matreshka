@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	errors "github.com/Red-Sock/trace-errors"
+	errors "go.redsock.ru/rerrors"
 
 	"github.com/godverv/matreshka-be/internal/domain"
 	api "github.com/godverv/matreshka-be/pkg/matreshka_be_api"

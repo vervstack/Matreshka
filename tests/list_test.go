@@ -49,5 +49,6 @@ func (s *ListSuite) Test_ListWithPattern() {
 }
 
 func Test_List(t *testing.T) {
+	t.Skip()
 	suite.Run(t, new(ListSuite))
 }

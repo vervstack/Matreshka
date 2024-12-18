@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/Red-Sock/evon"
+	"go.redsock.ru/evon"
 
 	"github.com/godverv/matreshka-be/internal/domain"
 )

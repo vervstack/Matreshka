@@ -3,7 +3,7 @@ package sqlite
 import (
 	"context"
 
-	errors "github.com/Red-Sock/trace-errors"
+	errors "go.redsock.ru/rerrors"
 
 	"github.com/godverv/matreshka-be/internal/domain"
 )

@@ -3,8 +3,8 @@ package sqlite
 import (
 	"context"
 
-	"github.com/Red-Sock/evon"
-	errors "github.com/Red-Sock/trace-errors"
+	"go.redsock.ru/evon"
+	errors "go.redsock.ru/rerrors"
 )
 
 func (p *Provider) GetConfigNodes(ctx context.Context, serviceName string) (*evon.Node, error) {

@@ -6,10 +6,10 @@ import (
 	"os"
 	"testing"
 
-	errors "github.com/Red-Sock/trace-errors"
 	"github.com/godverv/matreshka"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/require"
+	errors "go.redsock.ru/rerrors"
 
 	"github.com/godverv/matreshka-be/internal/app"
 	"github.com/godverv/matreshka-be/internal/transport/grpc_impl"

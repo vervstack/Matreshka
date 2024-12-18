@@ -5,9 +5,9 @@ import (
 	"net"
 	"net/http"
 
-	errors "github.com/Red-Sock/trace-errors"
 	"github.com/sirupsen/logrus"
 	"github.com/soheilhy/cmux"
+	errors "go.redsock.ru/rerrors"
 	"golang.org/x/sync/errgroup"
 )
 

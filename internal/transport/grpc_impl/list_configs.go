@@ -3,7 +3,7 @@ package grpc_impl
 import (
 	"context"
 
-	"github.com/Red-Sock/toolbox"
+	"go.redsock.ru/toolbox"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
