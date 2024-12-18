@@ -35,7 +35,7 @@ jobs:
 #      - tag-release
     steps:
       - name: Release image
-        uses: RedSockActions/release_npm_package@v0.0.3
+        uses: RedSockActions/release_npm_package@v0.0.4
         with:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           VERSION: v1.0.44
