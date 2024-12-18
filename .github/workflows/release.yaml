@@ -31,8 +31,8 @@ jobs:
 
   npm-registry-release:
     runs-on: ${{ vars.UBUNTU_IMAGE }}
-    needs:
-      - tag-release
+#    needs:
+#      - tag-release
     steps:
       - name: Release image
         uses: RedSockActions/release_npm_package@v0.0.3
