@@ -16,7 +16,7 @@ jobs:
           token: ${{ github.token }}
       - name: Link publishing
         run: |
-          echo "::notice::Docker image published: ${IMAGE_URL}"
+          echo "- dockerhub.com/godverv" >> $GITHUB_STEP_SUMMARY
     outputs:
       tag: ${{ steps.release.outputs.tag }}
 
