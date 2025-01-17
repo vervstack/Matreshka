@@ -82,7 +82,7 @@ func (s *PatchConfigSuite) Test_PatchConfigEnvironment() {
 		)
 	}
 
-	patchResp, err := testEnv.grpcApi.PatchConfig(s.ctx, patchReq)
+	patchResp, err := testEnv.grpcImpl.PatchConfig(s.ctx, patchReq)
 	require.NoError(s.T(), err)
 	require.NotNil(s.T(), patchResp)
 
@@ -106,7 +106,7 @@ func (s *PatchConfigSuite) Test_PatchConfigServers() {
 		ServiceName: serviceName,
 	}
 
-	patchResp, err := testEnv.grpcApi.PatchConfig(s.ctx, patchReq)
+	patchResp, err := testEnv.grpcImpl.PatchConfig(s.ctx, patchReq)
 	require.NoError(s.T(), err)
 	require.NotNil(s.T(), patchResp)
 
@@ -166,7 +166,7 @@ func (s *PatchConfigSuite) Test_PatchConfigDataSources() {
 			})
 	}
 
-	patchResp, err := testEnv.grpcApi.PatchConfig(s.ctx, patchReq)
+	patchResp, err := testEnv.grpcImpl.PatchConfig(s.ctx, patchReq)
 	require.NoError(s.T(), err)
 	require.NotNil(s.T(), patchResp)
 

@@ -1,4 +1,4 @@
-package servicev1
+package config
 
 import (
 	"context"
@@ -22,7 +22,7 @@ const (
 	serverSegment      = "DATA-SOURCES"
 )
 
-func (c *ConfigService) PatchConfig(ctx context.Context, req domain.PatchConfigRequest) error {
+func (c *CfgService) Patch(ctx context.Context, req domain.PatchConfigRequest) error {
 	patchToUpdate := newPatch(req.Batch)
 
 	cfgNodes, err := c.configStorage.GetConfigNodes(ctx, req.ServiceName)
@@ -31,7 +31,7 @@ func (c *ConfigService) PatchConfig(ctx context.Context, req domain.PatchConfigR
 	}
 
 	if cfgNodes == nil {
-		_, err = c.CreateConfig(ctx, req.ServiceName)
+		_, err = c.Create(ctx, req.ServiceName)
 		if err != nil {
 			return errors.Wrap(err, "error creating config to patch to")
 		}
@@ -61,6 +61,18 @@ func (c *ConfigService) PatchConfig(ctx context.Context, req domain.PatchConfigR
 
 		return nil
 	})
+
+	go func() {
+		event := domain.PatchConfigRequest{
+			ServiceName: req.ServiceName,
+			Batch:       append([]domain.PatchConfig{}, patchToUpdate.upsert...),
+		}
+
+		event.Batch = append(event.Batch, patchToUpdate.envUpsert...)
+		event.Batch = append(event.Batch, patchToUpdate.delete...)
+
+		c.pubService.Publish(event)
+	}()
 
 	if len(patchToUpdate.invalid) != 0 {
 		return errors.Wrap(user_errors.ErrValidation, "Invalid patched env var name: "+fmt.Sprint(patchToUpdate.invalid))

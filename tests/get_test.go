@@ -29,7 +29,7 @@ func (s *GetTestSuite) Test_GetConfig_NotFound() {
 	getReq := &matreshka_be_api.GetConfig_Request{
 		ServiceName: serviceName,
 	}
-	resp, err := testEnv.grpcApi.GetConfig(s.ctx, getReq)
+	resp, err := testEnv.grpcImpl.GetConfig(s.ctx, getReq)
 
 	expectedErr := sqlite.ErrNoNodes
 	s.ErrorIs(err, expectedErr)
@@ -42,7 +42,7 @@ func (s *GetTestSuite) Test_GetNodes_NotFound() {
 	getReq := &matreshka_be_api.GetConfigNode_Request{
 		ServiceName: serviceName,
 	}
-	resp, err := testEnv.grpcApi.GetConfigNodes(s.ctx, getReq)
+	resp, err := testEnv.grpcImpl.GetConfigNodes(s.ctx, getReq)
 
 	expectedErr := sqlite.ErrNoNodes
 	s.ErrorIs(err, expectedErr)
@@ -175,7 +175,7 @@ func (s *GetTestSuite) Test_GetNodes() {
 	getReq := &matreshka_be_api.GetConfigNode_Request{
 		ServiceName: serviceName,
 	}
-	resp, err := testEnv.grpcApi.GetConfigNodes(s.ctx, getReq)
+	resp, err := testEnv.grpcImpl.GetConfigNodes(s.ctx, getReq)
 	s.NoError(err)
 
 	sort.Slice(expectedConfig, func(i, j int) bool {

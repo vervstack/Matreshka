@@ -7,18 +7,13 @@ import (
 	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
 
-	"go.verv.tech/matreshka-be/internal/service/user_errors"
 	api "go.verv.tech/matreshka-be/pkg/matreshka_be_api"
 )
 
 func (a *Impl) GetConfigNodes(ctx context.Context, req *api.GetConfigNode_Request) (*api.GetConfigNode_Response, error) {
-	cfgNodes, err := a.storage.GetConfigNodes(ctx, req.GetServiceName())
+	cfgNodes, err := a.configService.GetNodes(ctx, req.GetServiceName())
 	if err != nil {
 		return nil, errors.Wrap(err)
-	}
-
-	if cfgNodes == nil {
-		return nil, errors.Wrap(user_errors.ErrNotFound, "service with name "+req.ServiceName+" not found")
 	}
 
 	resp := &api.GetConfigNode_Response{

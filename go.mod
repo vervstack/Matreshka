@@ -4,9 +4,11 @@ go 1.23.4
 
 require (
 	github.com/Red-Sock/go-swagger-ui v0.0.2
+	github.com/gojuno/minimock/v3 v3.4.3
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.24.0
 	github.com/pressly/goose/v3 v3.23.0
 	github.com/rs/cors v1.11.1
+	github.com/simonfxr/pubsub v0.0.5
 	github.com/sirupsen/logrus v1.9.3
 	github.com/soheilhy/cmux v0.1.5
 	github.com/stretchr/testify v1.10.0
@@ -26,7 +28,6 @@ require (
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
-	github.com/kr/text v0.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mfridman/interpolate v0.0.2 // indirect
 	github.com/ncruces/go-strftime v0.1.9 // indirect

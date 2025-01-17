@@ -25,7 +25,7 @@ func (a *Impl) ListConfigs(ctx context.Context, req *api.ListConfigs_Request) (*
 		SearchPattern: req.GetSearchPattern(),
 	}
 
-	configs, err := a.storage.ListConfigs(ctx, listReq)
+	configs, err := a.configService.ListConfigs(ctx, listReq)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

@@ -244,6 +244,18 @@
     }
   },
   "definitions": {
+    "SubscribeOnChangesEnvChanges": {
+      "type": "object",
+      "properties": {
+        "envVariables": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/matreshka_be_apiNode"
+          }
+        }
+      }
+    },
     "matreshka_be_apiApiVersionResponse": {
       "type": "object",
       "properties": {
@@ -399,6 +411,21 @@
         "by_updated_at"
       ],
       "default": "default"
+    },
+    "matreshka_be_apiSubscribeOnChangesResponse": {
+      "type": "object",
+      "properties": {
+        "serviceName": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "envVariables": {
+          "$ref": "#/definitions/SubscribeOnChangesEnvChanges"
+        }
+      }
     },
     "protobufAny": {
       "type": "object",

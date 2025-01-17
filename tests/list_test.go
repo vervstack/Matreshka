@@ -31,7 +31,7 @@ func (s *ListSuite) Test_ListWithPattern() {
 	}
 	start := time.Now().Add(-time.Minute).UTC()
 
-	resp, err := testEnv.grpcApi.ListConfigs(s.ctx, listReq)
+	resp, err := testEnv.grpcImpl.ListConfigs(s.ctx, listReq)
 	require.NoError(s.T(), err)
 
 	expectedList := &matreshka_be_api.ListConfigs_Response{

@@ -7,7 +7,7 @@ type PatchConfigRequest struct {
 
 type PatchConfig struct {
 	FieldName  string
-	FieldValue any
+	FieldValue *string
 }
 
 type RenameRequest struct {

@@ -1,20 +1,22 @@
-package servicev1
+package config
 
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"time"
 
 	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
+	"go.redsock.ru/toolbox"
 	"go.verv.tech/matreshka"
 
 	"go.verv.tech/matreshka-be/internal/domain"
 	"go.verv.tech/matreshka-be/internal/service/user_errors"
 )
 
-func (c *ConfigService) CreateConfig(ctx context.Context, serviceName string) (int64, error) {
-	err := c.validator.validateServiceName(serviceName)
+func (c *CfgService) Create(ctx context.Context, serviceName string) (int64, error) {
+	err := c.validator.ValidateServiceName(serviceName)
 	if err != nil {
 		return 0, errors.Wrap(err)
 	}
@@ -58,7 +60,7 @@ func (c *ConfigService) CreateConfig(ctx context.Context, serviceName string) (i
 	return createdCfgId, nil
 }
 
-func (c *ConfigService) convertConfigToPatch(cfg matreshka.AppConfig) ([]domain.PatchConfig, error) {
+func (c *CfgService) convertConfigToPatch(cfg matreshka.AppConfig) ([]domain.PatchConfig, error) {
 	newCfgNodes, err := evon.MarshalEnv(&cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "error marshalling config")
@@ -71,14 +73,14 @@ func (c *ConfigService) convertConfigToPatch(cfg matreshka.AppConfig) ([]domain.
 			cfgPatch = append(cfgPatch,
 				domain.PatchConfig{
 					FieldName:  node.Name,
-					FieldValue: node.Value,
+					FieldValue: toolbox.ToPtr(fmt.Sprint(node.Value)),
 				})
 		}
 	}
 	return cfgPatch, nil
 }
 
-func (c *ConfigService) initNewConfig(serviceName string) matreshka.AppConfig {
+func (c *CfgService) initNewConfig(serviceName string) matreshka.AppConfig {
 	newCfg := matreshka.NewEmptyConfig()
 
 	newCfg.AppInfo = matreshka.AppInfo{

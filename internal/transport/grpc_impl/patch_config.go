@@ -16,7 +16,7 @@ func (a *Impl) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*
 		Batch:       fromNodeToPatch(&api.Node{InnerNodes: req.GetChanges()}),
 	}
 
-	err := a.service.PatchConfig(ctx, patchReq)
+	err := a.configService.Patch(ctx, patchReq)
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}

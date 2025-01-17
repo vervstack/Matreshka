@@ -13,13 +13,9 @@ import (
 )
 
 func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.GetConfig_Response, error) {
-	cfgNodes, err := a.storage.GetConfigNodes(ctx, req.GetServiceName())
+	cfgNodes, err := a.configService.GetNodes(ctx, req.GetServiceName())
 	if err != nil {
 		return nil, errors.Wrap(err)
-	}
-
-	if cfgNodes == nil {
-		return nil, status.Error(codes.NotFound, "config not found")
 	}
 
 	targetConfig := matreshka.NewEmptyConfig()

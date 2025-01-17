@@ -1,4 +1,4 @@
-package servicev1
+package validation
 
 import (
 	"strings"
@@ -8,12 +8,12 @@ import (
 	"go.verv.tech/matreshka-be/internal/service/user_errors"
 )
 
-type validator struct {
+type Validator struct {
 	validServiceNameSymbols map[rune]struct{}
 }
 
-func newValidator() validator {
-	v := validator{
+func NewValidator() Validator {
+	v := Validator{
 		validServiceNameSymbols: map[rune]struct{}{},
 	}
 
@@ -24,7 +24,7 @@ func newValidator() validator {
 	return v
 }
 
-func (v *validator) validateServiceName(name string) error {
+func (v *Validator) ValidateServiceName(name string) error {
 	if len(name) < 3 {
 		return errors.Wrap(user_errors.ErrValidation,
 			"Service name must be at least 3 symbols long")

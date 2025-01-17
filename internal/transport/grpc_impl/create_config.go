@@ -16,7 +16,7 @@ func (a *Impl) CreateConfig(
 	var resp api.CreateConfig_Response
 	var err error
 
-	resp.Id, err = a.service.CreateConfig(ctx, req.GetServiceName())
+	resp.Id, err = a.configService.Create(ctx, req.GetServiceName())
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}

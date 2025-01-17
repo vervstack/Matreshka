@@ -19,13 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	MatreshkaBeAPI_ApiVersion_FullMethodName     = "/matreshka_be_api.MatreshkaBeAPI/ApiVersion"
-	MatreshkaBeAPI_GetConfig_FullMethodName      = "/matreshka_be_api.MatreshkaBeAPI/GetConfig"
-	MatreshkaBeAPI_GetConfigNodes_FullMethodName = "/matreshka_be_api.MatreshkaBeAPI/GetConfigNodes"
-	MatreshkaBeAPI_ListConfigs_FullMethodName    = "/matreshka_be_api.MatreshkaBeAPI/ListConfigs"
-	MatreshkaBeAPI_CreateConfig_FullMethodName   = "/matreshka_be_api.MatreshkaBeAPI/CreateConfig"
-	MatreshkaBeAPI_PatchConfig_FullMethodName    = "/matreshka_be_api.MatreshkaBeAPI/PatchConfig"
-	MatreshkaBeAPI_RenameConfig_FullMethodName   = "/matreshka_be_api.MatreshkaBeAPI/RenameConfig"
+	MatreshkaBeAPI_ApiVersion_FullMethodName         = "/matreshka_be_api.MatreshkaBeAPI/ApiVersion"
+	MatreshkaBeAPI_GetConfig_FullMethodName          = "/matreshka_be_api.MatreshkaBeAPI/GetConfig"
+	MatreshkaBeAPI_GetConfigNodes_FullMethodName     = "/matreshka_be_api.MatreshkaBeAPI/GetConfigNodes"
+	MatreshkaBeAPI_ListConfigs_FullMethodName        = "/matreshka_be_api.MatreshkaBeAPI/ListConfigs"
+	MatreshkaBeAPI_CreateConfig_FullMethodName       = "/matreshka_be_api.MatreshkaBeAPI/CreateConfig"
+	MatreshkaBeAPI_PatchConfig_FullMethodName        = "/matreshka_be_api.MatreshkaBeAPI/PatchConfig"
+	MatreshkaBeAPI_RenameConfig_FullMethodName       = "/matreshka_be_api.MatreshkaBeAPI/RenameConfig"
+	MatreshkaBeAPI_SubscribeOnChanges_FullMethodName = "/matreshka_be_api.MatreshkaBeAPI/SubscribeOnChanges"
 )
 
 // MatreshkaBeAPIClient is the client API for MatreshkaBeAPI service.
@@ -39,6 +40,7 @@ type MatreshkaBeAPIClient interface {
 	CreateConfig(ctx context.Context, in *CreateConfig_Request, opts ...grpc.CallOption) (*CreateConfig_Response, error)
 	PatchConfig(ctx context.Context, in *PatchConfig_Request, opts ...grpc.CallOption) (*PatchConfig_Response, error)
 	RenameConfig(ctx context.Context, in *RenameConfig_Request, opts ...grpc.CallOption) (*RenameConfig_Response, error)
+	SubscribeOnChanges(ctx context.Context, opts ...grpc.CallOption) (MatreshkaBeAPI_SubscribeOnChangesClient, error)
 }
 
 type matreshkaBeAPIClient struct {
@@ -112,6 +114,37 @@ func (c *matreshkaBeAPIClient) RenameConfig(ctx context.Context, in *RenameConfi
 	return out, nil
 }
 
+func (c *matreshkaBeAPIClient) SubscribeOnChanges(ctx context.Context, opts ...grpc.CallOption) (MatreshkaBeAPI_SubscribeOnChangesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &MatreshkaBeAPI_ServiceDesc.Streams[0], MatreshkaBeAPI_SubscribeOnChanges_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &matreshkaBeAPISubscribeOnChangesClient{stream}
+	return x, nil
+}
+
+type MatreshkaBeAPI_SubscribeOnChangesClient interface {
+	Send(*SubscribeOnChanges_Request) error
+	Recv() (*SubscribeOnChanges_Response, error)
+	grpc.ClientStream
+}
+
+type matreshkaBeAPISubscribeOnChangesClient struct {
+	grpc.ClientStream
+}
+
+func (x *matreshkaBeAPISubscribeOnChangesClient) Send(m *SubscribeOnChanges_Request) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *matreshkaBeAPISubscribeOnChangesClient) Recv() (*SubscribeOnChanges_Response, error) {
+	m := new(SubscribeOnChanges_Response)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // MatreshkaBeAPIServer is the server API for MatreshkaBeAPI service.
 // All implementations must embed UnimplementedMatreshkaBeAPIServer
 // for forward compatibility
@@ -123,6 +156,7 @@ type MatreshkaBeAPIServer interface {
 	CreateConfig(context.Context, *CreateConfig_Request) (*CreateConfig_Response, error)
 	PatchConfig(context.Context, *PatchConfig_Request) (*PatchConfig_Response, error)
 	RenameConfig(context.Context, *RenameConfig_Request) (*RenameConfig_Response, error)
+	SubscribeOnChanges(MatreshkaBeAPI_SubscribeOnChangesServer) error
 	mustEmbedUnimplementedMatreshkaBeAPIServer()
 }
 
@@ -150,6 +184,9 @@ func (UnimplementedMatreshkaBeAPIServer) PatchConfig(context.Context, *PatchConf
 }
 func (UnimplementedMatreshkaBeAPIServer) RenameConfig(context.Context, *RenameConfig_Request) (*RenameConfig_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RenameConfig not implemented")
+}
+func (UnimplementedMatreshkaBeAPIServer) SubscribeOnChanges(MatreshkaBeAPI_SubscribeOnChangesServer) error {
+	return status.Errorf(codes.Unimplemented, "method SubscribeOnChanges not implemented")
 }
 func (UnimplementedMatreshkaBeAPIServer) mustEmbedUnimplementedMatreshkaBeAPIServer() {}
 
@@ -290,6 +327,32 @@ func _MatreshkaBeAPI_RenameConfig_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MatreshkaBeAPI_SubscribeOnChanges_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(MatreshkaBeAPIServer).SubscribeOnChanges(&matreshkaBeAPISubscribeOnChangesServer{stream})
+}
+
+type MatreshkaBeAPI_SubscribeOnChangesServer interface {
+	Send(*SubscribeOnChanges_Response) error
+	Recv() (*SubscribeOnChanges_Request, error)
+	grpc.ServerStream
+}
+
+type matreshkaBeAPISubscribeOnChangesServer struct {
+	grpc.ServerStream
+}
+
+func (x *matreshkaBeAPISubscribeOnChangesServer) Send(m *SubscribeOnChanges_Response) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *matreshkaBeAPISubscribeOnChangesServer) Recv() (*SubscribeOnChanges_Request, error) {
+	m := new(SubscribeOnChanges_Request)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // MatreshkaBeAPI_ServiceDesc is the grpc.ServiceDesc for MatreshkaBeAPI service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -326,6 +389,13 @@ var MatreshkaBeAPI_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _MatreshkaBeAPI_RenameConfig_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "SubscribeOnChanges",
+			Handler:       _MatreshkaBeAPI_SubscribeOnChanges_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
 	Metadata: "api/grpc/matreshka-be_api.proto",
 }

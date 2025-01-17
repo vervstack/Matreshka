@@ -49,6 +49,8 @@ service MatreshkaBeAPI {
       post: "/api/config/{service_name}/rename/{new_name}",
     };
   }
+
+  rpc SubscribeOnChanges(stream SubscribeOnChanges.Request) returns (stream SubscribeOnChanges.Response) {}
 }
 
 message AppInfo {
@@ -144,5 +146,25 @@ message Sort {
     default = 0;
     by_name = 1;
     by_updated_at = 2;
+  }
+}
+
+message SubscribeOnChanges {
+  message Request {
+    repeated string subscribe_service_names = 1;
+    repeated string unsubscribe_service_names = 2;
+  }
+
+  message Response {
+    string service_name = 1;
+    uint32 timestamp = 2;
+
+    oneof changes {
+      EnvChanges env_variables = 3;
+    }
+  }
+
+  message EnvChanges  {
+    repeated Node env_variables = 1;
   }
 }

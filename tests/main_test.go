@@ -3,13 +3,18 @@ package tests
 import (
 	"context"
 	_ "embed"
+	"net"
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/require"
 	errors "go.redsock.ru/rerrors"
 	"go.verv.tech/matreshka"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/test/bufconn"
 
 	"go.verv.tech/matreshka-be/internal/app"
 	"go.verv.tech/matreshka-be/internal/transport/grpc_impl"
@@ -17,7 +22,9 @@ import (
 )
 
 type Env struct {
-	grpcApi *grpc_impl.Impl
+	//deprecated use grpcAPI
+	grpcImpl *grpc_impl.Impl
+	grpcApi  matreshka_be_api.MatreshkaBeAPIClient
 }
 
 //go:embed config/test.config.yaml
@@ -54,7 +61,40 @@ func initApp() error {
 		return errors.Wrap(err, "error db clean up")
 	}
 
-	testEnv.grpcApi = a.Custom.GrpcImpl
+	testEnv.grpcImpl = a.Custom.GrpcImpl
+
+	const bufSize = 1024 * 1024
+	lis := bufconn.Listen(bufSize)
+
+	serv := grpc.NewServer()
+	matreshka_be_api.RegisterMatreshkaBeAPIServer(serv, a.Custom.GrpcImpl)
+	go func() {
+		if err := serv.Serve(lis); err != nil {
+			logrus.Fatalf("error serving grpc server for tests %s", err)
+		}
+	}()
+
+	bufDialer := func(context.Context, string) (net.Conn, error) {
+		return lis.Dial()
+	}
+
+	conn, err := grpc.DialContext(a.Ctx, "bufnet",
+		grpc.WithContextDialer(bufDialer),
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	)
+	if err != nil {
+		logrus.Fatalf("error connecting to test grpc server: %s ", err)
+	}
+	testEnv.grpcApi = matreshka_be_api.NewMatreshkaBeAPIClient(conn)
+
+	ping, err := testEnv.grpcApi.ApiVersion(a.Ctx, &matreshka_be_api.ApiVersion_Request{})
+	if err != nil {
+		logrus.Fatalf("error pingin test server: %s", err)
+	}
+
+	if ping == nil {
+		logrus.Fatalf("error pingin test server")
+	}
 
 	return nil
 }
@@ -75,7 +115,7 @@ func (e *Env) create(t *testing.T, serviceName string) {
 	}
 	ctx := context.Background()
 
-	postResp, err := testEnv.grpcApi.CreateConfig(ctx, createReq)
+	postResp, err := testEnv.grpcImpl.CreateConfig(ctx, createReq)
 	require.NoError(t, err)
 	require.NotNil(t, postResp)
 }
@@ -85,7 +125,7 @@ func (e *Env) get(t *testing.T, serviceName string) matreshka.AppConfig {
 	getReq := &matreshka_be_api.GetConfig_Request{
 		ServiceName: serviceName,
 	}
-	getResp, err := testEnv.grpcApi.GetConfig(ctx, getReq)
+	getResp, err := testEnv.grpcImpl.GetConfig(ctx, getReq)
 	require.NoError(t, err)
 
 	readConfig := matreshka.NewEmptyConfig()
@@ -93,4 +133,8 @@ func (e *Env) get(t *testing.T, serviceName string) matreshka.AppConfig {
 	require.NoError(t, err)
 
 	return readConfig
+}
+
+func getServiceNameFromTest(t *testing.T) string {
+	return strings.ReplaceAll(t.Name(), "/", "_")
 }

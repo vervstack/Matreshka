@@ -10,27 +10,26 @@ import (
 
 	"go.verv.tech/matreshka-be/internal/config"
 	"go.verv.tech/matreshka-be/internal/service"
-	"go.verv.tech/matreshka-be/internal/storage"
 	"go.verv.tech/matreshka-be/pkg/matreshka_be_api"
 )
 
 type Impl struct {
 	version string
-	service service.ConfigService
-	storage storage.Data
+
+	configService service.ConfigService
+	subService    service.SubscriberService
 
 	matreshka_be_api.UnimplementedMatreshkaBeAPIServer
 }
 
 func NewServer(
 	cfg config.Config,
-	service service.ConfigService,
-	storage storage.Data,
+	service service.Services,
 ) *Impl {
 	return &Impl{
-		version: cfg.AppInfo.Version,
-		service: service,
-		storage: storage,
+		version:       cfg.AppInfo.Version,
+		configService: service.ConfigService(),
+		subService:    service.PubSubService(),
 	}
 }
 

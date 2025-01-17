@@ -9,7 +9,7 @@ import (
 )
 
 func (a *Impl) RenameConfig(ctx context.Context, req *api.RenameConfig_Request) (*api.RenameConfig_Response, error) {
-	err := a.service.Rename(ctx, req.ServiceName, req.NewName)
+	err := a.configService.Rename(ctx, req.ServiceName, req.NewName)
 	if err != nil {
 		return nil, errors.Wrap(err, "error renaming config")
 	}

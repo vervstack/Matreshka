@@ -1,4 +1,4 @@
-package servicev1
+package config
 
 import (
 	"context"
@@ -6,8 +6,8 @@ import (
 	errors "go.redsock.ru/rerrors"
 )
 
-func (c *ConfigService) Rename(ctx context.Context, oldName, newName string) error {
-	err := c.validator.validateServiceName(newName)
+func (c *CfgService) Rename(ctx context.Context, oldName, newName string) error {
+	err := c.validator.ValidateServiceName(newName)
 	if err != nil {
 		return errors.Wrap(err)
 	}

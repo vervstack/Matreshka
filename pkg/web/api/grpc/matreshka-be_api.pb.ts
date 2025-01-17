@@ -7,6 +7,15 @@
 
 import * as fm from "../../fetch.pb";
 
+type Absent<T, K extends keyof T> = { [k in Exclude<keyof T, K>]?: undefined };
+
+type OneOf<T> =
+  | { [k in keyof T]?: undefined }
+  | (keyof T extends infer K
+      ? K extends string & keyof T
+        ? { [k in K]: T[K] } & Absent<T, K>
+        : never
+      : never);
 
 export enum SortType {
   default = "default",
@@ -106,6 +115,27 @@ export type Sort = {
   type?: SortType;
   desc?: boolean;
 };
+
+export type SubscribeOnChangesRequest = {
+  subscribeServiceNames?: string[];
+  unsubscribeServiceNames?: string[];
+};
+
+type BaseSubscribeOnChangesResponse = {
+  serviceName?: string;
+  timestamp?: number;
+};
+
+export type SubscribeOnChangesResponse = BaseSubscribeOnChangesResponse &
+  OneOf<{
+    envVariables: SubscribeOnChangesEnvChanges;
+  }>;
+
+export type SubscribeOnChangesEnvChanges = {
+  envVariables?: Node[];
+};
+
+export type SubscribeOnChanges = Record<string, never>;
 
 export class MatreshkaBeAPI {
   static ApiVersion(this:void, req: ApiVersionRequest, initReq?: fm.InitReq): Promise<ApiVersionResponse> {

@@ -6,8 +6,8 @@ import (
 	"google.golang.org/grpc"
 
 	"go.verv.tech/matreshka-be/internal/service"
-	"go.verv.tech/matreshka-be/internal/service/servicev1"
 	"go.verv.tech/matreshka-be/internal/service/user_errors"
+	"go.verv.tech/matreshka-be/internal/service/v1"
 	"go.verv.tech/matreshka-be/internal/storage"
 	"go.verv.tech/matreshka-be/internal/storage/sqlite"
 	"go.verv.tech/matreshka-be/internal/storage/tx_manager"
@@ -19,7 +19,7 @@ import (
 type Custom struct {
 	DataProvider storage.Data
 
-	Service service.ConfigService
+	Service service.Services
 
 	GrpcImpl  *grpc_impl.Impl
 	WebClient http.Handler
@@ -31,9 +31,9 @@ func (c *Custom) Init(a *App) (err error) {
 
 	txManager := tx_manager.New(a.Sqlite)
 
-	c.Service = servicev1.New(c.DataProvider, txManager)
+	c.Service = v1.New(c.DataProvider, txManager)
 
-	c.GrpcImpl = grpc_impl.NewServer(a.Cfg, c.Service, c.DataProvider)
+	c.GrpcImpl = grpc_impl.NewServer(a.Cfg, c.Service)
 
 	a.ServerMaster.AddImplementation(c.GrpcImpl,
 		grpc.UnaryInterceptor(user_errors.ErrorInterceptor()))
