@@ -19,11 +19,18 @@ func (a *Impl) SubscribeOnChanges(stream api.MatreshkaBeAPI_SubscribeOnChangesSe
 
 	subscriberEvents := consumeSubscriberStream(stream)
 
+	errorCount := 0
+
 	for {
 		select {
-		case req := <-subscriberEvents:
+		case req, ok := <-subscriberEvents:
+			if !ok {
+				return nil
+			}
+
 			a.subService.Subscribe(sub, req.SubscribeServiceNames...)
 			a.subService.Unsubscribe(sub, req.UnsubscribeServiceNames...)
+
 		case updates := <-sub.GetUpdateChan():
 
 			patch := &api.SubscribeOnChanges_Response{
@@ -49,6 +56,10 @@ func (a *Impl) SubscribeOnChanges(stream api.MatreshkaBeAPI_SubscribeOnChangesSe
 			err := stream.Send(patch)
 			if err != nil {
 				logrus.Errorf("error sending update to subscriber %s", err)
+				errorCount++
+				if errorCount >= 3 {
+					return rerrors.Wrap(err)
+				}
 			}
 		}
 	}
@@ -56,6 +67,8 @@ func (a *Impl) SubscribeOnChanges(stream api.MatreshkaBeAPI_SubscribeOnChangesSe
 
 func consumeSubscriberStream(stream api.MatreshkaBeAPI_SubscribeOnChangesServer) <-chan *api.SubscribeOnChanges_Request {
 	subscriberEvents := make(chan *api.SubscribeOnChanges_Request, 1)
+
+	errorCount := 0
 
 	go func() {
 		defer close(subscriberEvents)
@@ -65,8 +78,14 @@ func consumeSubscriberStream(stream api.MatreshkaBeAPI_SubscribeOnChangesServer)
 			if err != nil {
 				if !rerrors.Is(err, io.EOF) {
 					logrus.Error(rerrors.Wrap(err, "error receiving names from subscription"))
+					errorCount++
+					if errorCount > 3 {
+						return
+					}
+
 					continue
 				}
+
 				return
 			}
 			subscriberEvents <- req
