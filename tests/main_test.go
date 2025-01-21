@@ -78,7 +78,7 @@ func initApp() error {
 		return lis.Dial()
 	}
 
-	conn, err := grpc.DialContext(a.Ctx, "bufnet",
+	conn, err := grpc.NewClient("passthrough://bufnet",
 		grpc.WithContextDialer(bufDialer),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)

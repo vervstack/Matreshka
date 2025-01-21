@@ -87,10 +87,6 @@ func (s *SubscriptionSuite) TestSubscribeOnChanges() {
 
 }
 
-func (s *SubscriptionSuite) TearDownSuite() {
-
-}
-
 func Test_Subscription(t *testing.T) {
 	suite.Run(t, new(SubscriptionSuite))
 }
