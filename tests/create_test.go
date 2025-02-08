@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
-	"go.verv.tech/matreshka"
+	"go.vervstack.ru/matreshka"
 )
 
 type CreateConfigSuite struct {

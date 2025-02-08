@@ -5,7 +5,7 @@ import (
 
 	errors "go.redsock.ru/rerrors"
 
-	api "go.verv.tech/matreshka-be/pkg/matreshka_be_api"
+	api "go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
 )
 
 func (a *Impl) CreateConfig(

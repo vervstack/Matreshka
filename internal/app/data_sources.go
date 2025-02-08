@@ -4,7 +4,7 @@ package app
 
 import (
 	errors "go.redsock.ru/rerrors"
-	"go.verv.tech/matreshka-be/internal/clients/sqldb"
+	"go.vervstack.ru/matreshka-be/internal/clients/sqldb"
 )
 
 func (a *App) InitDataSources() (err error) {

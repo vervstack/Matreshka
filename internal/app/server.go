@@ -4,7 +4,7 @@ package app
 
 import (
 	errors "go.redsock.ru/rerrors"
-	"go.verv.tech/matreshka-be/internal/transport"
+	"go.vervstack.ru/matreshka-be/internal/transport"
 )
 
 func (a *App) InitServers() (err error) {

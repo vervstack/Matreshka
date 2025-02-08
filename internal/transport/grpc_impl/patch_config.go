@@ -6,8 +6,8 @@ import (
 
 	errors "go.redsock.ru/rerrors"
 
-	"go.verv.tech/matreshka-be/internal/domain"
-	api "go.verv.tech/matreshka-be/pkg/matreshka_be_api"
+	"go.vervstack.ru/matreshka-be/internal/domain"
+	api "go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
 )
 
 func (a *Impl) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*api.PatchConfig_Response, error) {

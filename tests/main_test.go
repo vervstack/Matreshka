@@ -11,14 +11,14 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/require"
 	errors "go.redsock.ru/rerrors"
-	"go.verv.tech/matreshka"
+	"go.vervstack.ru/matreshka"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/test/bufconn"
 
-	"go.verv.tech/matreshka-be/internal/app"
-	"go.verv.tech/matreshka-be/internal/transport/grpc_impl"
-	"go.verv.tech/matreshka-be/pkg/matreshka_be_api"
+	"go.vervstack.ru/matreshka-be/internal/app"
+	"go.vervstack.ru/matreshka-be/internal/transport/grpc_impl"
+	"go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
 )
 
 type Env struct {

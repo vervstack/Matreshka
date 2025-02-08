@@ -5,7 +5,7 @@ import (
 
 	errors "go.redsock.ru/rerrors"
 
-	"go.verv.tech/matreshka-be/internal/domain"
+	"go.vervstack.ru/matreshka-be/internal/domain"
 )
 
 func (p *Provider) DeleteValues(ctx context.Context, cfgName string, batch []domain.PatchConfig) error {

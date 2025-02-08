@@ -9,10 +9,10 @@ import (
 
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
-	"go.verv.tech/matreshka/environment"
-	"go.verv.tech/matreshka/resources"
+	"go.vervstack.ru/matreshka/environment"
+	"go.vervstack.ru/matreshka/resources"
 
-	"go.verv.tech/matreshka-be/pkg/matreshka_be_api"
+	"go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
 )
 
 type PatchConfigSuite struct {

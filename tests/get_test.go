@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"go.verv.tech/matreshka-be/internal/storage/sqlite"
-	"go.verv.tech/matreshka-be/pkg/matreshka_be_api"
+	"go.vervstack.ru/matreshka-be/internal/storage/sqlite"
+	"go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
 )
 
 type GetTestSuite struct {

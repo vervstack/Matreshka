@@ -8,9 +8,9 @@ import (
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 
-	"go.verv.tech/matreshka-be/internal/config"
-	"go.verv.tech/matreshka-be/internal/service"
-	"go.verv.tech/matreshka-be/pkg/matreshka_be_api"
+	"go.vervstack.ru/matreshka-be/internal/config"
+	"go.vervstack.ru/matreshka-be/internal/service"
+	"go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
 )
 
 type Impl struct {

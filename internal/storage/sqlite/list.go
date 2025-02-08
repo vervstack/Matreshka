@@ -6,8 +6,8 @@ import (
 
 	errors "go.redsock.ru/rerrors"
 
-	"go.verv.tech/matreshka-be/internal/domain"
-	api "go.verv.tech/matreshka-be/pkg/matreshka_be_api"
+	"go.vervstack.ru/matreshka-be/internal/domain"
+	api "go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
 )
 
 func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsRequest) (out domain.ListConfigsResponse, err error) {

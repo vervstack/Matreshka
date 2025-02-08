@@ -1,10 +1,10 @@
 package config
 
 import (
-	"go.verv.tech/matreshka-be/internal/service"
-	"go.verv.tech/matreshka-be/internal/storage"
-	"go.verv.tech/matreshka-be/internal/storage/tx_manager"
-	"go.verv.tech/matreshka-be/internal/validation"
+	"go.vervstack.ru/matreshka-be/internal/service"
+	"go.vervstack.ru/matreshka-be/internal/storage"
+	"go.vervstack.ru/matreshka-be/internal/storage/tx_manager"
+	"go.vervstack.ru/matreshka-be/internal/validation"
 )
 
 var allowedSegments = []string{

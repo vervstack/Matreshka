@@ -5,8 +5,8 @@ import (
 
 	_ "modernc.org/sqlite"
 
-	"go.verv.tech/matreshka-be/internal/clients/sqldb"
-	"go.verv.tech/matreshka-be/internal/storage"
+	"go.vervstack.ru/matreshka-be/internal/clients/sqldb"
+	"go.vervstack.ru/matreshka-be/internal/storage"
 )
 
 type Provider struct {
