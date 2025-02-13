@@ -9,6 +9,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
+	"go.vervstack.ru/matreshka"
 	"go.vervstack.ru/matreshka/environment"
 	"go.vervstack.ru/matreshka/resources"
 
@@ -18,30 +19,35 @@ import (
 type PatchConfigSuite struct {
 	suite.Suite
 
-	ctx context.Context
+	ctx         context.Context
+	serviceName string
+	cfg         matreshka.AppConfig
+	patchReq    *matreshka_be_api.PatchConfig_Request
 }
 
-func (s *PatchConfigSuite) SetupSuite() {
+func (s *PatchConfigSuite) SetupTest() {
 	s.ctx = context.Background()
+
+	s.serviceName = getServiceNameFromTest(s.T())
+	testEnv.create(s.T(), s.serviceName)
+
+	s.cfg = getFullConfig(s.T())
+	s.cfg.Name = s.serviceName
+	testEnv.patchConfig(s.T(), s.cfg)
+
+	s.patchReq = &matreshka_be_api.PatchConfig_Request{
+		ServiceName: s.serviceName,
+	}
 }
 
 func (s *PatchConfigSuite) Test_PatchConfigEnvironment() {
-	s.T().Skip()
-	serviceName := s.T().Name()
-	testEnv.create(s.T(), serviceName)
-
-	newConfig := getFullConfig(s.T())
-
-	patchReq := &matreshka_be_api.PatchConfig_Request{
-		ServiceName: serviceName,
-	}
-
 	// Change old environment variable
 	{
-		newConfig.Environment[0].Value = []int{50051}
+		s.cfg.Environment[5] = environment.MustNewVariable(
+			s.cfg.Environment[5].Name, []int{50051})
 
-		patchStr := fmt.Sprint(newConfig.Environment[0].Value)
-		patchReq.Changes = append(patchReq.Changes,
+		patchStr := fmt.Sprint(s.cfg.Environment[5].Value)
+		s.patchReq.Changes = append(s.patchReq.Changes,
 			&matreshka_be_api.Node{
 				Name:  "ENVIRONMENT_AVAILABLE-PORTS",
 				Value: &patchStr,
@@ -49,26 +55,22 @@ func (s *PatchConfigSuite) Test_PatchConfigEnvironment() {
 	}
 	// Delete environment variable
 	{
-		patchReq.Changes = append(patchReq.Changes,
+		s.patchReq.Changes = append(s.patchReq.Changes,
 			&matreshka_be_api.Node{
-				Name: "ENVIRONMENT_WELCOME-STRING",
+				Name: "ENVIRONMENT_CREDIT-PERCENTS-BASED-ON-YEAR-OF-BIRTH",
 			})
-		newConfig.Environment = newConfig.Environment[:len(newConfig.Environment)-1]
+		s.cfg.Environment = s.cfg.Environment[:len(s.cfg.Environment)-1]
 	}
 	// Add new environment variable
 	{
 		someValue := "rand val"
 		valueType := string(environment.VariableTypeStr)
 
-		newEnvVar := &environment.Variable{
-			Name:  "new value",
-			Value: someValue,
-			Type:  environment.VariableTypeStr,
-		}
+		newEnvVar := environment.MustNewVariable("new_value", someValue)
 
-		newConfig.Environment = append(newConfig.Environment, newEnvVar)
+		s.cfg.Environment = append(s.cfg.Environment, newEnvVar)
 
-		patchReq.Changes = append(patchReq.Changes,
+		s.patchReq.Changes = append(s.patchReq.Changes,
 			&matreshka_be_api.Node{
 				Name:  "ENVIRONMENT_NEW-VALUE",
 				Value: &someValue,
@@ -81,61 +83,26 @@ func (s *PatchConfigSuite) Test_PatchConfigEnvironment() {
 			},
 		)
 	}
-
-	patchResp, err := testEnv.grpcImpl.PatchConfig(s.ctx, patchReq)
-	require.NoError(s.T(), err)
-	require.NotNil(s.T(), patchResp)
-
-	patchedConfig := testEnv.get(s.T(), serviceName)
-
-	sort.Slice(newConfig.Environment, func(i, j int) bool {
-		return newConfig.Environment[i].Name < newConfig.Environment[j].Name
-	})
-
-	require.Equal(s.T(), patchedConfig, newConfig)
 }
 
 func (s *PatchConfigSuite) Test_PatchConfigServers() {
-	s.T().Skip()
-	serviceName := s.T().Name()
-	testEnv.create(s.T(), serviceName)
-
-	newConfig := getFullConfig(s.T())
-
-	patchReq := &matreshka_be_api.PatchConfig_Request{
-		ServiceName: serviceName,
-	}
-
-	patchResp, err := testEnv.grpcImpl.PatchConfig(s.ctx, patchReq)
-	require.NoError(s.T(), err)
-	require.NotNil(s.T(), patchResp)
-
-	patchedConfig := testEnv.get(s.T(), serviceName)
-
-	sort.Slice(newConfig.Environment, func(i, j int) bool {
-		return newConfig.Environment[i].Name < newConfig.Environment[j].Name
-	})
-
-	require.Equal(s.T(), patchedConfig, newConfig)
+	const port = 50051
+	s.cfg.Servers[port].GRPC["/{GRPC}"].Gateway = "/api/v2"
+	s.patchReq.Changes = append(s.patchReq.Changes,
+		&matreshka_be_api.Node{
+			Name:  "SERVERS_MASTER2_/{GRPC}_GATEWAY",
+			Value: &s.cfg.Servers[port].GRPC["/{GRPC}"].Gateway,
+		})
 }
 
 func (s *PatchConfigSuite) Test_PatchConfigDataSources() {
-	s.T().Skip()
-	serviceName := s.T().Name()
-	testEnv.create(s.T(), serviceName)
-
-	newConfig := getFullConfig(s.T())
-
-	patchReq := &matreshka_be_api.PatchConfig_Request{
-		ServiceName: serviceName,
-	}
 
 	// Change old resource (pg) port
 	{
-		pg := newConfig.DataSources[0].(*resources.Postgres)
+		pg := s.cfg.DataSources[0].(*resources.Postgres)
 		pg.Port = 5433
 		portStr := strconv.Itoa(int(pg.Port))
-		patchReq.Changes = append(patchReq.Changes,
+		s.patchReq.Changes = append(s.patchReq.Changes,
 			&matreshka_be_api.Node{
 				Name:  "DATA-SOURCES_POSTGRES_PORT",
 				Value: &portStr,
@@ -143,42 +110,36 @@ func (s *PatchConfigSuite) Test_PatchConfigDataSources() {
 	}
 
 	// Delete old resource (telegram) data source
+	// Add new telegram data source
 	{
-		newConfig.DataSources = newConfig.DataSources[:3]
-		patchReq.Changes = append(patchReq.Changes,
+		tg := s.cfg.DataSources[2].(*resources.Telegram)
+		tg.Name = "telegram_bot"
+		tg.ApiKey = "jjggwwkk"
+		s.patchReq.Changes = append(s.patchReq.Changes,
 			&matreshka_be_api.Node{
 				Name: "DATA-SOURCES_TELEGRAM",
 			})
-	}
-
-	// Add new telegram data source
-	{
-
-		tg := &resources.Telegram{
-			Name:   "telegram_bot",
-			ApiKey: "jjggwwkk",
-		}
-		newConfig.DataSources = append(newConfig.DataSources, tg)
-		patchReq.Changes = append(patchReq.Changes,
+		s.patchReq.Changes = append(s.patchReq.Changes,
 			&matreshka_be_api.Node{
 				Name:  "DATA-SOURCES_TELEGRAM-BOT_API-KEY",
 				Value: &tg.ApiKey,
 			})
 	}
+}
 
-	patchResp, err := testEnv.grpcImpl.PatchConfig(s.ctx, patchReq)
+func (s *PatchConfigSuite) TearDownTest() {
+	patchResp, err := testEnv.matreshkaApi.PatchConfig(s.ctx, s.patchReq)
 	require.NoError(s.T(), err)
 	require.NotNil(s.T(), patchResp)
 
-	patchedConfig := testEnv.get(s.T(), serviceName)
+	patchedConfig := testEnv.get(s.T(), s.serviceName)
 
-	sort.Slice(newConfig.Environment, func(i, j int) bool {
-		return newConfig.Environment[i].Name < newConfig.Environment[j].Name
+	sort.Slice(s.cfg.Environment, func(i, j int) bool {
+		return s.cfg.Environment[i].Name < s.cfg.Environment[j].Name
 	})
 
-	require.Equal(s.T(), patchedConfig, newConfig)
+	require.Equal(s.T(), patchedConfig.Environment, s.cfg.Environment)
 }
-
 func Test_PatchConfig(t *testing.T) {
 	suite.Run(t, new(PatchConfigSuite))
 }

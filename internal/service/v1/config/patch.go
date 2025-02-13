@@ -104,7 +104,7 @@ func (p *patch) normalizeEnvironmentChanges(cfg *evon.Node) {
 		}
 
 		if strings.HasSuffix(valuePatch.FieldName, "_ENUM") {
-			enumMap[valuePatch.FieldName] = valuePatch
+			enumMap[valuePatch.FieldName[:len(valuePatch.FieldName)-5]] = valuePatch
 			continue
 		}
 

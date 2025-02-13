@@ -3,28 +3,23 @@ package tests
 import (
 	"context"
 	_ "embed"
-	"net"
+	"fmt"
 	"os"
 	"strings"
 	"testing"
 
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/require"
+	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
+	"go.redsock.ru/toolbox"
 	"go.vervstack.ru/matreshka"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
-	"google.golang.org/grpc/test/bufconn"
 
-	"go.vervstack.ru/matreshka-be/internal/app"
-	"go.vervstack.ru/matreshka-be/internal/transport/grpc_impl"
 	"go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
 )
 
 type Env struct {
-	//deprecated use grpcAPI
-	grpcImpl *grpc_impl.Impl
-	grpcApi  matreshka_be_api.MatreshkaBeAPIClient
+	matreshkaApi matreshka_be_api.MatreshkaBeAPIClient
 }
 
 //go:embed config/test.config.yaml
@@ -43,60 +38,55 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
-func initApp() error {
-	a, err := app.New()
-	if err != nil {
-		return errors.Wrap(err, "error initializing config")
+func (e *Env) create(t *testing.T, serviceName string) {
+	createReq := &matreshka_be_api.CreateConfig_Request{
+		ServiceName: serviceName,
+	}
+	ctx := context.Background()
+
+	postResp, err := testEnv.matreshkaApi.CreateConfig(ctx, createReq)
+	require.NoError(t, err)
+	require.NotNil(t, postResp)
+}
+
+func (e *Env) patchConfig(t *testing.T, cfg matreshka.AppConfig) {
+	req := &matreshka_be_api.PatchConfig_Request{
+		ServiceName: cfg.ModuleName(),
 	}
 
-	_, err = a.Sqlite.Exec(`
-		DELETE 
-		FROM configs 	   
-	    WHERE true;
-		
-		DELETE 
-		FROM configs_values
-		WHERE true;`)
-	if err != nil {
-		return errors.Wrap(err, "error db clean up")
-	}
+	nodes, err := evon.MarshalEnv(&cfg)
+	require.NoError(t, err)
 
-	testEnv.grpcImpl = a.Custom.GrpcImpl
+	storage := evon.NodesToStorage(nodes.InnerNodes)
 
-	const bufSize = 1024 * 1024
-	lis := bufconn.Listen(bufSize)
-
-	serv := grpc.NewServer()
-	matreshka_be_api.RegisterMatreshkaBeAPIServer(serv, a.Custom.GrpcImpl)
-	go func() {
-		if err := serv.Serve(lis); err != nil {
-			logrus.Fatalf("error serving grpc server for tests %s", err)
+	for k, v := range storage {
+		if v.Value != nil {
+			req.Changes = append(req.Changes,
+				&matreshka_be_api.Node{
+					Name:  k,
+					Value: toolbox.ToPtr(fmt.Sprint(v.Value)),
+				})
 		}
-	}()
-
-	bufDialer := func(context.Context, string) (net.Conn, error) {
-		return lis.Dial()
 	}
 
-	conn, err := grpc.NewClient("passthrough://bufnet",
-		grpc.WithContextDialer(bufDialer),
-		grpc.WithTransportCredentials(insecure.NewCredentials()),
-	)
-	if err != nil {
-		logrus.Fatalf("error connecting to test grpc server: %s ", err)
-	}
-	testEnv.grpcApi = matreshka_be_api.NewMatreshkaBeAPIClient(conn)
+	ctx := context.Background()
+	_, err = e.matreshkaApi.PatchConfig(ctx, req)
+	require.NoError(t, err)
+}
 
-	ping, err := testEnv.grpcApi.ApiVersion(a.Ctx, &matreshka_be_api.ApiVersion_Request{})
-	if err != nil {
-		logrus.Fatalf("error pingin test server: %s", err)
+func (e *Env) get(t *testing.T, serviceName string) matreshka.AppConfig {
+	ctx := context.Background()
+	getReq := &matreshka_be_api.GetConfig_Request{
+		ServiceName: serviceName,
 	}
+	getResp, err := testEnv.matreshkaApi.GetConfig(ctx, getReq)
+	require.NoError(t, err)
 
-	if ping == nil {
-		logrus.Fatalf("error pingin test server")
-	}
+	readConfig := matreshka.NewEmptyConfig()
+	err = readConfig.Unmarshal(getResp.Config)
+	require.NoError(t, err)
 
-	return nil
+	return readConfig
 }
 
 func getFullConfig(t *testing.T) matreshka.AppConfig {
@@ -106,33 +96,9 @@ func getFullConfig(t *testing.T) matreshka.AppConfig {
 		t.Fatal(errors.Wrap(err, "error during unmarshalling full config"))
 	}
 
+	fullConfig.Name = getServiceNameFromTest(t)
+
 	return fullConfig
-}
-
-func (e *Env) create(t *testing.T, serviceName string) {
-	createReq := &matreshka_be_api.CreateConfig_Request{
-		ServiceName: serviceName,
-	}
-	ctx := context.Background()
-
-	postResp, err := testEnv.grpcImpl.CreateConfig(ctx, createReq)
-	require.NoError(t, err)
-	require.NotNil(t, postResp)
-}
-
-func (e *Env) get(t *testing.T, serviceName string) matreshka.AppConfig {
-	ctx := context.Background()
-	getReq := &matreshka_be_api.GetConfig_Request{
-		ServiceName: serviceName,
-	}
-	getResp, err := testEnv.grpcImpl.GetConfig(ctx, getReq)
-	require.NoError(t, err)
-
-	readConfig := matreshka.NewEmptyConfig()
-	err = readConfig.Unmarshal(getResp.Config)
-	require.NoError(t, err)
-
-	return readConfig
 }
 
 func getServiceNameFromTest(t *testing.T) string {

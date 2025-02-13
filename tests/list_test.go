@@ -7,6 +7,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
+	"google.golang.org/protobuf/proto"
 
 	"go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
 )
@@ -31,7 +32,7 @@ func (s *ListSuite) Test_ListWithPattern() {
 	}
 	start := time.Now().Add(-time.Minute).UTC()
 
-	resp, err := testEnv.grpcImpl.ListConfigs(s.ctx, listReq)
+	resp, err := testEnv.matreshkaApi.ListConfigs(s.ctx, listReq)
 	require.NoError(s.T(), err)
 
 	expectedList := &matreshka_be_api.ListConfigs_Response{
@@ -45,10 +46,12 @@ func (s *ListSuite) Test_ListWithPattern() {
 	tm := time.Unix(resp.Services[0].UpdatedAtUtcTimestamp, 0).UTC()
 	require.True(s.T(), tm.After(start), "new service's config timestamp MUST be over %v got %v", start, tm)
 	resp.Services[0].UpdatedAtUtcTimestamp = 0
-	require.Equal(s.T(), expectedList, resp)
+
+	if !proto.Equal(expectedList, resp) {
+		require.Equal(s.T(), expectedList, resp)
+	}
 }
 
 func Test_List(t *testing.T) {
-	t.Skip()
 	suite.Run(t, new(ListSuite))
 }
