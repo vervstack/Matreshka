@@ -71,6 +71,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -100,6 +106,12 @@
             "name": "serviceName",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "required": false,
             "type": "string"
           }
         ],
@@ -347,6 +359,9 @@
             "type": "object",
             "$ref": "#/definitions/matreshka_be_apiNode"
           }
+        },
+        "version": {
+          "type": "string"
         }
       }
     },

@@ -74,6 +74,7 @@ message ApiVersion {
 message GetConfig {
   message Request {
     string service_name = 1;
+    optional string version = 2;
   }
 
   message Response {
@@ -85,6 +86,7 @@ message PatchConfig {
   message Request {
     string service_name = 1;
     repeated Node changes = 2;
+    optional string version = 3;
   }
 
   message Response {}
@@ -112,6 +114,7 @@ message Node {
 message GetConfigNode {
   message Request {
     string service_name = 1;
+    optional string version = 2;
   }
 
   message Response {

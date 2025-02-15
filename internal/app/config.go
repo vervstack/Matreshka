@@ -5,7 +5,7 @@ package app
 import (
 	"context"
 
-	errors "go.redsock.ru/rerrors"
+	"go.redsock.ru/rerrors"
 	"go.redsock.ru/toolbox/closer"
 
 	"go.vervstack.ru/matreshka-be/internal/config"
@@ -17,7 +17,7 @@ func (a *App) InitConfig() (err error) {
 
 	a.Cfg, err = config.Load()
 	if err != nil {
-		return errors.Wrap(err, "error reading config")
+		return rerrors.Wrap(err, "error reading config")
 	}
 
 	return nil

@@ -3,14 +3,19 @@
 package app
 
 import (
-	errors "go.redsock.ru/rerrors"
+	"go.redsock.ru/rerrors"
 	"go.vervstack.ru/matreshka-be/internal/transport"
 )
 
 func (a *App) InitServers() (err error) {
 	a.ServerMaster, err = transport.NewServerManager(a.Ctx, a.Cfg.Servers.MASTER.Port)
 	if err != nil {
-		return errors.Wrap(err, "error during \"MASTER\" server initialization, with name: MASTER")
+		return rerrors.Wrap(err, "error during \"MASTER\" server initialization, with name: MASTER")
+	}
+
+	a.ServerMaster2, err = transport.NewServerManager(a.Ctx, a.Cfg.Servers.MASTER2.Port)
+	if err != nil {
+		return rerrors.Wrap(err, "error during \"MASTER2\" server initialization, with name: MASTER2")
 	}
 
 	return nil

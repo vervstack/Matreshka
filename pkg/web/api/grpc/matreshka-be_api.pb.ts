@@ -44,6 +44,7 @@ export type ApiVersion = Record<string, never>;
 
 export type GetConfigRequest = {
   serviceName?: string;
+  version?: string;
 };
 
 export type GetConfigResponse = {
@@ -55,6 +56,7 @@ export type GetConfig = Record<string, never>;
 export type PatchConfigRequest = {
   serviceName?: string;
   changes?: Node[];
+  version?: string;
 };
 
 export type PatchConfigResponse = Record<string, never>;
@@ -82,6 +84,7 @@ export type Node = {
 
 export type GetConfigNodeRequest = {
   serviceName?: string;
+  version?: string;
 };
 
 export type GetConfigNodeResponse = {
