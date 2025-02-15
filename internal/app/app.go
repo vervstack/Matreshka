@@ -22,8 +22,7 @@ type App struct {
 	/* Data source connection */
 	Sqlite *sql.DB
 	/* Servers managers */
-	ServerMaster2 *transport.ServersManager
-	ServerMaster  *transport.ServersManager
+	ServerMaster *transport.ServersManager
 
 	Custom Custom
 }

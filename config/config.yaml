@@ -13,10 +13,3 @@ servers:
         /{GRPC}:
             module: pkg/matreshka_be_api
             gateway: /api
-    81:
-        /{FS}:
-            dist: web/dist
-        /{GRPC}:
-            module: pkg/matreshka_be_api
-            gateway: /api
-        name: MASTER2
