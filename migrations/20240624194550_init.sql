@@ -4,7 +4,8 @@
 CREATE TABLE configs
 (
     id   INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT UNIQUE
+    name TEXT UNIQUE,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE configs_values
@@ -12,7 +13,8 @@ CREATE TABLE configs_values
     config_id INTEGER REFERENCES configs (id),
     key       TEXT DEFAULT '',
     value     TEXT DEFAULT '',
-    UNIQUE (config_id, key)
+    version   TEXT DEFAULT '',
+    UNIQUE (config_id, key, version)
 );
 -- +goose StatementEnd
 

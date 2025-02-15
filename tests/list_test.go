@@ -7,6 +7,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
+	"go.redsock.ru/toolbox"
 	"google.golang.org/protobuf/proto"
 
 	"go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
@@ -28,19 +29,57 @@ func (s *ListSuite) SetupSuite() {
 
 	s.start = time.Now().Add(-time.Minute).UTC()
 	s.serviceName = s.T().Name()
-	testEnv.create(s.T(), s.serviceName)
-
 }
 
-func (s *ListSuite) Test_ListWithPattern() {
+func (s *ListSuite) Test_ListOneServiceWithOneVersion() {
+	testEnv.create(s.T(), s.serviceName)
+
 	s.req = &matreshka_be_api.ListConfigs_Request{
 		SearchPattern: s.serviceName,
 	}
 
 	s.expected = &matreshka_be_api.ListConfigs_Response{
 		Services: []*matreshka_be_api.AppInfo{{
-			Name:    s.serviceName,
-			Version: "v0.0.1",
+			Name:           s.serviceName,
+			ServiceVersion: "v0.0.1",
+			ConfigVersions: []string{""},
+		}},
+		TotalRecords: 1,
+	}
+}
+
+func (s *ListSuite) Test_ListOneServiceWithTwoVersion() {
+	testEnv.create(s.T(), s.serviceName)
+
+	patchReq := &matreshka_be_api.PatchConfig_Request{
+		ServiceName: s.serviceName,
+		Changes: []*matreshka_be_api.Node{
+			{
+				Name:  "ENVIRONMENT_IS_CRON_ACTIVE",
+				Value: toolbox.ToPtr("true"),
+				InnerNodes: []*matreshka_be_api.Node{
+					{
+						Name:  "TYPE",
+						Value: toolbox.ToPtr("bool"),
+					},
+				},
+			},
+		},
+		Version: toolbox.ToPtr("VERV-137"),
+	}
+
+	_, err := testEnv.matreshkaApi.PatchConfig(s.ctx, patchReq)
+	require.NoError(s.T(), err)
+
+	s.req = &matreshka_be_api.ListConfigs_Request{
+		SearchPattern: s.serviceName,
+	}
+
+	s.expected = &matreshka_be_api.ListConfigs_Response{
+		Services: []*matreshka_be_api.AppInfo{{
+			Name:           s.serviceName,
+			ServiceVersion: "v0.0.1",
+			ConfigVersions: []string{"", "VERV-137"},
 		}},
 		TotalRecords: 1,
 	}

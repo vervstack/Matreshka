@@ -24,17 +24,27 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 	}
 
 	q := `
-		SELECT 
-		    cfg.name,
-		    coalesce(version.value, ''),
-		    updated_at,
-		    json_group_array(coalesce(version.version, ''))
-		FROM configs cfg
-		LEFT JOIN configs_values AS version
-		ON        version.config_id = cfg.id
-		AND       version.key       = 'APP-INFO_VERSION'
-		WHERE name LIKE '%'||$1||'%'
-		GROUP BY cfg.id, version.version
+		WITH cfg AS (
+			SELECT
+				cfg.id as id,
+				cfg.updated_at as updated_at,
+				cfg.name as service_name,
+				cv.version as version
+			FROM configs cfg
+					 JOIN configs_values cv on cfg.id = cv.config_id
+			WHERE name LIKE '%'||$1||'%'
+			GROUP BY cfg.name, cv.version
+		)
+		SELECT
+			cfg.service_name,
+			service_version.value,
+			cfg.updated_at,
+			json_group_array(cfg.version)
+		FROM cfg
+		LEFT JOIN   configs_values AS service_version
+		ON          service_version.config_id = cfg.id
+		AND         service_version.key       = 'APP-INFO_VERSION'
+		AND         service_version.version   = ''
 		`
 	args := []any{req.SearchPattern}
 

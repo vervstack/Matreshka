@@ -1,8 +1,9 @@
 package domain
 
 type PatchConfigRequest struct {
-	ServiceName string
-	Batch       []PatchConfig
+	ServiceName   string
+	Batch         []PatchConfig
+	ConfigVersion string
 }
 
 type PatchConfig struct {

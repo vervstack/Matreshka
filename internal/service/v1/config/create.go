@@ -47,7 +47,12 @@ func (c *CfgService) Create(ctx context.Context, serviceName string) (int64, err
 			return errors.Wrap(err, "error saving config")
 		}
 
-		err = configStorage.UpsertValues(ctx, serviceName, newCfgPatch)
+		patchReq := domain.PatchConfigRequest{
+			ServiceName: serviceName,
+			Batch:       newCfgPatch,
+		}
+
+		err = configStorage.UpsertValues(ctx, patchReq)
 		if err != nil {
 			return errors.Wrap(err, "error upserting new config")
 		}
