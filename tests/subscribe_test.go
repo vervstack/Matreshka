@@ -3,6 +3,7 @@ package tests
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
@@ -21,7 +22,7 @@ type SubscriptionSuite struct {
 
 func (s *SubscriptionSuite) SetupTest() {
 	s.ctx = context.Background()
-	// TODO
+
 	s.apiClient = testEnv.matreshkaApi
 
 	s.serviceName = getServiceNameFromTest(s.T())
@@ -30,9 +31,9 @@ func (s *SubscriptionSuite) SetupTest() {
 }
 
 func (s *SubscriptionSuite) TestSubscribeOnChanges() {
-	s.T().Skip()
 	stream, err := s.apiClient.SubscribeOnChanges(s.ctx)
 	require.NoError(s.T(), err)
+	s.T().Log("subed")
 	// Subscribe onto changes
 	{
 		subscribeRequest := &api.SubscribeOnChanges_Request{
@@ -52,6 +53,35 @@ func (s *SubscriptionSuite) TestSubscribeOnChanges() {
 		Value: toolbox.ToPtr("123"),
 	}
 
+	doneC := make(chan struct{})
+
+	go func() {
+		defer close(doneC)
+
+		updates, err := stream.Recv()
+		require.NoError(s.T(), err)
+
+		updatesExpected := &api.SubscribeOnChanges_Response{
+			ServiceName: s.serviceName,
+			Changes: &api.SubscribeOnChanges_Response_EnvVariables{
+				EnvVariables: &api.SubscribeOnChanges_EnvChanges{
+					EnvVariables: []*api.Node{
+						{
+							Name:  newVariable.Name,
+							Value: newVariable.Value,
+						},
+						{
+							Name:  newVariableType.Name,
+							Value: newVariableType.Value,
+						},
+					},
+				},
+			},
+		}
+
+		require.Equal(s.T(), updates.ServiceName, updatesExpected.ServiceName)
+		require.Equal(s.T(), updates.Changes, updatesExpected.Changes)
+	}()
 	// Perform change in configuration
 	{
 		patch := &api.PatchConfig_Request{
@@ -60,31 +90,15 @@ func (s *SubscriptionSuite) TestSubscribeOnChanges() {
 		}
 		_, err = s.apiClient.PatchConfig(s.ctx, patch)
 		require.NoError(s.T(), err)
+		s.T().Log("patched")
 	}
 
-	updatesExpected := &api.SubscribeOnChanges_Response{
-		ServiceName: s.serviceName,
-		Changes: &api.SubscribeOnChanges_Response_EnvVariables{
-			EnvVariables: &api.SubscribeOnChanges_EnvChanges{
-				EnvVariables: []*api.Node{
-					{
-						Name:  newVariable.Name,
-						Value: newVariable.Value,
-					},
-					{
-						Name:  newVariableType.Name,
-						Value: newVariableType.Value,
-					},
-				},
-			},
-		},
+	select {
+	case <-time.After(time.Second):
+		s.T().Fatal("timed out waiting for subscription to be received")
+	case <-doneC:
+
 	}
-
-	updates, err := stream.Recv()
-	require.NoError(s.T(), err)
-
-	require.Equal(s.T(), updates.ServiceName, updatesExpected.ServiceName)
-	require.Equal(s.T(), updates.Changes, updatesExpected.Changes)
 
 }
 

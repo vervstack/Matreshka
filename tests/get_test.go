@@ -189,7 +189,8 @@ func (s *GetTestSuite) Test_GetNodes() {
 }
 
 func Test_Get(t *testing.T) {
-	suite.Run(t, new(GetTestSuite))
+	t.
+		suite.Run(t, new(GetTestSuite))
 }
 
 func toPtr[T any](a T) *T {
