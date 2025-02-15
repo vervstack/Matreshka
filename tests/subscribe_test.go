@@ -33,7 +33,7 @@ func (s *SubscriptionSuite) SetupTest() {
 func (s *SubscriptionSuite) TestSubscribeOnChanges() {
 	stream, err := s.apiClient.SubscribeOnChanges(s.ctx)
 	require.NoError(s.T(), err)
-	s.T().Log("subed")
+
 	// Subscribe onto changes
 	{
 		subscribeRequest := &api.SubscribeOnChanges_Request{
@@ -90,7 +90,6 @@ func (s *SubscriptionSuite) TestSubscribeOnChanges() {
 		}
 		_, err = s.apiClient.PatchConfig(s.ctx, patch)
 		require.NoError(s.T(), err)
-		s.T().Log("patched")
 	}
 
 	select {

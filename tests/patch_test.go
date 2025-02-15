@@ -140,6 +140,7 @@ func (s *PatchConfigSuite) TearDownTest() {
 
 	require.Equal(s.T(), patchedConfig.Environment, s.cfg.Environment)
 }
+
 func Test_PatchConfig(t *testing.T) {
 	suite.Run(t, new(PatchConfigSuite))
 }
