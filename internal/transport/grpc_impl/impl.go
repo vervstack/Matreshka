@@ -33,7 +33,7 @@ func NewServer(
 	}
 }
 
-func (a *Impl) Register(srv *grpc.Server) {
+func (a *Impl) Register(srv grpc.ServiceRegistrar) {
 	matreshka_be_api.RegisterMatreshkaBeAPIServer(srv, a)
 }
 

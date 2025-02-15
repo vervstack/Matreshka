@@ -1,6 +1,7 @@
 package app
 
 import (
+	"context"
 	"net/http"
 
 	"google.golang.org/grpc"
@@ -42,5 +43,13 @@ func (c *Custom) Init(a *App) (err error) {
 	a.ServerMaster.AddHttpHandler("/", c.WebClient)
 
 	a.ServerMaster.AddHttpHandler(docs.Swagger())
+	return nil
+}
+
+func (c *Custom) Start(ctx context.Context) error {
+	return nil
+}
+
+func (c *Custom) Stop() error {
 	return nil
 }
