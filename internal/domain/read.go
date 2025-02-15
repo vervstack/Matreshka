@@ -21,9 +21,10 @@ type ListConfigsResponse struct {
 }
 
 type ConfigListItem struct {
-	Name      string
-	Version   string
-	UpdatedAt time.Time
+	Name           string
+	ServiceVersion string
+	UpdatedAt      time.Time
+	ConfigVersions []string
 }
 
 type ConfigDescription struct {

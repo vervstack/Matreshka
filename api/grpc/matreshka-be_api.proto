@@ -55,8 +55,9 @@ service MatreshkaBeAPI {
 
 message AppInfo {
   string name = 1;
-  string version = 2;
+  string service_version = 2;
   int64 updated_at_utc_timestamp = 3;
+  repeated string config_versions = 4;
 }
 
 message Paging {

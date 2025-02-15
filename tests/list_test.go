@@ -17,41 +17,47 @@ type ListSuite struct {
 
 	ctx         context.Context
 	serviceName string
+	start       time.Time
+
+	req      *matreshka_be_api.ListConfigs_Request
+	expected *matreshka_be_api.ListConfigs_Response
 }
 
 func (s *ListSuite) SetupSuite() {
 	s.ctx = context.Background()
 
+	s.start = time.Now().Add(-time.Minute).UTC()
 	s.serviceName = s.T().Name()
 	testEnv.create(s.T(), s.serviceName)
+
 }
 
 func (s *ListSuite) Test_ListWithPattern() {
-	listReq := &matreshka_be_api.ListConfigs_Request{
+	s.req = &matreshka_be_api.ListConfigs_Request{
 		SearchPattern: s.serviceName,
 	}
-	start := time.Now().Add(-time.Minute).UTC()
 
-	resp, err := testEnv.matreshkaApi.ListConfigs(s.ctx, listReq)
-	require.NoError(s.T(), err)
-
-	expectedList := &matreshka_be_api.ListConfigs_Response{
+	s.expected = &matreshka_be_api.ListConfigs_Response{
 		Services: []*matreshka_be_api.AppInfo{{
 			Name:    s.serviceName,
 			Version: "v0.0.1",
 		}},
 		TotalRecords: 1,
 	}
-
-	tm := time.Unix(resp.Services[0].UpdatedAtUtcTimestamp, 0).UTC()
-	require.True(s.T(), tm.After(start), "new service's config timestamp MUST be over %v got %v", start, tm)
-	resp.Services[0].UpdatedAtUtcTimestamp = 0
-
-	if !proto.Equal(expectedList, resp) {
-		require.Equal(s.T(), expectedList, resp)
-	}
 }
 
+func (s *ListSuite) TearDownTest() {
+	resp, err := testEnv.matreshkaApi.ListConfigs(s.ctx, s.req)
+	require.NoError(s.T(), err)
+
+	tm := time.Unix(resp.Services[0].UpdatedAtUtcTimestamp, 0).UTC()
+	require.WithinRange(s.T(), tm, s.start, time.Now().UTC())
+	resp.Services[0].UpdatedAtUtcTimestamp = 0
+
+	if !proto.Equal(s.expected, resp) {
+		require.Equal(s.T(), s.expected, resp)
+	}
+}
 func Test_List(t *testing.T) {
 	suite.Run(t, new(ListSuite))
 }

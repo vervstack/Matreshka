@@ -25,8 +25,9 @@ export enum SortType {
 
 export type AppInfo = {
   name?: string;
-  version?: string;
+  serviceVersion?: string;
   updatedAtUtcTimestamp?: string;
+  configVersions?: string[];
 };
 
 export type Paging = {

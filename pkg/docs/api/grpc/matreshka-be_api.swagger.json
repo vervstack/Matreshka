@@ -282,12 +282,18 @@
         "name": {
           "type": "string"
         },
-        "version": {
+        "serviceVersion": {
           "type": "string"
         },
         "updatedAtUtcTimestamp": {
           "type": "string",
           "format": "int64"
+        },
+        "configVersions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },

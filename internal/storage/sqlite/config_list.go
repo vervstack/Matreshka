@@ -2,7 +2,9 @@ package sqlite
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"sort"
 
 	errors "go.redsock.ru/rerrors"
 
@@ -25,12 +27,15 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 		SELECT 
 		    cfg.name,
 		    coalesce(version.value, ''),
-		    updated_at
+		    updated_at,
+		    json_group_array(coalesce(version.version, ''))
 		FROM configs cfg
 		LEFT JOIN configs_values AS version
 		ON        version.config_id = cfg.id
 		AND       version.key       = 'APP-INFO_VERSION'
-		WHERE name LIKE '%'||$1||'%'`
+		WHERE name LIKE '%'||$1||'%'
+		GROUP BY cfg.id, version.version
+		`
 	args := []any{req.SearchPattern}
 
 	q += "\nORDER BY " + extractSort(req.Sort)
@@ -47,14 +52,24 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 
 	for rows.Next() {
 		var item domain.ConfigListItem
+		var versionsJSON string
 		err = rows.Scan(
 			&item.Name,
-			&item.Version,
+			&item.ServiceVersion,
 			&item.UpdatedAt,
+			&versionsJSON,
 		)
 		if err != nil {
 			return out, errors.Wrap(err, "error scanning row")
 		}
+
+		err = json.Unmarshal([]byte(versionsJSON), &item.ConfigVersions)
+		if err != nil {
+			return out, errors.Wrap(err, "error marshalling from json ")
+		}
+		sort.Slice(item.ConfigVersions, func(i, j int) bool {
+			return item.ConfigVersions[i] < item.ConfigVersions[j]
+		})
 
 		out.List = append(out.List, item)
 	}
@@ -65,14 +80,14 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 func extractSort(sort domain.Sort) (field string) {
 	switch sort.SortType {
 	case api.Sort_default:
-		field = "id "
+		field = "id"
 	case api.Sort_by_name:
-		field = "name "
-	case api.Sort_by_updated_at:
-		field = "updated_at "
+		field = "name"
+	default:
+		field = "updated_at"
 	}
 	if sort.Desc {
-		field += "DESC"
+		field += " DESC"
 	}
 
 	return
