@@ -1,1 +1,1 @@
-export * from './api/grpc//matreshka-be_api.pb';
+export * from './api/grpc/matreshka-be_api.pb';

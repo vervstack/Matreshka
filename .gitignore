@@ -22,4 +22,4 @@ api/*
 !api/grpc
 proto_deps
 /data
-
+dist

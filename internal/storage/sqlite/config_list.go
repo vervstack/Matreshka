@@ -36,15 +36,17 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 			GROUP BY cfg.name, cv.version
 		)
 		SELECT
-			cfg.service_name,
-			service_version.value,
-			cfg.updated_at,
-			json_group_array(cfg.version)
+			cfg.service_name 				as service_name,
+			service_version.value 			as service_version,
+			cfg.updated_at 					as last_updated_at, 
+			json_group_array(cfg.version) 	as config_versions
 		FROM cfg
 		LEFT JOIN   configs_values AS service_version
 		ON          service_version.config_id = cfg.id
 		AND         service_version.key       = 'APP-INFO_VERSION'
-		AND         service_version.version   = ''
+		AND         service_version.version   = 'master'
+		GROUP BY cfg.id
+		HAVING COUNT(cfg.id) > 0  -- Ensures only non-empty results are returned
 		`
 	args := []any{req.SearchPattern}
 
@@ -80,6 +82,15 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 		sort.Slice(item.ConfigVersions, func(i, j int) bool {
 			return item.ConfigVersions[i] < item.ConfigVersions[j]
 		})
+
+		for i := range item.ConfigVersions {
+			if item.ConfigVersions[i] == domain.MasterVersion {
+				item.ConfigVersions[0], item.ConfigVersions[i] =
+					item.ConfigVersions[i], item.ConfigVersions[0]
+
+				break
+			}
+		}
 
 		out.List = append(out.List, item)
 	}

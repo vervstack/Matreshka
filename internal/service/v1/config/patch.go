@@ -10,6 +10,7 @@ import (
 
 	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
+	"go.redsock.ru/toolbox"
 
 	"go.vervstack.ru/matreshka-be/internal/domain"
 	"go.vervstack.ru/matreshka-be/internal/service/user_errors"
@@ -25,7 +26,9 @@ const (
 func (c *CfgService) Patch(ctx context.Context, req domain.PatchConfigRequest) error {
 	patchToUpdate := newPatch(req.Batch)
 
-	cfgNodes, err := c.configStorage.GetConfigNodes(ctx, req.ServiceName)
+	ver := toolbox.Coalesce(req.ConfigVersion, domain.MasterVersion)
+
+	cfgNodes, err := c.configStorage.GetConfigNodes(ctx, req.ServiceName, ver)
 	if err != nil {
 		return errors.Wrap(err, "error getting nodes")
 	}

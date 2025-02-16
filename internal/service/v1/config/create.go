@@ -33,7 +33,7 @@ func (c *CfgService) Create(ctx context.Context, serviceName string) (int64, err
 		configStorage := c.configStorage.WithTx(tx)
 
 		var nodes *evon.Node
-		nodes, err = configStorage.GetConfigNodes(ctx, serviceName)
+		nodes, err = configStorage.GetConfigNodes(ctx, serviceName, domain.MasterVersion)
 		if err != nil {
 			return errors.Wrap(err, "error reading config from storage")
 		}

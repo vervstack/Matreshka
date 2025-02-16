@@ -24,11 +24,11 @@ type ListSuite struct {
 	expected *matreshka_be_api.ListConfigs_Response
 }
 
-func (s *ListSuite) SetupSuite() {
+func (s *ListSuite) SetupTest() {
 	s.ctx = context.Background()
 
 	s.start = time.Now().Add(-time.Minute).UTC()
-	s.serviceName = s.T().Name()
+	s.serviceName = getServiceNameFromTest(s.T())
 }
 
 func (s *ListSuite) Test_ListOneServiceWithOneVersion() {

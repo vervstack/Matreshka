@@ -10,8 +10,8 @@ import (
 	"go.vervstack.ru/matreshka-be/internal/service/user_errors"
 )
 
-func (c *CfgService) GetNodes(ctx context.Context, serviceName string) (*evon.Node, error) {
-	cfgNodes, err := c.configStorage.GetConfigNodes(ctx, serviceName)
+func (c *CfgService) GetNodes(ctx context.Context, serviceName string, ver string) (*evon.Node, error) {
+	cfgNodes, err := c.configStorage.GetConfigNodes(ctx, serviceName, ver)
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}

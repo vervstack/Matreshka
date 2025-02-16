@@ -15,7 +15,7 @@ func (a *Impl) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*
 	patchReq := domain.PatchConfigRequest{
 		ServiceName:   req.GetServiceName(),
 		Batch:         fromNodeToPatch(&api.Node{InnerNodes: req.GetChanges()}),
-		ConfigVersion: toolbox.FromPtr(req.Version),
+		ConfigVersion: toolbox.Coalesce(toolbox.FromPtr(req.Version), domain.MasterVersion),
 	}
 
 	err := a.configService.Patch(ctx, patchReq)
