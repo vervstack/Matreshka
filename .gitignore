@@ -23,3 +23,5 @@ api/*
 proto_deps
 /data
 dist
+node_modules
+

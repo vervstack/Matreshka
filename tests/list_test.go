@@ -10,6 +10,7 @@ import (
 	"go.redsock.ru/toolbox"
 	"google.golang.org/protobuf/proto"
 
+	"go.vervstack.ru/matreshka-be/internal/domain"
 	"go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
 )
 
@@ -42,7 +43,7 @@ func (s *ListSuite) Test_ListOneServiceWithOneVersion() {
 		Services: []*matreshka_be_api.AppInfo{{
 			Name:           s.serviceName,
 			ServiceVersion: "v0.0.1",
-			ConfigVersions: []string{""},
+			ConfigVersions: []string{domain.MasterVersion},
 		}},
 		TotalRecords: 1,
 	}
@@ -79,7 +80,7 @@ func (s *ListSuite) Test_ListOneServiceWithTwoVersion() {
 		Services: []*matreshka_be_api.AppInfo{{
 			Name:           s.serviceName,
 			ServiceVersion: "v0.0.1",
-			ConfigVersions: []string{"", "VERV-137"},
+			ConfigVersions: []string{domain.MasterVersion, "VERV-137"},
 		}},
 		TotalRecords: 1,
 	}
