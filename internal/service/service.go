@@ -20,7 +20,7 @@ type ConfigService interface {
 	Create(ctx context.Context, serviceName string) (int64, error)
 	Rename(ctx context.Context, oldName, newName string) error
 
-	GetNodes(ctx context.Context, serviceName string) (*evon.Node, error)
+	GetNodes(ctx context.Context, serviceName string, version string) (*evon.Node, error)
 	ListConfigs(ctx context.Context, req domain.ListConfigsRequest) (domain.ListConfigsResponse, error)
 }
 

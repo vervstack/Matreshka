@@ -10,6 +10,7 @@ import (
 
 	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
+	"go.redsock.ru/toolbox"
 
 	"go.vervstack.ru/matreshka-be/internal/domain"
 	"go.vervstack.ru/matreshka-be/internal/service/user_errors"
@@ -25,7 +26,9 @@ const (
 func (c *CfgService) Patch(ctx context.Context, req domain.PatchConfigRequest) error {
 	patchToUpdate := newPatch(req.Batch)
 
-	cfgNodes, err := c.configStorage.GetConfigNodes(ctx, req.ServiceName)
+	ver := toolbox.Coalesce(req.ConfigVersion, domain.MasterVersion)
+
+	cfgNodes, err := c.configStorage.GetConfigNodes(ctx, req.ServiceName, ver)
 	if err != nil {
 		return errors.Wrap(err, "error getting nodes")
 	}
@@ -43,13 +46,22 @@ func (c *CfgService) Patch(ctx context.Context, req domain.PatchConfigRequest) e
 	err = c.txManager.Execute(func(tx *sql.Tx) error {
 		configStorage := c.configStorage.WithTx(tx)
 
-		err = configStorage.DeleteValues(ctx, req.ServiceName, patchToUpdate.delete)
+		delReq := domain.PatchConfigRequest{
+			ServiceName:   req.ServiceName,
+			Batch:         patchToUpdate.delete,
+			ConfigVersion: req.ConfigVersion,
+		}
+		err = configStorage.DeleteValues(ctx, delReq)
 		if err != nil {
 			return errors.Wrap(err, "error deleting values")
 		}
 
-		upsertReq := append(patchToUpdate.upsert, patchToUpdate.envUpsert...)
-		err = configStorage.UpsertValues(ctx, req.ServiceName, upsertReq)
+		upserReq := domain.PatchConfigRequest{
+			ServiceName:   req.ServiceName,
+			Batch:         append(patchToUpdate.upsert, patchToUpdate.envUpsert...),
+			ConfigVersion: req.ConfigVersion,
+		}
+		err = configStorage.UpsertValues(ctx, upserReq)
 		if err != nil {
 			return errors.Wrap(err, "error patching config in data storage")
 		}

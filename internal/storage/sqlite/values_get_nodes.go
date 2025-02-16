@@ -7,15 +7,20 @@ import (
 	errors "go.redsock.ru/rerrors"
 )
 
-func (p *Provider) GetConfigNodes(ctx context.Context, serviceName string) (*evon.Node, error) {
+func (p *Provider) GetConfigNodes(ctx context.Context, serviceName string, version string) (*evon.Node, error) {
 	row, err := p.conn.QueryContext(ctx, `
-			SELECT 
-				cv.key,
-				cv.value
-			FROM 		configs_values AS cv
-			INNER JOIN 	configs 	   AS c  ON c.id = cv.config_id
-			AND 		c.name 				  = $1
-`, serviceName)
+		SELECT
+			cv.key,
+			coalesce(topv.value, cv.value)
+		FROM configs_values AS cv
+			 INNER JOIN configs    AS c ON c.id = cv.config_id
+			 AND 		cv.version 	= 'master'
+			 LEFT JOIN configs_values AS topv ON c.id = topv.config_id
+			 AND topv.key = cv.key
+			 AND topv.version = $2
+		WHERE c.name = $1
+		GROUP BY cv.key
+`, serviceName, version)
 	if err != nil {
 		return nil, errors.Wrap(err, "error getting config values")
 	}

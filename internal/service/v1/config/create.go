@@ -33,7 +33,7 @@ func (c *CfgService) Create(ctx context.Context, serviceName string) (int64, err
 		configStorage := c.configStorage.WithTx(tx)
 
 		var nodes *evon.Node
-		nodes, err = configStorage.GetConfigNodes(ctx, serviceName)
+		nodes, err = configStorage.GetConfigNodes(ctx, serviceName, domain.MasterVersion)
 		if err != nil {
 			return errors.Wrap(err, "error reading config from storage")
 		}
@@ -47,7 +47,13 @@ func (c *CfgService) Create(ctx context.Context, serviceName string) (int64, err
 			return errors.Wrap(err, "error saving config")
 		}
 
-		err = configStorage.UpsertValues(ctx, serviceName, newCfgPatch)
+		patchReq := domain.PatchConfigRequest{
+			ServiceName:   serviceName,
+			Batch:         newCfgPatch,
+			ConfigVersion: domain.MasterVersion,
+		}
+
+		err = configStorage.UpsertValues(ctx, patchReq)
 		if err != nil {
 			return errors.Wrap(err, "error upserting new config")
 		}
@@ -65,6 +71,7 @@ func (c *CfgService) convertConfigToPatch(cfg matreshka.AppConfig) ([]domain.Pat
 	if err != nil {
 		return nil, errors.Wrap(err, "error marshalling config")
 	}
+
 	newCfgNodesStore := evon.NodesToStorage(newCfgNodes.InnerNodes)
 
 	cfgPatch := make([]domain.PatchConfig, 0, len(newCfgNodesStore))

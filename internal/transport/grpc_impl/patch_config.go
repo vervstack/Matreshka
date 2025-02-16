@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	errors "go.redsock.ru/rerrors"
+	"go.redsock.ru/toolbox"
 
 	"go.vervstack.ru/matreshka-be/internal/domain"
 	api "go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
@@ -12,8 +13,9 @@ import (
 
 func (a *Impl) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*api.PatchConfig_Response, error) {
 	patchReq := domain.PatchConfigRequest{
-		ServiceName: req.GetServiceName(),
-		Batch:       fromNodeToPatch(&api.Node{InnerNodes: req.GetChanges()}),
+		ServiceName:   req.GetServiceName(),
+		Batch:         fromNodeToPatch(&api.Node{InnerNodes: req.GetChanges()}),
+		ConfigVersion: toolbox.Coalesce(toolbox.FromPtr(req.Version), domain.MasterVersion),
 	}
 
 	err := a.configService.Patch(ctx, patchReq)

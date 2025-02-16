@@ -22,4 +22,6 @@ api/*
 !api/grpc
 proto_deps
 /data
+dist
+node_modules
 
