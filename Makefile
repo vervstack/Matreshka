@@ -1,14 +1,16 @@
 include rscli.mk
 
-fe_src_folder='data/fe-src/'
-fe_dist_folder='internal/transport/web/dist'
+FILES = index.css primeicons.eot index.html index.js primeicons.svg primeicons.ttf primeicons.woff primeicons.woff2
+BASE_URL = https://s3-api.redsock.ru/verv/matreshka
+DEST_FOLDER = internal/transport/web/dist
 
-.fetch-fe:
-	rm -rf $(fe_src_folder)
-	git clone https://github.com/godverv/matreshka-fe.git $(fe_src_folder)
-	cd $(fe_src_folder) && npm i && VITE_MATRESHKA_BACKEND_URL=/ npm run build
-	rm -rf $(fe_dist_folder)
-	mv $(fe_src_folder)/dist $(fe_dist_folder)
-	rm -rf $(fe_src_folder)
-	git add $(fe_dist_folder)/*
-	git commit -m "[fetched fe]"
+# Ensure the destination folder exists
+$(shell mkdir -p $(DEST_FOLDER))
+
+download-web-client: $(FILES)
+
+$(FILES):
+	@mkdir -p $(DEST_FOLDER)/$(dir $@)  # Create directories if necessary
+	@wget $(BASE_URL)/$@ -O $(DEST_FOLDER)/$@
+
+.PHONY: download-web-client

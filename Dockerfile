@@ -1,7 +1,6 @@
 FROM --platform=$BUILDPLATFORM golang:1.23.4-alpine AS builder
 
 WORKDIR /app
-COPY . .
 
 RUN   --mount=target=. \
       --mount=type=cache,target=/root/.cache/go-build \
