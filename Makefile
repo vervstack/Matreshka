@@ -4,9 +4,6 @@ FILES = index.css primeicons.eot index.html index.js primeicons.svg primeicons.t
 BASE_URL = https://s3-api.redsock.ru/verv/matreshka
 DEST_FOLDER = internal/transport/web/dist
 
-# Ensure the destination folder exists
-$(shell mkdir -p $(DEST_FOLDER))
-
 download-web-client: $(FILES)
 
 $(FILES):

@@ -3,6 +3,7 @@ build-local-container:
 	docker buildx build \
 			--load \
 			--platform linux/arm64 \
+			--no-cache \
 			-t matreshka_be:local .
 
 ### Grpc server generation
