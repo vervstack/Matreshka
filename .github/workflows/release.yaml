@@ -23,6 +23,12 @@ jobs:
     needs:
       - tag-release
     steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+
       - name: fetch front
         run: make download-web-client
 
