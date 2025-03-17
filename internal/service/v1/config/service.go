@@ -7,13 +7,6 @@ import (
 	"go.vervstack.ru/matreshka-be/internal/validation"
 )
 
-var allowedSegments = []string{
-	appInfo,
-	environmentSegment,
-	dataSourceSegment,
-	serverSegment,
-}
-
 type CfgService struct {
 	configStorage storage.Data
 	txManager     *tx_manager.TxManager
