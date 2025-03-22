@@ -28,7 +28,7 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 			SELECT
 				cfg.id as id,
 				cfg.updated_at as updated_at,
-				cfg.name as service_name,
+				cfg.name as name,
 				cv.version as version
 			FROM configs cfg
 					 JOIN configs_values cv on cfg.id = cv.config_id
@@ -36,7 +36,7 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 			GROUP BY cfg.name, cv.version
 		)
 		SELECT
-			cfg.service_name 				as service_name,
+			cfg.name 				as service_name,
 			service_version.value 			as service_version,
 			cfg.updated_at 					as last_updated_at, 
 			json_group_array(cfg.version) 	as config_versions
