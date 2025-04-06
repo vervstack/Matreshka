@@ -172,3 +172,11 @@ message SubscribeOnChanges {
     repeated Node env_variables = 1;
   }
 }
+
+enum ConfigTypePrefix {
+  unknown = 0;
+  verv = 1;
+  minio = 2;
+  pg = 3;
+  nginx = 4;
+}

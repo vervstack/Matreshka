@@ -17,6 +17,14 @@ type OneOf<T> =
         : never
       : never);
 
+export enum ConfigTypePrefix {
+  unknown = "unknown",
+  verv = "verv",
+  minio = "minio",
+  pg = "pg",
+  nginx = "nginx",
+}
+
 export enum SortType {
   default = "default",
   by_name = "by_name",
