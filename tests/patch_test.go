@@ -13,7 +13,7 @@ import (
 	"go.vervstack.ru/matreshka/environment"
 	"go.vervstack.ru/matreshka/resources"
 
-	"go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
+	"go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
 type PatchConfigSuite struct {

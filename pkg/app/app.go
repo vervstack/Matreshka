@@ -1,7 +1,7 @@
 package app
 
 import (
-	"go.vervstack.ru/matreshka-be/internal/app"
+	"go.vervstack.ru/matreshka/internal/app"
 )
 
 type (

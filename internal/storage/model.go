@@ -2,7 +2,8 @@ package storage
 
 import (
 	"go.redsock.ru/evon"
-	"go.vervstack.ru/matreshka"
+
+	"go.vervstack.ru/matreshka/pkg/matreshka"
 )
 
 type Config struct {

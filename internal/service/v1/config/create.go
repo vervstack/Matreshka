@@ -9,10 +9,10 @@ import (
 	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
 	"go.redsock.ru/toolbox"
-	"go.vervstack.ru/matreshka"
 
-	"go.vervstack.ru/matreshka-be/internal/domain"
-	"go.vervstack.ru/matreshka-be/internal/service/user_errors"
+	"go.vervstack.ru/matreshka/internal/domain"
+	"go.vervstack.ru/matreshka/internal/service/user_errors"
+	"go.vervstack.ru/matreshka/pkg/matreshka"
 )
 
 func (c *CfgService) Create(ctx context.Context, serviceName string) (int64, error) {

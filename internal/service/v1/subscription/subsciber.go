@@ -1,7 +1,7 @@
 package subscription
 
 import (
-	"go.vervstack.ru/matreshka-be/internal/domain"
+	"go.vervstack.ru/matreshka/internal/domain"
 )
 
 type Subscriber struct {

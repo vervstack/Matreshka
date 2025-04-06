@@ -10,9 +10,9 @@ import (
 	"go.redsock.ru/rerrors"
 	"go.redsock.ru/toolbox"
 
-	"go.vervstack.ru/matreshka-be/internal/domain"
-	"go.vervstack.ru/matreshka-be/internal/domain/patch"
-	"go.vervstack.ru/matreshka-be/internal/service/user_errors"
+	"go.vervstack.ru/matreshka/internal/domain"
+	"go.vervstack.ru/matreshka/internal/domain/patch"
+	"go.vervstack.ru/matreshka/internal/service/user_errors"
 )
 
 func (c *CfgService) Patch(ctx context.Context, req domain.PatchConfigRequest) error {

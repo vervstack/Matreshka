@@ -10,8 +10,8 @@ import (
 	"go.redsock.ru/toolbox"
 	"google.golang.org/protobuf/proto"
 
-	"go.vervstack.ru/matreshka-be/internal/domain"
-	"go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
+	"go.vervstack.ru/matreshka/internal/domain"
+	"go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
 type ListSuite struct {

@@ -8,7 +8,7 @@ import (
 	"go.redsock.ru/rerrors"
 	"go.redsock.ru/toolbox/closer"
 
-	"go.vervstack.ru/matreshka-be/internal/config"
+	"go.vervstack.ru/matreshka/internal/config"
 )
 
 func (a *App) InitConfig() (err error) {

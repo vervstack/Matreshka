@@ -1,4 +1,4 @@
-module go.vervstack.ru/matreshka-be
+module go.vervstack.ru/matreshka
 
 go 1.23.4
 
@@ -13,7 +13,6 @@ require (
 	go.redsock.ru/evon v0.0.17
 	go.redsock.ru/rerrors v0.0.3
 	go.redsock.ru/toolbox v0.0.10
-	go.vervstack.ru/matreshka v0.0.56
 	golang.org/x/sync v0.11.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20250212204824-5a70512c5d8b
 	google.golang.org/grpc v1.70.0

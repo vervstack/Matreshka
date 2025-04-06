@@ -5,7 +5,7 @@ import (
 
 	errors "go.redsock.ru/rerrors"
 
-	"go.vervstack.ru/matreshka-be/internal/service/user_errors"
+	"go.vervstack.ru/matreshka/internal/service/user_errors"
 )
 
 type Validator struct {

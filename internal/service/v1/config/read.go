@@ -6,8 +6,8 @@ import (
 	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
 
-	"go.vervstack.ru/matreshka-be/internal/domain"
-	"go.vervstack.ru/matreshka-be/internal/service/user_errors"
+	"go.vervstack.ru/matreshka/internal/domain"
+	"go.vervstack.ru/matreshka/internal/service/user_errors"
 )
 
 func (c *CfgService) GetNodes(ctx context.Context, serviceName string, ver string) (*evon.Node, error) {

@@ -3,7 +3,7 @@
   "description": "Matreshka Grpc API contracts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "version": "v0.0.0",
+  "version": "v0.0.1",
   "scripts": {
     "build": "tsc"
   },

@@ -7,7 +7,7 @@ import (
 
 	"go.redsock.ru/evon"
 
-	"go.vervstack.ru/matreshka-be/internal/domain"
+	"go.vervstack.ru/matreshka/internal/domain"
 )
 
 type Data interface {

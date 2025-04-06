@@ -9,10 +9,10 @@ import (
 	"go.redsock.ru/rerrors"
 	"go.redsock.ru/toolbox"
 	"go.redsock.ru/toolbox/closer"
-	"go.vervstack.ru/matreshka-be/internal/transport"
+	"go.vervstack.ru/matreshka/internal/transport"
 	"golang.org/x/sync/errgroup"
 
-	"go.vervstack.ru/matreshka-be/internal/config"
+	"go.vervstack.ru/matreshka/internal/config"
 )
 
 type App struct {

@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fdc12f89-b558-4306-ba2d-841875cf35ba" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../internal/utils/cases/cases.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/app_config.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/app_info.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/data_sources.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/environment.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/environment/bool.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/environment/bool_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/environment/duration.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/environment/duration_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/environment/enum.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/environment/float.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/environment/float_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/environment/int.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/environment/int_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/environment/string.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/environment/string_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/environment/value.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/environment/variable.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/environment/variable_opts.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/main_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/patterns/data_source_gen.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/patterns/data_sources.go.pattern" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/reader.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/resources/errs.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/resources/grpc.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/resources/pg.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/resources/redis.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/resources/resource.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/resources/sql.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/resources/sqlite.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/resources/tg.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/resources/unknown.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/server.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/server/fs.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/server/grpc.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/server/rest.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/server/server.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/service_discovery.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/service_discovery/service_discovery.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/.env.api_config" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/api_config.invalid.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/api_config.invalid_item.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/api_config.invalid_port.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/api_config.with_name.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/api_config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/app_info_config_full_name.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/app_info_config_short_name.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/empty_config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/full_config.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/full_config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/full_config_without_module_name.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/full_resources_config.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/full_resources_config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/resourced_config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/service_discovery.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../matreshka/tests/service_discovery.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../web/package.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="tsconfig.json" />
+        <option value="Dockerfile" />
+        <option value="CSS File" />
+        <option value="TypeScript File" />
+        <option value="Vue Composition API Component" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="verv-138" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;hathawway&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/godverv/matreshka-fe.git&quot;,
+    &quot;accountId&quot;: &quot;78c115eb-9f48-466d-ac1f-07feb161fca1&quot;
+  }
+}</component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2g9OrI7vyEt02RAPtvWJvFHbgRl" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "verv-138",
+    "last_opened_file_path": "/Users/alexbukov/Yandex.Disk.localized/проекты/verv/Matreshka/Matreshka-be/pkg/Matreshka-fe",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "timeTracker.activityTracker": "null",
+    "timeTracker.comment": "",
+    "timeTracker.inactivityPeriodInMills": "600000",
+    "timeTracker.isAutoTrackingEnable": "false",
+    "timeTracker.isAutoTrackingTemporaryDisabled": "false",
+    "timeTracker.isManualTrackingEnable": "false",
+    "timeTracker.isPaused": "true",
+    "timeTracker.isPostAfterCommitEnabled": "false",
+    "timeTracker.isPostedScheduled": "true",
+    "timeTracker.isRunning": "false",
+    "timeTracker.isScheduledEnabled": "false",
+    "timeTracker.isWhenProjectClosedEnabled": "false",
+    "timeTracker.issueId": "Default",
+    "timeTracker.issueIdReadable": "Default",
+    "timeTracker.pausedTime": "0",
+    "timeTracker.query": "",
+    "timeTracker.recordedTime": "0",
+    "timeTracker.scheduledPeriod": "19:00:0",
+    "timeTracker.startTime": "0",
+    "timeTracker.timeInMills": "0",
+    "timeTracker.type": "Development",
+    "ts.external.directory.path": "/Users/alexbukov/Applications/WebStorm 2024.1.6.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "vue.recent.templates": [
+      "Vue Composition API Component"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.github/workflows" />
+      <recent name="$PROJECT_DIR$/src/components/resources/minio" />
+      <recent name="$PROJECT_DIR$/src/processes/api/api/grpc" />
+      <recent name="$PROJECT_DIR$/src/api" />
+      <recent name="$PROJECT_DIR$/src/api/grpc" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/models/configs/verv" />
+      <recent name="$PROJECT_DIR$/src/components/config" />
+      <recent name="$PROJECT_DIR$/src/components/base/config" />
+      <recent name="$PROJECT_DIR$/src/components/base/config/fields" />
+      <recent name="$PROJECT_DIR$/src/components/config/verv/resource" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.19072.23" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fdc12f89-b558-4306-ba2d-841875cf35ba" name="Changes" comment="" />
+      <created>1715106524119</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1715106524119</updated>
+      <workItem from="1715106525175" duration="7858000" />
+      <workItem from="1715198980198" duration="4934000" />
+      <workItem from="1715362533733" duration="8590000" />
+      <workItem from="1715450614472" duration="15839000" />
+      <workItem from="1715532243512" duration="7485000" />
+      <workItem from="1716189706645" duration="31737000" />
+      <workItem from="1716464254651" duration="10116000" />
+      <workItem from="1718216466351" duration="1197000" />
+      <workItem from="1718307007516" duration="6218000" />
+      <workItem from="1718364092438" duration="9806000" />
+      <workItem from="1718457994905" duration="16866000" />
+      <workItem from="1719156917466" duration="362000" />
+      <workItem from="1719257811315" duration="2198000" />
+      <workItem from="1719602487278" duration="5084000" />
+      <workItem from="1723663547271" duration="23000" />
+      <workItem from="1723832210880" duration="638000" />
+      <workItem from="1724435841990" duration="4850000" />
+      <workItem from="1725085886457" duration="912000" />
+      <workItem from="1725901350468" duration="17798000" />
+      <workItem from="1726468796701" duration="41652000" />
+      <workItem from="1726913006981" duration="170000" />
+      <workItem from="1726914193900" duration="12599000" />
+      <workItem from="1727031602662" duration="8713000" />
+      <workItem from="1727163178429" duration="8804000" />
+      <workItem from="1727593946431" duration="10277000" />
+      <workItem from="1730316155572" duration="470000" />
+      <workItem from="1730366780218" duration="25028000" />
+      <workItem from="1730526171378" duration="56231000" />
+      <workItem from="1730979411546" duration="2289000" />
+      <workItem from="1732103274104" duration="29736000" />
+      <workItem from="1732300956512" duration="23000" />
+      <workItem from="1732300990811" duration="22423000" />
+      <workItem from="1733170205407" duration="37000" />
+      <workItem from="1733424698553" duration="475000" />
+      <workItem from="1733506663074" duration="12414000" />
+      <workItem from="1733682314470" duration="15191000" />
+      <workItem from="1733937012409" duration="2546000" />
+      <workItem from="1733944672365" duration="6205000" />
+      <workItem from="1734212608992" duration="703000" />
+      <workItem from="1734538292396" duration="2606000" />
+      <workItem from="1734549173284" duration="1749000" />
+      <workItem from="1735303655671" duration="43002000" />
+      <workItem from="1735644673952" duration="7117000" />
+      <workItem from="1736503819162" duration="10455000" />
+      <workItem from="1737175823642" duration="609000" />
+      <workItem from="1737194893283" duration="3608000" />
+      <workItem from="1737202930813" duration="947000" />
+      <workItem from="1738690719761" duration="635000" />
+      <workItem from="1739349437251" duration="4638000" />
+      <workItem from="1739700557515" duration="10786000" />
+      <workItem from="1739734476670" duration="777000" />
+      <workItem from="1740593381331" duration="728000" />
+      <workItem from="1741443583450" duration="951000" />
+      <workItem from="1741449504903" duration="1262000" />
+      <workItem from="1741514163184" duration="6579000" />
+      <workItem from="1742139336692" duration="6404000" />
+      <workItem from="1742621134530" duration="9299000" />
+      <workItem from="1742706963306" duration="6279000" />
+      <workItem from="1743229297921" duration="14480000" />
+      <workItem from="1743831263810" duration="8098000" />
+      <workItem from="1743930504476" duration="803000" />
+      <workItem from="1743932371061" duration="2162000" />
+    </task>
+    <task id="LOCAL-00074" summary="[master] minio access config">
+      <option name="closed" value="true" />
+      <created>1733859800063</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1733859800064</updated>
+    </task>
+    <task id="LOCAL-00075" summary="[master] wf">
+      <option name="closed" value="true" />
+      <created>1733861586678</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1733861586678</updated>
+    </task>
+    <task id="LOCAL-00076" summary="[master] wf">
+      <option name="closed" value="true" />
+      <created>1733861753806</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1733861753807</updated>
+    </task>
+    <task id="LOCAL-00077" summary="[master] path to matreshka">
+      <option name="closed" value="true" />
+      <created>1733939044792</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1733939044793</updated>
+    </task>
+    <task id="LOCAL-00078" summary="[master] path to matreshka">
+      <option name="closed" value="true" />
+      <created>1733939309766</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1733939309766</updated>
+    </task>
+    <task id="LOCAL-00079" summary="[master] using port and server name">
+      <option name="closed" value="true" />
+      <created>1735372836080</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1735372836080</updated>
+    </task>
+    <task id="LOCAL-00080" summary="[master] little refactoring">
+      <option name="closed" value="true" />
+      <created>1735382051936</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1735382051936</updated>
+    </task>
+    <task id="LOCAL-00081" summary="[master] env var name">
+      <option name="closed" value="true" />
+      <created>1735382072719</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1735382072720</updated>
+    </task>
+    <task id="LOCAL-00082" summary="[master] old way">
+      <option name="closed" value="true" />
+      <created>1735386284532</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1735386284532</updated>
+    </task>
+    <task id="LOCAL-00083" summary="[master] old way">
+      <option name="closed" value="true" />
+      <created>1735386427623</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1735386427623</updated>
+    </task>
+    <task id="LOCAL-00084" summary="[master] b-uti-full">
+      <option name="closed" value="true" />
+      <created>1735386928982</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1735386928982</updated>
+    </task>
+    <task id="LOCAL-00085" summary="[master] tweaks with logic">
+      <option name="closed" value="true" />
+      <created>1735387602154</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1735387602154</updated>
+    </task>
+    <task id="LOCAL-00086" summary="[master] tweaks with logic">
+      <option name="closed" value="true" />
+      <created>1735389726446</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1735389726446</updated>
+    </task>
+    <task id="LOCAL-00087" summary="[master] go back | home">
+      <option name="closed" value="true" />
+      <created>1735390305581</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1735390305581</updated>
+    </task>
+    <task id="LOCAL-00088" summary="[master] go back | home">
+      <option name="closed" value="true" />
+      <created>1735390617190</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1735390617190</updated>
+    </task>
+    <task id="LOCAL-00089" summary="[master] resource displayed calculator">
+      <option name="closed" value="true" />
+      <created>1735502255994</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1735502255994</updated>
+    </task>
+    <task id="LOCAL-00090" summary="[master] doesn't matter changes">
+      <option name="closed" value="true" />
+      <created>1735506868091</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1735506868091</updated>
+    </task>
+    <task id="LOCAL-00091" summary="[master] github link">
+      <option name="closed" value="true" />
+      <created>1735508454278</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1735508454278</updated>
+    </task>
+    <task id="LOCAL-00092" summary="[master] name changes">
+      <option name="closed" value="true" />
+      <created>1735589045978</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1735589045979</updated>
+    </task>
+    <task id="LOCAL-00093" summary="[master] now working buttons. For now...">
+      <option name="closed" value="true" />
+      <created>1735593148632</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1735593148632</updated>
+    </task>
+    <task id="LOCAL-00094" summary="[master] moved app info to classes">
+      <option name="closed" value="true" />
+      <created>1735600187338</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1735600187338</updated>
+    </task>
+    <task id="LOCAL-00095" summary="[master] Api layer rename">
+      <option name="closed" value="true" />
+      <created>1735600265630</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1735600265631</updated>
+    </task>
+    <task id="LOCAL-00096" summary="[master] resources are classes now">
+      <option name="closed" value="true" />
+      <created>1735602683618</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1735602683619</updated>
+    </task>
+    <task id="LOCAL-00097" summary="[master] fckg great">
+      <option name="closed" value="true" />
+      <created>1735645620980</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1735645620980</updated>
+    </task>
+    <task id="LOCAL-00098" summary="[master] servers are classes now">
+      <option name="closed" value="true" />
+      <created>1735646272958</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1735646272958</updated>
+    </task>
+    <task id="LOCAL-00099" summary="[master] servers types removed">
+      <option name="closed" value="true" />
+      <created>1735646583802</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1735646583802</updated>
+    </task>
+    <task id="LOCAL-00100" summary="[master] renaming">
+      <option name="closed" value="true" />
+      <created>1735647429075</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1735647429075</updated>
+    </task>
+    <task id="LOCAL-00101" summary="[VERV-120] update service info on save">
+      <option name="closed" value="true" />
+      <created>1735648016466</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1735648016466</updated>
+    </task>
+    <task id="VERV-121" summary="[matreshka-fe] подсвечивать изменения в конфигурации вложенным образом (как например в гите)">
+      <created>1735646558976</created>
+      <option name="issue" value="true" />
+      <url>https://youtrack.redsock.online/issue/VERV-121</url>
+      <option name="number" value="121" />
+      <option name="presentableId" value="VERV-121" />
+      <option name="project" value="VERV" />
+      <updated>1737197809173</updated>
+    </task>
+    <task id="LOCAL-00102" summary="[fix] nullable">
+      <option name="closed" value="true" />
+      <created>1737203313062</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1737203313062</updated>
+    </task>
+    <task id="LOCAL-00103" summary="[VERV-138] work with multiple version of config">
+      <option name="closed" value="true" />
+      <created>1739725244142</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1739725244144</updated>
+    </task>
+    <task id="LOCAL-00104" summary="[VERV-138] update to latest backend package">
+      <option name="closed" value="true" />
+      <created>1739734655178</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1739734655179</updated>
+    </task>
+    <task id="LOCAL-00105" summary="[VERV-138] branch push action">
+      <option name="closed" value="true" />
+      <created>1739734711980</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1739734711980</updated>
+    </task>
+    <task id="LOCAL-00106" summary="[VERV-138] building static with static name">
+      <option name="closed" value="true" />
+      <created>1741449753450</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1741449753450</updated>
+    </task>
+    <task id="LOCAL-00107" summary="[master] removed images + by default requests routed to root">
+      <option name="closed" value="true" />
+      <created>1741539023916</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1741539023916</updated>
+    </task>
+    <task id="LOCAL-00108" summary="[master] empty path is okey to route requests to">
+      <option name="closed" value="true" />
+      <created>1741540932157</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1741540932157</updated>
+    </task>
+    <task id="LOCAL-00109" summary="[master] pu pu pu">
+      <option name="closed" value="true" />
+      <created>1741541294536</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1741541294537</updated>
+    </task>
+    <task id="LOCAL-00110" summary="[master] backend address updates with protocol">
+      <option name="closed" value="true" />
+      <created>1742139670858</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1742139670858</updated>
+    </task>
+    <task id="LOCAL-00111" summary="[master] using new name in case of renaming">
+      <option name="closed" value="true" />
+      <created>1742218899612</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1742218899612</updated>
+    </task>
+    <task id="LOCAL-00112" summary="[master] removed css-debug red line">
+      <option name="closed" value="true" />
+      <created>1742218957507</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1742218957507</updated>
+    </task>
+    <task id="LOCAL-00113" summary="[master] moved config related components configField folder">
+      <option name="closed" value="true" />
+      <created>1742219399558</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1742219399559</updated>
+    </task>
+    <task id="LOCAL-00114" summary="[master] fixed blinking on fast search request updates">
+      <option name="closed" value="true" />
+      <created>1742623367272</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1742623367272</updated>
+    </task>
+    <task id="LOCAL-00115" summary="[master] updated axios | using icon for config | link constructor for external resources | config types enum | correct matreshka config format">
+      <option name="closed" value="true" />
+      <created>1742705197652</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1742705197653</updated>
+    </task>
+    <task id="LOCAL-00116" summary="[master] moving things around">
+      <option name="closed" value="true" />
+      <created>1742707329402</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1742707329402</updated>
+    </task>
+    <task id="LOCAL-00117" summary="[master] matreshka icon">
+      <option name="closed" value="true" />
+      <created>1742708737370</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1742708737371</updated>
+    </task>
+    <task id="LOCAL-00118" summary="[master] moving things around">
+      <option name="closed" value="true" />
+      <created>1742709746398</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1742709746401</updated>
+    </task>
+    <task id="LOCAL-00119" summary="[master] package renamings">
+      <option name="closed" value="true" />
+      <created>1743229749345</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1743229749345</updated>
+    </task>
+    <task id="LOCAL-00120" summary="[master] when log out of dialog on home page doesn't flinch with loader">
+      <option name="closed" value="true" />
+      <created>1743230065745</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1743230065745</updated>
+    </task>
+    <task id="LOCAL-00121" summary="[master] prefix work with">
+      <option name="closed" value="true" />
+      <created>1743929638341</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1743929638342</updated>
+    </task>
+    <option name="localTasksCounter" value="122" />
+    <servers>
+      <YouTrack url="https://youtrack.redsock.online">
+        <username>random</username>
+      </YouTrack>
+    </servers>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <MESSAGE value="[VERV-121] length checking for component height" />
+    <MESSAGE value="[VERV-121] when block content is changed we show it" />
+    <MESSAGE value="[VERV-121] update to latest version" />
+    <MESSAGE value="[VERV-121] removed state of current changing config" />
+    <MESSAGE value="[fix] nullable" />
+    <MESSAGE value="[fix] work" />
+    <MESSAGE value="[VERV-138] work with multiple version of config" />
+    <MESSAGE value="[VERV-138] update to latest backend package" />
+    <MESSAGE value="[VERV-138] branch push action" />
+    <MESSAGE value="[VERV-138] building static with static name" />
+    <MESSAGE value="[VERV-138] removed" />
+    <MESSAGE value="[master] removed images + by default requests routed to root" />
+    <MESSAGE value="[master] empty path is okey to route requests to" />
+    <MESSAGE value="[master] pu pu pu" />
+    <MESSAGE value="[master] backend address updates with protocol" />
+    <MESSAGE value="[master] using new name in case of renaming" />
+    <MESSAGE value="[master] removed css-debug red line" />
+    <MESSAGE value="[master] moved config related components configField folder" />
+    <MESSAGE value="[master] fixed blinking on fast search request updates" />
+    <MESSAGE value="[master] updated axios | using icon for config | link constructor for external resources | config types enum | correct matreshka config format" />
+    <MESSAGE value="[master] matreshka icon" />
+    <MESSAGE value="[master] moving things around" />
+    <MESSAGE value="[master] package renamings" />
+    <MESSAGE value="[master] when log out of dialog on home page doesn't flinch with loader" />
+    <MESSAGE value="[master] prefix work with" />
+    <option name="LAST_COMMIT_MESSAGE" value="[master] prefix work with" />
+  </component>
+</project>

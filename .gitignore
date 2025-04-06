@@ -24,3 +24,4 @@ proto_deps
 dist
 node_modules
 *.local
+/pkg/Matreshka-fe/node_modules/

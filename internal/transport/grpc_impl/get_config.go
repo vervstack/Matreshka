@@ -6,12 +6,12 @@ import (
 	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
 	"go.redsock.ru/toolbox"
-	"go.vervstack.ru/matreshka"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"go.vervstack.ru/matreshka-be/internal/domain"
-	api "go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
+	"go.vervstack.ru/matreshka/internal/domain"
+	"go.vervstack.ru/matreshka/pkg/matreshka"
+	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
 func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.GetConfig_Response, error) {

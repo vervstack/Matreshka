@@ -4,12 +4,12 @@ import (
 	"context"
 	"database/sql"
 
-	"go.redsock.ru/rerrors"
-	"go.redsock.ru/toolbox/closer"
-	"go.vervstack.ru/matreshka/resources"
-
 	"github.com/pressly/goose/v3"
 	"github.com/sirupsen/logrus"
+	"go.redsock.ru/rerrors"
+	"go.redsock.ru/toolbox/closer"
+
+	"go.vervstack.ru/matreshka/pkg/matreshka/resources"
 )
 
 func New(cfg resources.SqlResource) (*sql.DB, error) {

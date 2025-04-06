@@ -6,15 +6,15 @@ import (
 
 	"google.golang.org/grpc"
 
-	"go.vervstack.ru/matreshka-be/internal/service"
-	"go.vervstack.ru/matreshka-be/internal/service/user_errors"
-	"go.vervstack.ru/matreshka-be/internal/service/v1"
-	"go.vervstack.ru/matreshka-be/internal/storage"
-	"go.vervstack.ru/matreshka-be/internal/storage/sqlite"
-	"go.vervstack.ru/matreshka-be/internal/storage/tx_manager"
-	"go.vervstack.ru/matreshka-be/internal/transport/grpc_impl"
-	"go.vervstack.ru/matreshka-be/internal/transport/web"
-	docs "go.vervstack.ru/matreshka-be/pkg/docs/api"
+	"go.vervstack.ru/matreshka/internal/service"
+	"go.vervstack.ru/matreshka/internal/service/user_errors"
+	"go.vervstack.ru/matreshka/internal/service/v1"
+	"go.vervstack.ru/matreshka/internal/storage"
+	"go.vervstack.ru/matreshka/internal/storage/sqlite"
+	"go.vervstack.ru/matreshka/internal/storage/tx_manager"
+	"go.vervstack.ru/matreshka/internal/transport/grpc_impl"
+	"go.vervstack.ru/matreshka/internal/transport/web"
+	docs "go.vervstack.ru/matreshka/pkg/docs/api"
 )
 
 type Custom struct {

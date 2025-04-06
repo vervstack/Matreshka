@@ -1,11 +1,11 @@
 package v1
 
 import (
-	"go.vervstack.ru/matreshka-be/internal/service"
-	"go.vervstack.ru/matreshka-be/internal/service/v1/config"
-	"go.vervstack.ru/matreshka-be/internal/service/v1/subscription"
-	"go.vervstack.ru/matreshka-be/internal/storage"
-	"go.vervstack.ru/matreshka-be/internal/storage/tx_manager"
+	"go.vervstack.ru/matreshka/internal/service"
+	"go.vervstack.ru/matreshka/internal/service/v1/config"
+	"go.vervstack.ru/matreshka/internal/service/v1/subscription"
+	"go.vervstack.ru/matreshka/internal/storage"
+	"go.vervstack.ru/matreshka/internal/storage/tx_manager"
 )
 
 type Services struct {

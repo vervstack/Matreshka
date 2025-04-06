@@ -1,10 +1,10 @@
 package config
 
 import (
-	"go.vervstack.ru/matreshka-be/internal/service"
-	"go.vervstack.ru/matreshka-be/internal/storage"
-	"go.vervstack.ru/matreshka-be/internal/storage/tx_manager"
-	"go.vervstack.ru/matreshka-be/internal/validation"
+	"go.vervstack.ru/matreshka/internal/service"
+	"go.vervstack.ru/matreshka/internal/storage"
+	"go.vervstack.ru/matreshka/internal/storage/tx_manager"
+	"go.vervstack.ru/matreshka/internal/validation"
 )
 
 type CfgService struct {

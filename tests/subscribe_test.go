@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/suite"
 	"go.redsock.ru/toolbox"
 
-	api "go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
+	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
 type SubscriptionSuite struct {

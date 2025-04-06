@@ -15,7 +15,7 @@ import (
 	"go.redsock.ru/toolbox"
 	"go.vervstack.ru/matreshka"
 
-	"go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
+	"go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
 type Env struct {

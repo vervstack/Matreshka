@@ -8,8 +8,8 @@ import (
 	errors "go.redsock.ru/rerrors"
 	"go.redsock.ru/toolbox"
 
-	"go.vervstack.ru/matreshka-be/internal/domain"
-	api "go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
+	"go.vervstack.ru/matreshka/internal/domain"
+	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
 func (a *Impl) GetConfigNodes(ctx context.Context, req *api.GetConfigNode_Request) (*api.GetConfigNode_Response, error) {

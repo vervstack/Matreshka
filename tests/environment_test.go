@@ -10,8 +10,8 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/test/bufconn"
 
-	"go.vervstack.ru/matreshka-be/internal/app"
-	"go.vervstack.ru/matreshka-be/pkg/matreshka_be_api"
+	"go.vervstack.ru/matreshka/internal/app"
+	"go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
 func initApp() error {

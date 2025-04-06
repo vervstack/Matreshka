@@ -3,8 +3,8 @@ package subscription
 import (
 	"sync"
 
-	"go.vervstack.ru/matreshka-be/internal/domain"
-	"go.vervstack.ru/matreshka-be/internal/service"
+	"go.vervstack.ru/matreshka/internal/domain"
+	"go.vervstack.ru/matreshka/internal/service"
 )
 
 type PubSubService struct {
