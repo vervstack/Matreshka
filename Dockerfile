@@ -1,11 +1,12 @@
-FROM buildpack-deps:25.04 AS webclient
+FROM node:23-alpine3.20 AS webclient
 
 WORKDIR /web
 
 RUN --mount=type=bind,target=/web,rw \
-    mkdir -p /dist \
-    make download-web-client && \
-    mv /web/internal/transport/web/dist/* /dist/
+    cd pkg/Matreshka-fe && \
+    yarn && \
+    yarn build &&\
+    mv dist /dist
 
 FROM --platform=$BUILDPLATFORM golang:1.23.4-alpine AS builder
 
