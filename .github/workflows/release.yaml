@@ -29,9 +29,6 @@ jobs:
           ref: ${{ github.ref }}
           fetch-depth: 0
 
-      - name: fetch front
-        run: make download-web-client
-
       - name: Release image
         uses: RedSockActions/release_image@v1.0.21
         with:
