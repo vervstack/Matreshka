@@ -6,8 +6,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"go.vervstack.ru/matreshka/environment"
-	config "go.vervstack.ru/matreshka/internal/config_test"
+	"go.vervstack.ru/matreshka/pkg/matreshka/environment"
+	testCfg "go.vervstack.ru/matreshka/pkg/matreshka/tests"
 )
 
 func Test_Environment(t *testing.T) {
@@ -18,12 +18,12 @@ func Test_Environment(t *testing.T) {
 
 		env := Environment(getEnvironmentVariables())
 
-		customEnvConf := &config.EnvironmentConfig{}
+		customEnvConf := &testCfg.EnvironmentConfig{}
 
 		err := env.ParseToStruct(customEnvConf)
 		require.NoError(t, err)
 
-		expected := &config.EnvironmentConfig{
+		expected := &testCfg.EnvironmentConfig{
 			AvailablePorts:                   []int{10, 12, 34, 35, 36, 37, 38, 39, 40},
 			CreditPercent:                    0.01,
 			CreditPercentsBasedOnYearOfBirth: []float64{0.01, 0.02, 0.03, 0.04},
@@ -44,12 +44,12 @@ func Test_Environment(t *testing.T) {
 			environment.MustNewVariable("new_unknown", "nil"),
 		})
 
-		customEnvConf := &config.EnvironmentConfig{}
+		customEnvConf := &testCfg.EnvironmentConfig{}
 
 		err := env.ParseToStruct(customEnvConf)
 		require.ErrorIs(t, err, ErrNotFound)
 
-		expected := &config.EnvironmentConfig{}
+		expected := &testCfg.EnvironmentConfig{}
 		require.Equal(t, expected, customEnvConf)
 	})
 

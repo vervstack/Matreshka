@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.redsock.ru/evon"
 
-	"go.vervstack.ru/matreshka/service_discovery"
+	"go.vervstack.ru/matreshka/pkg/matreshka/service_discovery"
 )
 
 func Test_ServiceDiscovery(t *testing.T) {

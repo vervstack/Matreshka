@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"go.vervstack.ru/matreshka/environment"
-	"go.vervstack.ru/matreshka/resources"
+	"go.vervstack.ru/matreshka/pkg/matreshka/environment"
+	"go.vervstack.ru/matreshka/pkg/matreshka/resources"
 )
 
 func Test_ParseConfig(t *testing.T) {
