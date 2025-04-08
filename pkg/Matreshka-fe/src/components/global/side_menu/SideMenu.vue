@@ -3,7 +3,6 @@ import {Component as VueComponent, ref, shallowRef, watch} from "vue";
 
 import CreateConfigWidget from "@/widget/CreateConfigWidget.vue";
 
-import {MenuItem} from "primevue/menuitem";
 import SpeedDial from "primevue/speeddial";
 import Dialog from "primevue/dialog";
 
@@ -22,11 +21,11 @@ watch(newConfigDialog, ()=>{
   }
 })
 
-const buttons: MenuItem[] = [
+const buttons = [
   {
     label: 'New config',
     icon: "pi pi-box",
-    command(_) {
+    command() {
       newConfigDialog.value = CreateConfigWidget
     },
   },
