@@ -21,7 +21,7 @@ config/dev.yaml
 proto_deps
 /data
 
+# Web interface ignores
 dist
 node_modules
 *.local
-/pkg/Matreshka-fe/node_modules/
