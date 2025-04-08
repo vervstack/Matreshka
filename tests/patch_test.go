@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
-	"go.vervstack.ru/matreshka"
-	"go.vervstack.ru/matreshka/environment"
+	"go.vervstack.ru/matreshka/pkg/matreshka"
+	"go.vervstack.ru/matreshka/pkg/matreshka"vironment"
 	"go.vervstack.ru/matreshka/resources"
 
 	"go.vervstack.ru/matreshka/pkg/matreshka_be_api"

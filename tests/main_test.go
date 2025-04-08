@@ -13,8 +13,8 @@ import (
 	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
 	"go.redsock.ru/toolbox"
-	"go.vervstack.ru/matreshka"
 
+	"go.vervstack.ru/matreshka/pkg/matreshka"
 	"go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 

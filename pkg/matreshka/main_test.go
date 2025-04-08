@@ -10,8 +10,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.redsock.ru/evon"
 
-	"go.vervstack.ru/matreshka/environment"
-	"go.vervstack.ru/matreshka/resources"
+	"go.vervstack.ru/matreshka/pkg/matreshka/environment"
+	"go.vervstack.ru/matreshka/pkg/matreshka/resources"
 )
 
 var (
