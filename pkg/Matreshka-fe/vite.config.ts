@@ -12,8 +12,10 @@ export default ({mode}) => {
     plugins: [vue()],
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))
-      }
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '@godverv/matreshka': fileURLToPath(new URL('../web/dist/index.js', import.meta.url)),
+      },
+      dedupe: ['@godverv/matreshka'],
     },
 
     build: {
@@ -24,6 +26,9 @@ export default ({mode}) => {
           assetFileNames: '[name].[ext]'
         }
       }
-    }
+    },
+    optimizeDeps: {
+      include: ['@godverv/matreshka'],
+    },
   });
 }

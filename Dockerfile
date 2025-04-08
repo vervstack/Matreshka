@@ -3,9 +3,15 @@ FROM node:23-alpine3.20 AS webclient
 WORKDIR /web
 
 RUN --mount=type=bind,target=/web,rw \
-    cd pkg/Matreshka-fe && \
+    # Step 1: Build the API lib
+    cd pkg/web && \
     yarn && \
-    yarn build &&\
+    yarn build && \
+    \
+    # Step 2: Install and build Vue app (now that web is built)
+    cd ../Matreshka-fe && \
+    yarn && \
+    yarn build && \
     mv dist /dist
 
 FROM --platform=$BUILDPLATFORM golang:1.23.4-alpine AS builder

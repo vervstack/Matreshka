@@ -1,27 +1,25 @@
 {
   "name": "@godverv/matreshka",
-  "description": "Matreshka Grpc API contracts",
+  "version": "v0.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "version": "v0.0.1",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "prepare": "npm run build"
   },
   "files": [
-    "dist/",
-    "fetch.pb.ts"
+    "dist"
   ],
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "tsc": "2.0.4",
     "typescript": "5.7.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://go.vervstack.ru/matreshka-be.git"
-  },
-  "author": {
-    "name": "AlexSkilled",
-    "email": "olegthander@yandex.ru"
-  },
-  "license": "Red-Beer"
+  }
 }

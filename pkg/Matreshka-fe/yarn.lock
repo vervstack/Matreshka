@@ -152,11 +152,8 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.21.5.tgz#acad351d582d157bb145535db2a6ff53dd514b5c"
   integrity sha512-tQd/1efJuzPC6rCFwEvLtci/xNFcTZknmXs98FYDfGE4wP9ClFV98nyKrzJKVPMhdDnjzLhdUyMX4PsQAPjwIw==
 
-"@godverv/matreshka@file:../web":
-  version "0.0.1"
-  dependencies:
-    tsc "2.0.4"
-    typescript "5.7.2"
+"@godverv/matreshka@file:../web/dist":
+  version "0.0.0"
 
 "@grpc/grpc-js@^1.10.7":
   version "1.12.6"
@@ -230,14 +227,14 @@
 
 "@primeuix/styled@^0.5.0", "@primeuix/styled@^0.5.1":
   version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@primeuix/styled/-/styled-0.5.1.tgz#0b21a2dd58fc50ebc80567ec6326e8ba6ea4f5b2"
+  resolved "https://registry.npmjs.org/@primeuix/styled/-/styled-0.5.1.tgz"
   integrity sha512-5Ftw/KSauDPClQ8F2qCyCUF7cIUEY4yLNikf0rKV7Vsb8zGYNK0dahQe7CChaR6M2Kn+NA2DSBSk76ZXqj6Uog==
   dependencies:
     "@primeuix/utils" "^0.5.3"
 
 "@primeuix/styles@^1.0.0":
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@primeuix/styles/-/styles-1.0.1.tgz#0f64bac910212761d09f6e5c983ec9bdda2eae06"
+  resolved "https://registry.npmjs.org/@primeuix/styles/-/styles-1.0.1.tgz"
   integrity sha512-R7SX001ILHIJM9hh1opbsuOFFK8dOM8GY1y99jaCFnAc5gGy3mFPJMhoexRYV1a6UZ2YbfcsQVPbIhoONI1gfg==
   dependencies:
     "@primeuix/styled" "^0.5.1"
@@ -249,12 +246,12 @@
 
 "@primeuix/utils@^0.5.1", "@primeuix/utils@^0.5.3":
   version "0.5.3"
-  resolved "https://registry.yarnpkg.com/@primeuix/utils/-/utils-0.5.3.tgz#3a6f597f88e6e9ff8993e81a25c2dfcdd787fd71"
+  resolved "https://registry.npmjs.org/@primeuix/utils/-/utils-0.5.3.tgz"
   integrity sha512-7SGh7734wcF1/uK6RzO6Z6CBjGQ97GDHfpyl2F1G/c7R0z9hkT/V72ypDo82AWcCS7Ta07oIjDpOCTkSVZuEGQ==
 
 "@primevue/core@4.3.3":
   version "4.3.3"
-  resolved "https://registry.yarnpkg.com/@primevue/core/-/core-4.3.3.tgz#aa51762bfb2c781e6ae843168b1bbcf44f8c2e5d"
+  resolved "https://registry.npmjs.org/@primevue/core/-/core-4.3.3.tgz"
   integrity sha512-kSkN5oourG7eueoFPIqiNX3oDT/f0I5IRK3uOY/ytz+VzTZp5yuaCN0Nt42ZQpVXjDxMxDvUhIdaXVrjr58NhQ==
   dependencies:
     "@primeuix/styled" "^0.5.0"
@@ -262,7 +259,7 @@
 
 "@primevue/icons@4.3.3":
   version "4.3.3"
-  resolved "https://registry.yarnpkg.com/@primevue/icons/-/icons-4.3.3.tgz#840f015a633a48677d7cff449e0769f7c5aad4ad"
+  resolved "https://registry.npmjs.org/@primevue/icons/-/icons-4.3.3.tgz"
   integrity sha512-ouQaxHyeFB6MSfEGGbjaK5Qv9efS1xZGetZoU5jcPm090MSYLFtroP1CuK3lZZAQals06TZ6T6qcoNukSHpK5w==
   dependencies:
     "@primeuix/utils" "^0.5.1"
@@ -2169,7 +2166,7 @@ primeicons@^7.0.0:
 
 primevue@^4.3.3:
   version "4.3.3"
-  resolved "https://registry.yarnpkg.com/primevue/-/primevue-4.3.3.tgz#b7f5cba49c20eb4a644521062752b57996042b28"
+  resolved "https://registry.npmjs.org/primevue/-/primevue-4.3.3.tgz"
   integrity sha512-nooYVoEz5CdP3EhUkD6c3qTdRmpLHZh75fBynkUkl46K8y5rksHTjdSISiDijwTA5STQIOkyqLb+RM+HQ6nC1Q==
   dependencies:
     "@primeuix/styled" "^0.5.0"
@@ -2649,11 +2646,6 @@ timers-browserify@^1.0.1:
   dependencies:
     process "~0.11.0"
 
-tsc@2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/tsc/-/tsc-2.0.4.tgz#5f6499146abea5dca4420b451fa4f2f9345238f5"
-  integrity sha512-fzoSieZI5KKJVBYGvwbVZs/J5za84f2lSTLPYf6AGiIf43tZ3GNrI1QzTLcjtyDDP4aLxd46RTZq1nQxe7+k5Q==
-
 tty-browserify@0.0.1:
   version "0.0.1"
   resolved "https://registry.npmjs.org/tty-browserify/-/tty-browserify-0.0.1.tgz"
@@ -2663,11 +2655,6 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
-
-typescript@5.7.2:
-  version "5.7.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.2.tgz#3169cf8c4c8a828cde53ba9ecb3d2b1d5dd67be6"
-  integrity sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==
 
 umd@^3.0.0:
   version "3.0.3"
