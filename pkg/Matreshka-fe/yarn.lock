@@ -152,9 +152,6 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.21.5.tgz#acad351d582d157bb145535db2a6ff53dd514b5c"
   integrity sha512-tQd/1efJuzPC6rCFwEvLtci/xNFcTZknmXs98FYDfGE4wP9ClFV98nyKrzJKVPMhdDnjzLhdUyMX4PsQAPjwIw==
 
-"@godverv/matreshka@file:../web/dist":
-  version "0.0.0"
-
 "@grpc/grpc-js@^1.10.7":
   version "1.12.6"
   resolved "https://registry.npmjs.org/@grpc/grpc-js/-/grpc-js-1.12.6.tgz"
@@ -462,6 +459,9 @@
   integrity sha512-LEwC7o1ifqg/6r2gn9Dns0f1rhK+fPFDoMiceTJ6kWmVk6bgXBI/9IOWfVan4WiAavK9pIVWdX0/e3J+eEUh5A==
   dependencies:
     undici-types "~6.19.2"
+
+"@vervstack/matreshka@file:../web/dist":
+  version "0.0.0"
 
 "@vitejs/plugin-vue@^5.0.4":
   version "5.2.1"
