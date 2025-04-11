@@ -6,13 +6,12 @@ import {
 } from "@godverv/matreshka";
 
 import {parseAppConfigFromEnv} from "@/processes/api/model_mapping.ts";
-import {getBackendUrl} from "@/app/store/settings.ts";
 
 import {AppInfoClass, Change, ServiceListClass} from "@/models/configs/verv/info/AppInfo.ts";
 import {AppConfigClass} from "@/models/configs/verv/AppConfig.ts";
 import {ConfigValueClass} from "@/models/shared/common.ts";
 
-const prefix = {pathPrefix: getBackendUrl()};
+const prefix = {pathPrefix: ''};
 
 export function setBackendAddress(url: string) {
     if (!url.startsWith('http')) {

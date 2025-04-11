@@ -35,9 +35,17 @@ function backendUrlLocalStorageKey(): string {
 
 export function getBackendUrl(): string {
     const item = localStorage.getItem(backendUrlLocalStorageKey())
+
+    if (!item) {
+        console.debug('No backend url in local storage. Extracting from env')
+    }
+
     const beApiAddr = item !== null ? item : import.meta.env.VITE_MATRESHKA_BACKEND_URL
 
     localStorage.setItem(backendUrlLocalStorageKey(), beApiAddr)
 
+    console.debug(beApiAddr ?
+        `Backend url is: ${beApiAddr}` :
+        `No backend url is specified. Requests will be routed to root`)
     return beApiAddr
 }

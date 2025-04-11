@@ -53,7 +53,7 @@ document.addEventListener('keydown', function(event) {
             v-model="apiURL as Nullable<string>"
             @input="changeApiUrl"
         />
-        <label> Api Url </label>
+        <label> {{ apiURL ? 'Api Url': 'Requests will be routed to root' }} </label>
       </FloatLabel>
     </div>
   </Dialog>
