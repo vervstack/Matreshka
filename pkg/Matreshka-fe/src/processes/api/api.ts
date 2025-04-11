@@ -14,10 +14,6 @@ import {ConfigValueClass} from "@/models/shared/common.ts";
 const prefix = {pathPrefix: ''};
 
 export function setBackendAddress(url: string) {
-    if (!url.startsWith('http')) {
-        url = 'http://' + url
-    }
-
     prefix.pathPrefix = url
 }
 
