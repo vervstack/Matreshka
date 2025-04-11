@@ -1,5 +1,7 @@
 # Mono repository for matreshka configuration system
 
+[![Docker Image Version](https://img.shields.io/docker/v/godverv/velez?style=for-the-badge&logo=docker&label=Matreshka%20image&labelColor=white&color=blue)](https://hub.docker.com/r/vervstack/matreshka/tags)
+
 ## Matreshka configuration module
 Are at /pkg/matreshka
 
