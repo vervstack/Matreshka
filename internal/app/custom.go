@@ -14,7 +14,7 @@ import (
 	"go.vervstack.ru/matreshka/internal/storage/tx_manager"
 	"go.vervstack.ru/matreshka/internal/transport/grpc_impl"
 	"go.vervstack.ru/matreshka/internal/transport/web"
-	docs "go.vervstack.ru/matreshka/pkg/docs/api"
+	"go.vervstack.ru/matreshka/pkg/docs"
 )
 
 type Custom struct {

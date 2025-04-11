@@ -10,7 +10,7 @@ import (
 	swaggerui "github.com/Red-Sock/go-swagger-ui"
 )
 
-//go:embed all:grpc
+//go:embed all:swaggers
 var swaggers embed.FS
 
 const (
@@ -34,7 +34,7 @@ func Swagger() (p string, handler http.HandlerFunc) {
 		swaggerui.WithShowExtensions(true),
 	))
 
-	stripped, err := fs.Sub(swaggers, "grpc")
+	stripped, err := fs.Sub(swaggers, "swaggers")
 	if err != nil {
 		log.Fatal(err)
 	}

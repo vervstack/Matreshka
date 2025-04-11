@@ -22,9 +22,7 @@ generate:
           out: pkg/web
 
         - name: openapiv2
-          out: pkg/docs
+          out: pkg/docs/swaggers
 
         - name: docs
-          out: pkg/docs/api
-          opts:
-            swaggers_folder_path: grpc
+          out: pkg/docs
