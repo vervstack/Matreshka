@@ -13,6 +13,6 @@
   },
   "include": [
     "index.ts",
-    "api/**/*"
+    "matreshka-be_api.pb.ts"
   ]
 }

@@ -5,7 +5,7 @@
  * This file is a generated Typescript file for GRPC Gateway, DO NOT MODIFY
  */
 
-import * as fm from "../../fetch.pb";
+import * as fm from "./fetch.pb";
 
 type Absent<T, K extends keyof T> = { [k in Exclude<keyof T, K>]?: undefined };
 

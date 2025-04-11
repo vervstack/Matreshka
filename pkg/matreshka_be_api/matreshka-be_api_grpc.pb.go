@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.28.3
-// source: api/grpc/matreshka-be_api.proto
+// source: matreshka-be_api.proto
 
 package matreshka_be_api
 
@@ -378,5 +378,5 @@ var MatreshkaBeAPI_ServiceDesc = grpc.ServiceDesc{
 			ClientStreams: true,
 		},
 	},
-	Metadata: "api/grpc/matreshka-be_api.proto",
+	Metadata: "matreshka-be_api.proto",
 }

@@ -4,6 +4,8 @@ deps:
     - github.com/googleapis/googleapis
 
 generate:
+    proto_root: api/grpc
+    generate_out_dirs: true
     inputs:
       - directory: "api/grpc"
     plugins:
