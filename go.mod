@@ -11,6 +11,7 @@ require (
 	github.com/soheilhy/cmux v0.1.5
 	github.com/stretchr/testify v1.10.0
 	go.redsock.ru/evon v0.0.17
+	go.redsock.ru/protoc-gen-npm v0.0.11
 	go.redsock.ru/rerrors v0.0.3
 	go.redsock.ru/toolbox v0.0.10
 	golang.org/x/sync v0.11.0

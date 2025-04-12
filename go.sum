@@ -62,6 +62,8 @@ go.opentelemetry.io/otel/trace v1.32.0 h1:WIC9mYrXf8TmY/EXuULKc8hR17vE+Hjv2cssQD
 go.opentelemetry.io/otel/trace v1.32.0/go.mod h1:+i4rkvCraA+tG6AzwloGaCtkx53Fa+L+V8e9a7YvhT8=
 go.redsock.ru/evon v0.0.17 h1:Kv5BN0TiYMHYyADzJodfeqKawyuick2a02ONKk0+pg0=
 go.redsock.ru/evon v0.0.17/go.mod h1:/IHH+dgzOfighfDLxmb13EiDODh+1SR0RHhzFzBiCnA=
+go.redsock.ru/protoc-gen-npm v0.0.11 h1:DZAwW1iC1YI3fWi4HdvZTdC0NUstNrw7AV/4VHrxoBg=
+go.redsock.ru/protoc-gen-npm v0.0.11/go.mod h1:4gvhmteMAietz7a4Ffj7tQesXVRdCFYx34QG8bXdIuc=
 go.redsock.ru/rerrors v0.0.3 h1:y/CqXdJlIZy6NcnzmcAyrnF+1sX3uiJeFJRHnyOl688=
 go.redsock.ru/rerrors v0.0.3/go.mod h1:CjYf9jw790Tc4gVrTb8H1XOjkvSXDryuwBvC6XENQJs=
 go.redsock.ru/toolbox v0.0.10 h1:xtw/HEnOxw4UAUtVLqikBKjLTceXtb6cWugloaS0d7w=
