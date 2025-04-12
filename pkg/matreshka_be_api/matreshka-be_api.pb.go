@@ -7,6 +7,7 @@
 package matreshka_be_api
 
 import (
+	_ "go.redsock.ru/protoc-gen-npm/npmplugin"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -1492,7 +1493,7 @@ var File_matreshka_be_api_proto protoreflect.FileDescriptor
 
 const file_matreshka_be_api_proto_rawDesc = "" +
 	"\n" +
-	"\x16matreshka-be_api.proto\x12\x10matreshka_be_api\x1a\x1cgoogle/api/annotations.proto\"\xa8\x01\n" +
+	"\x16matreshka-be_api.proto\x12\x10matreshka_be_api\x1a\x1cgoogle/api/annotations.proto\x1a\tnpm.proto\"\xa8\x01\n" +
 	"\aAppInfo\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12'\n" +
 	"\x0fservice_version\x18\x02 \x01(\tR\x0eserviceVersion\x127\n" +
@@ -1591,7 +1592,7 @@ const file_matreshka_be_api_proto_rawDesc = "" +
 	"\fCreateConfig\x12&.matreshka_be_api.CreateConfig.Request\x1a'.matreshka_be_api.CreateConfig.Response\")\x82\xd3\xe4\x93\x02#:\x01*\"\x1e/api/config/{service_name}/new\x12\x89\x01\n" +
 	"\vPatchConfig\x12%.matreshka_be_api.PatchConfig.Request\x1a&.matreshka_be_api.PatchConfig.Response\"+\x82\xd3\xe4\x93\x02%:\x01*\" /api/config/{service_name}/patch\x12\x95\x01\n" +
 	"\fRenameConfig\x12&.matreshka_be_api.RenameConfig.Request\x1a'.matreshka_be_api.RenameConfig.Response\"4\x82\xd3\xe4\x93\x02.\",/api/config/{service_name}/rename/{new_name}\x12w\n" +
-	"\x12SubscribeOnChanges\x12,.matreshka_be_api.SubscribeOnChanges.Request\x1a-.matreshka_be_api.SubscribeOnChanges.Response\"\x00(\x010\x01B\x13Z\x11/matreshka_be_apib\x06proto3"
+	"\x12SubscribeOnChanges\x12,.matreshka_be_api.SubscribeOnChanges.Request\x1a-.matreshka_be_api.SubscribeOnChanges.Response\"\x00(\x010\x01B+\x92\x82\x19\x14@vervstack/matreshkaZ\x11/matreshka_be_apib\x06proto3"
 
 var (
 	file_matreshka_be_api_proto_rawDescOnce sync.Once

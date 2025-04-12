@@ -3,8 +3,10 @@ syntax = "proto3";
 package matreshka_be_api;
 
 import "google/api/annotations.proto";
+import "npm.proto";
 
 option go_package = "/matreshka_be_api";
+option (npm_package) = "@vervstack/matreshka";
 
 service MatreshkaBeAPI {
   rpc ApiVersion(ApiVersion.Request) returns (ApiVersion.Response) {
