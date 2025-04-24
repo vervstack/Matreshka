@@ -4,12 +4,12 @@ import {extractDataSources} from "@/models/configs/verv/Resources/mapping.ts";
 import {mapAppInfo} from "@/models/configs/verv/info/Mapping.ts";
 import {mapServer} from "@/models/configs/verv/Servers/Mapping.ts";
 
-import {AppConfigClass} from "@/models/configs/verv/AppConfig.ts";
+import {VervConfig} from "@/models/configs/verv/VervConfig.ts";
 import {AppInfoClass} from "@/models/configs/verv/info/AppInfo.ts";
 import {ServerClass} from "@/models/configs/verv/Servers/Servers.ts";
 import {DataSourceClass} from "@/models/configs/verv/Resources/Resource.ts";
 
-export function parseAppConfigFromEnv(root: Node): AppConfigClass {
+export function parseVervConfigFromEnv(root: Node): VervConfig {
     let appInfo: AppInfoClass | undefined;
     let dataSources: DataSourceClass[] = []
     let servers: ServerClass[] = []
@@ -31,5 +31,5 @@ export function parseAppConfigFromEnv(root: Node): AppConfigClass {
         throw {message: "No app info found in env"}
     }
 
-    return new AppConfigClass(appInfo, dataSources, servers)
+    return new VervConfig(appInfo, dataSources, servers)
 }

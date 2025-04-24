@@ -1,8 +1,12 @@
+import {Component} from "vue";
+
 import {AppInfoClass, Change} from "@/models/configs/verv/info/AppInfo.ts";
 import {DataSourceClass} from "@/models/configs/verv/Resources/Resource.ts";
 import {ServerClass} from "@/models/configs/verv/Servers/Servers.ts";
+import {ConfigContent} from "@/models/configs/configContent.ts";
+import VervConfigView from "@/components/config/verv/VervConfigView.vue";
 
-export class AppConfigClass {
+export class VervConfig implements ConfigContent{
     appInfo: AppInfoClass
     dataSources: DataSourceClass[]
     servers: ServerClass[]
@@ -53,5 +57,9 @@ export class AppConfigClass {
         this.appInfo.rollback()
         this.dataSources.map(ds => ds.rollback())
         this.servers.map(s => s.rollback())
+    }
+
+    getComponent(): Component {
+        return VervConfigView;
     }
 }

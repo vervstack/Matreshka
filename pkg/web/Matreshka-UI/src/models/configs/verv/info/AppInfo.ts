@@ -39,6 +39,7 @@ export class AppInfoClass {
     }
 }
 
+//  TODO move to models/configs
 export type Change = {
     envName: string
     newValue: string

@@ -5,16 +5,11 @@ import {ListConfigsRequest} from "@vervstack/matreshka";
 import {GetConfigNodes, ListServices, PatchConfig} from "@/processes/api/api.ts";
 import {handleGrpcError} from "@/processes/api/error_codes.ts";
 
-import {AppConfigClass} from "@/models/configs/verv/AppConfig.ts";
-
 import Button from 'primevue/button';
 import InputGroup from "primevue/inputgroup";
 import SelectButton from 'primevue/selectbutton';
 import {useToast} from "primevue/usetoast";
-
-import AppInfo from "@/components/config/verv/app_info/AppInfo.vue";
-import ResourcesInfo from "@/components/config/verv/resource/AppResources.vue";
-import ServersInfo from "@/components/config/verv/server/ServersInfo.vue";
+import {Config} from "@/models/configs/config.ts";
 
 const toastApi = useToast();
 
@@ -25,23 +20,13 @@ const props = defineProps({
   },
 })
 
-const configData = ref<AppConfigClass>();
-const versions = ref<string[]>([]);
-const selectedVersion = ref<string>('');
-
-function setData(c: AppConfigClass) {
-  configData.value = c
-}
-
-function rollbackAll() {
-  configData.value?.rollback()
-}
+const configData = ref<Config>(new Config(props.configName));
 
 async function fetchConfig() {
-  configData.value = undefined
-
-  GetConfigNodes(props.configName, selectedVersion.value)
-      .then(setData)
+  GetConfigNodes(props.configName, configData.value.selectedVersion)
+      .then(d => {
+        configData.value = d
+      })
       .catch(handleGrpcError(toastApi))
 }
 
@@ -55,8 +40,8 @@ async function fetchVersions() {
 
   ListServices(listReq)
       .then(res => {
-          versions.value = res.servicesInfo[0].versions
-          selectedVersion.value = versions.value[0]
+        configData.value.versions = res.servicesInfo[0].versions
+        configData.value.selectedVersion = configData.value.versions[0]
       })
       .catch(handleGrpcError(toastApi))
 }
@@ -65,8 +50,8 @@ async function save() {
   if (!configData.value) return
 
   const changes = configData.value.getChanges()
-  PatchConfig(props.configName, selectedVersion.value, changes)
-      .then(setData)
+  PatchConfig(props.configName, configData.value.selectedVersion, changes)
+      .then(d => configData.value = d)
       .catch(handleGrpcError(toastApi))
 }
 
@@ -79,43 +64,22 @@ fetchVersions()
   <div v-if="!configData">No App config data</div>
 
   <div v-else class="Display">
-    <div class="Tittle">{{ configData.appInfo.name.value }}</div>
+    <!--    TODO add logo?-->
+    <div class="Tittle">{{ configData.type.toString() }}</div>
+    <div class="Tittle">{{ configData.name }}</div>
+
     <SelectButton
-        v-if="versions.length > 1"
-        v-model="selectedVersion"
-        :options="versions"
+        v-if="configData.versions.length > 1"
+        v-model="configData.selectedVersion"
+        :options="configData.versions"
         @update:modelValue="fetchConfig"
     />
+    <!--TODO Add "New Version" button?-->
 
-    <div class="Content">
-      <div
-          class="ContentBlock"
-          :style="{
-            borderColor: configData.appInfo.isChanged() ? 'var(--warn)':'var(--good)',
-          }"
-      >
-        <AppInfo
-            v-model="configData.appInfo"/>
-      </div>
-      <div
-          class="ContentBlock"
-          :style="{
-            borderColor: configData?.getChangedDataSourcesNames().length != 0 ? 'var(--warn)':'var(--good)',
-          }"
-      >
-        <ResourcesInfo
-            v-model="configData.dataSources"/>
-      </div>
-      <div
-          class="ContentBlock"
-          :style="{
-            borderColor: configData?.getChangedServersNames().length != 0 ? 'var(--warn)':'var(--good)',
-          }"
-      >
-        <ServersInfo
-            v-model="configData.servers"/>
-      </div>
-    </div>
+    <component
+        :is="configData.getComponent()"
+        v-model="configData.content"
+    />
 
     <Transition name="BottomControls">
       <InputGroup
@@ -132,7 +96,7 @@ fetchVersions()
             severity="danger"
         />
         <Button
-            @click="rollbackAll"
+            @click="configData?.rollback()"
             label="Rollback"
             icon="pi pi-refresh" iconPos="right"
         />
@@ -149,20 +113,6 @@ fetchVersions()
   display: flex;
   flex-direction: column;
   gap: 1em;
-}
-
-.Content {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  gap: 1em;
-}
-
-.ContentBlock {
-  border: solid;
-  /*border: var(--good) solid;*/
-  border-radius: 16px;
-  padding: 1em;
 }
 
 .BottomControls-enter-active,

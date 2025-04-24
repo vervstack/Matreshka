@@ -2,14 +2,16 @@ import {
     MatreshkaBeAPI,
     ListConfigsRequest,
     GetConfigNodeRequest,
-    Node, CreateConfigRequest, PatchConfigRequest, Config, ListConfigsResponse
+    Node, CreateConfigRequest, PatchConfigRequest, Config, ListConfigsResponse, ConfigTypePrefix
 } from "@vervstack/matreshka";
 
-import {parseAppConfigFromEnv} from "@/processes/api/model_mapping.ts";
+import {parseVervConfigFromEnv} from "@/processes/api/model_mapping.ts";
 
 import {AppInfoClass, Change, ServiceListClass} from "@/models/configs/verv/info/AppInfo.ts";
-import {AppConfigClass} from "@/models/configs/verv/AppConfig.ts";
 import {ConfigValueClass} from "@/models/shared/common.ts";
+import {Config as ConfigWithContent} from "@/models/configs/config.ts";
+import {KeyValueConfigContent} from "@/models/configs/keyvalue/config.ts";
+
 
 const apiPrefix = {pathPrefix: ''};
 
@@ -55,9 +57,9 @@ export async function ListServices(req: ListConfigsRequest): Promise<ServiceList
         )
 }
 
-export async function GetConfigNodes(serviceName: string, version: string): Promise<AppConfigClass> {
+export async function GetConfigNodes(configName: string, version: string): Promise<ConfigWithContent> {
     const req = {
-        configName: serviceName,
+        configName: configName,
         version: version,
     } as GetConfigNodeRequest;
 
@@ -67,11 +69,22 @@ export async function GetConfigNodes(serviceName: string, version: string): Prom
                 throw {message: "Empty env config root"}
             }
 
-            return parseAppConfigFromEnv(res.root);
+            const cfg = new ConfigWithContent(configName);
+
+            switch (cfg.type) {
+                case ConfigTypePrefix.verv:
+                    cfg.content = parseVervConfigFromEnv(res.root)
+                    break;
+                default:
+                    // TODO
+                    cfg.content = new KeyValueConfigContent()
+            }
+
+            return cfg
         })
 }
 
-export async function PatchConfig(serviceName: string, version: string, changeList: Change[]) {
+export async function PatchConfig(serviceName: string, version: string, changeList: Change[]): Promise<ConfigWithContent> {
     const req: PatchConfigRequest = {
         configName: serviceName,
         version: version,
@@ -91,7 +104,6 @@ export async function PatchConfig(serviceName: string, version: string, changeLi
                     serviceName = n.newValue
                 }
             })
-            console.log(serviceName)
             return GetConfigNodes(serviceName, version)
         })
 }

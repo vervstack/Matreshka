@@ -177,9 +177,14 @@ message SubscribeOnChanges {
 }
 
 enum ConfigTypePrefix {
+  // Basically a key-value configuration
   unknown = 0;
+  // Matreshka's configuration for application
   verv = 1;
+  // Configuration for object storage (Minio)
   minio = 2;
+  // Configuration for Postgresql Database
   pg = 3;
+  // Configuration for Nginx/Angie web server
   nginx = 4;
 }

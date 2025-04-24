@@ -54,9 +54,8 @@ function updateList() {
         servicesList.value = resp
         pagingTotalRecords.value = resp.total
       })
-      .catch((err) => {
-        handleGrpcError(toastApi)(err)
-      }).then(() => isLoading.value = false)
+      .catch(handleGrpcError(toastApi))
+      .then(() => isLoading.value = false)
 }
 
 function openPage(page: number) {
@@ -150,7 +149,7 @@ function openServiceInfo(event: MouseEvent, serviceName: string) {
       position="center"
   >
     <DisplayConfigWidget
-        :service-name="openedConfigName"
+        :config-name="openedConfigName"
     />
   </Dialog>
 </template>
