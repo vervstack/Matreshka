@@ -19,7 +19,7 @@ import ServersInfo from "@/components/config/verv/server/ServersInfo.vue";
 const toastApi = useToast();
 
 const props = defineProps({
-  serviceName: {
+  configName: {
     type: String,
     required: true
   },
@@ -40,7 +40,7 @@ function rollbackAll() {
 async function fetchConfig() {
   configData.value = undefined
 
-  GetConfigNodes(props.serviceName, selectedVersion.value)
+  GetConfigNodes(props.configName, selectedVersion.value)
       .then(setData)
       .catch(handleGrpcError(toastApi))
 }
@@ -50,7 +50,7 @@ async function fetchVersions() {
     paging: {
       limit: 1
     },
-    searchPattern: props.serviceName
+    searchPattern: props.configName
   } as ListConfigsRequest;
 
   ListServices(listReq)
@@ -65,7 +65,7 @@ async function save() {
   if (!configData.value) return
 
   const changes = configData.value.getChanges()
-  PatchConfig(props.serviceName, selectedVersion.value, changes)
+  PatchConfig(props.configName, selectedVersion.value, changes)
       .then(setData)
       .catch(handleGrpcError(toastApi))
 }

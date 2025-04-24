@@ -4,16 +4,12 @@ import DisplayConfigPage from "@/pages/DisplayConfigPage.vue";
 
 import {createRouter, createWebHistory} from "vue-router";
 import NewConfigPage from "@/pages/NewConfigPage.vue";
-import IAMConfig from "@/components/config/minio/IAMConfig.vue";
 
 export enum Pages {
     Unknown = "unknown",
     Home = "home_page",
     DisplayConfig = "display_config",
-    NewAppConfig = "new_app_config",
-    NewConfig = "new_config",
-    // TODO
-    NewMinioConfig = "new_minio_config",
+    NewConfig = "new",
 }
 
 export const routes = [
@@ -27,24 +23,17 @@ export const routes = [
         path: '/',
         component: Home,
     },
-
     {
-        name: Pages.NewAppConfig,
-        path: '/new/app_config',
+        name: Pages.NewConfig,
+        path: '/new',
         component: NewConfigPage,
     },
     {
         name: Pages.DisplayConfig,
-        path: "/config/:name/",
+        path: "/config/:configName/",
         component: DisplayConfigPage,
         props: true,
     },
-    {
-        name: Pages.NewMinioConfig,
-        path: "/new/minio/",
-        component: IAMConfig,
-        props: true,
-    }
 ]
 
 export const router = createRouter({
@@ -52,12 +41,11 @@ export const router = createRouter({
     routes,
 })
 
-
 export function RouteToConfigDisplay(serviceName: string) {
     router
         .push({
             name: Pages.DisplayConfig,
-            params: {name: serviceName}
+            params: {configName: serviceName}
         })
         .then()
 }

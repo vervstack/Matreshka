@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import {Component as VueComponent, ref, shallowRef, watch} from "vue";
 
-import CreateConfigWidget from "@/widget/CreateConfigWidget.vue";
-
 import SpeedDial from "primevue/speeddial";
 import Dialog from "primevue/dialog";
+import ConfigConstructorWidget from "@/widget/ConfigConstructorWidget.vue";
 
 const isDialogOpen = ref<boolean>(false);
 const newConfigDialog = shallowRef<VueComponent | undefined>();
 
-watch(isDialogOpen, ()=>{
+watch(isDialogOpen, () => {
   if (!isDialogOpen.value) {
     newConfigDialog.value = undefined
   }
 })
 
-watch(newConfigDialog, ()=>{
+watch(newConfigDialog, () => {
   if (newConfigDialog.value !== undefined) {
     isDialogOpen.value = true
   }
@@ -26,7 +25,7 @@ const buttons = [
     label: 'New config',
     icon: "pi pi-box",
     command() {
-      newConfigDialog.value = CreateConfigWidget
+      newConfigDialog.value = ConfigConstructorWidget
     },
   },
 ]
@@ -52,17 +51,22 @@ const buttons = [
           root: 'border-none',
           mask: {
             style: 'backdrop-filter: blur(2px)'
+          },
+          pDialogContent: {
+            overflow: '',
           }
         }"
       :style="{
           width: 'clamp(40em, 40vw, 60vh)',
-          height: '50vh',
+          height: 'clamp(50vh, 60vh, 80vh)',
         }"
+      :contentStyle="{ height: '100%', width: '100%' }"
       position="right"
   >
-    <Component :is="newConfigDialog"/>
+      <Component :is="newConfigDialog"/>
   </Dialog>
 </template>
 
 <style scoped>
+
 </style>

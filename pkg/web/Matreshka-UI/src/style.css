@@ -20,6 +20,8 @@ html, body, #app {
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    --focus: rgb(180, 206, 255)
 }
 
 /* Coloring scheme*/

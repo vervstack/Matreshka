@@ -2,7 +2,7 @@ import {
     MatreshkaBeAPI,
     ListConfigsRequest,
     GetConfigNodeRequest,
-    Node, CreateConfigRequest, PatchConfigRequest, AppInfo
+    Node, CreateConfigRequest, PatchConfigRequest, Config, ListConfigsResponse
 } from "@vervstack/matreshka";
 
 import {parseAppConfigFromEnv} from "@/processes/api/model_mapping.ts";
@@ -11,25 +11,25 @@ import {AppInfoClass, Change, ServiceListClass} from "@/models/configs/verv/info
 import {AppConfigClass} from "@/models/configs/verv/AppConfig.ts";
 import {ConfigValueClass} from "@/models/shared/common.ts";
 
-const prefix = {pathPrefix: ''};
+const apiPrefix = {pathPrefix: ''};
 
 export function setBackendAddress(url: string) {
-    prefix.pathPrefix = url
+    apiPrefix.pathPrefix = url
 }
 
-const fallbackErrorConverting = 'error during convertion'
+const fallbackErrorConverting = 'error during conversion'
 
 export async function ListServices(req: ListConfigsRequest): Promise<ServiceListClass> {
     return MatreshkaBeAPI
-        .ListConfigs(req, prefix)
-        .then((r) => {
+        .ListConfigs(req, apiPrefix)
+        .then((r: ListConfigsResponse) => {
                 const servicesInfo: AppInfoClass[] = []
-                if (!r.services) {
+                if (!r.configs) {
                     throw {message: "invalid contract"}
                 }
 
-                r.services
-                    .map((v: AppInfo) => {
+                r.configs
+                    .map((v: Config) => {
                         const name = new ConfigValueClass(
                             "Service name",
                             v.name || fallbackErrorConverting,
@@ -37,7 +37,7 @@ export async function ListServices(req: ListConfigsRequest): Promise<ServiceList
 
                         const version = new ConfigValueClass(
                             "Version",
-                            v.serviceVersion || fallbackErrorConverting,
+                            v.version || fallbackErrorConverting,
                         )
 
                         const appInfo = new AppInfoClass(name, version)
@@ -45,7 +45,7 @@ export async function ListServices(req: ListConfigsRequest): Promise<ServiceList
                             appInfo.updated_at = new Date(Number(v.updatedAtUtcTimestamp) * 1000)
                         }
 
-                        appInfo.versions = v.configVersions || []
+                        appInfo.versions = v.versions || []
 
                         servicesInfo.push(appInfo)
                     })
@@ -57,11 +57,11 @@ export async function ListServices(req: ListConfigsRequest): Promise<ServiceList
 
 export async function GetConfigNodes(serviceName: string, version: string): Promise<AppConfigClass> {
     const req = {
-        serviceName: serviceName,
+        configName: serviceName,
         version: version,
     } as GetConfigNodeRequest;
 
-    return MatreshkaBeAPI.GetConfigNodes(req, prefix)
+    return MatreshkaBeAPI.GetConfigNodes(req, apiPrefix)
         .then((res) => {
             if (!res.root) {
                 throw {message: "Empty env config root"}
@@ -73,7 +73,7 @@ export async function GetConfigNodes(serviceName: string, version: string): Prom
 
 export async function PatchConfig(serviceName: string, version: string, changeList: Change[]) {
     const req: PatchConfigRequest = {
-        serviceName: serviceName,
+        configName: serviceName,
         version: version,
         changes: changeList.map((n) => {
             return {
@@ -84,7 +84,7 @@ export async function PatchConfig(serviceName: string, version: string, changeLi
     } as PatchConfigRequest;
 
 
-    return MatreshkaBeAPI.PatchConfig(req, prefix)
+    return MatreshkaBeAPI.PatchConfig(req, apiPrefix)
         .then(() => {
             changeList.map((n) => {
                 if (n.envName.includes('APP-INFO_NAME')) {
@@ -97,9 +97,9 @@ export async function PatchConfig(serviceName: string, version: string, changeLi
 }
 
 export async function CreateConfig(name: string) {
-    const newCfg = {
-        serviceName: encodeURIComponent(name)
-    } as CreateConfigRequest
+    const newCfg: CreateConfigRequest = {
+        configName: encodeURIComponent(name)
+    }
 
-    return MatreshkaBeAPI.CreateConfig(newCfg, prefix)
+    return MatreshkaBeAPI.CreateConfig(newCfg, apiPrefix)
 }

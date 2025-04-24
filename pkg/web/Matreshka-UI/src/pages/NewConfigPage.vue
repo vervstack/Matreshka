@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
-import CreateConfigWidget from "@/widget/CreateConfigWidget.vue";
+import ConfigConstructorWidget from "@/widget/ConfigConstructorWidget.vue";
 </script>
 
 <template>
-    <div class="topHeader">New config constructor</div>
-    <CreateConfigWidget/>
+  <div class="topHeader">New config constructor</div>
+  <ConfigConstructorWidget/>
 </template>
 
 <style scoped>

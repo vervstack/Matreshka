@@ -5,7 +5,7 @@ import DisplayConfigDisplay from "@/widget/DisplayConfigWidget.vue";
 import HomeButton from "@/components/global/HomeButton.vue";
 
 defineProps({
-  name: {
+  configName: {
     type: String,
     required: true,
   },
@@ -19,7 +19,7 @@ defineProps({
       <HomeButton/>
     </div>
     <DisplayConfigDisplay
-        :service-name="name"/>
+        :configName="configName"/>
   </div>
 </template>
 

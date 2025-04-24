@@ -13,8 +13,8 @@ export default ({mode}) => {
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
-        '@vervstack/matreshka': fileURLToPath(
-            new URL('../@vervstack/matreshka/dist/index.js', import.meta.url)),
+        // '@vervstack/matreshka': fileURLToPath(
+        //     new URL('../@vervstack/matreshka/dist/index.js', import.meta.url)),
       },
       dedupe: ['@vervstack/matreshka'],
     },
@@ -30,6 +30,5 @@ export default ({mode}) => {
         }
       }
     },
-
   });
 }

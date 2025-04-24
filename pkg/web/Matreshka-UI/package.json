@@ -8,7 +8,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@vervstack/matreshka": "link:../@vervstack/matreshka",
+    "@vervstack/matreshka": "file:../@vervstack/matreshka",
     "@grpc/grpc-js": "^1.10.7",
     "@grpc/proto-loader": "^0.7.13",
     "@primevue/themes": "^4.0.7",
