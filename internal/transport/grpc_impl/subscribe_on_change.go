@@ -28,14 +28,14 @@ func (a *Impl) SubscribeOnChanges(stream api.MatreshkaBeAPI_SubscribeOnChangesSe
 				return nil
 			}
 
-			a.subService.Subscribe(sub, req.SubscribeServiceNames...)
-			a.subService.Unsubscribe(sub, req.UnsubscribeServiceNames...)
+			a.subService.Subscribe(sub, req.SubscribeConfigNames...)
+			a.subService.Unsubscribe(sub, req.UnsubscribeConfigNames...)
 
 		case updates := <-sub.GetUpdateChan():
 
 			patch := &api.SubscribeOnChanges_Response{
-				ServiceName: updates.ServiceName,
-				Timestamp:   uint32(time.Now().UTC().Unix()),
+				ConfigName: updates.ServiceName,
+				Timestamp:  uint32(time.Now().UTC().Unix()),
 			}
 
 			envChanges := make([]*api.Node, 0)

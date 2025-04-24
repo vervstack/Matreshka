@@ -31,17 +31,17 @@ func (a *Impl) ListConfigs(ctx context.Context, req *api.ListConfigs_Request) (*
 	}
 
 	resp := &api.ListConfigs_Response{
-		Services:     make([]*api.AppInfo, 0, len(configs.List)),
+		Configs:      make([]*api.Config, 0, len(configs.List)),
 		TotalRecords: configs.TotalRecords,
 	}
 
 	for _, item := range configs.List {
-		resp.Services = append(resp.Services,
-			&api.AppInfo{
+		resp.Configs = append(resp.Configs,
+			&api.Config{
 				Name:                  item.Name,
-				ServiceVersion:        item.ServiceVersion,
+				Version:               item.Version,
 				UpdatedAtUtcTimestamp: item.UpdatedAt.UTC().Unix(),
-				ConfigVersions:        item.ConfigVersions,
+				Versions:              item.ConfigVersions,
 			})
 	}
 

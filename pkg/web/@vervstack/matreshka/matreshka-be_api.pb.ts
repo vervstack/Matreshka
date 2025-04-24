@@ -31,11 +31,11 @@ export enum SortType {
   by_updated_at = "by_updated_at",
 }
 
-export type AppInfo = {
+export type Config = {
   name?: string;
-  serviceVersion?: string;
+  version?: string;
   updatedAtUtcTimestamp?: string;
-  configVersions?: string[];
+  versions?: string[];
 };
 
 export type Paging = {
@@ -52,7 +52,7 @@ export type ApiVersionResponse = {
 export type ApiVersion = Record<string, never>;
 
 export type GetConfigRequest = {
-  serviceName?: string;
+  configName?: string;
   version?: string;
 };
 
@@ -63,7 +63,7 @@ export type GetConfigResponse = {
 export type GetConfig = Record<string, never>;
 
 export type PatchConfigRequest = {
-  serviceName?: string;
+  configName?: string;
   changes?: Node[];
   version?: string;
 };
@@ -79,7 +79,7 @@ export type ListConfigsRequest = {
 };
 
 export type ListConfigsResponse = {
-  services?: AppInfo[];
+  configs?: Config[];
   totalRecords?: number;
 };
 
@@ -92,7 +92,7 @@ export type Node = {
 };
 
 export type GetConfigNodeRequest = {
-  serviceName?: string;
+  configName?: string;
   version?: string;
 };
 
@@ -103,7 +103,7 @@ export type GetConfigNodeResponse = {
 export type GetConfigNode = Record<string, never>;
 
 export type CreateConfigRequest = {
-  serviceName?: string;
+  configName?: string;
 };
 
 export type CreateConfigResponse = {
@@ -113,7 +113,7 @@ export type CreateConfigResponse = {
 export type CreateConfig = Record<string, never>;
 
 export type RenameConfigRequest = {
-  serviceName?: string;
+  configName?: string;
   newName?: string;
 };
 
@@ -129,12 +129,12 @@ export type Sort = {
 };
 
 export type SubscribeOnChangesRequest = {
-  subscribeServiceNames?: string[];
-  unsubscribeServiceNames?: string[];
+  subscribeConfigNames?: string[];
+  unsubscribeConfigNames?: string[];
 };
 
 type BaseSubscribeOnChangesResponse = {
-  serviceName?: string;
+  configName?: string;
   timestamp?: number;
 };
 
@@ -154,21 +154,21 @@ export class MatreshkaBeAPI {
     return fm.fetchRequest<ApiVersionResponse>(`/api/version?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"});
   }
   static GetConfig(this:void, req: GetConfigRequest, initReq?: fm.InitReq): Promise<GetConfigResponse> {
-    return fm.fetchRequest<GetConfigResponse>(`/api/config/${req.serviceName}?${fm.renderURLSearchParams(req, ["serviceName"])}`, {...initReq, method: "GET"});
+    return fm.fetchRequest<GetConfigResponse>(`/api/config/${req.configName}?${fm.renderURLSearchParams(req, ["configName"])}`, {...initReq, method: "GET"});
   }
   static GetConfigNodes(this:void, req: GetConfigNodeRequest, initReq?: fm.InitReq): Promise<GetConfigNodeResponse> {
-    return fm.fetchRequest<GetConfigNodeResponse>(`/api/config/nodes/${req.serviceName}?${fm.renderURLSearchParams(req, ["serviceName"])}`, {...initReq, method: "GET"});
+    return fm.fetchRequest<GetConfigNodeResponse>(`/api/config/nodes`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
   static ListConfigs(this:void, req: ListConfigsRequest, initReq?: fm.InitReq): Promise<ListConfigsResponse> {
     return fm.fetchRequest<ListConfigsResponse>(`/api/config/list`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
   static CreateConfig(this:void, req: CreateConfigRequest, initReq?: fm.InitReq): Promise<CreateConfigResponse> {
-    return fm.fetchRequest<CreateConfigResponse>(`/api/config/${req.serviceName}/new`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
+    return fm.fetchRequest<CreateConfigResponse>(`/api/config/${req.configName}/new`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
   static PatchConfig(this:void, req: PatchConfigRequest, initReq?: fm.InitReq): Promise<PatchConfigResponse> {
-    return fm.fetchRequest<PatchConfigResponse>(`/api/config/${req.serviceName}/patch`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
+    return fm.fetchRequest<PatchConfigResponse>(`/api/config/${req.configName}/patch`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
   static RenameConfig(this:void, req: RenameConfigRequest, initReq?: fm.InitReq): Promise<RenameConfigResponse> {
-    return fm.fetchRequest<RenameConfigResponse>(`/api/config/${req.serviceName}/rename/${req.newName}`, {...initReq, method: "POST"});
+    return fm.fetchRequest<RenameConfigResponse>(`/api/config/${req.configName}/rename/${req.newName}`, {...initReq, method: "POST"});
   }
 }

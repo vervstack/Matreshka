@@ -1,5 +1,5 @@
 ### Creates new matreshka config
-POST {{matreshka-api}}/api/config/create/{{example_service_name}}
+POST {{matreshka-api}}/api/config/{{example_service_name}}/new
 Content-Type: application/json
 
 ### Full matreshka config

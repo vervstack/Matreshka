@@ -22,7 +22,7 @@ type ListConfigsResponse struct {
 
 type ConfigListItem struct {
 	Name           string
-	ServiceVersion string
+	Version        string
 	UpdatedAt      time.Time
 	ConfigVersions []string
 }

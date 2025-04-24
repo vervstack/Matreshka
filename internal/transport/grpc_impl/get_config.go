@@ -15,7 +15,7 @@ import (
 )
 
 func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.GetConfig_Response, error) {
-	name := req.GetServiceName()
+	name := req.GetConfigName()
 	ver := toolbox.Coalesce(toolbox.FromPtr(req.Version), domain.MasterVersion)
 
 	cfgNodes, err := a.configService.GetNodes(ctx, name, ver)

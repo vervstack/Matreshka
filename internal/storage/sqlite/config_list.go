@@ -67,7 +67,7 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 		var versionsJSON string
 		err = rows.Scan(
 			&item.Name,
-			&item.ServiceVersion,
+			&item.Version,
 			&item.UpdatedAt,
 			&versionsJSON,
 		)

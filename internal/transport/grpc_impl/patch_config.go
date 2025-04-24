@@ -13,7 +13,7 @@ import (
 
 func (a *Impl) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*api.PatchConfig_Response, error) {
 	patchReq := domain.PatchConfigRequest{
-		ServiceName:   req.GetServiceName(),
+		ServiceName:   req.GetConfigName(),
 		Batch:         fromNodeToPatch(&api.Node{InnerNodes: req.GetChanges()}),
 		ConfigVersion: toolbox.Coalesce(toolbox.FromPtr(req.Version), domain.MasterVersion),
 	}

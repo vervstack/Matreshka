@@ -13,8 +13,8 @@ import (
 )
 
 func (a *Impl) GetConfigNodes(ctx context.Context, req *api.GetConfigNode_Request) (*api.GetConfigNode_Response, error) {
-	name := req.GetServiceName()
-	ver := toolbox.Coalesce(toolbox.FromPtr(req.Version), domain.MasterVersion)
+	name := req.GetConfigName()
+	ver := toolbox.Coalesce(req.Version, domain.MasterVersion)
 
 	cfgNodes, err := a.configService.GetNodes(ctx, name, ver)
 	if err != nil {

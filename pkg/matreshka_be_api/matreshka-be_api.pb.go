@@ -127,30 +127,30 @@ func (Sort_Type) EnumDescriptor() ([]byte, []int) {
 	return file_matreshka_be_api_proto_rawDescGZIP(), []int{10, 0}
 }
 
-type AppInfo struct {
+type Config struct {
 	state                 protoimpl.MessageState `protogen:"open.v1"`
 	Name                  string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	ServiceVersion        string                 `protobuf:"bytes,2,opt,name=service_version,json=serviceVersion,proto3" json:"service_version,omitempty"`
+	Version               string                 `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 	UpdatedAtUtcTimestamp int64                  `protobuf:"varint,3,opt,name=updated_at_utc_timestamp,json=updatedAtUtcTimestamp,proto3" json:"updated_at_utc_timestamp,omitempty"`
-	ConfigVersions        []string               `protobuf:"bytes,4,rep,name=config_versions,json=configVersions,proto3" json:"config_versions,omitempty"`
+	Versions              []string               `protobuf:"bytes,4,rep,name=versions,proto3" json:"versions,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
 
-func (x *AppInfo) Reset() {
-	*x = AppInfo{}
+func (x *Config) Reset() {
+	*x = Config{}
 	mi := &file_matreshka_be_api_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *AppInfo) String() string {
+func (x *Config) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*AppInfo) ProtoMessage() {}
+func (*Config) ProtoMessage() {}
 
-func (x *AppInfo) ProtoReflect() protoreflect.Message {
+func (x *Config) ProtoReflect() protoreflect.Message {
 	mi := &file_matreshka_be_api_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -162,35 +162,35 @@ func (x *AppInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AppInfo.ProtoReflect.Descriptor instead.
-func (*AppInfo) Descriptor() ([]byte, []int) {
+// Deprecated: Use Config.ProtoReflect.Descriptor instead.
+func (*Config) Descriptor() ([]byte, []int) {
 	return file_matreshka_be_api_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *AppInfo) GetName() string {
+func (x *Config) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *AppInfo) GetServiceVersion() string {
+func (x *Config) GetVersion() string {
 	if x != nil {
-		return x.ServiceVersion
+		return x.Version
 	}
 	return ""
 }
 
-func (x *AppInfo) GetUpdatedAtUtcTimestamp() int64 {
+func (x *Config) GetUpdatedAtUtcTimestamp() int64 {
 	if x != nil {
 		return x.UpdatedAtUtcTimestamp
 	}
 	return 0
 }
 
-func (x *AppInfo) GetConfigVersions() []string {
+func (x *Config) GetVersions() []string {
 	if x != nil {
-		return x.ConfigVersions
+		return x.Versions
 	}
 	return nil
 }
@@ -729,7 +729,7 @@ func (x *ApiVersion_Response) GetVersion() string {
 
 type GetConfig_Request struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServiceName   string                 `protobuf:"bytes,1,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"`
+	ConfigName    string                 `protobuf:"bytes,1,opt,name=config_name,json=configName,proto3" json:"config_name,omitempty"`
 	Version       *string                `protobuf:"bytes,2,opt,name=version,proto3,oneof" json:"version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -765,9 +765,9 @@ func (*GetConfig_Request) Descriptor() ([]byte, []int) {
 	return file_matreshka_be_api_proto_rawDescGZIP(), []int{3, 0}
 }
 
-func (x *GetConfig_Request) GetServiceName() string {
+func (x *GetConfig_Request) GetConfigName() string {
 	if x != nil {
-		return x.ServiceName
+		return x.ConfigName
 	}
 	return ""
 }
@@ -825,7 +825,7 @@ func (x *GetConfig_Response) GetConfig() []byte {
 
 type PatchConfig_Request struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServiceName   string                 `protobuf:"bytes,1,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"`
+	ConfigName    string                 `protobuf:"bytes,1,opt,name=config_name,json=configName,proto3" json:"config_name,omitempty"`
 	Changes       []*Node                `protobuf:"bytes,2,rep,name=changes,proto3" json:"changes,omitempty"`
 	Version       *string                `protobuf:"bytes,3,opt,name=version,proto3,oneof" json:"version,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -862,9 +862,9 @@ func (*PatchConfig_Request) Descriptor() ([]byte, []int) {
 	return file_matreshka_be_api_proto_rawDescGZIP(), []int{4, 0}
 }
 
-func (x *PatchConfig_Request) GetServiceName() string {
+func (x *PatchConfig_Request) GetConfigName() string {
 	if x != nil {
-		return x.ServiceName
+		return x.ConfigName
 	}
 	return ""
 }
@@ -981,7 +981,7 @@ func (x *ListConfigs_Request) GetSort() *Sort {
 
 type ListConfigs_Response struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Services      []*AppInfo             `protobuf:"bytes,1,rep,name=services,proto3" json:"services,omitempty"`
+	Configs       []*Config              `protobuf:"bytes,1,rep,name=configs,proto3" json:"configs,omitempty"`
 	TotalRecords  uint32                 `protobuf:"varint,2,opt,name=total_records,json=totalRecords,proto3" json:"total_records,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1017,9 +1017,9 @@ func (*ListConfigs_Response) Descriptor() ([]byte, []int) {
 	return file_matreshka_be_api_proto_rawDescGZIP(), []int{5, 1}
 }
 
-func (x *ListConfigs_Response) GetServices() []*AppInfo {
+func (x *ListConfigs_Response) GetConfigs() []*Config {
 	if x != nil {
-		return x.Services
+		return x.Configs
 	}
 	return nil
 }
@@ -1033,8 +1033,8 @@ func (x *ListConfigs_Response) GetTotalRecords() uint32 {
 
 type GetConfigNode_Request struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServiceName   string                 `protobuf:"bytes,1,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"`
-	Version       *string                `protobuf:"bytes,2,opt,name=version,proto3,oneof" json:"version,omitempty"`
+	ConfigName    string                 `protobuf:"bytes,1,opt,name=config_name,json=configName,proto3" json:"config_name,omitempty"`
+	Version       string                 `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1069,16 +1069,16 @@ func (*GetConfigNode_Request) Descriptor() ([]byte, []int) {
 	return file_matreshka_be_api_proto_rawDescGZIP(), []int{7, 0}
 }
 
-func (x *GetConfigNode_Request) GetServiceName() string {
+func (x *GetConfigNode_Request) GetConfigName() string {
 	if x != nil {
-		return x.ServiceName
+		return x.ConfigName
 	}
 	return ""
 }
 
 func (x *GetConfigNode_Request) GetVersion() string {
-	if x != nil && x.Version != nil {
-		return *x.Version
+	if x != nil {
+		return x.Version
 	}
 	return ""
 }
@@ -1129,7 +1129,7 @@ func (x *GetConfigNode_Response) GetRoot() *Node {
 
 type CreateConfig_Request struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServiceName   string                 `protobuf:"bytes,1,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"`
+	ConfigName    string                 `protobuf:"bytes,1,opt,name=config_name,json=configName,proto3" json:"config_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1164,9 +1164,9 @@ func (*CreateConfig_Request) Descriptor() ([]byte, []int) {
 	return file_matreshka_be_api_proto_rawDescGZIP(), []int{8, 0}
 }
 
-func (x *CreateConfig_Request) GetServiceName() string {
+func (x *CreateConfig_Request) GetConfigName() string {
 	if x != nil {
-		return x.ServiceName
+		return x.ConfigName
 	}
 	return ""
 }
@@ -1217,7 +1217,7 @@ func (x *CreateConfig_Response) GetId() int64 {
 
 type RenameConfig_Request struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServiceName   string                 `protobuf:"bytes,1,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"`
+	ConfigName    string                 `protobuf:"bytes,1,opt,name=config_name,json=configName,proto3" json:"config_name,omitempty"`
 	NewName       string                 `protobuf:"bytes,2,opt,name=new_name,json=newName,proto3" json:"new_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1253,9 +1253,9 @@ func (*RenameConfig_Request) Descriptor() ([]byte, []int) {
 	return file_matreshka_be_api_proto_rawDescGZIP(), []int{9, 0}
 }
 
-func (x *RenameConfig_Request) GetServiceName() string {
+func (x *RenameConfig_Request) GetConfigName() string {
 	if x != nil {
-		return x.ServiceName
+		return x.ConfigName
 	}
 	return ""
 }
@@ -1312,11 +1312,11 @@ func (x *RenameConfig_Response) GetNewName() string {
 }
 
 type SubscribeOnChanges_Request struct {
-	state                   protoimpl.MessageState `protogen:"open.v1"`
-	SubscribeServiceNames   []string               `protobuf:"bytes,1,rep,name=subscribe_service_names,json=subscribeServiceNames,proto3" json:"subscribe_service_names,omitempty"`
-	UnsubscribeServiceNames []string               `protobuf:"bytes,2,rep,name=unsubscribe_service_names,json=unsubscribeServiceNames,proto3" json:"unsubscribe_service_names,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
+	state                  protoimpl.MessageState `protogen:"open.v1"`
+	SubscribeConfigNames   []string               `protobuf:"bytes,1,rep,name=subscribe_config_names,json=subscribeConfigNames,proto3" json:"subscribe_config_names,omitempty"`
+	UnsubscribeConfigNames []string               `protobuf:"bytes,2,rep,name=unsubscribe_config_names,json=unsubscribeConfigNames,proto3" json:"unsubscribe_config_names,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *SubscribeOnChanges_Request) Reset() {
@@ -1349,24 +1349,24 @@ func (*SubscribeOnChanges_Request) Descriptor() ([]byte, []int) {
 	return file_matreshka_be_api_proto_rawDescGZIP(), []int{11, 0}
 }
 
-func (x *SubscribeOnChanges_Request) GetSubscribeServiceNames() []string {
+func (x *SubscribeOnChanges_Request) GetSubscribeConfigNames() []string {
 	if x != nil {
-		return x.SubscribeServiceNames
+		return x.SubscribeConfigNames
 	}
 	return nil
 }
 
-func (x *SubscribeOnChanges_Request) GetUnsubscribeServiceNames() []string {
+func (x *SubscribeOnChanges_Request) GetUnsubscribeConfigNames() []string {
 	if x != nil {
-		return x.UnsubscribeServiceNames
+		return x.UnsubscribeConfigNames
 	}
 	return nil
 }
 
 type SubscribeOnChanges_Response struct {
-	state       protoimpl.MessageState `protogen:"open.v1"`
-	ServiceName string                 `protobuf:"bytes,1,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"`
-	Timestamp   uint32                 `protobuf:"varint,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	ConfigName string                 `protobuf:"bytes,1,opt,name=config_name,json=configName,proto3" json:"config_name,omitempty"`
+	Timestamp  uint32                 `protobuf:"varint,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	// Types that are valid to be assigned to Changes:
 	//
 	//	*SubscribeOnChanges_Response_EnvVariables
@@ -1405,9 +1405,9 @@ func (*SubscribeOnChanges_Response) Descriptor() ([]byte, []int) {
 	return file_matreshka_be_api_proto_rawDescGZIP(), []int{11, 1}
 }
 
-func (x *SubscribeOnChanges_Response) GetServiceName() string {
+func (x *SubscribeOnChanges_Response) GetConfigName() string {
 	if x != nil {
-		return x.ServiceName
+		return x.ConfigName
 	}
 	return ""
 }
@@ -1493,12 +1493,12 @@ var File_matreshka_be_api_proto protoreflect.FileDescriptor
 
 const file_matreshka_be_api_proto_rawDesc = "" +
 	"\n" +
-	"\x16matreshka-be_api.proto\x12\x10matreshka_be_api\x1a\x1cgoogle/api/annotations.proto\x1a\tnpm.proto\"\xa8\x01\n" +
-	"\aAppInfo\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12'\n" +
-	"\x0fservice_version\x18\x02 \x01(\tR\x0eserviceVersion\x127\n" +
-	"\x18updated_at_utc_timestamp\x18\x03 \x01(\x03R\x15updatedAtUtcTimestamp\x12'\n" +
-	"\x0fconfig_versions\x18\x04 \x03(\tR\x0econfigVersions\"6\n" +
+	"\x16matreshka-be_api.proto\x12\x10matreshka_be_api\x1a\x1cgoogle/api/annotations.proto\x1a\tnpm.proto\"\x8b\x01\n" +
+	"\x06Config\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
+	"\aversion\x18\x02 \x01(\tR\aversion\x127\n" +
+	"\x18updated_at_utc_timestamp\x18\x03 \x01(\x03R\x15updatedAtUtcTimestamp\x12\x1a\n" +
+	"\bversions\x18\x04 \x03(\tR\bversions\"6\n" +
 	"\x06Paging\x12\x14\n" +
 	"\x05limit\x18\x01 \x01(\rR\x05limit\x12\x16\n" +
 	"\x06offset\x18\x02 \x01(\rR\x06offset\"=\n" +
@@ -1506,55 +1506,58 @@ const file_matreshka_be_api_proto_rawDesc = "" +
 	"ApiVersion\x1a\t\n" +
 	"\aRequest\x1a$\n" +
 	"\bResponse\x12\x18\n" +
-	"\aversion\x18\x01 \x01(\tR\aversion\"\x88\x01\n" +
-	"\tGetConfig\x1aW\n" +
-	"\aRequest\x12!\n" +
-	"\fservice_name\x18\x01 \x01(\tR\vserviceName\x12\x1d\n" +
+	"\aversion\x18\x01 \x01(\tR\aversion\"\x86\x01\n" +
+	"\tGetConfig\x1aU\n" +
+	"\aRequest\x12\x1f\n" +
+	"\vconfig_name\x18\x01 \x01(\tR\n" +
+	"configName\x12\x1d\n" +
 	"\aversion\x18\x02 \x01(\tH\x00R\aversion\x88\x01\x01B\n" +
 	"\n" +
 	"\b_version\x1a\"\n" +
 	"\bResponse\x12\x16\n" +
-	"\x06config\x18\x01 \x01(\fR\x06config\"\xa5\x01\n" +
-	"\vPatchConfig\x1a\x89\x01\n" +
-	"\aRequest\x12!\n" +
-	"\fservice_name\x18\x01 \x01(\tR\vserviceName\x120\n" +
+	"\x06config\x18\x01 \x01(\fR\x06config\"\xa3\x01\n" +
+	"\vPatchConfig\x1a\x87\x01\n" +
+	"\aRequest\x12\x1f\n" +
+	"\vconfig_name\x18\x01 \x01(\tR\n" +
+	"configName\x120\n" +
 	"\achanges\x18\x02 \x03(\v2\x16.matreshka_be_api.NodeR\achanges\x12\x1d\n" +
 	"\aversion\x18\x03 \x01(\tH\x00R\aversion\x88\x01\x01B\n" +
 	"\n" +
 	"\b_version\x1a\n" +
 	"\n" +
-	"\bResponse\"\x94\x02\n" +
+	"\bResponse\"\x91\x02\n" +
 	"\vListConfigs\x1a\x9c\x01\n" +
 	"\aRequest\x120\n" +
 	"\x06paging\x18\x01 \x01(\v2\x18.matreshka_be_api.PagingR\x06paging\x12%\n" +
 	"\x0esearch_pattern\x18\x02 \x01(\tR\rsearchPattern\x12/\n" +
 	"\x04sort\x18\x03 \x01(\v2\x16.matreshka_be_api.SortH\x00R\x04sort\x88\x01\x01B\a\n" +
-	"\x05_sort\x1af\n" +
-	"\bResponse\x125\n" +
-	"\bservices\x18\x01 \x03(\v2\x19.matreshka_be_api.AppInfoR\bservices\x12#\n" +
+	"\x05_sort\x1ac\n" +
+	"\bResponse\x122\n" +
+	"\aconfigs\x18\x01 \x03(\v2\x18.matreshka_be_api.ConfigR\aconfigs\x12#\n" +
 	"\rtotal_records\x18\x02 \x01(\rR\ftotalRecords\"x\n" +
 	"\x04Node\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x19\n" +
 	"\x05value\x18\x02 \x01(\tH\x00R\x05value\x88\x01\x01\x127\n" +
 	"\vinner_nodes\x18\x03 \x03(\v2\x16.matreshka_be_api.NodeR\n" +
 	"innerNodesB\b\n" +
-	"\x06_value\"\xa0\x01\n" +
-	"\rGetConfigNode\x1aW\n" +
-	"\aRequest\x12!\n" +
-	"\fservice_name\x18\x01 \x01(\tR\vserviceName\x12\x1d\n" +
-	"\aversion\x18\x02 \x01(\tH\x00R\aversion\x88\x01\x01B\n" +
-	"\n" +
-	"\b_version\x1a6\n" +
+	"\x06_value\"\x8d\x01\n" +
+	"\rGetConfigNode\x1aD\n" +
+	"\aRequest\x12\x1f\n" +
+	"\vconfig_name\x18\x01 \x01(\tR\n" +
+	"configName\x12\x18\n" +
+	"\aversion\x18\x02 \x01(\tR\aversion\x1a6\n" +
 	"\bResponse\x12*\n" +
-	"\x04root\x18\x01 \x01(\v2\x16.matreshka_be_api.NodeR\x04root\"X\n" +
-	"\fCreateConfig\x1a,\n" +
-	"\aRequest\x12!\n" +
-	"\fservice_name\x18\x01 \x01(\tR\vserviceName\x1a\x1a\n" +
+	"\x04root\x18\x01 \x01(\v2\x16.matreshka_be_api.NodeR\x04root\"V\n" +
+	"\fCreateConfig\x1a*\n" +
+	"\aRequest\x12\x1f\n" +
+	"\vconfig_name\x18\x01 \x01(\tR\n" +
+	"configName\x1a\x1a\n" +
 	"\bResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"~\n" +
-	"\fRenameConfig\x1aG\n" +
-	"\aRequest\x12!\n" +
-	"\fservice_name\x18\x01 \x01(\tR\vserviceName\x12\x19\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"|\n" +
+	"\fRenameConfig\x1aE\n" +
+	"\aRequest\x12\x1f\n" +
+	"\vconfig_name\x18\x01 \x01(\tR\n" +
+	"configName\x12\x19\n" +
 	"\bnew_name\x18\x02 \x01(\tR\anewName\x1a%\n" +
 	"\bResponse\x12\x19\n" +
 	"\bnew_name\x18\x01 \x01(\tR\anewName\"\x80\x01\n" +
@@ -1564,13 +1567,14 @@ const file_matreshka_be_api_proto_rawDesc = "" +
 	"\x04Type\x12\v\n" +
 	"\adefault\x10\x00\x12\v\n" +
 	"\aby_name\x10\x01\x12\x11\n" +
-	"\rby_updated_at\x10\x02\"\x8f\x03\n" +
-	"\x12SubscribeOnChanges\x1a}\n" +
-	"\aRequest\x126\n" +
-	"\x17subscribe_service_names\x18\x01 \x03(\tR\x15subscribeServiceNames\x12:\n" +
-	"\x19unsubscribe_service_names\x18\x02 \x03(\tR\x17unsubscribeServiceNames\x1a\xae\x01\n" +
-	"\bResponse\x12!\n" +
-	"\fservice_name\x18\x01 \x01(\tR\vserviceName\x12\x1c\n" +
+	"\rby_updated_at\x10\x02\"\x89\x03\n" +
+	"\x12SubscribeOnChanges\x1ay\n" +
+	"\aRequest\x124\n" +
+	"\x16subscribe_config_names\x18\x01 \x03(\tR\x14subscribeConfigNames\x128\n" +
+	"\x18unsubscribe_config_names\x18\x02 \x03(\tR\x16unsubscribeConfigNames\x1a\xac\x01\n" +
+	"\bResponse\x12\x1f\n" +
+	"\vconfig_name\x18\x01 \x01(\tR\n" +
+	"configName\x12\x1c\n" +
 	"\ttimestamp\x18\x02 \x01(\rR\ttimestamp\x12V\n" +
 	"\renv_variables\x18\x03 \x01(\v2/.matreshka_be_api.SubscribeOnChanges.EnvChangesH\x00R\fenvVariablesB\t\n" +
 	"\achanges\x1aI\n" +
@@ -1582,16 +1586,16 @@ const file_matreshka_be_api_proto_rawDesc = "" +
 	"\x04verv\x10\x01\x12\t\n" +
 	"\x05minio\x10\x02\x12\x06\n" +
 	"\x02pg\x10\x03\x12\t\n" +
-	"\x05nginx\x10\x042\xb2\b\n" +
+	"\x05nginx\x10\x042\xa2\b\n" +
 	"\x0eMatreshkaBeAPI\x12o\n" +
 	"\n" +
-	"ApiVersion\x12$.matreshka_be_api.ApiVersion.Request\x1a%.matreshka_be_api.ApiVersion.Response\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/api/version\x12z\n" +
-	"\tGetConfig\x12#.matreshka_be_api.GetConfig.Request\x1a$.matreshka_be_api.GetConfig.Response\"\"\x82\xd3\xe4\x93\x02\x1c\x12\x1a/api/config/{service_name}\x12\x8d\x01\n" +
-	"\x0eGetConfigNodes\x12'.matreshka_be_api.GetConfigNode.Request\x1a(.matreshka_be_api.GetConfigNode.Response\"(\x82\xd3\xe4\x93\x02\"\x12 /api/config/nodes/{service_name}\x12y\n" +
-	"\vListConfigs\x12%.matreshka_be_api.ListConfigs.Request\x1a&.matreshka_be_api.ListConfigs.Response\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/api/config/list\x12\x8a\x01\n" +
-	"\fCreateConfig\x12&.matreshka_be_api.CreateConfig.Request\x1a'.matreshka_be_api.CreateConfig.Response\")\x82\xd3\xe4\x93\x02#:\x01*\"\x1e/api/config/{service_name}/new\x12\x89\x01\n" +
-	"\vPatchConfig\x12%.matreshka_be_api.PatchConfig.Request\x1a&.matreshka_be_api.PatchConfig.Response\"+\x82\xd3\xe4\x93\x02%:\x01*\" /api/config/{service_name}/patch\x12\x95\x01\n" +
-	"\fRenameConfig\x12&.matreshka_be_api.RenameConfig.Request\x1a'.matreshka_be_api.RenameConfig.Response\"4\x82\xd3\xe4\x93\x02.\",/api/config/{service_name}/rename/{new_name}\x12w\n" +
+	"ApiVersion\x12$.matreshka_be_api.ApiVersion.Request\x1a%.matreshka_be_api.ApiVersion.Response\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/api/version\x12y\n" +
+	"\tGetConfig\x12#.matreshka_be_api.GetConfig.Request\x1a$.matreshka_be_api.GetConfig.Response\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/api/config/{config_name}\x12\x81\x01\n" +
+	"\x0eGetConfigNodes\x12'.matreshka_be_api.GetConfigNode.Request\x1a(.matreshka_be_api.GetConfigNode.Response\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/api/config/nodes\x12y\n" +
+	"\vListConfigs\x12%.matreshka_be_api.ListConfigs.Request\x1a&.matreshka_be_api.ListConfigs.Response\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/api/config/list\x12\x89\x01\n" +
+	"\fCreateConfig\x12&.matreshka_be_api.CreateConfig.Request\x1a'.matreshka_be_api.CreateConfig.Response\"(\x82\xd3\xe4\x93\x02\":\x01*\"\x1d/api/config/{config_name}/new\x12\x88\x01\n" +
+	"\vPatchConfig\x12%.matreshka_be_api.PatchConfig.Request\x1a&.matreshka_be_api.PatchConfig.Response\"*\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/api/config/{config_name}/patch\x12\x94\x01\n" +
+	"\fRenameConfig\x12&.matreshka_be_api.RenameConfig.Request\x1a'.matreshka_be_api.RenameConfig.Response\"3\x82\xd3\xe4\x93\x02-\"+/api/config/{config_name}/rename/{new_name}\x12w\n" +
 	"\x12SubscribeOnChanges\x12,.matreshka_be_api.SubscribeOnChanges.Request\x1a-.matreshka_be_api.SubscribeOnChanges.Response\"\x00(\x010\x01B+\x92\x82\x19\x14@vervstack/matreshkaZ\x11/matreshka_be_apib\x06proto3"
 
 var (
@@ -1611,7 +1615,7 @@ var file_matreshka_be_api_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
 var file_matreshka_be_api_proto_goTypes = []any{
 	(ConfigTypePrefix)(0),                 // 0: matreshka_be_api.ConfigTypePrefix
 	(Sort_Type)(0),                        // 1: matreshka_be_api.Sort.Type
-	(*AppInfo)(nil),                       // 2: matreshka_be_api.AppInfo
+	(*Config)(nil),                        // 2: matreshka_be_api.Config
 	(*Paging)(nil),                        // 3: matreshka_be_api.Paging
 	(*ApiVersion)(nil),                    // 4: matreshka_be_api.ApiVersion
 	(*GetConfig)(nil),                     // 5: matreshka_be_api.GetConfig
@@ -1647,7 +1651,7 @@ var file_matreshka_be_api_proto_depIdxs = []int32{
 	8,  // 2: matreshka_be_api.PatchConfig.Request.changes:type_name -> matreshka_be_api.Node
 	3,  // 3: matreshka_be_api.ListConfigs.Request.paging:type_name -> matreshka_be_api.Paging
 	12, // 4: matreshka_be_api.ListConfigs.Request.sort:type_name -> matreshka_be_api.Sort
-	2,  // 5: matreshka_be_api.ListConfigs.Response.services:type_name -> matreshka_be_api.AppInfo
+	2,  // 5: matreshka_be_api.ListConfigs.Response.configs:type_name -> matreshka_be_api.Config
 	8,  // 6: matreshka_be_api.GetConfigNode.Response.root:type_name -> matreshka_be_api.Node
 	30, // 7: matreshka_be_api.SubscribeOnChanges.Response.env_variables:type_name -> matreshka_be_api.SubscribeOnChanges.EnvChanges
 	8,  // 8: matreshka_be_api.SubscribeOnChanges.EnvChanges.env_variables:type_name -> matreshka_be_api.Node
@@ -1683,7 +1687,6 @@ func file_matreshka_be_api_proto_init() {
 	file_matreshka_be_api_proto_msgTypes[14].OneofWrappers = []any{}
 	file_matreshka_be_api_proto_msgTypes[16].OneofWrappers = []any{}
 	file_matreshka_be_api_proto_msgTypes[18].OneofWrappers = []any{}
-	file_matreshka_be_api_proto_msgTypes[20].OneofWrappers = []any{}
 	file_matreshka_be_api_proto_msgTypes[27].OneofWrappers = []any{
 		(*SubscribeOnChanges_Response_EnvVariables)(nil),
 	}
