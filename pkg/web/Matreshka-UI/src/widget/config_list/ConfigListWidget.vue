@@ -6,8 +6,6 @@ import ConfigIcon from "@/components/base/config/ConfigIcon.vue";
 
 import {ConfigBase} from "@/models/configs/config.ts";
 
-import {ConfigTypePrefix} from "@vervstack/matreshka";
-
 defineProps({
   cfgList: {
     type: Object as () => ConfigBase[],
