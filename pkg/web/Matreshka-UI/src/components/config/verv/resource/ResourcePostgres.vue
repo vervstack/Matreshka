@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Postgres} from "@/models/configs/verv/Resources/Resource.ts";
+import {Postgres} from "@/models/configs/verv/resources/Resource.ts";
 
 import ConfigField from "@/components/base/config/fields/ConfigInput.vue";
 

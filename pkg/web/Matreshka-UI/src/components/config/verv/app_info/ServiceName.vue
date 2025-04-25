@@ -3,9 +3,12 @@ import {ref} from "vue";
 
 import Button from "primevue/button";
 
-import {ConfigValue} from "@/models/shared/common.ts";
+import {ConfigValue} from "@/models/shared/Common.ts";
 import ConfigField from "@/components/base/config/fields/ConfigInput.vue";
-import {ExtractSourceCodeSystemFromServiceName, PiIconFromSourceCodeSystem} from "@/models/configs/verv/info/VervConfig.ts";
+import {
+  ExtractSourceCodeSystemFromServiceName,
+  PiIconFromSourceCodeSystem
+} from "@/models/configs/verv/info/VervConfig.ts";
 
 const model = defineModel<ConfigValue<string>>({required: true})
 

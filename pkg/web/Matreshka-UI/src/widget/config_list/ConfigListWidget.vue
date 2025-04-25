@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import {dateToString} from "@/models/configs/verv/converters/date.ts";
+import dateToString from "@/models/shared/Date.ts";
 
 import ConfigName from "@/components/base/config/ConfigName.vue";
 import ConfigIcon from "@/components/base/config/ConfigIcon.vue";
 
-import {ConfigBase} from "@/models/configs/config.ts";
+import ConfigBase from "@/models/configs/ConfigBase.ts";
 
 defineProps({
   cfgList: {

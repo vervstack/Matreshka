@@ -1,10 +1,12 @@
-import {Config_content} from "@/models/configs/config_content.ts";
-import {Change} from "@/models/configs/verv/info/VervConfig.ts";
 import {Component} from "vue";
+
+import ConfigContent from "@/models/configs/ConfigContent.ts";
+import {Change} from "@/models/configs/Change.ts";
+
 import KeyValueConfigView from "@/components/config/keyvalue/KeyValueConfigView.vue";
 
 // TODO Implement
-export class KeyValueConfigContent implements Config_content{
+export default class KeyValueConfigContent implements ConfigContent{
     getChanges(): Change[] {
         return []
     }
@@ -18,5 +20,4 @@ export class KeyValueConfigContent implements Config_content{
     getComponent() : Component {
         return KeyValueConfigView
     }
-
 }

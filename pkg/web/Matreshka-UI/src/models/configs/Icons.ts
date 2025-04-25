@@ -13,7 +13,7 @@ const configIconMap = new Map<ConfigTypePrefix, string>([
     [ConfigTypePrefix.minio, minio]
 ])
 
-export function getConfigIcon(configType: ConfigTypePrefix) {
+export default function getConfigIcon(configType: ConfigTypePrefix) {
     const icon = configIconMap.get(configType)
     if (icon) {
         return icon

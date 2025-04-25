@@ -7,11 +7,12 @@ import {
     ListConfigsResponse, ConfigTypePrefix
 } from "@vervstack/matreshka";
 
-import {parseVervConfigFromEnv} from "@/processes/api/model_mapping.ts";
+import ConfigBase from "@/models/configs/ConfigBase.ts";
+import ConfigWithContent from "@/models/configs/Config.ts";
+import ConfigList from "@/models/configs/ConfigList.ts";
 
-import {Config as ConfigWithContent, ConfigBase} from "@/models/configs/config.ts";
-import {KeyValueConfigContent} from "@/models/configs/keyvalue/config.ts";
-import {CfgList} from "@/models/configs/config_list.ts";
+import KeyValueConfigContent from "@/models/configs/keyvalue/KeyValueConfig.ts";
+import VervConfig from "@/models/configs/verv/VervConfig.ts";
 
 
 const apiPrefix = {pathPrefix: ''};
@@ -22,7 +23,7 @@ export function setBackendAddress(url: string) {
 
 const fallbackErrorConverting = 'error during conversion'
 
-export async function ListServices(req: ListConfigsRequest): Promise<CfgList> {
+export async function ListServices(req: ListConfigsRequest): Promise<ConfigList> {
     return MatreshkaBeAPI
         .ListConfigs(req, apiPrefix)
         .then((r: ListConfigsResponse) => {
@@ -45,7 +46,7 @@ export async function ListServices(req: ListConfigsRequest): Promise<CfgList> {
                         servicesInfo.push(cfgInfo)
                     })
 
-                return new CfgList(servicesInfo, r.totalRecords || servicesInfo.length)
+                return new ConfigList(servicesInfo, r.totalRecords || servicesInfo.length)
             }
         )
 }
@@ -66,7 +67,7 @@ export async function GetConfigNodes(configName: string, version: string): Promi
 
             switch (cfg.type) {
                 case ConfigTypePrefix.verv:
-                    cfg.content = parseVervConfigFromEnv(res.root)
+                    cfg.content = new VervConfig(res.root)
                     break;
                 default:
                     // TODO

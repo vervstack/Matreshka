@@ -1,8 +1,8 @@
 import {Node} from "@vervstack/matreshka";
 
-import {Change} from "@/models/configs/verv/info/VervConfig.ts";
+import {Change} from "@/models/configs/Change.ts";
 
-export type keyMap = {
+export type KeyMap = {
     [key: string]: any
 }
 

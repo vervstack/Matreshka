@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Sqlite} from "@/models/configs/verv/Resources/Resource.ts";
+import {Sqlite} from "@/models/configs/verv/resources/Resource.ts";
 
 import ConfigField from "@/components/base/config/fields/ConfigInput.vue";
 import SelectButton from "@/components/base/config/SelectButton.vue"

@@ -3,7 +3,7 @@
 import {ref} from "vue";
 
 import {SortType} from "@vervstack/matreshka";
-import {Sort} from "@/models/search/search.ts";
+import {Sort} from "@/models/search/Search.ts";
 
 import FloatLabel from "primevue/floatlabel";
 import InputGroup from "primevue/inputgroup";

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {PropType} from "vue";
-import {getConfigIcon} from "@/models/configs/icons.ts";
+import getConfigIcon from "@/models/configs/Icons.ts";
 
 import {ConfigTypePrefix} from "@vervstack/matreshka";
 

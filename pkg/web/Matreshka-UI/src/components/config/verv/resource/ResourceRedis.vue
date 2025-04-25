@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import ConfigField from "@/components/base/config/fields/ConfigInput.vue";
-import {Redis} from "@/models/configs/verv/Resources/Resource.ts";
+import {Redis} from "@/models/configs/verv/resources/Resource.ts";
 
 const model = defineModel<Redis>(
     {

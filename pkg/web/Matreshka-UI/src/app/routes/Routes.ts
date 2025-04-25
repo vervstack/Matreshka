@@ -1,9 +1,9 @@
-import Home from "@/pages/HomePage.vue";
-import NotFound from "@/pages/NotFoundPage.vue";
-import DisplayConfigPage from "@/pages/DisplayConfigPage.vue";
-
 import {createRouter, createWebHistory} from "vue-router";
+
+import Home from "@/pages/HomePage.vue";
+import DisplayConfigPage from "@/pages/DisplayConfigPage.vue";
 import NewConfigPage from "@/pages/NewConfigPage.vue";
+import NotFound from "@/pages/NotFoundPage.vue";
 
 export enum Pages {
     Unknown = "unknown",

@@ -1,7 +1,7 @@
-import {Change} from "@/models/configs/verv/info/VervConfig.ts";
+import {Change} from "@/models/configs/Change.ts";
 import {Component} from "vue";
 
-export interface Config_content {
+export default interface ConfigContent {
     getChanges(): Change[]
     rollback(): void
 

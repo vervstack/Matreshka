@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import Inputer from "@/components/base/config/Inputer.vue";
-import {keyMap} from "@/models/shared/common.ts";
+import {KeyMap} from "@/models/shared/common.ts";
 
-const model = defineModel<keyMap>({required: true})
+const model = defineModel<KeyMap>({required: true})
 
 const flatValues: (string | number)[][] = []
-const innerNodes: keyMap[] = []
+const innerNodes: KeyMap[] = []
 
 for (const key in model.value.val) {
   const val = model.value.val[key];
@@ -15,7 +15,7 @@ for (const key in model.value.val) {
     case "object":
       const ur = {
         fieldName: key
-      } as keyMap
+      } as KeyMap
 
       for (const innerKey in val) {
         ur[innerKey] = val[innerKey]

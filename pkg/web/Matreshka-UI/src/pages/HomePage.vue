@@ -1,24 +1,24 @@
 <script setup lang="ts">
 import {onMounted, ref, watch} from "vue";
 
-import {ListServices} from "@/processes/api/api.ts";
-import {handleGrpcError} from "@/processes/api/error_codes.ts";
+import {Pages, router} from "@/app/routes/Routes.ts";
 
-import Dialog from "primevue/dialog";
+import {ListServices} from "@/processes/api/ApiService.ts";
+import handleGrpcError from "@/processes/api/ErrorCodes.ts";
+
+import ServicesListWidget from "@/widget/config_list/ConfigListWidget.vue";
+import TopControls from "@/widget/config_list/TopControls.vue";
 import DisplayConfigWidget from "@/widget/DisplayConfigWidget.vue";
 
-import {Pages, router} from "@/app/routes/routes.ts";
+import {ListServicesReq, Paging, Sort} from "@/models/search/Search.ts";
+import ConfigList from "@/models/configs/ConfigList.ts";
 
 import {useToast} from "primevue/usetoast";
 import ProgressSpinner from 'primevue/progressspinner';
 import Paginator from 'primevue/paginator';
+import Dialog from "primevue/dialog";
 
-import ServicesListWidget from "@/widget/config_list/ConfigListWidget.vue";
-import TopControls from "@/widget/config_list/TopControls.vue";
-
-import {ListServicesReq, Paging, Sort} from "@/models/search/search.ts";
 import {SortType} from "@vervstack/matreshka";
-import {CfgList} from "@/models/configs/config_list.ts";
 
 const toastApi = useToast();
 
@@ -39,7 +39,7 @@ const listRequest = ref<ListServicesReq>({
   } as Paging
 } as ListServicesReq)
 
-const cfgList = ref<CfgList>()
+const cfgList = ref<ConfigList>()
 
 const pagingTotalRecords = ref<number>(0)
 

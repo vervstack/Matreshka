@@ -1,14 +1,14 @@
 import {Node} from "@vervstack/matreshka";
 
-import {ConfigValue, extractStringValue} from "@/models/shared/common.ts";
-import {FsHandler, GrpcHandler, ServerClass} from "@/models/configs/verv/Servers/Servers.ts";
+import {ConfigValue, extractStringValue} from "@/models/shared/Common.ts";
+import Server, {FsHandler, GrpcHandler} from "@/models/configs/verv/servers/Servers.ts";
 
-export function mapServer(root: Node): ServerClass[] {
+export function mapServer(root: Node): Server[] {
     if (!root.innerNodes) {
         throw {message: "Empty server node"}
     }
 
-    const servers: ServerClass[] = []
+    const servers: Server[] = []
 
     root.innerNodes
         .map((n) => {
@@ -18,7 +18,7 @@ export function mapServer(root: Node): ServerClass[] {
 
             const parts = n.name.split("_")
 
-            const server: ServerClass = new ServerClass(parts[1])
+            const server: Server = new Server(parts[1])
 
             if (n.innerNodes) {
                 n.innerNodes.map(
@@ -34,7 +34,7 @@ export function mapServer(root: Node): ServerClass[] {
 }
 
 
-function extractServerInfo(trg: ServerClass, node: Node, rootPrefix: string) {
+function extractServerInfo(trg: Server, node: Node, rootPrefix: string) {
     if (!node.innerNodes || !node.name) {
         return
     }

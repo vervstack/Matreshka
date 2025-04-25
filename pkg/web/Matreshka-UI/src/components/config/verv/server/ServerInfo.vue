@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {ServerClass} from "@/models/configs/verv/Servers/Servers.ts";
+import {ServerClass} from "@/models/configs/verv/servers/Servers.ts";
 
 import GrpcHandlerInfo from "@/components/config/verv/server/GrpcHandlerInfo.vue";
 import FileServerHandlerInfo from "@/components/config/verv/server/FileServerHandlerInfo.vue";

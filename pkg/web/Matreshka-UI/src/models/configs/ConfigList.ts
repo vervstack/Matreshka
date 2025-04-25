@@ -1,6 +1,6 @@
-import {ConfigBase} from "@/models/configs/config.ts";
+import ConfigBase from "@/models/configs/ConfigBase.ts";
 
-export class CfgList {
+export default class ConfigList {
     configInfo: ConfigBase[]
     total: number
 

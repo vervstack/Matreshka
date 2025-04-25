@@ -1,17 +1,45 @@
 import {Component} from "vue";
 
-import {AppInfoClass, Change} from "@/models/configs/verv/info/VervConfig.ts";
-import {DataSourceClass} from "@/models/configs/verv/Resources/Resource.ts";
-import {ServerClass} from "@/models/configs/verv/Servers/Servers.ts";
-import {Config_content} from "@/models/configs/config_content.ts";
+import {Node} from "@vervstack/matreshka";
+
+import AppInfoClass from "@/models/configs/verv/info/VervConfig.ts";
+import DataSourceClass from "@/models/configs/verv/resources/Resource.ts";
+import ServerClass from "@/models/configs/verv/servers/Servers.ts";
+
+import ConfigContent from "@/models/configs/ConfigContent.ts";
 import VervConfigView from "@/components/config/verv/VervConfigView.vue";
 
-export class VervConfig implements Config_content{
+import {extractDataSources} from "@/models/configs/verv/resources/mapping.ts";
+import {mapServer} from "@/models/configs/verv/servers/Mapping.ts";
+import {Change} from "@/models/configs/Change.ts";
+
+export default class VervConfig implements ConfigContent {
     appInfo: AppInfoClass
     dataSources: DataSourceClass[]
     servers: ServerClass[]
 
-    constructor(appInfo: AppInfoClass, dataSources: DataSourceClass[], servers: ServerClass[]) {
+    constructor(root: Node) {
+        let appInfo: AppInfoClass | undefined;
+        let dataSources: DataSourceClass[] = []
+        let servers: ServerClass[] = []
+
+        root.innerNodes?.map((node: Node) => {
+            switch (node.name) {
+                case 'APP-INFO':
+                    appInfo = new AppInfoClass(root)
+                    break
+                case 'DATA-SOURCES':
+                    dataSources = extractDataSources(node)
+                    break
+                case 'SERVERS':
+                    servers = mapServer(node)
+            }
+        })
+
+        if (!appInfo) {
+            throw {message: "No app info found in env"}
+        }
+
         this.appInfo = appInfo;
         this.dataSources = dataSources;
         this.servers = servers;

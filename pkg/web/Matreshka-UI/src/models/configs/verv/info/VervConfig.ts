@@ -1,25 +1,49 @@
-import {ConfigValue} from "@/models/shared/common.ts";
+import {ConfigValue, extractStringValue} from "@/models/shared/Common.ts";
 
-export class CfgListClass {
-    servicesInfo: AppInfoClass[]
-    total: number
+import {Node} from "@vervstack/matreshka";
+import {Change} from "@/models/configs/Change.ts";
 
-    constructor(servicesInfo: AppInfoClass[], total: number) {
-        this.servicesInfo = servicesInfo;
-        this.total = total;
-    }
-}
-
-export class AppInfoClass {
+export default class AppInfoClass {
     name: ConfigValue<string>
     serviceVersion: ConfigValue<string>
     public updated_at?: Date
 
     versions: string[] = []
 
-    constructor(name: ConfigValue<string>, serviceVersion: ConfigValue<string>) {
-        this.name = name;
-        this.serviceVersion = serviceVersion;
+    constructor(root: Node) {
+        let appName : ConfigValue<string>| undefined;
+        let appVersion : ConfigValue<string> | undefined;
+
+        root.innerNodes?.map((n)=> {
+            if (!n.name || !root.name) {
+                return;
+            }
+
+            const name = n.name.slice(root.name.length+1)
+            switch (name) {
+                case "NAME":
+                    const name = extractStringValue(n);
+                    this.name = new ConfigValue<string>(name.envName, name.value)
+                    break
+                case "VERSION":
+                    const version = extractStringValue(n);
+                    appVersion = new ConfigValue<string>(version.envName, version.value)
+                    break
+            }
+
+            return
+        })
+
+        if (!appName) {
+            throw {message: "no app name provided"}
+        }
+
+        if (!appVersion) {
+            throw {message: "no app version provided"}
+        }
+
+        this.name = appName;
+        this.serviceVersion = appVersion;
     }
 
     getChanges(): Change[] {
@@ -37,12 +61,6 @@ export class AppInfoClass {
         this.name.rollback()
         this.serviceVersion.rollback()
     }
-}
-
-//  TODO move to models/configs
-export type Change = {
-    envName: string
-    newValue: string
 }
 
 export enum SourceCodeSystem {

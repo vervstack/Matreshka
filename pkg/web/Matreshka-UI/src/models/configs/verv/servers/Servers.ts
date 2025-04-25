@@ -1,8 +1,7 @@
-import {ConfigValue} from "@/models/shared/common.ts";
-import {Change} from "@/models/configs/verv/info/VervConfig.ts";
+import {ConfigValue} from "@/models/shared/Common.ts";
+import {Change} from "@/models/configs/Change.ts";
 
-
-export class ServerClass {
+export default class ServerClass {
     port: ConfigValue<number> = new ConfigValue<number>("", 0)
     name: string
     grpc: GrpcHandler[] = []

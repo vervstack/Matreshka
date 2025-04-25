@@ -5,12 +5,13 @@ import DropdownSelector from '@/components/base/DropdownSelector.vue'
 import Inputer, {IInputer} from '@/components/base/Inputer.vue'
 import Button from "@/components/base/config/Button.vue";
 
-import {ConfigTypePrefix} from "@vervstack/matreshka"
-import {CreateConfig} from "@/processes/api/api.ts";
-import {RouteToConfigDisplay} from "@/app/routes/routes.ts";
-import {handleGrpcError} from "@/processes/api/error_codes.ts";
+import {RouteToConfigDisplay} from "@/app/routes/Routes.ts";
+import {CreateConfig} from "@/processes/api/ApiService.ts";
+import handleGrpcError from "@/processes/api/ErrorCodes.ts";
+import {isConfigNameValid} from "@/processes/config/Validators.ts";
+
 import {useToast} from "primevue/usetoast";
-import {isConfigNameValid} from "@/processes/config/config.ts";
+import {ConfigTypePrefix} from "@vervstack/matreshka"
 
 const toastApi = useToast()
 
