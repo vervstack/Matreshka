@@ -1,11 +1,11 @@
 <script
     setup
     lang="ts"
-    generic="T extends any, B  extends ConfigValueClass<T[]>">
+    generic="T extends any, B  extends ConfigValue<T[]>">
 
 import MultiSelect from 'primevue/multiselect';
 import FloatLabel from "primevue/floatlabel";
-import {ConfigValueClass} from "@/models/shared/common.ts";
+import {ConfigValue} from "@/models/shared/common.ts";
 import InputGroup from "primevue/inputgroup";
 
 const model = defineModel<B>({required: true})

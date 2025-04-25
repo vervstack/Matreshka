@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import {onMounted, ref, watch} from "vue";
 
-import {ServiceListClass} from "@/models/configs/verv/info/AppInfo.ts";
-
 import {ListServices} from "@/processes/api/api.ts";
 import {handleGrpcError} from "@/processes/api/error_codes.ts";
 
@@ -20,6 +18,7 @@ import TopControls from "@/widget/config_list/TopControls.vue";
 
 import {ListServicesReq, Paging, Sort} from "@/models/search/search.ts";
 import {SortType} from "@vervstack/matreshka";
+import {CfgList} from "@/models/configs/config_list.ts";
 
 const toastApi = useToast();
 
@@ -40,18 +39,18 @@ const listRequest = ref<ListServicesReq>({
   } as Paging
 } as ListServicesReq)
 
-const servicesList = ref<ServiceListClass>()
+const cfgList = ref<CfgList>()
 
 const pagingTotalRecords = ref<number>(0)
 
 function updateList() {
-  if (servicesList.value?.servicesInfo.length == 0) {
+  if (cfgList.value?.configInfo.length == 0) {
     isLoading.value = true;
   }
 
   ListServices(listRequest.value)
       .then((resp) => {
-        servicesList.value = resp
+        cfgList.value = resp
         pagingTotalRecords.value = resp.total
       })
       .catch(handleGrpcError(toastApi))
@@ -113,8 +112,8 @@ function openServiceInfo(event: MouseEvent, serviceName: string) {
       <Transition name="load-fader" mode="out-in">
         <div v-if="!isLoading">
           <ServicesListWidget
-              v-if="servicesList && servicesList.servicesInfo.length > 0"
-              :servicesList="servicesList.servicesInfo"
+              v-if="cfgList && cfgList.configInfo.length > 0"
+              :cfgList="cfgList.configInfo"
               @click-service="openServiceInfo"
           />
           <p v-else class="EmptyNodeMessage">No configs on this node</p>

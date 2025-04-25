@@ -40,7 +40,7 @@ async function fetchVersions() {
 
   ListServices(listReq)
       .then(res => {
-        configData.value.versions = res.servicesInfo[0].versions
+        configData.value.versions = res.configInfo[0].versions
         configData.value.selectedVersion = configData.value.versions[0]
       })
       .catch(handleGrpcError(toastApi))
@@ -49,8 +49,7 @@ async function fetchVersions() {
 async function save() {
   if (!configData.value) return
 
-  const changes = configData.value.getChanges()
-  PatchConfig(props.configName, configData.value.selectedVersion, changes)
+  PatchConfig(configData.value)
       .then(d => configData.value = d)
       .catch(handleGrpcError(toastApi))
 }
@@ -65,8 +64,7 @@ fetchVersions()
 
   <div v-else class="Display">
     <!--    TODO add logo?-->
-    <div class="Tittle">{{ configData.type.toString() }}</div>
-    <div class="Tittle">{{ configData.name }}</div>
+    <div class="Tittle">type: {{ configData.type.toString() }}</div>
 
     <SelectButton
         v-if="configData.versions.length > 1"

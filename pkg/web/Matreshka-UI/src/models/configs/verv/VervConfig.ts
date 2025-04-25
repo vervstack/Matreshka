@@ -1,12 +1,12 @@
 import {Component} from "vue";
 
-import {AppInfoClass, Change} from "@/models/configs/verv/info/AppInfo.ts";
+import {AppInfoClass, Change} from "@/models/configs/verv/info/VervConfig.ts";
 import {DataSourceClass} from "@/models/configs/verv/Resources/Resource.ts";
 import {ServerClass} from "@/models/configs/verv/Servers/Servers.ts";
-import {ConfigContent} from "@/models/configs/configContent.ts";
+import {Config_content} from "@/models/configs/config_content.ts";
 import VervConfigView from "@/components/config/verv/VervConfigView.vue";
 
-export class VervConfig implements ConfigContent{
+export class VervConfig implements Config_content{
     appInfo: AppInfoClass
     dataSources: DataSourceClass[]
     servers: ServerClass[]

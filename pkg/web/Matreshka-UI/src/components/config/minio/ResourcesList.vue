@@ -3,14 +3,14 @@
     lang="ts"
 >
 
-import {ConfigValueClass} from "@/models/shared/common.ts";
+import {ConfigValue} from "@/models/shared/common.ts";
 import Button from 'primevue/button';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import InputText from 'primevue/inputtext';
 import {Nullable} from "@primevue/core";
 
-const model = defineModel<ConfigValueClass<string[]>>({required: true})
+const model = defineModel<ConfigValue<string[]>>({required: true})
 
 
 function addResource() {

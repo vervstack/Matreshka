@@ -4,7 +4,7 @@ import {DataSourceClass} from "@/models/configs/verv/Resources/Resource.ts";
 import IconButton from "@/components/base/config/IconButton.vue";
 
 import {ref} from "vue";
-import {ConfigValueClass} from "@/models/shared/common.ts";
+import {ConfigValue} from "@/models/shared/common.ts";
 
 const resources = defineModel<DataSourceClass[]>({default: []})
 
@@ -17,7 +17,7 @@ function setSelected(i: number) {
 function countConfigFields<T>(config: T): number {
   let count = 0;
   for (const key in config) {
-    if (config[key] instanceof ConfigValueClass) {
+    if (config[key] instanceof ConfigValue) {
       count++
     }
   }

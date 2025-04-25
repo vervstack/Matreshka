@@ -1,6 +1,6 @@
-import {ConfigValueClass} from "@/models/shared/common.ts";
+import {ConfigValue} from "@/models/shared/common.ts";
 
-export class ServiceListClass {
+export class CfgListClass {
     servicesInfo: AppInfoClass[]
     total: number
 
@@ -11,13 +11,13 @@ export class ServiceListClass {
 }
 
 export class AppInfoClass {
-    name: ConfigValueClass<string>
-    serviceVersion: ConfigValueClass<string>
+    name: ConfigValue<string>
+    serviceVersion: ConfigValue<string>
     public updated_at?: Date
 
     versions: string[] = []
 
-    constructor(name: ConfigValueClass<string>, serviceVersion: ConfigValueClass<string>) {
+    constructor(name: ConfigValue<string>, serviceVersion: ConfigValue<string>) {
         this.name = name;
         this.serviceVersion = serviceVersion;
     }

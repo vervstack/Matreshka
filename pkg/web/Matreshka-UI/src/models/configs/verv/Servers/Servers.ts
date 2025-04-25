@@ -1,9 +1,9 @@
-import {ConfigValueClass} from "@/models/shared/common.ts";
-import {Change} from "@/models/configs/verv/info/AppInfo.ts";
+import {ConfigValue} from "@/models/shared/common.ts";
+import {Change} from "@/models/configs/verv/info/VervConfig.ts";
 
 
 export class ServerClass {
-    port: ConfigValueClass<number> = new ConfigValueClass<number>("", 0)
+    port: ConfigValue<number> = new ConfigValue<number>("", 0)
     name: string
     grpc: GrpcHandler[] = []
     fs: FsHandler[] = []
@@ -39,8 +39,8 @@ export class ServerClass {
 }
 
 export class GrpcHandler {
-    module: ConfigValueClass<string> = new ConfigValueClass("", "")
-    gateway: ConfigValueClass<string> = new ConfigValueClass("", "")
+    module: ConfigValue<string> = new ConfigValue("", "")
+    gateway: ConfigValue<string> = new ConfigValue("", "")
 
     isChanged(): boolean {
         return this.module.isChanged() || this.gateway.isChanged()
@@ -62,7 +62,7 @@ export class GrpcHandler {
 }
 
 export class FsHandler {
-    dist: ConfigValueClass<string> = new ConfigValueClass<string>("", "")
+    dist: ConfigValue<string> = new ConfigValue<string>("", "")
 
     isChanged(): boolean {
         return this.dist.isChanged()

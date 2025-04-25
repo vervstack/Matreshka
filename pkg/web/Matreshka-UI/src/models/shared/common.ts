@@ -1,12 +1,12 @@
 import {Node} from "@vervstack/matreshka";
 
-import {Change} from "@/models/configs/verv/info/AppInfo.ts";
+import {Change} from "@/models/configs/verv/info/VervConfig.ts";
 
 export type keyMap = {
     [key: string]: any
 }
 
-export class ConfigValueClass<T> {
+export class ConfigValue<T> {
     envName: string
     value: T
 
@@ -43,12 +43,12 @@ export class ConfigValueClass<T> {
     }
 }
 
-export function extractStringValue(n: Node): ConfigValueClass<string> {
-    return new ConfigValueClass<string>(n.name ?? "", n.value ?? "")
+export function extractStringValue(n: Node): ConfigValue<string> {
+    return new ConfigValue<string>(n.name ?? "", n.value ?? "")
 }
 
-export function extractNumberValue(n: Node): ConfigValueClass<number> {
-    return new ConfigValueClass(n.name ?? "", Number(n.value) ?? 0)
+export function extractNumberValue(n: Node): ConfigValue<number> {
+    return new ConfigValue(n.name ?? "", Number(n.value) ?? 0)
 }
 
 export function extractResourceType(node: Node, root: Node): string | undefined {

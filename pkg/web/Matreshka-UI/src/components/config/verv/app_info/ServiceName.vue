@@ -3,11 +3,11 @@ import {ref} from "vue";
 
 import Button from "primevue/button";
 
-import {ConfigValueClass} from "@/models/shared/common.ts";
+import {ConfigValue} from "@/models/shared/common.ts";
 import ConfigField from "@/components/base/config/fields/ConfigInput.vue";
-import {ExtractSourceCodeSystemFromServiceName, PiIconFromSourceCodeSystem} from "@/models/configs/verv/info/AppInfo.ts";
+import {ExtractSourceCodeSystemFromServiceName, PiIconFromSourceCodeSystem} from "@/models/configs/verv/info/VervConfig.ts";
 
-const model = defineModel<ConfigValueClass<string>>({required: true})
+const model = defineModel<ConfigValue<string>>({required: true})
 
 const linkIcon = ref<String | undefined>(
     PiIconFromSourceCodeSystem(
@@ -31,6 +31,7 @@ const linkIcon = ref<String | undefined>(
         v-model="model"
         fieldName="Service name"
         :pre-addons="[]"
+        is-disabled
     />
   </div>
 </template>

@@ -1,19 +1,19 @@
-import {ConfigTypePrefix} from "@vervstack/matreshka";
-import {ConfigContent} from "@/models/configs/configContent.ts";
-import {Change} from "@/models/configs/verv/info/AppInfo.ts";
-import {KeyValueConfigContent} from "@/models/configs/keyvalue/config.ts";
 import {Component} from "vue";
+import {ConfigTypePrefix} from "@vervstack/matreshka";
+import {Config_content} from "@/models/configs/config_content.ts";
+import {Change} from "@/models/configs/verv/info/VervConfig.ts";
+import {KeyValueConfigContent} from "@/models/configs/keyvalue/config.ts";
 
 const defaultVersion = 'master'
 
-export class Config {
+export class ConfigBase {
     type: ConfigTypePrefix;
     name: string;
 
-    versions: string[] = [defaultVersion];
-    selectedVersion: string = defaultVersion
+    updated_at?: Date
 
-    content: ConfigContent;
+    versions: string[] = [defaultVersion];
+    selectedVersion: string = defaultVersion;
 
     constructor(name: string) {
         this.type = extractType(name)
@@ -22,6 +22,19 @@ export class Config {
         }
 
         this.name = name
+    }
+
+    getMatreshkaName(): string {
+        return this.type + '_' + this.name
+    }
+}
+
+export class Config extends ConfigBase {
+    content: Config_content;
+
+    constructor(name: string) {
+        super(name);
+
         this.content = new KeyValueConfigContent()
     }
 
@@ -37,12 +50,11 @@ export class Config {
         return this.content.isChanged()
     }
 
-    getComponent() : Component {
+    getComponent(): Component {
         const com = this.content.getComponent()
         console.log(com)
         return com
     }
-
 }
 
 const supportedTypes: ConfigTypePrefix[] = [

@@ -1,16 +1,19 @@
 import unknown from "@/assets/svg/errorconfig.svg";
 import matreshka from "@/assets/svg/matreshka.svg";
+import pg from "@/assets/svg/pg.svg";
+import nginx from "@/assets/svg/nginx.svg";
 
 import {ConfigTypePrefix} from "@vervstack/matreshka";
 
 const configIconMap = new Map<ConfigTypePrefix, string>([
-    [ConfigTypePrefix.verv, matreshka]
+    [ConfigTypePrefix.verv, matreshka],
+    [ConfigTypePrefix.pg, pg],
+    [ConfigTypePrefix.nginx, nginx]
 ])
 
 export function getConfigIcon(configType: ConfigTypePrefix) {
     const icon = configIconMap.get(configType)
     if (icon) {
-        console.log(icon)
         return icon
     }
 

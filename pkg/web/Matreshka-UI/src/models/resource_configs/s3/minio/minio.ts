@@ -1,15 +1,15 @@
-import {ConfigValueClass} from "@/models/shared/common.ts";
+import {ConfigValue} from "@/models/shared/common.ts";
 
 export type IamConfig = {
-    version: ConfigValueClass<string>;
+    version: ConfigValue<string>;
     statements: Statement[]
 }
 
 
 export type Statement = {
-    allow: ConfigValueClass<boolean>
-    action: ConfigValueClass<S3Action[]>
-    resources: ConfigValueClass<string[]>
+    allow: ConfigValue<boolean>
+    action: ConfigValue<S3Action[]>
+    resources: ConfigValue<string[]>
 }
 
 export enum S3Action {

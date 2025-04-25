@@ -1,9 +1,9 @@
 import {Component} from "vue";
 
-import {ConfigValueClass} from "@/models/shared/common.ts";
+import {ConfigValue} from "@/models/shared/common.ts";
 import {getResourceLink} from "@/models/shared/s3.ts";
 
-import {Change} from "@/models/configs/verv/info/AppInfo.ts";
+import {Change} from "@/models/configs/verv/info/VervConfig.ts";
 import {ResourceType} from "@/models/configs/verv/Resources/ResourceTypes.ts";
 
 type NamedResource = {
@@ -12,16 +12,16 @@ type NamedResource = {
 }
 
 export type ResourceSqlite = NamedResource & {
-    path: ConfigValueClass<string>
+    path: ConfigValue<string>
 }
 
 export type ResourceTelegram = NamedResource & {
-    api_key: ConfigValueClass<string>
+    api_key: ConfigValue<string>
 }
 
 export type ResourceGrpc = NamedResource & {
-    connection_string: ConfigValueClass<string>
-    module: ConfigValueClass<string>
+    connection_string: ConfigValue<string>
+    module: ConfigValue<string>
 }
 
 export function NormalizeName(res: NamedResource): string {
@@ -92,12 +92,12 @@ export abstract class DataSourceClass {
 }
 
 export class Postgres extends DataSourceClass {
-    host: ConfigValueClass<string> = new ConfigValueClass("", "")
-    name: ConfigValueClass<string> = new ConfigValueClass("", "")
-    port: ConfigValueClass<number> = new ConfigValueClass("", 0)
-    user: ConfigValueClass<string> = new ConfigValueClass("", "")
-    pwd: ConfigValueClass<string> = new ConfigValueClass("", "")
-    ssl_mode: ConfigValueClass<string> = new ConfigValueClass("", "")
+    host: ConfigValue<string> = new ConfigValue("", "")
+    name: ConfigValue<string> = new ConfigValue("", "")
+    port: ConfigValue<number> = new ConfigValue("", 0)
+    user: ConfigValue<string> = new ConfigValue("", "")
+    pwd: ConfigValue<string> = new ConfigValue("", "")
+    ssl_mode: ConfigValue<string> = new ConfigValue("", "")
 
     constructor(resourceName: string) {
         super(resourceName, ResourceType.Postgres);
@@ -127,7 +127,7 @@ export class Postgres extends DataSourceClass {
 }
 
 export class Sqlite extends DataSourceClass {
-    path: ConfigValueClass<string> = new ConfigValueClass("", "")
+    path: ConfigValue<string> = new ConfigValue("", "")
 
     constructor(resourceName: string) {
         super(resourceName, ResourceType.Sqlite);
@@ -147,11 +147,11 @@ export class Sqlite extends DataSourceClass {
 }
 
 export class Redis extends DataSourceClass {
-    host: ConfigValueClass<string> = new ConfigValueClass<string>("", "")
-    port: ConfigValueClass<number> = new ConfigValueClass<number>("", 0)
-    user: ConfigValueClass<string> = new ConfigValueClass<string>("", "")
-    pwd: ConfigValueClass<string> = new ConfigValueClass<string>("", "")
-    db: ConfigValueClass<number> = new ConfigValueClass<number>("", 0)
+    host: ConfigValue<string> = new ConfigValue<string>("", "")
+    port: ConfigValue<number> = new ConfigValue<number>("", 0)
+    user: ConfigValue<string> = new ConfigValue<string>("", "")
+    pwd: ConfigValue<string> = new ConfigValue<string>("", "")
+    db: ConfigValue<number> = new ConfigValue<number>("", 0)
 
     constructor(resourceName: string) {
         super(resourceName, ResourceType.Redis);
@@ -179,7 +179,7 @@ export class Redis extends DataSourceClass {
 }
 
 export class Telegram extends DataSourceClass {
-    apiKey: ConfigValueClass<string> = new ConfigValueClass("", "")
+    apiKey: ConfigValue<string> = new ConfigValue("", "")
 
     constructor(resourceName: string) {
         super(resourceName, ResourceType.Telegram);
@@ -200,8 +200,8 @@ export class Telegram extends DataSourceClass {
 }
 
 export class GrpcClient extends DataSourceClass {
-    connectionString: ConfigValueClass<string> = new ConfigValueClass("", "")
-    module: ConfigValueClass<string> = new ConfigValueClass("", "")
+    connectionString: ConfigValue<string> = new ConfigValue("", "")
+    module: ConfigValue<string> = new ConfigValue("", "")
 
     constructor(resourceName: string) {
         super(resourceName, ResourceType.Grpc);

@@ -2,15 +2,16 @@ import {
     MatreshkaBeAPI,
     ListConfigsRequest,
     GetConfigNodeRequest,
-    Node, CreateConfigRequest, PatchConfigRequest, Config, ListConfigsResponse, ConfigTypePrefix
+    Node, CreateConfigRequest,
+    PatchConfigRequest, Config,
+    ListConfigsResponse, ConfigTypePrefix
 } from "@vervstack/matreshka";
 
 import {parseVervConfigFromEnv} from "@/processes/api/model_mapping.ts";
 
-import {AppInfoClass, Change, ServiceListClass} from "@/models/configs/verv/info/AppInfo.ts";
-import {ConfigValueClass} from "@/models/shared/common.ts";
-import {Config as ConfigWithContent} from "@/models/configs/config.ts";
+import {Config as ConfigWithContent, ConfigBase} from "@/models/configs/config.ts";
 import {KeyValueConfigContent} from "@/models/configs/keyvalue/config.ts";
+import {CfgList} from "@/models/configs/config_list.ts";
 
 
 const apiPrefix = {pathPrefix: ''};
@@ -21,38 +22,30 @@ export function setBackendAddress(url: string) {
 
 const fallbackErrorConverting = 'error during conversion'
 
-export async function ListServices(req: ListConfigsRequest): Promise<ServiceListClass> {
+export async function ListServices(req: ListConfigsRequest): Promise<CfgList> {
     return MatreshkaBeAPI
         .ListConfigs(req, apiPrefix)
         .then((r: ListConfigsResponse) => {
-                const servicesInfo: AppInfoClass[] = []
+                const servicesInfo: ConfigBase[] = []
                 if (!r.configs) {
                     throw {message: "invalid contract"}
                 }
 
                 r.configs
                     .map((v: Config) => {
-                        const name = new ConfigValueClass(
-                            "Service name",
-                            v.name || fallbackErrorConverting,
-                        )
+                        const cfgInfo = new ConfigBase(v.name || fallbackErrorConverting)
+                        cfgInfo.selectedVersion = v.version || cfgInfo.selectedVersion;
 
-                        const version = new ConfigValueClass(
-                            "Version",
-                            v.version || fallbackErrorConverting,
-                        )
-
-                        const appInfo = new AppInfoClass(name, version)
                         if (v.updatedAtUtcTimestamp) {
-                            appInfo.updated_at = new Date(Number(v.updatedAtUtcTimestamp) * 1000)
+                            cfgInfo.updated_at = new Date(Number(v.updatedAtUtcTimestamp) * 1000)
                         }
 
-                        appInfo.versions = v.versions || []
+                        cfgInfo.versions = v.versions || []
 
-                        servicesInfo.push(appInfo)
+                        servicesInfo.push(cfgInfo)
                     })
 
-                return new ServiceListClass(servicesInfo, r.totalRecords || servicesInfo.length)
+                return new CfgList(servicesInfo, r.totalRecords || servicesInfo.length)
             }
         )
 }
@@ -84,10 +77,14 @@ export async function GetConfigNodes(configName: string, version: string): Promi
         })
 }
 
-export async function PatchConfig(serviceName: string, version: string, changeList: Change[]): Promise<ConfigWithContent> {
+export async function PatchConfig(cfg: ConfigWithContent): Promise<ConfigWithContent> {
+    if (!cfg.isChanged()) return cfg
+
+    const changeList = cfg.getChanges();
+
     const req: PatchConfigRequest = {
-        configName: serviceName,
-        version: version,
+        configName: cfg.name,
+        version: cfg.selectedVersion,
         changes: changeList.map((n) => {
             return {
                 name: n.envName,
@@ -99,12 +96,7 @@ export async function PatchConfig(serviceName: string, version: string, changeLi
 
     return MatreshkaBeAPI.PatchConfig(req, apiPrefix)
         .then(() => {
-            changeList.map((n) => {
-                if (n.envName.includes('APP-INFO_NAME')) {
-                    serviceName = n.newValue
-                }
-            })
-            return GetConfigNodes(serviceName, version)
+            return GetConfigNodes(cfg.getMatreshkaName(), cfg.selectedVersion)
         })
 }
 

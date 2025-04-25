@@ -1,9 +1,9 @@
 <script
     setup
     lang="ts"
-    generic="T extends any, B  extends ConfigValueClass<T[]>">
+    generic="T extends any, B  extends ConfigValue<T[]>">
 import PickList from 'primevue/picklist';
-import {ConfigValueClass} from "@/models/shared/common.ts";
+import {ConfigValue} from "@/models/shared/common.ts";
 import {ref} from "vue";
 
 const model = defineModel<B>({required: true})

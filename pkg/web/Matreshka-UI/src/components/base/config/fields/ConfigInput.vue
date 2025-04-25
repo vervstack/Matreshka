@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {ConfigValueClass} from "@/models/shared/common.ts";
+import {ConfigValue} from "@/models/shared/common.ts";
 
 import InputText from 'primevue/inputtext';
 import InputGroup from 'primevue/inputgroup';
@@ -11,7 +11,7 @@ import {Nullable} from "@primevue/core";
 
 import {FieldAddon} from "@/models/shared/FieldAddon.ts";
 
-const model = defineModel<ConfigValueClass<string | number>>({
+const model = defineModel<ConfigValue<string | number>>({
   required: true,
 })
 

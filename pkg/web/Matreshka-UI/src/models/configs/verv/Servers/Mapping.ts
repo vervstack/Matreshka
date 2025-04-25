@@ -1,6 +1,6 @@
 import {Node} from "@vervstack/matreshka";
 
-import {ConfigValueClass, extractStringValue} from "@/models/shared/common.ts";
+import {ConfigValue, extractStringValue} from "@/models/shared/common.ts";
 import {FsHandler, GrpcHandler, ServerClass} from "@/models/configs/verv/Servers/Servers.ts";
 
 export function mapServer(root: Node): ServerClass[] {
@@ -53,7 +53,7 @@ function extractServerInfo(trg: ServerClass, node: Node, rootPrefix: string) {
 
             break
         case 'PORT':
-            trg.port = new ConfigValueClass<number>(node.name, Number(node.value))
+            trg.port = new ConfigValue<number>(node.name, Number(node.value))
             break
         default:
         // TODO http сервер

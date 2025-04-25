@@ -4,12 +4,12 @@
     generic="T"
 >
 
-import {ConfigValueClass} from "@/models/shared/common.ts";
+import {ConfigValue} from "@/models/shared/common.ts";
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import {Nullable} from "@primevue/core";
 
-const model = defineModel<ConfigValueClass<T[]>>({required: true})
+const model = defineModel<ConfigValue<T[]>>({required: true})
 
 </script>
 

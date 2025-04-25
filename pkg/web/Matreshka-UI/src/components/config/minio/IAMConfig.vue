@@ -2,7 +2,7 @@
 
 import {ref} from "vue";
 
-import {ConfigValueClass} from "@/models/shared/common.ts";
+import {ConfigValue} from "@/models/shared/common.ts";
 
 import {
   exportMinioStatement,
@@ -34,15 +34,15 @@ function addStatement() {
     allow: {
       envName: 'Effect',
       value: true,
-    } as ConfigValueClass<boolean>,
+    } as ConfigValue<boolean>,
     action: {
       envName: 'Action(s)',
       value: []
-    } as ConfigValueClass<S3Action[]>,
+    } as ConfigValue<S3Action[]>,
     resources: {
       envName: 'Resources',
       value: [''],
-    } as ConfigValueClass<string[]>,
+    } as ConfigValue<string[]>,
   } as Statement)
 }
 

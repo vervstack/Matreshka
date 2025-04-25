@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import {AppInfoClass} from "@/models/configs/verv/info/AppInfo.ts";
 import {dateToString} from "@/models/configs/verv/converters/date.ts";
 
 import ConfigName from "@/components/base/config/ConfigName.vue";
 import ConfigIcon from "@/components/base/config/ConfigIcon.vue";
 
+import {ConfigBase} from "@/models/configs/config.ts";
+
 import {ConfigTypePrefix} from "@vervstack/matreshka";
 
 defineProps({
-  servicesList: {
-    type: Object as () => AppInfoClass[],
+  cfgList: {
+    type: Object as () => ConfigBase[],
   }
 })
 
@@ -25,18 +26,18 @@ const emit = defineEmits<{
       <div
           class="ListItem"
 
-          v-for="service in servicesList"
-          v-tooltip.bottom="`updated at ${service.updated_at ? dateToString(service.updated_at) : 'NO DATA'}`"
+          v-for="cfg in cfgList"
+          v-tooltip.bottom="`updated at ${cfg.updated_at ? dateToString(cfg.updated_at) : 'NO DATA'}`"
 
-          :key="service.name.value"
+          :key="cfg.name"
 
-          @click="(event: MouseEvent) => { emit('clickService', event, service.name.value) }"
+          @click="(event: MouseEvent) => { emit('clickService', event, cfg.getMatreshkaName()) }"
       >
         <div class="ConfigTitle">
-          <ConfigName :label="service.name.value"/>
+          <ConfigName :label="cfg.name"/>
         </div>
         <div class="ConfigIcon">
-          <ConfigIcon :config-type="ConfigTypePrefix.verv"/>
+          <ConfigIcon :config-type="cfg.type"/>
         </div>
       </div>
     </div>
