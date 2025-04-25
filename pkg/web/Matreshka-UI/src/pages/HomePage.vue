@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {onMounted, ref, watch} from "vue";
 
-import {Pages, router} from "@/app/routes/Routes.ts";
+import {Pages, router} from '@/app/routes/Routes.ts';
 
 import {ListServices} from "@/processes/api/ApiService.ts";
 import handleGrpcError from "@/processes/api/ErrorCodes.ts";

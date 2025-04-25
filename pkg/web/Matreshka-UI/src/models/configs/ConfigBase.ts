@@ -1,45 +1,45 @@
-import {ConfigTypePrefix} from "@vervstack/matreshka";
+import { ConfigTypePrefix } from "@vervstack/matreshka";
 
-const defaultVersion = 'master'
+const defaultVersion = "master";
 
 export default class ConfigBase {
-    type: ConfigTypePrefix;
-    name: string;
+  type: ConfigTypePrefix;
+  name: string;
 
-    updated_at?: Date
+  updated_at?: Date;
 
-    versions: string[] = [defaultVersion];
-    selectedVersion: string = defaultVersion;
+  versions: string[] = [defaultVersion];
+  selectedVersion: string = defaultVersion;
 
-    constructor(name: string) {
-        this.type = extractType(name)
-        if (this.type !== ConfigTypePrefix.unknown) {
-            name = name.substring(this.type.length + 1)
-        }
-
-        this.name = name
+  constructor(name: string) {
+    this.type = extractType(name);
+    if (this.type !== ConfigTypePrefix.unknown) {
+      name = name.substring(this.type.length + 1);
     }
 
-    getMatreshkaName(): string {
-        return this.type + '_' + this.name
-    }
+    this.name = name;
+  }
+
+  getMatreshkaName(): string {
+    return this.type + "_" + this.name;
+  }
 }
 
 const supportedTypes: ConfigTypePrefix[] = [
-    ConfigTypePrefix.verv,
-    ConfigTypePrefix.minio,
-    ConfigTypePrefix.pg,
-    ConfigTypePrefix.nginx,
-]
+  ConfigTypePrefix.verv,
+  ConfigTypePrefix.minio,
+  ConfigTypePrefix.pg,
+  ConfigTypePrefix.nginx,
+];
 
 function extractType(configName: string): ConfigTypePrefix {
-    const foundType = supportedTypes
-        .find(
-            (typePrefix: ConfigTypePrefix) => configName.startsWith(typePrefix))
+  const foundType = supportedTypes.find((typePrefix: ConfigTypePrefix) =>
+    configName.startsWith(typePrefix)
+  );
 
-    if (foundType) {
-        return foundType;
-    }
+  if (foundType) {
+    return foundType;
+  }
 
-    return ConfigTypePrefix.unknown
+  return ConfigTypePrefix.unknown;
 }

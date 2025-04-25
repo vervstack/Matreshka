@@ -1,93 +1,90 @@
-import {Component} from "vue";
+import { Node } from "@vervstack/matreshka";
+import { Component } from "vue";
 
-import {Node} from "@vervstack/matreshka";
-
+import VervConfigView from "@/components/config/verv/VervConfigView.vue";
+import { Change } from "@/models/configs/Change.ts";
+import ConfigContent from "@/models/configs/ConfigContent.ts";
 import AppInfoClass from "@/models/configs/verv/info/VervConfig.ts";
+import { extractDataSources } from "@/models/configs/verv/resources/mapping.ts";
 import DataSourceClass from "@/models/configs/verv/resources/Resource.ts";
+import { mapServer } from "@/models/configs/verv/servers/Mapping.ts";
 import ServerClass from "@/models/configs/verv/servers/Servers.ts";
 
-import ConfigContent from "@/models/configs/ConfigContent.ts";
-import VervConfigView from "@/components/config/verv/VervConfigView.vue";
-
-import {extractDataSources} from "@/models/configs/verv/resources/mapping.ts";
-import {mapServer} from "@/models/configs/verv/servers/Mapping.ts";
-import {Change} from "@/models/configs/Change.ts";
-
 export default class VervConfig implements ConfigContent {
-    appInfo: AppInfoClass
-    dataSources: DataSourceClass[]
-    servers: ServerClass[]
+  appInfo: AppInfoClass;
+  dataSources: DataSourceClass[];
+  servers: ServerClass[];
 
-    constructor(root: Node) {
-        let appInfo: AppInfoClass | undefined;
-        let dataSources: DataSourceClass[] = []
-        let servers: ServerClass[] = []
+  constructor(root: Node) {
+    let appInfo: AppInfoClass | undefined;
+    let dataSources: DataSourceClass[] = [];
+    let servers: ServerClass[] = [];
 
-        root.innerNodes?.map((node: Node) => {
-            switch (node.name) {
-                case 'APP-INFO':
-                    appInfo = new AppInfoClass(root)
-                    break
-                case 'DATA-SOURCES':
-                    dataSources = extractDataSources(node)
-                    break
-                case 'SERVERS':
-                    servers = mapServer(node)
-            }
-        })
+    root.innerNodes?.map((node: Node) => {
+      switch (node.name) {
+        case "APP-INFO":
+          appInfo = new AppInfoClass(root);
+          break;
+        case "DATA-SOURCES":
+          dataSources = extractDataSources(node);
+          break;
+        case "SERVERS":
+          servers = mapServer(node);
+      }
+    });
 
-        if (!appInfo) {
-            throw {message: "No app info found in env"}
-        }
-
-        this.appInfo = appInfo;
-        this.dataSources = dataSources;
-        this.servers = servers;
+    if (!appInfo) {
+      throw { message: "No app info found in env" };
     }
 
-    public isChanged(): boolean {
-        return this.getChanges().length != 0
-    }
+    this.appInfo = appInfo;
+    this.dataSources = dataSources;
+    this.servers = servers;
+  }
 
-    public getChanges(): Change[] {
-        const changes: Change[] = []
-        changes.push(...this.appInfo.getChanges())
+  public isChanged(): boolean {
+    return this.getChanges().length != 0;
+  }
 
-        this.dataSources.map(ds => changes.push(...ds.getChanges()))
+  public getChanges(): Change[] {
+    const changes: Change[] = [];
+    changes.push(...this.appInfo.getChanges());
 
-        this.servers.map(s => changes.push(...s.getChanges()))
+    this.dataSources.map((ds) => changes.push(...ds.getChanges()));
 
-        return changes
-    }
+    this.servers.map((s) => changes.push(...s.getChanges()));
 
-    public getChangedDataSourcesNames(): string[] {
-        const changedDataSourceNames: string[] = []
-        this.dataSources.map(ds => {
-            if (ds.isChanged()) {
-                changedDataSourceNames.push(ds.resourceName)
-            }
-        })
+    return changes;
+  }
 
-        return changedDataSourceNames
-    }
+  public getChangedDataSourcesNames(): string[] {
+    const changedDataSourceNames: string[] = [];
+    this.dataSources.map((ds) => {
+      if (ds.isChanged()) {
+        changedDataSourceNames.push(ds.resourceName);
+      }
+    });
 
-    public getChangedServersNames(): string[] {
-        const changedServerNames: string[] = []
-        this.servers.map(serv => {
-            if (serv.isChanged()) {
-                changedServerNames.push(serv.name)
-            }
-        })
-        return changedServerNames
-    }
+    return changedDataSourceNames;
+  }
 
-    public rollback() {
-        this.appInfo.rollback()
-        this.dataSources.map(ds => ds.rollback())
-        this.servers.map(s => s.rollback())
-    }
+  public getChangedServersNames(): string[] {
+    const changedServerNames: string[] = [];
+    this.servers.map((serv) => {
+      if (serv.isChanged()) {
+        changedServerNames.push(serv.name);
+      }
+    });
+    return changedServerNames;
+  }
 
-    getComponent(): Component {
-        return VervConfigView;
-    }
+  public rollback() {
+    this.appInfo.rollback();
+    this.dataSources.map((ds) => ds.rollback());
+    this.servers.map((s) => s.rollback());
+  }
+
+  getComponent(): Component {
+    return VervConfigView;
+  }
 }

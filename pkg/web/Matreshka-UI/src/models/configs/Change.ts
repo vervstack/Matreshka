@@ -1,4 +1,4 @@
 export type Change = {
-    envName: string
-    newValue: string
-}
+  envName: string;
+  newValue: string;
+};
