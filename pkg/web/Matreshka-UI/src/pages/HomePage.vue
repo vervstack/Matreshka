@@ -1,34 +1,29 @@
 <script setup lang="ts">
-import {onMounted, ref, watch} from "vue";
+import { SortType } from "@vervstack/matreshka";
+import Dialog from "primevue/dialog";
+import Paginator from "primevue/paginator";
+import ProgressSpinner from "primevue/progressspinner";
+import { useToast } from "primevue/usetoast";
+import { onMounted, ref, watch } from "vue";
 
-import {Pages, router} from '@/app/routes/Routes.ts';
-
-import {ListServices} from "@/processes/api/ApiService.ts";
+import { Pages, router } from "@/app/routes/Routes.ts";
+import ConfigList from "@/models/configs/ConfigList.ts";
+import { ListServicesReq, Paging, Sort } from "@/models/search/Search.ts";
+import { ListServices } from "@/processes/api/ApiService.ts";
 import handleGrpcError from "@/processes/api/ErrorCodes.ts";
-
 import ServicesListWidget from "@/widget/config_list/ConfigListWidget.vue";
 import TopControls from "@/widget/config_list/TopControls.vue";
 import DisplayConfigWidget from "@/widget/DisplayConfigWidget.vue";
 
-import {ListServicesReq, Paging, Sort} from "@/models/search/Search.ts";
-import ConfigList from "@/models/configs/ConfigList.ts";
-
-import {useToast} from "primevue/usetoast";
-import ProgressSpinner from 'primevue/progressspinner';
-import Paginator from 'primevue/paginator';
-import Dialog from "primevue/dialog";
-
-import {SortType} from "@vervstack/matreshka";
-
 const toastApi = useToast();
 
 const isDialogOpen = ref<boolean>(false);
-const openedConfigName = ref<string>('');
+const openedConfigName = ref<string>("");
 const isLoading = ref<boolean>(true);
 
 // Service list
 const listRequest = ref<ListServicesReq>({
-  searchPattern: '',
+  searchPattern: "",
   sort: {
     type: SortType.default,
     desc: false,
@@ -36,12 +31,12 @@ const listRequest = ref<ListServicesReq>({
   paging: {
     limit: 6,
     offset: 0,
-  } as Paging
-} as ListServicesReq)
+  } as Paging,
+} as ListServicesReq);
 
-const cfgList = ref<ConfigList>()
+const cfgList = ref<ConfigList>();
 
-const pagingTotalRecords = ref<number>(0)
+const pagingTotalRecords = ref<number>(0);
 
 function updateList() {
   if (cfgList.value?.configInfo.length == 0) {
@@ -49,107 +44,99 @@ function updateList() {
   }
 
   ListServices(listRequest.value)
-      .then((resp) => {
-        cfgList.value = resp
-        pagingTotalRecords.value = resp.total
-      })
-      .catch(handleGrpcError(toastApi))
-      .then(() => isLoading.value = false)
+    .then((resp) => {
+      cfgList.value = resp;
+      pagingTotalRecords.value = resp.total;
+    })
+    .catch(handleGrpcError(toastApi))
+    .then(() => (isLoading.value = false));
 }
 
 function openPage(page: number) {
   listRequest.value.paging.offset = (listRequest.value.paging.limit || 10) * page;
-  updateList()
+  updateList();
 }
 
 function updateSearchReq(pattern: string, sort: Sort) {
-  listRequest.value.searchPattern = pattern
-  listRequest.value.sort = sort
-  updateList()
+  listRequest.value.searchPattern = pattern;
+  listRequest.value.sort = sort;
+  updateList();
 }
 
-onMounted(updateList)
+onMounted(updateList);
 
 watch(isDialogOpen, () => {
   if (!isDialogOpen.value) {
-    updateList()
+    updateList();
   }
-})
+});
 
 //  Service info
 function openDisplayConfigDialog(serviceName: string) {
-  openedConfigName.value = serviceName
-  isDialogOpen.value = true
+  openedConfigName.value = serviceName;
+  isDialogOpen.value = true;
 }
 
 function openServiceInfo(event: MouseEvent, serviceName: string) {
   if (!(event.ctrlKey || event.metaKey)) {
-    openDisplayConfigDialog(serviceName ?? '')
-    return
+    openDisplayConfigDialog(serviceName ?? "");
+    return;
   }
 
   const routeTo = {
     name: Pages.DisplayConfig,
-    params: {name: serviceName},
-  }
+    params: { name: serviceName },
+  };
 
-  window.open(
-      router.resolve(routeTo).href, '_blank')
+  window.open(router.resolve(routeTo).href, "_blank");
 }
-
-
 </script>
 
 <template>
   <!--  List of services -->
   <div class="Home">
     <div class="ListWrapper">
-
-      <TopControls
-          @updateSearchRequest="updateSearchReq"
-      />
+      <TopControls @updateSearchRequest="updateSearchReq" />
 
       <Transition name="load-fader" mode="out-in">
         <div v-if="!isLoading">
           <ServicesListWidget
-              v-if="cfgList && cfgList.configInfo.length > 0"
-              :cfgList="cfgList.configInfo"
-              @click-service="openServiceInfo"
+            v-if="cfgList && cfgList.configInfo.length > 0"
+            :cfgList="cfgList.configInfo"
+            @click-service="openServiceInfo"
           />
           <p v-else class="EmptyNodeMessage">No configs on this node</p>
         </div>
-        <ProgressSpinner v-else/>
+        <ProgressSpinner v-else />
       </Transition>
 
       <Paginator
-          :rows="listRequest.paging.limit"
-          :totalRecords="pagingTotalRecords"
-          @page="event => openPage(event.page)"
+        :rows="listRequest.paging.limit"
+        :totalRecords="pagingTotalRecords"
+        @page="(event) => openPage(event.page)"
       />
     </div>
   </div>
 
   <Dialog
-      v-model:visible="isDialogOpen"
-      modal
-      :closable="false"
-      :draggable="false"
-      :dismissableMask="true"
-      :pt="{
-          root: 'border-none',
-          mask: {
-            style: 'backdrop-filter: blur(2px)'
-          }
-        }"
-      :style="{
-          width: '80vw',
-          height: '95vh',
-        }"
-      position="center"
+    v-model:visible="isDialogOpen"
+    modal
+    :closable="false"
+    :draggable="false"
+    :dismissableMask="true"
+    :pt="{
+      root: 'border-none',
+      mask: {
+        style: 'backdrop-filter: blur(2px)',
+      },
+    }"
+    :style="{
+      width: '80vw',
+      height: '95vh',
+    }"
+    position="center"
   >
-    <DisplayConfigWidget
-        :config-name="openedConfigName"
-    />
+    <DisplayConfigWidget :config-name="openedConfigName" />
   </Dialog>
 </template>
 

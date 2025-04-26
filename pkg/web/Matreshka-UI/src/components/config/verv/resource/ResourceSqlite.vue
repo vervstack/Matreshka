@@ -1,49 +1,44 @@
 <script setup lang="ts">
-import {Sqlite} from "@/models/configs/verv/resources/Resource.ts";
+import { ref } from "vue";
 
 import ConfigField from "@/components/base/config/fields/ConfigInput.vue";
-import SelectButton from "@/components/base/config/SelectButton.vue"
-
-import {ref} from "vue";
+import SelectButton from "@/components/base/config/SelectButton.vue";
+import { Sqlite } from "@/models/configs/verv/resources/Resource.ts";
 
 const model = defineModel<Sqlite>({
   required: true,
-})
+});
 
-const inMemoryKey = 'in mem'
-const customKey = 'custom'
+const inMemoryKey = "in mem";
+const customKey = "custom";
 
-const selectedOption = ref<string>(customKey)
+const selectedOption = ref<string>(customKey);
 
 if (model.value.path.value == "in_memory") {
   selectedOption.value = inMemoryKey;
 }
 
-const options = ref<string[]>([inMemoryKey, customKey])
+const options = ref<string[]>([inMemoryKey, customKey]);
 
 function valueChanged() {
   if (selectedOption.value == inMemoryKey) {
-    model.value.path.value = 'in_memory'
+    model.value.path.value = "in_memory";
   }
 }
-
 </script>
 
 <template>
   <div class="Node">
     <div class="InputPath">
       <div class="SqlitePathInputer">
-        <ConfigField
-            v-model="model.path"
-            field-name="File path"
-        />
+        <ConfigField v-model="model.path" field-name="File path" />
       </div>
 
       <div class="SqliteTypeSelectButton">
         <SelectButton
-            v-model="selectedOption"
-            :options="options"
-            @update:modelValue="valueChanged"
+          v-model="selectedOption"
+          :options="options"
+          @update:modelValue="valueChanged"
         />
       </div>
     </div>

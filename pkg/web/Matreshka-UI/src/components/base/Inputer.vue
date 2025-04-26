@@ -1,44 +1,43 @@
 <script setup lang="ts">
-import {ref, watch} from 'vue'
+import { ref } from "vue";
 
 export interface IInputer {
-  doFocus: () => void
+  doFocus: () => void;
 }
 
 defineProps({
   placeholder: {
     type: String,
-    default: ''
+    default: "",
   },
   floatingLabel: {
     type: String,
-    default: ''
+    default: "",
   },
-})
+});
 
 const model = defineModel<string>({
   required: true,
-})
+});
 
-const inputElementRef = ref<HTMLElement>()
+const inputElementRef = ref<HTMLElement>();
 
 function doFocus() {
-  inputElementRef.value?.focus()
+  inputElementRef.value?.focus();
 }
 
-defineExpose<IInputer>({doFocus})
-
+defineExpose<IInputer>({ doFocus });
 </script>
 
 <template>
   <div class="input-wrap">
     <label v-if="floatingLabel" class="floating-label">{{ floatingLabel }}</label>
     <input
-        ref="inputElementRef"
-        v-model="model"
-        type="text"
-        class="input"
-        :placeholder="placeholder"
+      ref="inputElementRef"
+      v-model="model"
+      type="text"
+      class="input"
+      :placeholder="placeholder"
     />
   </div>
 </template>

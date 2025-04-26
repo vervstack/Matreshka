@@ -1,11 +1,10 @@
 <script setup lang="ts">
-
 import ConfigConstructorWidget from "@/widget/ConfigConstructorWidget.vue";
 </script>
 
 <template>
   <div class="topHeader">New config constructor</div>
-  <ConfigConstructorWidget/>
+  <ConfigConstructorWidget />
 </template>
 
 <style scoped>
@@ -15,7 +14,6 @@ import ConfigConstructorWidget from "@/widget/ConfigConstructorWidget.vue";
 
   font-size: 1.25em;
   text-align: center;
-
 
   background: linear-gradient(90deg, #ff6347, #1e90ff, #32cd32, #ff69b4, #ffd700);
   background-size: 300%;
@@ -37,5 +35,4 @@ import ConfigConstructorWidget from "@/widget/ConfigConstructorWidget.vue";
     background-position: 0 50%;
   }
 }
-
 </style>

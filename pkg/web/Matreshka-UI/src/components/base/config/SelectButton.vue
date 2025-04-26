@@ -1,22 +1,17 @@
 <script setup lang="ts">
-
 import SelectButton from "primevue/selectbutton";
 
-const model = defineModel<string>()
+const model = defineModel<string>();
 const props = defineProps({
   options: {
     type: Array<string>,
-    default: []
-  }
-})
-
+    default: [],
+  },
+});
 </script>
 
 <template>
-  <SelectButton
-      v-model="model"
-      :options="props.options"
-  />
+  <SelectButton v-model="model" :options="props.options" />
 </template>
 
 <style>

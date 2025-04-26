@@ -1,11 +1,9 @@
 <script setup lang="ts">
-
 defineProps({
   label: {
     type: String,
-  }
-})
-
+  },
+});
 </script>
 
 <template>
@@ -30,6 +28,4 @@ defineProps({
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-
 </style>

@@ -1,25 +1,21 @@
 <script setup lang="ts">
-
-import DisplayConfigDisplay from "@/widget/DisplayConfigWidget.vue";
-
 import HomeButton from "@/components/global/HomeButton.vue";
+import DisplayConfigDisplay from "@/widget/DisplayConfigWidget.vue";
 
 defineProps({
   configName: {
     type: String,
     required: true,
   },
-})
-
+});
 </script>
 
 <template>
   <div class="DisplayConfigPage">
     <div class="topSection">
-      <HomeButton/>
+      <HomeButton />
     </div>
-    <DisplayConfigDisplay
-        :configName="configName"/>
+    <DisplayConfigDisplay :configName="configName" />
   </div>
 </template>
 

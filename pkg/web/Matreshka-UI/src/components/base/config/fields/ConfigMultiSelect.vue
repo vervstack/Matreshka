@@ -1,33 +1,25 @@
-<script
-    setup
-    lang="ts"
-    generic="T extends any, B  extends ConfigValue<T[]>">
-
-import MultiSelect from 'primevue/multiselect';
+<script setup lang="ts" generic="T extends any, B extends ConfigValue<T[]>">
 import FloatLabel from "primevue/floatlabel";
-import {ConfigValue} from "@/models/shared/common.ts";
 import InputGroup from "primevue/inputgroup";
+import MultiSelect from "primevue/multiselect";
 
-const model = defineModel<B>({required: true})
+import { ConfigValue } from "@/models/shared/common.ts";
+
+const model = defineModel<B>({ required: true });
 
 const props = defineProps({
   options: {
     type: Array as () => T[],
-    required: true
+    required: true,
   },
-})
-
+});
 </script>
 
 <template>
   <div class="MultiSelect">
     <InputGroup>
       <FloatLabel variant="on">
-        <MultiSelect
-            v-model="model.value"
-            display="chip"
-            :options="props.options"
-        />
+        <MultiSelect v-model="model.value" display="chip" :options="props.options" />
         <label>{{ model.envName }}</label>
       </FloatLabel>
     </InputGroup>
@@ -44,5 +36,4 @@ label {
   display: inline-block;
   overflow: hidden;
 }
-
 </style>

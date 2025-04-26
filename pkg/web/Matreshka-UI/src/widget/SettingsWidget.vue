@@ -1,59 +1,49 @@
 <script setup lang="ts">
-
-import {ref} from "vue";
-
-import {useSettingsStore} from "@/app/store/Settings.ts";
-
-import {Nullable} from "@primevue/core";
-
-import InputText from 'primevue/inputtext';
-import FloatLabel from 'primevue/floatlabel'
+import { Nullable } from "@primevue/core";
 import Dialog from "primevue/dialog";
+import FloatLabel from "primevue/floatlabel";
+import InputText from "primevue/inputtext";
+import { ref } from "vue";
 
-const settingsStore = useSettingsStore()
+import { useSettingsStore } from "@/app/store/Settings.ts";
+
+const settingsStore = useSettingsStore();
 
 // API URL
-const apiURL = ref<string>(settingsStore.getApiURL)
+const apiURL = ref<string>(settingsStore.getApiURL);
 
 function changeApiUrl() {
-  settingsStore.setApiURL(apiURL.value)
+  settingsStore.setApiURL(apiURL.value);
 }
 
-const isDialogOpen = ref<boolean>(false)
-const dialogHeader = ref<string>("Settings")
+const isDialogOpen = ref<boolean>(false);
+const dialogHeader = ref<string>("Settings");
 const dialogStyle = {
-  width: '60vw',
-  height: '60vh',
-}
+  width: "60vw",
+  height: "60vh",
+};
 
 // Open Settings
-document.addEventListener('keydown', function(event) {
-  if ((event.ctrlKey || event.metaKey) && event.key === '.') {
+document.addEventListener("keydown", function (event) {
+  if ((event.ctrlKey || event.metaKey) && event.key === ".") {
     event.preventDefault();
     isDialogOpen.value = true;
   }
 });
-
 </script>
 
 <template>
   <Dialog
-      v-model:visible="isDialogOpen"
-      modal
-      :dismissableMask="true"
-      :header="dialogHeader"
-      :style="dialogStyle"
+    v-model:visible="isDialogOpen"
+    modal
+    :dismissableMask="true"
+    :header="dialogHeader"
+    :style="dialogStyle"
   >
     <div class="Settings">
-      <FloatLabel
-          style="width: 100%"
-          variant="on">
-        <InputText
-            style="width: 100%"
-            v-model="apiURL as Nullable<string>"
-            @input="changeApiUrl"
-        />
-        <label> {{ apiURL ? 'Api Url': 'Requests will be routed to root' }} </label>
+      <FloatLabel style="width: 100%" variant="on">
+        <InputText style="width: 100%" v-model="apiURL as Nullable<string>" @input="changeApiUrl" />
+        <label> {{ apiURL ? "Api Url" : "Requests will be routed to root" }} </label>
       </FloatLabel>
     </div>
   </Dialog>

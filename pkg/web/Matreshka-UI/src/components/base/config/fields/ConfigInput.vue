@@ -1,20 +1,17 @@
 <script setup lang="ts">
+import { Nullable } from "@primevue/core";
+import Button from "primevue/button";
+import FloatLabel from "primevue/floatlabel";
+import InputGroup from "primevue/inputgroup";
+import InputGroupAddon from "primevue/inputgroupaddon";
+import InputText from "primevue/inputtext";
 
-import {ConfigValue} from "@/models/shared/common.ts";
-
-import InputText from 'primevue/inputtext';
-import InputGroup from 'primevue/inputgroup';
-import FloatLabel from 'primevue/floatlabel';
-import InputGroupAddon from 'primevue/inputgroupaddon';
-import Button from 'primevue/button';
-import {Nullable} from "@primevue/core";
-
-import {FieldAddon} from "@/models/shared/FieldAddon.ts";
+import { ConfigValue } from "@/models/shared/common.ts";
+import { FieldAddon } from "@/models/shared/FieldAddon.ts";
 
 const model = defineModel<ConfigValue<string | number>>({
   required: true,
-})
-
+});
 
 defineProps({
   fieldName: {
@@ -25,20 +22,19 @@ defineProps({
     default: false,
   },
   units: {
-    type: String
+    type: String,
   },
   isRestartRequired: {
     type: Boolean,
-    default: false
+    default: false,
   },
   preAddons: {
     type: Array<FieldAddon>,
-    default: []
-  }
-})
+    default: [],
+  },
+});
 
-const originalValue = model.value.getOriginalValue().toString() as Nullable<string>
-
+const originalValue = model.value.getOriginalValue().toString() as Nullable<string>;
 </script>
 
 <template>
@@ -47,32 +43,25 @@ const originalValue = model.value.getOriginalValue().toString() as Nullable<stri
       <InputGroup>
         <FloatLabel variant="on">
           <InputText
-              :disabled="isDisabled"
-              :invalid="model.value != model.value"
-              v-model="model.value as Nullable<string>"
+            :disabled="isDisabled"
+            :invalid="model.value != model.value"
+            v-model="model.value as Nullable<string>"
           />
           <label>{{ fieldName || model.envName }}</label>
         </FloatLabel>
         <InputGroupAddon v-if="units">{{ units }}</InputGroupAddon>
       </InputGroup>
     </div>
-    <div class="InputBox"
-         :style="{
-          flex: model.isChanged() ? 1: 0,
+    <div
+      class="InputBox"
+      :style="{
+        flex: model.isChanged() ? 1 : 0,
       }"
     >
       <InputGroup>
-        <Button
-            @click="() => model.rollback()"
-            severity="warn"
-            icon="pi pi-refresh"
-        />
+        <Button @click="() => model.rollback()" severity="warn" icon="pi pi-refresh" />
         <FloatLabel variant="on">
-          <InputText
-              :disabled="true"
-              aria-disabled="true"
-              v-model="originalValue"
-          />
+          <InputText :disabled="true" aria-disabled="true" v-model="originalValue" />
           <label>Old value</label>
         </FloatLabel>
       </InputGroup>
@@ -104,5 +93,4 @@ label {
 .InputBox:first-child {
   flex: 1;
 }
-
 </style>

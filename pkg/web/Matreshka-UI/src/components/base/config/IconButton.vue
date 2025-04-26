@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 defineProps({
   iconPath: {
     type: String,
@@ -10,27 +9,26 @@ defineProps({
   },
   size: {
     type: String,
-    default: '4em',
+    default: "4em",
   },
   isSelected: {
     type: Boolean,
     default: false,
-  }
-})
-
+  },
+});
 </script>
 
 <template>
   <div
-      class="Button"
-      :style="{
-          paddingTop: isSelected ? '1em': '1.5em',
-          gap: isSelected ? '1em': '0.5em'
-      }"
+    class="Button"
+    :style="{
+      paddingTop: isSelected ? '1em' : '1.5em',
+      gap: isSelected ? '1em' : '0.5em',
+    }"
   >
     <div class="ButtonItem">
       <div>
-        <img :src="iconPath" alt="؟"/>
+        <img :src="iconPath" alt="؟" />
       </div>
     </div>
     <div class="ButtonItem">
@@ -44,7 +42,6 @@ defineProps({
 </template>
 
 <style scoped>
-
 .Button {
   width: 100%;
   height: 100%;
@@ -79,5 +76,4 @@ label {
 .ButtonItem + .ButtonItem {
   border-top: 2px solid black;
 }
-
 </style>

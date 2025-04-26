@@ -1,18 +1,22 @@
 import eslintPluginVue from "eslint-plugin-vue";
 import eslintPluginImport from "eslint-plugin-import";
 import eslintPluginPrettier from "eslint-plugin-prettier";
-import typescriptParser from "@typescript-eslint/parser";
+import tsParser from "@typescript-eslint/parser";
 import typescriptPlugin from "@typescript-eslint/eslint-plugin";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
+import vueParser from "vue-eslint-parser";
 
 export default [
   {
-    files: ["**/*.ts", "**/*.vue"],
+    files: ["src/**/*.vue"],
     languageOptions: {
-      parser: typescriptParser,
+      parser: vueParser,
       parserOptions: {
+        parser: tsParser,
         ecmaVersion: "latest",
         sourceType: "module",
-        project: "./tsconfig.json", // optional if using type-aware rules
+        project: "./tsconfig.json",
+        extraFileExtensions: [".vue"],
       },
     },
     plugins: {
@@ -20,17 +24,41 @@ export default [
       import: eslintPluginImport,
       prettier: eslintPluginPrettier,
       "@typescript-eslint": typescriptPlugin,
+      "simple-import-sort": simpleImportSort,
     },
     rules: {
       quotes: ["error", "double"],
-      "import/order": [
-        "error",
-        {
-          groups: ["builtin", "external", "internal"],
-          alphabetize: { order: "asc", caseInsensitive: true },
-          "newlines-between": "always",
-        }
-      ],
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
+      "prettier/prettier": "error",
+      "vue/no-unused-vars": "warn",
+
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    },
+  },
+  {
+    files: ["src/**/*.ts"],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+        project: "./tsconfig.json", // optional if using type-aware rules
+        extraFileExtensions: [".vue"],
+      },
+    },
+    plugins: {
+      vue: eslintPluginVue,
+      import: eslintPluginImport,
+      prettier: eslintPluginPrettier,
+      "@typescript-eslint": typescriptPlugin,
+      "simple-import-sort": simpleImportSort,
+    },
+    rules: {
+      quotes: ["error", "double"],
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
       "prettier/prettier": "error",
 
       // Optional TypeScript-specific rules

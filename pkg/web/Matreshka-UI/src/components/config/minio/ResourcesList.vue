@@ -1,54 +1,40 @@
-<script
-    setup
-    lang="ts"
->
+<script setup lang="ts">
+import { Nullable } from "@primevue/core";
+import Button from "primevue/button";
+import InputGroup from "primevue/inputgroup";
+import InputGroupAddon from "primevue/inputgroupaddon";
+import InputText from "primevue/inputtext";
 
-import {ConfigValue} from "@/models/shared/common.ts";
-import Button from 'primevue/button';
-import InputGroup from 'primevue/inputgroup';
-import InputGroupAddon from 'primevue/inputgroupaddon';
-import InputText from 'primevue/inputtext';
-import {Nullable} from "@primevue/core";
+import { ConfigValue } from "@/models/shared/common.ts";
 
-const model = defineModel<ConfigValue<string[]>>({required: true})
-
+const model = defineModel<ConfigValue<string[]>>({ required: true });
 
 function addResource() {
-  model.value.value.push('')
+  model.value.value.push("");
 }
 
 function deleteResource(deleteIdx: number) {
-  model.value.value.splice(deleteIdx, 1)
+  model.value.value.splice(deleteIdx, 1);
 }
-
 </script>
 
 <template>
   <div class="Node">
     <div class="TopControls">
       <p>{{ model.envName }}</p>
-      <Button
-          rounded
-          icon="pi pi-plus"
-          v-tooltip.right="'Add resource'"
-          @click="addResource"
-      />
+      <Button rounded icon="pi pi-plus" v-tooltip.right="'Add resource'" @click="addResource" />
     </div>
 
     <div class="Node">
-      <InputGroup
-          v-for="(_, idx) in model.value"
-      >
+      <InputGroup v-for="(_, idx) in model.value">
         <InputGroupAddon>
           <div>arn:aws:s3:::</div>
         </InputGroupAddon>
-        <InputText
-            v-model="model.value[idx] as Nullable<string>"
-        />
+        <InputText v-model="model.value[idx] as Nullable<string>" />
         <Button
-            icon="pi pi-trash"
-            v-tooltip.top="'Delete resource'"
-            @click="()=>deleteResource(idx)"
+          icon="pi pi-trash"
+          v-tooltip.top="'Delete resource'"
+          @click="() => deleteResource(idx)"
         />
       </InputGroup>
     </div>
@@ -64,5 +50,4 @@ function deleteResource(deleteIdx: number) {
   align-items: center;
   gap: 2em;
 }
-
 </style>

@@ -1,35 +1,21 @@
-<script
-    setup
-    lang="ts"
-    generic="T"
->
+<script setup lang="ts" generic="T">
+import { Nullable } from "@primevue/core";
+import Button from "primevue/button";
+import InputText from "primevue/inputtext";
 
-import {ConfigValue} from "@/models/shared/common.ts";
-import InputText from 'primevue/inputtext';
-import Button from 'primevue/button';
-import {Nullable} from "@primevue/core";
+import { ConfigValue } from "@/models/shared/common.ts";
 
-const model = defineModel<ConfigValue<T[]>>({required: true})
-
+const model = defineModel<ConfigValue<T[]>>({ required: true });
 </script>
 
 <template>
   <div class="Node">
-
     <div class="TopControls">
       <p>{{ model.envName }}</p>
-      <Button
-          rounded
-          icon="pi pi-plus"
-      />
+      <Button rounded icon="pi pi-plus" />
     </div>
-    <div
-        class="Node"
-        v-for="(_, idx) in model.value"
-    >
-      <InputText
-          v-model="model.value[idx] as Nullable<string>"
-      />
+    <div class="Node" v-for="(_, idx) in model.value">
+      <InputText v-model="model.value[idx] as Nullable<string>" />
     </div>
   </div>
 </template>
@@ -43,5 +29,4 @@ const model = defineModel<ConfigValue<T[]>>({required: true})
   align-items: center;
   gap: 2em;
 }
-
 </style>

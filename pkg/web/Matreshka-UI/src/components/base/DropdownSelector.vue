@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, computed, watch} from 'vue'
+import { computed, ref, watch } from "vue";
 
 const props = defineProps({
   options: {
@@ -8,11 +8,11 @@ const props = defineProps({
   },
   withClearButton: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits(['optionSelected'])
+const emit = defineEmits(["optionSelected"]);
 
 const model = defineModel<string>({
   required: true,
@@ -20,93 +20,89 @@ const model = defineModel<string>({
 
 const isDropdownOpen = ref(false);
 const highlightedIndex = ref(0);
-const searchQuery = ref('');
+const searchQuery = ref("");
 
 const filteredOptions = computed(() =>
-    props.options.filter(opt =>
-        opt.toLowerCase().includes(searchQuery.value.toLowerCase())
-    )
-)
+  props.options.filter((opt) => opt.toLowerCase().includes(searchQuery.value.toLowerCase()))
+);
 
 function selectOption(option: string) {
-  model.value = option
-  searchQuery.value = option
-  isDropdownOpen.value = false
-  emit('optionSelected', option)
+  model.value = option;
+  searchQuery.value = option;
+  isDropdownOpen.value = false;
+  emit("optionSelected", option);
 }
 
 function handleBlur() {
   setTimeout(() => {
-    isDropdownOpen.value = false
-  }, 150)
+    isDropdownOpen.value = false;
+  }, 150);
 }
 
 function handleKeydown(e: KeyboardEvent) {
-  if (!filteredOptions.value.length) return
+  if (!filteredOptions.value.length) return;
 
-  if (e.key === 'ArrowDown') {
-    e.preventDefault()
-    highlightedIndex.value = (highlightedIndex.value + 1) % filteredOptions.value.length
-  } else if (e.key === 'ArrowUp') {
-    e.preventDefault()
+  if (e.key === "ArrowDown") {
+    e.preventDefault();
+    highlightedIndex.value = (highlightedIndex.value + 1) % filteredOptions.value.length;
+  } else if (e.key === "ArrowUp") {
+    e.preventDefault();
     highlightedIndex.value =
-        (highlightedIndex.value - 1 + filteredOptions.value.length) % filteredOptions.value.length
-  } else if (e.key === 'Enter' && highlightedIndex.value >= 0) {
-    selectOption(filteredOptions.value[highlightedIndex.value])
+      (highlightedIndex.value - 1 + filteredOptions.value.length) % filteredOptions.value.length;
+  } else if (e.key === "Enter" && highlightedIndex.value >= 0) {
+    selectOption(filteredOptions.value[highlightedIndex.value]);
   }
 }
 
 function handleClear() {
-  model.value = ''
-  searchQuery.value = ''
-  isDropdownOpen.value = false
+  model.value = "";
+  searchQuery.value = "";
+  isDropdownOpen.value = false;
 }
 
 watch(searchQuery, (newV) => {
   if (!props.options.includes(newV)) {
-    model.value = ""
+    model.value = "";
   }
-})
-
+});
 </script>
 
 <template>
   <div class="container">
     <div class="select-container">
-<!--      INPUT AND DESELECTOR-->
+      <!--      INPUT AND DESELECTOR-->
       <div class="input-container">
         <input
-            v-model="searchQuery"
-            @focus="isDropdownOpen = true"
-            @blur="handleBlur"
-            @keydown="handleKeydown"
-            type="text"
-            class="input"
-            placeholder="Select a config type"
-            :class="{invalid: !filteredOptions.length}"
+          v-model="searchQuery"
+          @focus="isDropdownOpen = true"
+          @blur="handleBlur"
+          @keydown="handleKeydown"
+          type="text"
+          class="input"
+          placeholder="Select a config type"
+          :class="{ invalid: !filteredOptions.length }"
         />
         <button
-            title="Undo selection"
-            v-show="withClearButton && searchQuery!==''"
-            @click="handleClear"
-            class="clear-button">x
+          title="Undo selection"
+          v-show="withClearButton && searchQuery !== ''"
+          @click="handleClear"
+          class="clear-button"
+        >
+          x
         </button>
       </div>
-<!--      DROP DOWN MENU-->
-      <div
-          v-show="isDropdownOpen && filteredOptions.length"
-          class="dropdown">
+      <!--      DROP DOWN MENU-->
+      <div v-show="isDropdownOpen && filteredOptions.length" class="dropdown">
         <div
-            v-for="(option, index) in filteredOptions"
-            :key="index"
-            @mousedown.prevent="selectOption(option)"
-            class="dropdown-item"
-            :class="{ highlighted: index === highlightedIndex }"
+          v-for="(option, index) in filteredOptions"
+          :key="index"
+          @mousedown.prevent="selectOption(option)"
+          class="dropdown-item"
+          :class="{ highlighted: index === highlightedIndex }"
         >
           {{ option }}
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -197,5 +193,4 @@ watch(searchQuery, (newV) => {
   background: none;
   border: none;
 }
-
 </style>

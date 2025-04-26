@@ -1,41 +1,34 @@
 <script setup lang="ts">
-import {ref} from "vue";
-
 import Button from "primevue/button";
+import { ref } from "vue";
 
-import {ConfigValue} from "@/models/shared/Common.ts";
 import ConfigField from "@/components/base/config/fields/ConfigInput.vue";
 import {
   ExtractSourceCodeSystemFromServiceName,
-  PiIconFromSourceCodeSystem
+  PiIconFromSourceCodeSystem,
 } from "@/models/configs/verv/info/VervConfig.ts";
+import { ConfigValue } from "@/models/shared/Common.ts";
 
-const model = defineModel<ConfigValue<string>>({required: true})
+const model = defineModel<ConfigValue<string>>({ required: true });
 
 const linkIcon = ref<String | undefined>(
-    PiIconFromSourceCodeSystem(
-        ExtractSourceCodeSystemFromServiceName(model.value.value)))
-
+  PiIconFromSourceCodeSystem(ExtractSourceCodeSystemFromServiceName(model.value.value))
+);
 </script>
 
 <template>
   <div class="ServiceName">
     <div class="ServiceLink" v-show="linkIcon">
       <Button
-          :icon="'pi '+linkIcon "
-          severity="secondary"
-          :link="true"
-          as="a"
-          :href="'https://'+model.value"
-          target="_blank"
+        :icon="'pi ' + linkIcon"
+        severity="secondary"
+        :link="true"
+        as="a"
+        :href="'https://' + model.value"
+        target="_blank"
       />
     </div>
-    <ConfigField
-        v-model="model"
-        fieldName="Service name"
-        :pre-addons="[]"
-        is-disabled
-    />
+    <ConfigField v-model="model" fieldName="Service name" :pre-addons="[]" is-disabled />
   </div>
 </template>
 

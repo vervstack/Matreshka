@@ -1,10 +1,9 @@
 <script setup lang="ts">
-
-const value = defineModel<String>()
+const value = defineModel<String>();
 
 function doCopy() {
   if (value.value) {
-    navigator.clipboard.writeText(value.value.toString())
+    navigator.clipboard.writeText(value.value.toString());
   }
 }
 </script>
@@ -14,7 +13,6 @@ function doCopy() {
 </template>
 
 <style scoped>
-
 input {
   border-radius: 0.5vw;
   padding: 0.25em 0.5em 0.25em 0.5em;
@@ -24,5 +22,4 @@ input {
   width: fit-content;
   flex: 4;
 }
-
 </style>

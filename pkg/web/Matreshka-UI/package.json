@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint . --fix"
+    "lint": "eslint src --ext .ts,.vue --fix"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.10.7",
@@ -41,6 +41,7 @@
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.6",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-vue": "^10.0.0",
     "prettier": "^3.5.3",
     "vite": "^5.2.0"

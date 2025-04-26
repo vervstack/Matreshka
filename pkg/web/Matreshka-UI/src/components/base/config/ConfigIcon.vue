@@ -1,23 +1,19 @@
 <script setup lang="ts">
-import {PropType} from "vue";
-import getConfigIcon from "@/models/configs/Icons.ts";
+import { ConfigTypePrefix } from "@vervstack/matreshka";
+import { PropType } from "vue";
 
-import {ConfigTypePrefix} from "@vervstack/matreshka";
+import getConfigIcon from "@/models/configs/Icons.ts";
 
 defineProps({
   configType: {
     type: String as PropType<ConfigTypePrefix>,
-    required: true
+    required: true,
   },
-})
-
+});
 </script>
 
 <template>
-  <img
-      class="config-icon"
-      :src="getConfigIcon(configType)"
-      :alt="configType">
+  <img class="config-icon" :src="getConfigIcon(configType)" :alt="configType" />
 </template>
 
 <style scoped>

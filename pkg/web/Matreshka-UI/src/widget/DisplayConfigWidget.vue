@@ -1,63 +1,59 @@
 <script setup lang="ts">
-import {ref} from "vue";
-
-import {GetConfigNodes, ListServices, PatchConfig} from "@/processes/api/ApiService.ts";
-import handleGrpcError from "@/processes/api/ErrorCodes.ts";
-import Config from "@/models/configs/Config.ts";
-
-import Button from 'primevue/button';
+import { ListConfigsRequest } from "@vervstack/matreshka";
+import Button from "primevue/button";
 import InputGroup from "primevue/inputgroup";
-import SelectButton from 'primevue/selectbutton';
-import {useToast} from "primevue/usetoast";
+import SelectButton from "primevue/selectbutton";
+import { useToast } from "primevue/usetoast";
+import { ref } from "vue";
 
-import {ListConfigsRequest} from "@vervstack/matreshka";
+import Config from "@/models/configs/Config.ts";
+import { GetConfigNodes, ListServices, PatchConfig } from "@/processes/api/ApiService.ts";
+import handleGrpcError from "@/processes/api/ErrorCodes.ts";
 
 const toastApi = useToast();
 
 const props = defineProps({
   configName: {
     type: String,
-    required: true
+    required: true,
   },
-})
+});
 
 const configData = ref<Config>(new Config(props.configName));
 
 async function fetchConfig() {
   GetConfigNodes(props.configName, configData.value.selectedVersion)
-      .then(d => {
-        configData.value = d
-      })
-      .catch(handleGrpcError(toastApi))
+    .then((d) => {
+      configData.value = d;
+    })
+    .catch(handleGrpcError(toastApi));
 }
 
 async function fetchVersions() {
   const listReq = {
     paging: {
-      limit: 1
+      limit: 1,
     },
-    searchPattern: props.configName
+    searchPattern: props.configName,
   } as ListConfigsRequest;
 
   ListServices(listReq)
-      .then(res => {
-        configData.value.versions = res.configInfo[0].versions
-        configData.value.selectedVersion = configData.value.versions[0]
-      })
-      .catch(handleGrpcError(toastApi))
+    .then((res) => {
+      configData.value.versions = res.configInfo[0].versions;
+      configData.value.selectedVersion = configData.value.versions[0];
+    })
+    .catch(handleGrpcError(toastApi));
 }
 
 async function save() {
-  if (!configData.value) return
+  if (!configData.value) return;
 
   PatchConfig(configData.value)
-      .then(d => configData.value = d)
-      .catch(handleGrpcError(toastApi))
+    .then((d) => (configData.value = d))
+    .catch(handleGrpcError(toastApi));
 }
 
-fetchVersions()
-    .then(fetchConfig)
-
+fetchVersions().then(fetchConfig);
 </script>
 
 <template>
@@ -68,36 +64,29 @@ fetchVersions()
     <div class="Tittle">type: {{ configData.type.toString() }}</div>
 
     <SelectButton
-        v-if="configData.versions.length > 1"
-        v-model="configData.selectedVersion"
-        :options="configData.versions"
-        @update:modelValue="fetchConfig"
+      v-if="configData.versions.length > 1"
+      v-model="configData.selectedVersion"
+      :options="configData.versions"
+      @update:modelValue="fetchConfig"
     />
     <!--TODO Add "New Version" button?-->
 
-    <component
-        :is="configData.getComponent()"
-        v-model="configData.content"
-    />
+    <component :is="configData.getComponent()" v-model="configData.content" />
 
     <Transition name="BottomControls">
       <InputGroup
-          v-show="configData?.isChanged()"
-          :style="{
-              display: 'flex',
-              justifyContent: 'center'
-            }"
+        v-show="configData?.isChanged()"
+        :style="{
+          display: 'flex',
+          justifyContent: 'center',
+        }"
       >
+        <Button @click="save" label="Save" icon="pi pi-check" iconPos="right" severity="danger" />
         <Button
-            @click="save"
-            label="Save"
-            icon="pi pi-check" iconPos="right"
-            severity="danger"
-        />
-        <Button
-            @click="configData?.rollback()"
-            label="Rollback"
-            icon="pi pi-refresh" iconPos="right"
+          @click="configData?.rollback()"
+          label="Rollback"
+          icon="pi pi-refresh"
+          iconPos="right"
         />
       </InputGroup>
     </Transition>
@@ -130,5 +119,4 @@ fetchVersions()
   transform: translateY(-100%);
   opacity: 0;
 }
-
 </style>

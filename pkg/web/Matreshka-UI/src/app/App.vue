@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import Toast from "primevue/toast";
 
-import SettingsWidget from "@/widget/SettingsWidget.vue";
 import SideMenu from "@/components/global/side_menu/SideMenu.vue";
-
+import SettingsWidget from "@/widget/SettingsWidget.vue";
 </script>
 
-<template >
+<template>
   <div class="root">
-    <Toast/>
-    <RouterView/>
-    <SettingsWidget/>
-    <SideMenu/>
+    <Toast />
+    <RouterView />
+    <SettingsWidget />
+    <SideMenu />
   </div>
 </template>
 
@@ -21,5 +20,4 @@ import SideMenu from "@/components/global/side_menu/SideMenu.vue";
   width: 100%;
   height: 100%;
 }
-
 </style>

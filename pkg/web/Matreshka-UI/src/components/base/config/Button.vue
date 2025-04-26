@@ -4,34 +4,31 @@ import Button from "primevue/button";
 defineProps({
   tittle: {
     type: String,
-    required: true
+    required: true,
   },
   disabled: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits(['click'])
+const emit = defineEmits(["click"]);
 
 function buttonClicked() {
-  emit('click')
+  emit("click");
 }
-
 </script>
 
 <template>
   <Button
-      severity="contrast"
-      raised
-      outlined
-      :disabled="disabled"
-      icon="pi pi-hammer"
-      label="Create"
-      :onclick="buttonClicked"
+    severity="contrast"
+    raised
+    outlined
+    :disabled="disabled"
+    icon="pi pi-hammer"
+    label="Create"
+    :onclick="buttonClicked"
   />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

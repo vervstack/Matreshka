@@ -1,13 +1,13 @@
 import {
-  MatreshkaBeAPI,
-  ListConfigsRequest,
-  GetConfigNodeRequest,
-  Node,
-  CreateConfigRequest,
-  PatchConfigRequest,
   Config,
-  ListConfigsResponse,
   ConfigTypePrefix,
+  CreateConfigRequest,
+  GetConfigNodeRequest,
+  ListConfigsRequest,
+  ListConfigsResponse,
+  MatreshkaBeAPI,
+  Node,
+  PatchConfigRequest,
 } from "@vervstack/matreshka";
 
 import ConfigWithContent from "@/models/configs/Config.ts";

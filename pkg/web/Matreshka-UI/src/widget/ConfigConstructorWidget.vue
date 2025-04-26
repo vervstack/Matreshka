@@ -1,22 +1,20 @@
 <script setup lang="ts">
-import {ref, watch} from 'vue'
+import { ConfigTypePrefix } from "@vervstack/matreshka";
+import { useToast } from "primevue/usetoast";
+import { ref, watch } from "vue";
 
-import DropdownSelector from '@/components/base/DropdownSelector.vue'
-import Inputer, {IInputer} from '@/components/base/Inputer.vue'
+import { RouteToConfigDisplay } from "@/app/routes/Routes.ts";
 import Button from "@/components/base/config/Button.vue";
-
-import {RouteToConfigDisplay} from "@/app/routes/Routes.ts";
-import {CreateConfig} from "@/processes/api/ApiService.ts";
+import DropdownSelector from "@/components/base/DropdownSelector.vue";
+import Inputer, { IInputer } from "@/components/base/Inputer.vue";
+import { CreateConfig } from "@/processes/api/ApiService.ts";
 import handleGrpcError from "@/processes/api/ErrorCodes.ts";
-import {isConfigNameValid} from "@/processes/config/Validators.ts";
+import { isConfigNameValid } from "@/processes/config/Validators.ts";
 
-import {useToast} from "primevue/usetoast";
-import {ConfigTypePrefix} from "@vervstack/matreshka"
+const toastApi = useToast();
 
-const toastApi = useToast()
-
-const configType = ref<string>('');
-const configName = ref('');
+const configType = ref<string>("");
+const configName = ref("");
 const isInputerShown = ref<boolean>(false);
 
 const options = [
@@ -24,67 +22,67 @@ const options = [
   ConfigTypePrefix.pg,
   ConfigTypePrefix.nginx,
   ConfigTypePrefix.minio,
-]
+];
 
 watch(configName, (val: string) => {
-  configName.value = val.replace(/[- ]/g, "_")
-})
+  configName.value = val.replace(/[- ]/g, "_");
+});
 
 function createConfig() {
   const name = configType.value + "_" + configName.value;
 
   CreateConfig(name)
-      .then(() => {
-        toastApi.add({
-          closable: true,
-          life: 2_000,
-          severity: 'success',
-          summary: `Service created. Check it out`,
-        })
-        RouteToConfigDisplay(name)
-      })
-      .catch(handleGrpcError(toastApi))
+    .then(() => {
+      toastApi.add({
+        closable: true,
+        life: 2_000,
+        severity: "success",
+        summary: "Service created. Check it out",
+      });
+      RouteToConfigDisplay(name);
+    })
+    .catch(handleGrpcError(toastApi));
 }
 
 // UI
 const inputerRef = ref<IInputer>();
 
 function focusOnInput() {
-
-  isInputerShown.value = true
+  isInputerShown.value = true;
   setTimeout(() => {
-    inputerRef.value?.doFocus()
-  }, 50)
-
+    inputerRef.value?.doFocus();
+  }, 50);
 }
 
 const emPerSymbol = 0.5;
-
 </script>
 
 <template>
   <div class="widget-container">
     <div class="basic-inputers">
       <DropdownSelector
-          :style="{width: (configType.length !== 0 ? 3 + emPerSymbol*configType.length*1.5+'em':'100%')}"
-          v-model="configType"
-          :options="options"
-          @optionSelected="focusOnInput"
-          with-clear-button
+        :style="{
+          width:
+            configType.length !== 0 ? 3 + emPerSymbol * configType.length * 1.5 + 'em' : '100%',
+        }"
+        v-model="configType"
+        :options="options"
+        @optionSelected="focusOnInput"
+        with-clear-button
       />
       <Inputer
-          v-if="configType.length !== 0"
-          ref="inputerRef"
-          v-model="configName"
-          floatingLabel="Config name"
+        v-if="configType.length !== 0"
+        ref="inputerRef"
+        v-model="configName"
+        floatingLabel="Config name"
       />
     </div>
     <div class="button-row">
       <Button
-          :disabled="!isConfigNameValid(configType, configName)"
-          class="create-button"
-          tittle="Create"
-          @click="createConfig"
+        :disabled="!isConfigNameValid(configType, configName)"
+        class="create-button"
+        tittle="Create"
+        @click="createConfig"
       />
     </div>
   </div>

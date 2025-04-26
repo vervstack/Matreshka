@@ -1,21 +1,17 @@
 <script setup lang="ts">
+import Button from "primevue/button";
+import { ref } from "vue";
 
-import {ref} from "vue";
-
-import {ConfigValue} from "@/models/shared/common.ts";
-
+import ConfigField from "@/components/base/config/fields/ConfigInput.vue";
+import IamStatement from "@/components/config/minio/IamStatement.vue";
 import {
   exportMinioStatement,
   IamConfig,
   IamMinioExportConfig,
   S3Action,
-  Statement
+  Statement,
 } from "@/models/resource_configs/s3/minio/minio.ts";
-
-import ConfigField from "@/components/base/config/fields/ConfigInput.vue";
-import IamStatement from "@/components/config/minio/IamStatement.vue";
-
-import Button from "primevue/button";
+import { ConfigValue } from "@/models/shared/common.ts";
 
 // const model = defineModel<IamConfig>({
 //   required: true
@@ -24,33 +20,33 @@ import Button from "primevue/button";
 const model = ref<IamConfig>({
   version: {
     envName: "Version",
-    value: "2012-10-17"
+    value: "2012-10-17",
   },
-  statements: []
-} as IamConfig)
+  statements: [],
+} as IamConfig);
 
 function addStatement() {
   model.value.statements.push({
     allow: {
-      envName: 'Effect',
+      envName: "Effect",
       value: true,
     } as ConfigValue<boolean>,
     action: {
-      envName: 'Action(s)',
-      value: []
+      envName: "Action(s)",
+      value: [],
     } as ConfigValue<S3Action[]>,
     resources: {
-      envName: 'Resources',
-      value: [''],
+      envName: "Resources",
+      value: [""],
     } as ConfigValue<string[]>,
-  } as Statement)
+  } as Statement);
 }
 
 function exportToJson() {
-  const exportObject: IamMinioExportConfig = {} as IamMinioExportConfig
-  exportObject.Version = model.value.version.value
+  const exportObject: IamMinioExportConfig = {} as IamMinioExportConfig;
+  exportObject.Version = model.value.version.value;
 
-  exportObject.Statement = model.value.statements.map(exportMinioStatement)
+  exportObject.Statement = model.value.statements.map(exportMinioStatement);
 
   const blob = new Blob([JSON.stringify(exportObject, null, 2)], {
     type: "application/json",
@@ -70,39 +66,28 @@ function exportToJson() {
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 }
-
 </script>
 
 <template>
   <div class="Node IAMConfig">
     <div class="TopControls Controls">
       <Button
-          severity="secondary"
-          icon="pi pi-file-export"
-          v-tooltip.bottom="'Export to JSON file'"
-          @click="exportToJson"
+        severity="secondary"
+        icon="pi pi-file-export"
+        v-tooltip.bottom="'Export to JSON file'"
+        @click="exportToJson"
       />
     </div>
     <div class="NodeField">
-      <ConfigField
-          v-model="model.version"
-      />
+      <ConfigField v-model="model.version" />
     </div>
     <div class="Node">
       <div class="Controls">
         <p>Statements</p>
-        <Button
-            rounded
-            icon="pi pi-plus"
-            @click="addStatement"
-            v-tooltip.right="'Add statement'"
-        />
+        <Button rounded icon="pi pi-plus" @click="addStatement" v-tooltip.right="'Add statement'" />
       </div>
       <div class="Node">
-        <IamStatement
-            v-for="(_, idx) in model.statements"
-            v-model="model.statements[idx]"/>
-
+        <IamStatement v-for="(_, idx) in model.statements" v-model="model.statements[idx]" />
       </div>
     </div>
   </div>
@@ -125,5 +110,4 @@ function exportToJson() {
 .IAMConfig {
   padding: 5vh 0 5vh 0;
 }
-
 </style>

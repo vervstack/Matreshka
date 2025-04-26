@@ -1,78 +1,75 @@
 <script setup lang="ts">
+import { ref } from "vue";
 
-import {DataSourceClass} from "@/models/configs/verv/resources/Resource.ts";
 import IconButton from "@/components/base/config/IconButton.vue";
+import { DataSourceClass } from "@/models/configs/verv/resources/Resource.ts";
+import { ConfigValue } from "@/models/shared/common.ts";
 
-import {ref} from "vue";
-import {ConfigValue} from "@/models/shared/common.ts";
+const resources = defineModel<DataSourceClass[]>({ default: [] });
 
-const resources = defineModel<DataSourceClass[]>({default: []})
-
-const selectedIdx = ref<number>(0)
+const selectedIdx = ref<number>(0);
 
 function setSelected(i: number) {
-  selectedIdx.value = i
+  selectedIdx.value = i;
 }
 
 function countConfigFields<T>(config: T): number {
   let count = 0;
   for (const key in config) {
     if (config[key] instanceof ConfigValue) {
-      count++
+      count++;
     }
   }
 
   return count;
 }
-
 </script>
 
 <template>
   <div
-      v-if="resources.length > 0"
-      class="ResourcesInfo"
-      :style="{
-          /*
+    v-if="resources.length > 0"
+    class="ResourcesInfo"
+    :style="{
+      /*
             9 - Carousel
             2.85 - per field
             0.75 - per gap between fields
            */
-          height: (9 + 2.85*(countConfigFields(resources[selectedIdx])) + 0.75*(countConfigFields(resources[selectedIdx])-1))+'em'
-      }">
+      height:
+        9 +
+        2.85 * countConfigFields(resources[selectedIdx]) +
+        0.75 * (countConfigFields(resources[selectedIdx]) - 1) +
+        'em',
+    }"
+  >
     <div class="BoomBoxWrapper">
       <div class="BoomBox">
         <div
-            class="BoomBoxItem"
-            v-for="(res, i) in resources"
-            :key="res.resourceName"
-            :style="{
-              'background':  selectedIdx === i ? 'linear-gradient(#70f1f1, #05878c)': 'linear-gradient(#fff9f9, #AAA8A8)',
-            } "
+          class="BoomBoxItem"
+          v-for="(res, i) in resources"
+          :key="res.resourceName"
+          :style="{
+            background:
+              selectedIdx === i
+                ? 'linear-gradient(#70f1f1, #05878c)'
+                : 'linear-gradient(#fff9f9, #AAA8A8)',
+          }"
         >
           <IconButton
-              :onclick="() => setSelected(i)"
-              :isSelected="selectedIdx === i"
-              :iconPath="res.getIcon()"
-              :label="res.normalizeName()"
+            :onclick="() => setSelected(i)"
+            :isSelected="selectedIdx === i"
+            :iconPath="res.getIcon()"
+            :label="res.normalizeName()"
           />
-          <div
-              v-if="res.isChanged()"
-              class="ResourceChanged">*
-          </div>
+          <div v-if="res.isChanged()" class="ResourceChanged">*</div>
         </div>
       </div>
-
     </div>
     <Transition name="fade" mode="out-in">
-      <div
-          :key="resources[selectedIdx].resourceName"
-          class="ResourceInfoContent">
-        <component
-            :is="resources[selectedIdx].getComponent()"
-            v-model="resources[selectedIdx]"/>
+      <div :key="resources[selectedIdx].resourceName" class="ResourceInfoContent">
+        <component :is="resources[selectedIdx].getComponent()" v-model="resources[selectedIdx]" />
       </div>
     </Transition>
-
   </div>
   <div v-else>No resources defined</div>
 </template>
@@ -132,6 +129,4 @@ function countConfigFields<T>(config: T): number {
   top: 0.5em;
   left: 0.5em;
 }
-
-
 </style>
