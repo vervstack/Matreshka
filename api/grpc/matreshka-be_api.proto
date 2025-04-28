@@ -123,6 +123,7 @@ message GetConfigNode {
 
   message Response {
     Node root = 1;
+    repeated string versions = 2;
   }
 }
 

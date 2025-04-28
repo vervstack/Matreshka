@@ -16,13 +16,14 @@ func (a *Impl) GetConfigNodes(ctx context.Context, req *api.GetConfigNode_Reques
 	name := req.GetConfigName()
 	ver := toolbox.Coalesce(req.Version, domain.MasterVersion)
 
-	cfgNodes, err := a.configService.GetNodes(ctx, name, ver)
+	cfg, err := a.configService.GetConfigWithNodes(ctx, name, ver)
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}
 
 	resp := &api.GetConfigNode_Response{
-		Root: toApiNode(cfgNodes),
+		Root:     toApiNode(cfg.Nodes),
+		Versions: cfg.Versions,
 	}
 
 	return resp, nil

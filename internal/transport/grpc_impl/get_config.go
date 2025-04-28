@@ -18,14 +18,14 @@ func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.
 	name := req.GetConfigName()
 	ver := toolbox.Coalesce(toolbox.FromPtr(req.Version), domain.MasterVersion)
 
-	cfgNodes, err := a.configService.GetNodes(ctx, name, ver)
+	cfg, err := a.configService.GetConfigWithNodes(ctx, name, ver)
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}
 
 	targetConfig := matreshka.NewEmptyConfig()
 
-	nodeStorage := evon.NodesToStorage([]*evon.Node{cfgNodes})
+	nodeStorage := evon.NodesToStorage([]*evon.Node{cfg.Nodes})
 
 	err = evon.UnmarshalWithNodes(nodeStorage, &targetConfig)
 	if err != nil {

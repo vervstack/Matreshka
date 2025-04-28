@@ -318,6 +318,12 @@
       "properties": {
         "root": {
           "$ref": "#/definitions/matreshka_be_apiNode"
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },

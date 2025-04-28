@@ -5,6 +5,7 @@ go 1.23.4
 require (
 	github.com/Red-Sock/go-swagger-ui v0.0.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.3
+	github.com/lib/pq v1.10.9
 	github.com/pressly/goose/v3 v3.24.1
 	github.com/rs/cors v1.11.1
 	github.com/sirupsen/logrus v1.9.3

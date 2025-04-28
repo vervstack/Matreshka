@@ -3,24 +3,31 @@ package config
 import (
 	"context"
 
-	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
 
 	"go.vervstack.ru/matreshka/internal/domain"
 	"go.vervstack.ru/matreshka/internal/service/user_errors"
 )
 
-func (c *CfgService) GetNodes(ctx context.Context, serviceName string, ver string) (*evon.Node, error) {
-	cfgNodes, err := c.configStorage.GetConfigNodes(ctx, serviceName, ver)
+func (c *CfgService) GetConfigWithNodes(ctx context.Context, serviceName string, ver string) (domain.ConfigWithNodes, error) {
+	nodes, err := c.configStorage.GetConfigNodes(ctx, serviceName, ver)
 	if err != nil {
-		return nil, errors.Wrap(err)
+		return domain.ConfigWithNodes{}, errors.Wrap(err)
 	}
 
-	if cfgNodes == nil {
-		return nil, errors.Wrap(user_errors.ErrNotFound, "service with name "+serviceName+" not found")
+	if nodes == nil {
+		return domain.ConfigWithNodes{}, errors.Wrap(user_errors.ErrNotFound, "service with name "+serviceName+" not found")
 	}
 
-	return cfgNodes, nil
+	versions, err := c.configStorage.GetVersions(ctx, serviceName)
+	if err != nil {
+		return domain.ConfigWithNodes{}, errors.Wrap(err, "error getting config by name")
+	}
+
+	return domain.ConfigWithNodes{
+		Nodes:    nodes,
+		Versions: versions,
+	}, nil
 }
 
 func (c *CfgService) ListConfigs(

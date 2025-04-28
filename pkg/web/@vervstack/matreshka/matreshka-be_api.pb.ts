@@ -98,6 +98,7 @@ export type GetConfigNodeRequest = {
 
 export type GetConfigNodeResponse = {
   root?: Node;
+  versions?: string[];
 };
 
 export type GetConfigNode = Record<string, never>;

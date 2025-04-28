@@ -26,11 +26,16 @@ const (
 type ConfigTypePrefix int32
 
 const (
+	// Basically a key-value configuration
 	ConfigTypePrefix_unknown ConfigTypePrefix = 0
-	ConfigTypePrefix_verv    ConfigTypePrefix = 1
-	ConfigTypePrefix_minio   ConfigTypePrefix = 2
-	ConfigTypePrefix_pg      ConfigTypePrefix = 3
-	ConfigTypePrefix_nginx   ConfigTypePrefix = 4
+	// Matreshka's configuration for application
+	ConfigTypePrefix_verv ConfigTypePrefix = 1
+	// Configuration for object storage (Minio)
+	ConfigTypePrefix_minio ConfigTypePrefix = 2
+	// Configuration for Postgresql Database
+	ConfigTypePrefix_pg ConfigTypePrefix = 3
+	// Configuration for Nginx/Angie web server
+	ConfigTypePrefix_nginx ConfigTypePrefix = 4
 )
 
 // Enum value maps for ConfigTypePrefix.
@@ -1086,6 +1091,7 @@ func (x *GetConfigNode_Request) GetVersion() string {
 type GetConfigNode_Response struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Root          *Node                  `protobuf:"bytes,1,opt,name=root,proto3" json:"root,omitempty"`
+	Versions      []string               `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1123,6 +1129,13 @@ func (*GetConfigNode_Response) Descriptor() ([]byte, []int) {
 func (x *GetConfigNode_Response) GetRoot() *Node {
 	if x != nil {
 		return x.Root
+	}
+	return nil
+}
+
+func (x *GetConfigNode_Response) GetVersions() []string {
+	if x != nil {
+		return x.Versions
 	}
 	return nil
 }
@@ -1540,14 +1553,15 @@ const file_matreshka_be_api_proto_rawDesc = "" +
 	"\x05value\x18\x02 \x01(\tH\x00R\x05value\x88\x01\x01\x127\n" +
 	"\vinner_nodes\x18\x03 \x03(\v2\x16.matreshka_be_api.NodeR\n" +
 	"innerNodesB\b\n" +
-	"\x06_value\"\x8d\x01\n" +
+	"\x06_value\"\xa9\x01\n" +
 	"\rGetConfigNode\x1aD\n" +
 	"\aRequest\x12\x1f\n" +
 	"\vconfig_name\x18\x01 \x01(\tR\n" +
 	"configName\x12\x18\n" +
-	"\aversion\x18\x02 \x01(\tR\aversion\x1a6\n" +
+	"\aversion\x18\x02 \x01(\tR\aversion\x1aR\n" +
 	"\bResponse\x12*\n" +
-	"\x04root\x18\x01 \x01(\v2\x16.matreshka_be_api.NodeR\x04root\"V\n" +
+	"\x04root\x18\x01 \x01(\v2\x16.matreshka_be_api.NodeR\x04root\x12\x1a\n" +
+	"\bversions\x18\x02 \x03(\tR\bversions\"V\n" +
 	"\fCreateConfig\x1a*\n" +
 	"\aRequest\x12\x1f\n" +
 	"\vconfig_name\x18\x01 \x01(\tR\n" +

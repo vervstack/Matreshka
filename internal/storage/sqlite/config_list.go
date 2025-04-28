@@ -26,14 +26,14 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 	q := `
 		WITH cfg AS (
 			SELECT
-				cfg.id as id,
-				cfg.updated_at as updated_at,
-				cfg.name as name,
-				cv.version as version
-			FROM configs cfg
-					 JOIN configs_values cv on cfg.id = cv.config_id
+				configs.id 			AS id,
+				configs.updated_at 	AS updated_at,
+				configs.name 		AS name,
+				cv.version 			AS version
+			FROM configs
+			JOIN configs_values cv on configs.id = cv.config_id
 			WHERE name LIKE '%'||$1||'%'
-			GROUP BY cfg.name, cv.version
+			GROUP BY configs.name, cv.version
 		)
 		SELECT
 			cfg.name 				as service_name,
@@ -96,6 +96,44 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 	}
 
 	return out, nil
+}
+
+func (p *Provider) GetVersions(ctx context.Context, name string) ([]string, error) {
+	q := `
+		WITH cfg AS (
+				SELECT 
+				    configs.id         AS id,
+                    configs.updated_at AS updated_at,
+                    configs.name       AS name,
+                    cv.version     AS version
+             FROM configs
+			 JOIN configs_values cv ON configs.id = cv.config_id
+             WHERE name = $1
+             GROUP BY configs.name, cv.version)
+SELECT json_group_array(cfg.version)
+FROM cfg
+LEFT JOIN configs_values AS service_version
+ON service_version.config_id = cfg.id
+AND service_version.key = 'APP-INFO_VERSION'
+AND service_version.version = 'master'
+GROUP BY cfg.id
+HAVING COUNT(cfg.id) > 0 -- Ensures only non-empty results are returned
+		`
+
+	var versionsStr []byte
+	err := p.conn.QueryRowContext(ctx, q, name).
+		Scan(&versionsStr)
+	if err != nil {
+		return nil, errors.Wrap(err, "error getting versions")
+	}
+
+	var versions []string
+	err = json.Unmarshal(versionsStr, &versions)
+	if err != nil {
+		return nil, errors.Wrap(err, "error unmarshalling versions from json ")
+	}
+
+	return versions, nil
 }
 
 func extractSort(sort domain.Sort) (field string) {
