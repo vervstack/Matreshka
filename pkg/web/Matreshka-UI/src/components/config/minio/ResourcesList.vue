@@ -5,7 +5,7 @@ import InputGroup from "primevue/inputgroup";
 import InputGroupAddon from "primevue/inputgroupaddon";
 import InputText from "primevue/inputtext";
 
-import { ConfigValue } from "@/models/shared/common.ts";
+import { ConfigValue } from "@/models/shared/Values.ts";
 
 const model = defineModel<ConfigValue<string[]>>({ required: true });
 

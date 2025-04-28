@@ -1,7 +1,7 @@
 import { Node } from "@vervstack/matreshka";
 
 import Server, { FsHandler, GrpcHandler } from "@/models/configs/verv/servers/Servers.ts";
-import { ConfigValue, extractStringValue } from "@/models/shared/Common.ts";
+import { ConfigValue, extractStringValue } from "@/models/shared/Values.ts";
 
 export function mapServer(root: Node): Server[] {
   if (!root.innerNodes) {

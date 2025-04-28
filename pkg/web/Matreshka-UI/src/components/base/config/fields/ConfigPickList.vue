@@ -2,7 +2,7 @@
 import PickList from "primevue/picklist";
 import { ref } from "vue";
 
-import { ConfigValue } from "@/models/shared/common.ts";
+import { ConfigValue } from "@/models/shared/Values.ts";
 
 const model = defineModel<B>({ required: true });
 

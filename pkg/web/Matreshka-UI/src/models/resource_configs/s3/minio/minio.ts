@@ -1,4 +1,4 @@
-import { ConfigValue } from "@/models/shared/common.ts";
+import { ConfigValue } from "@/models/shared/Values.ts";
 
 export type IamConfig = {
   version: ConfigValue<string>;

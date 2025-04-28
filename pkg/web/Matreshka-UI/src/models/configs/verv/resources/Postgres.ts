@@ -3,7 +3,7 @@ import { Node } from "@vervstack/matreshka";
 import { Change } from "@/models/configs/Change.ts";
 import DataSource from "@/models/configs/verv/resources/Resource.ts";
 import { ResourceType } from "@/models/configs/verv/resources/ResourceTypes.ts";
-import { ConfigValue, extractNumberValue, extractStringValue } from "@/models/shared/Common.ts";
+import { ConfigValue, extractNumberValue, extractStringValue } from "@/models/shared/Values.ts";
 
 export class Postgres extends DataSource {
   host: ConfigValue<string> = new ConfigValue("", "");

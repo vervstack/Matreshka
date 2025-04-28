@@ -4,7 +4,7 @@ import Select from "primevue/select";
 import { ref } from "vue";
 
 import { S3Action } from "@/models/resource_configs/s3/minio/minio.ts";
-import { ConfigValue } from "@/models/shared/common.ts";
+import { ConfigValue } from "@/models/shared/Values.ts";
 
 const model = defineModel<ConfigValue<S3Action[]>>({ required: true });
 const lastSelected = ref<string>();

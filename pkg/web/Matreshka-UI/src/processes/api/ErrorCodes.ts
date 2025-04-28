@@ -30,7 +30,6 @@ export default function handleGrpcError(
   toastApi: ToastServiceMethods
 ): (err: GrpcError) => undefined {
   return (err: GrpcError) => {
-    console.debug("got error", err);
     const msg: ToastMessageOptions = {
       closable: true,
       life: 5_000,

@@ -11,7 +11,7 @@ import {
   S3Action,
   Statement,
 } from "@/models/resource_configs/s3/minio/minio.ts";
-import { ConfigValue } from "@/models/shared/common.ts";
+import { ConfigValue } from "@/models/shared/Values.ts";
 
 // const model = defineModel<IamConfig>({
 //   required: true

@@ -5,8 +5,8 @@ import VervConfigView from "@/components/config/verv/VervConfigView.vue";
 import { Change } from "@/models/configs/Change.ts";
 import ConfigContent from "@/models/configs/ConfigContent.ts";
 import AppInfoClass from "@/models/configs/verv/info/VervConfig.ts";
-import { extractDataSources } from "@/models/configs/verv/resources/mapping.ts";
 import DataSourceClass from "@/models/configs/verv/resources/Resource.ts";
+import { extractDataSources } from "@/models/configs/verv/resources/Mapping.ts";
 import { mapServer } from "@/models/configs/verv/servers/Mapping.ts";
 import ServerClass from "@/models/configs/verv/servers/Servers.ts";
 
@@ -23,7 +23,7 @@ export default class VervConfig implements ConfigContent {
     root.innerNodes?.map((node: Node) => {
       switch (node.name) {
         case "APP-INFO":
-          appInfo = new AppInfoClass(root);
+          appInfo = new AppInfoClass(node);
           break;
         case "DATA-SOURCES":
           dataSources = extractDataSources(node);

@@ -3,7 +3,7 @@ import { Nullable } from "@primevue/core";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 
-import { ConfigValue } from "@/models/shared/common.ts";
+import { ConfigValue } from "@/models/shared/Values.ts";
 
 const model = defineModel<ConfigValue<T[]>>({ required: true });
 </script>

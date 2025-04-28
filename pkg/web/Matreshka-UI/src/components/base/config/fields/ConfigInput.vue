@@ -6,7 +6,7 @@ import InputGroup from "primevue/inputgroup";
 import InputGroupAddon from "primevue/inputgroupaddon";
 import InputText from "primevue/inputtext";
 
-import { ConfigValue } from "@/models/shared/common.ts";
+import { ConfigValue } from "@/models/shared/Values.ts";
 import { FieldAddon } from "@/models/shared/FieldAddon.ts";
 
 const model = defineModel<ConfigValue<string | number>>({

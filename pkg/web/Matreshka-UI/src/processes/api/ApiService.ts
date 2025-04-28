@@ -2,7 +2,7 @@ import {
   Config,
   ConfigTypePrefix,
   CreateConfigRequest,
-  GetConfigNodeRequest,
+  GetConfigNodeRequest, GetConfigNodeResponse,
   ListConfigsRequest,
   ListConfigsResponse,
   MatreshkaBeAPI,
@@ -50,15 +50,15 @@ export async function ListServices(req: ListConfigsRequest): Promise<ConfigList>
 
 export async function GetConfigNodes(
   configName: string,
-  version: string
+  version: string,
 ): Promise<ConfigWithContent> {
   const req = {
     configName: configName,
     version: version,
   } as GetConfigNodeRequest;
 
-  return MatreshkaBeAPI.GetConfigNodes(req, apiPrefix).then((res) => {
-    if (!res.root) {
+  return MatreshkaBeAPI.GetConfigNodes(req, apiPrefix).then((resp: GetConfigNodeResponse) => {
+    if (!resp.root) {
       throw { message: "Empty env config root" };
     }
 
@@ -66,11 +66,16 @@ export async function GetConfigNodes(
 
     switch (cfg.type) {
       case ConfigTypePrefix.verv:
-        cfg.content = new VervConfig(res.root);
+        cfg.content = new VervConfig(resp.root);
         break;
       default:
         // TODO
         cfg.content = new KeyValueConfigContent();
+    }
+
+    cfg.versions = resp.versions || []
+    if (req.version) {
+      cfg.selectedVersion = req.version
     }
 
     return cfg;

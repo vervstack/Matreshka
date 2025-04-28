@@ -1,5 +1,5 @@
 import { Change } from "@/models/configs/Change.ts";
-import { ConfigValue } from "@/models/shared/Common.ts";
+import { ConfigValue } from "@/models/shared/Values.ts";
 
 export default class ServerClass {
   port: ConfigValue<number> = new ConfigValue<number>("", 0);

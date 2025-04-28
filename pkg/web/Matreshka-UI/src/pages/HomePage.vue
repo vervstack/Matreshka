@@ -85,7 +85,7 @@ function openServiceInfo(event: MouseEvent, serviceName: string) {
 
   const routeTo = {
     name: Pages.DisplayConfig,
-    params: { name: serviceName },
+    params: { configName: serviceName },
   };
 
   window.open(router.resolve(routeTo).href, "_blank");

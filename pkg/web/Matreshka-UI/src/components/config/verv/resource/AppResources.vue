@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 import IconButton from "@/components/base/config/IconButton.vue";
 import { DataSourceClass } from "@/models/configs/verv/resources/Resource.ts";
-import { ConfigValue } from "@/models/shared/common.ts";
+import { ConfigValue } from "@/models/shared/Values.ts";
 
 const resources = defineModel<DataSourceClass[]>({ default: [] });
 

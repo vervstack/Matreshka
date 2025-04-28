@@ -3,7 +3,7 @@ import { Node } from "@vervstack/matreshka";
 import { Change } from "@/models/configs/Change.ts";
 import DataSource from "@/models/configs/verv/resources/Resource.ts";
 import { ResourceType } from "@/models/configs/verv/resources/ResourceTypes.ts";
-import { ConfigValue, extractStringValue } from "@/models/shared/Common.ts";
+import { ConfigValue, extractStringValue } from "@/models/shared/Values.ts";
 
 export class Telegram extends DataSource {
   apiKey: ConfigValue<string> = new ConfigValue("", "");

@@ -27,6 +27,7 @@ async function fetchConfig() {
       configData.value = d;
     })
     .catch(handleGrpcError(toastApi));
+
 }
 
 async function fetchVersions() {

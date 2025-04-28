@@ -3,7 +3,7 @@ import FloatLabel from "primevue/floatlabel";
 import InputGroup from "primevue/inputgroup";
 import MultiSelect from "primevue/multiselect";
 
-import { ConfigValue } from "@/models/shared/common.ts";
+import { ConfigValue } from "@/models/shared/Values.ts";
 
 const model = defineModel<B>({ required: true });
 

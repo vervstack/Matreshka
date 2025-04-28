@@ -7,7 +7,7 @@ import DataSource from "@/models/configs/verv/resources/Resource.ts";
 import { ResourceType } from "@/models/configs/verv/resources/ResourceTypes.ts";
 import { mapSqlite } from "@/models/configs/verv/resources/Sqlite.ts";
 import { mapTelegram } from "@/models/configs/verv/resources/Telegram.ts";
-import { extractResourceType } from "@/models/shared/Common.ts";
+import { extractResourceType } from "@/models/shared/Values.ts";
 
 const resourceMapping = new Map<string, (node: Node) => DataSource>();
 

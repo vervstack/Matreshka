@@ -7,7 +7,7 @@ import {
   ExtractSourceCodeSystemFromServiceName,
   PiIconFromSourceCodeSystem,
 } from "@/models/configs/verv/info/VervConfig.ts";
-import { ConfigValue } from "@/models/shared/Common.ts";
+import { ConfigValue } from "@/models/shared/Values.ts";
 
 const model = defineModel<ConfigValue<string>>({ required: true });
 

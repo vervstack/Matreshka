@@ -1,7 +1,7 @@
 import { Node } from "@vervstack/matreshka";
 
 import { Change } from "@/models/configs/Change.ts";
-import { ConfigValue, extractStringValue } from "@/models/shared/Common.ts";
+import { ConfigValue, extractStringValue } from "@/models/shared/Values.ts";
 
 export default class AppInfoClass {
   name: ConfigValue<string>;
@@ -23,7 +23,7 @@ export default class AppInfoClass {
       switch (name) {
         case "NAME":
           const name = extractStringValue(n);
-          this.name = new ConfigValue<string>(name.envName, name.value);
+          appName = new ConfigValue<string>(name.envName, name.value);
           break;
         case "VERSION":
           const version = extractStringValue(n);

@@ -27,8 +27,6 @@ export default class Config extends ConfigBase {
   }
 
   getComponent(): Component {
-    const com = this.content.getComponent();
-    console.log(com);
-    return com;
+    return this.content.getComponent();
   }
 }
