@@ -11,7 +11,7 @@ import {
 } from "@vervstack/matreshka";
 
 import ConfigWithContent from "@/models/configs/Config.ts";
-import ConfigBase from "@/models/configs/ConfigBase.ts";
+import ConfigBase, { defaultVersion } from "@/models/configs/ConfigBase.ts";
 import ConfigList from "@/models/configs/ConfigList.ts";
 import KeyValueConfigContent from "@/models/configs/keyvalue/KeyValueConfig.ts";
 import VervConfig from "@/models/configs/verv/VervConfig.ts";
@@ -76,6 +76,14 @@ export async function GetConfigNodes(
     cfg.versions = resp.versions || []
     if (req.version) {
       cfg.selectedVersion = req.version
+    }
+
+    cfg.versions.sort()
+
+    const masterIdx = cfg.versions.findIndex(v => v == defaultVersion);
+    if (masterIdx != -1) {
+      cfg.versions[masterIdx] = cfg.versions[0]
+      cfg.versions[0] = defaultVersion
     }
 
     return cfg;

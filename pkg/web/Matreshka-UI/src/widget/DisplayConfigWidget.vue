@@ -9,6 +9,7 @@ import { ref } from "vue";
 import Config from "@/models/configs/Config.ts";
 import { GetConfigNodes, ListServices, PatchConfig } from "@/processes/api/ApiService.ts";
 import handleGrpcError from "@/processes/api/ErrorCodes.ts";
+import { defaultVersion } from "@/models/configs/ConfigBase.ts";
 
 const toastApi = useToast();
 
@@ -30,22 +31,6 @@ async function fetchConfig() {
 
 }
 
-async function fetchVersions() {
-  const listReq = {
-    paging: {
-      limit: 1,
-    },
-    searchPattern: props.configName,
-  } as ListConfigsRequest;
-
-  ListServices(listReq)
-    .then((res) => {
-      configData.value.versions = res.configInfo[0].versions;
-      configData.value.selectedVersion = configData.value.versions[0];
-    })
-    .catch(handleGrpcError(toastApi));
-}
-
 async function save() {
   if (!configData.value) return;
 
@@ -54,7 +39,7 @@ async function save() {
     .catch(handleGrpcError(toastApi));
 }
 
-fetchVersions().then(fetchConfig);
+fetchConfig().then(fetchConfig);
 </script>
 
 <template>

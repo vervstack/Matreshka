@@ -17,14 +17,24 @@ defineProps({
 <style scoped>
 .Label {
   width: 100%;
+  height: 100%;
+
   display: flex;
   justify-content: center;
   overflow: hidden;
 }
 
 .LabelText {
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   box-sizing: content-box;
-  width: fit-content;
   overflow: hidden;
   text-overflow: ellipsis;
 }

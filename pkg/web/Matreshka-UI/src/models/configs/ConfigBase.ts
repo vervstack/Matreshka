@@ -1,6 +1,6 @@
 import { ConfigTypePrefix } from "@vervstack/matreshka";
 
-const defaultVersion = "master";
+export const defaultVersion = "master";
 
 export default class ConfigBase {
   type: ConfigTypePrefix;

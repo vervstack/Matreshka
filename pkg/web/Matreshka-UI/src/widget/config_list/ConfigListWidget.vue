@@ -29,12 +29,13 @@ const emit = defineEmits<{
           }
         "
       >
-        <div class="ConfigTitle">
-          <ConfigName :label="cfg.name" />
-        </div>
         <div class="ConfigIcon">
           <ConfigIcon :config-type="cfg.type" />
         </div>
+        <div class="ConfigTitle">
+          <ConfigName :label="cfg.name" />
+        </div>
+
       </div>
     </div>
   </div>
@@ -78,7 +79,6 @@ const emit = defineEmits<{
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: center;
 }
 
 .ConfigIcon {
