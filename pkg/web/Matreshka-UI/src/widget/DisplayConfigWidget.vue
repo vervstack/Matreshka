@@ -8,6 +8,8 @@ import { ref } from "vue";
 import Config from "@/models/configs/Config.ts";
 import { GetConfigNodes, PatchConfig } from "@/processes/api/ApiService.ts";
 import handleGrpcError from "@/processes/api/ErrorCodes.ts";
+import ConfigIcon from "@/components/base/config/ConfigIcon.vue";
+import ConfigName from "@/components/base/config/ConfigName.vue";
 
 const toastApi = useToast();
 
@@ -26,7 +28,6 @@ async function fetchConfig() {
       configData.value = d;
     })
     .catch(handleGrpcError(toastApi));
-
 }
 
 async function save() {
@@ -44,9 +45,14 @@ fetchConfig().then(fetchConfig);
   <div v-if="!configData">No App config data</div>
 
   <div v-else class="Display">
-    <!--    TODO add logo?-->
-    <div class="Tittle">type: {{ configData.type.toString() }}</div>
-
+    <div class="LogoAndTittle">
+      <div class="Logo">
+        <ConfigIcon :config-type="configData.type" />
+      </div>
+      <div class="Tittle">
+        <ConfigName :label="configData.name"/>
+      </div>
+    </div>
     <SelectButton
       v-if="configData.versions.length > 1"
       v-model="configData.selectedVersion"
@@ -85,6 +91,23 @@ fetchConfig().then(fetchConfig);
   display: flex;
   flex-direction: column;
   gap: 1em;
+}
+
+.LogoAndTittle {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+.Logo {
+  width: 4vw;
+}
+.Tittle {
+  width: fit-content;
+  display: flex;
+  justify-content: flex-start;
+  font-size: 2em;
 }
 
 .BottomControls-enter-active,

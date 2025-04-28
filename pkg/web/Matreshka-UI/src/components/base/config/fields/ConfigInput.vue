@@ -41,13 +41,13 @@ const originalValue = model.value.getOriginalValue().toString() as Nullable<stri
   <div class="ConfigInputFields">
     <div class="InputBox">
       <InputGroup>
-        <FloatLabel variant="on">
+        <FloatLabel variant="in">
           <InputText
             :disabled="isDisabled"
             :invalid="model.value != model.value"
             v-model="model.value as Nullable<string>"
           />
-          <label>{{ fieldName || model.envName }}</label>
+          <label >{{ fieldName || model.envName }}</label>
         </FloatLabel>
         <InputGroupAddon v-if="units">{{ units }}</InputGroupAddon>
       </InputGroup>

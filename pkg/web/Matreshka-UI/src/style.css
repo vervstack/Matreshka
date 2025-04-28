@@ -29,12 +29,17 @@ html, body, #app {
     color-scheme: light;
 
     --background: white;
-
-    --good: #96dd96;
+    --primary-color: #70f1f1;
+    --good: #cdf1cd;
     --warn: #f67322;
     --value-changed-outline: #e63e18;
     --selected-gradient: linear-gradient(#70f1f1, #05878c);
     --basic-gradient: linear-gradient(#fff9f9, #AAA8A8);
+}
+
+/* PrimeVue overrides*/
+:root {
+    --p-primary-color: var(--primary-color) !important;
 }
 
 /*Font sizes*/

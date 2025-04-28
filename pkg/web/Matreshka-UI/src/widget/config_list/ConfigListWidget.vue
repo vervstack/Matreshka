@@ -60,7 +60,7 @@ const emit = defineEmits<{
 .ListItem {
   max-height: 6em;
   overflow: hidden;
-  border: var(--good) solid;
+  border: #6b7280 1px solid;
 
   border-radius: 16px;
 
