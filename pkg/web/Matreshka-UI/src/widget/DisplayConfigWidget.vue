@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ListConfigsRequest } from "@vervstack/matreshka";
 import Button from "primevue/button";
 import InputGroup from "primevue/inputgroup";
 import SelectButton from "primevue/selectbutton";
@@ -7,9 +6,8 @@ import { useToast } from "primevue/usetoast";
 import { ref } from "vue";
 
 import Config from "@/models/configs/Config.ts";
-import { GetConfigNodes, ListServices, PatchConfig } from "@/processes/api/ApiService.ts";
+import { GetConfigNodes, PatchConfig } from "@/processes/api/ApiService.ts";
 import handleGrpcError from "@/processes/api/ErrorCodes.ts";
-import { defaultVersion } from "@/models/configs/ConfigBase.ts";
 
 const toastApi = useToast();
 
