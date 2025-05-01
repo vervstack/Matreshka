@@ -81,7 +81,7 @@ const emPerSymbol = 0.5;
       <Button
         :disabled="!isConfigNameValid(configType, configName)"
         class="create-button"
-        tittle="Create"
+        label="Create"
         @click="createConfig"
       />
     </div>

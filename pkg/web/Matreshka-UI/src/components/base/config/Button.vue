@@ -1,12 +1,19 @@
 <script setup lang="ts">
-import Button from "primevue/button";
 
 defineProps({
-  tittle: {
+  label: {
     type: String,
     required: true,
   },
   disabled: {
+    type: Boolean,
+    default: false,
+  },
+  rounded: {
+    type: Boolean,
+    default: false,
+  },
+  borderless: {
     type: Boolean,
     default: false,
   },
@@ -20,15 +27,32 @@ function buttonClicked() {
 </script>
 
 <template>
-  <Button
-    severity="contrast"
-    raised
-    outlined
-    :disabled="disabled"
-    icon="pi pi-hammer"
-    :label="tittle"
+  <button
+    class="button"
+    :class="{'rounded':rounded, 'borderless': borderless}"
     :onclick="buttonClicked"
-  />
+  >
+    {{ label }}
+  </button>
 </template>
 
-<style scoped></style>
+<style scoped>
+.button {
+  width: 100%;
+  height: 100%;
+  background: none;
+  border: black solid 1px;
+  border-radius: 4px;
+}
+.button:hover {
+  cursor: pointer;
+}
+
+.rounded {
+  border-radius: 50%;
+}
+
+.borderless {
+  border: none;
+}
+</style>
