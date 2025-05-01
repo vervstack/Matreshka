@@ -3,7 +3,10 @@
 defineProps({
   label: {
     type: String,
-    required: true,
+    default: "",
+  },
+  icon: {
+    type: String,
   },
   disabled: {
     type: Boolean,
@@ -32,7 +35,14 @@ function buttonClicked() {
     :class="{'rounded':rounded, 'borderless': borderless}"
     :onclick="buttonClicked"
   >
-    {{ label }}
+    <img
+      v-if="icon"
+      :src="icon"
+      alt="no icon"
+    />
+    <p v-else>
+      {{ label }}
+    </p>
   </button>
 </template>
 
@@ -42,8 +52,9 @@ function buttonClicked() {
   height: 100%;
   background: none;
   border: black solid 1px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
+
 .button:hover {
   cursor: pointer;
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 
+import AddNodeIcon from "@/assets/svg/node/add.svg";
 import KeyValueConfig from "@/models/configs/keyvalue/KeyValueConfig.ts";
 import KeyValueInput from "@/components/base/config/fields/KeyValueInput.vue";
 import Button from "@/components/base/config/Button.vue";
@@ -16,7 +17,7 @@ const ghostNodeIdx = ref<number>();
 function addSubNode() {
   ghostNodeIdx.value = undefined;
   isChildrenFolded.value = false;
-  addGhostNode()
+  addGhostNode();
 }
 
 function addGhostNode() {
@@ -56,16 +57,18 @@ function shouldShowFoldButton(): boolean {
   <div class="wrapper">
     <div
       class="top-wrapper"
-     :class="{'folded': isChildrenFolded}"
+      :class="{'folded': isChildrenFolded}"
     >
       <div
         class="button"
+        title="Add new node"
       >
         <Button
           @click="addSubNode"
           @mouseenter="addGhostNode"
           @mouseleave="removeGhostNode"
           :label="'+'"
+          :icon="AddNodeIcon"
         />
       </div>
       <KeyValueInput
@@ -73,7 +76,8 @@ function shouldShowFoldButton(): boolean {
         v-model="model.configValue" />
       <div
         class="button"
-        v-show="shouldShowFoldButton()"
+        :title="isChildrenFolded ? 'Unfold':'Fold'"
+        v-if="shouldShowFoldButton()"
       >
         <Button
           borderless
@@ -84,6 +88,7 @@ function shouldShowFoldButton(): boolean {
     </div>
     <div
       class="children"
+      v-if="model.children.length > 0"
     >
       <TransitionGroup name="ghost">
         <div
@@ -106,22 +111,24 @@ function shouldShowFoldButton(): boolean {
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 1em;
+  justify-content: center;
   height: 100%;
+  width: fit-content;
 }
 
 .children {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 1em;
+  gap: 0.25em;
   border-left: #6b7280 solid 1px;
-  transition: height 0.4s ease;
 }
 
 .child {
   height: fit-content;
   width: 98%;
+  max-width: 98%;
+  flex: 1;
 }
 
 .top-wrapper {
@@ -129,10 +136,11 @@ function shouldShowFoldButton(): boolean {
   flex-direction: row;
   gap: 1em;
   align-items: center;
+  justify-content: space-between;
 }
 
 .folded {
- border-bottom: #6b7280 dashed 1px;
+  border-bottom: #6b7280 dashed 1px;
 }
 
 .button {
