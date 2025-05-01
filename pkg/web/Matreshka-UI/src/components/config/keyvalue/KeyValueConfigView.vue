@@ -8,6 +8,8 @@ import { ref } from "vue";
 
 import { Node } from "@vervstack/matreshka";
 
+const rootRef = ref<HTMLElement | null>(null);
+
 const model = defineModel<KeyValueConfig>({
   required: true,
 });
@@ -54,7 +56,11 @@ function shouldShowFoldButton(): boolean {
 </script>
 
 <template>
-  <div class="wrapper">
+  <div
+    class="wrapper"
+    ref="rootRef"
+    :style="{width: isChildrenFolded ? rootRef?.clientWidth +'px': ''}"
+  >
     <div
       class="top-wrapper"
       :class="{'folded': isChildrenFolded}"
@@ -86,11 +92,12 @@ function shouldShowFoldButton(): boolean {
         />
       </div>
     </div>
+
     <div
       class="children"
       v-if="model.children.length > 0"
     >
-      <TransitionGroup name="ghost">
+      <TransitionGroup name="child">
         <div
           class="child"
           v-for="(_, idx) in model.children"
@@ -121,14 +128,13 @@ function shouldShowFoldButton(): boolean {
   flex-direction: column;
   align-items: flex-end;
   gap: 0.25em;
-  border-left: #6b7280 solid 1px;
 }
 
 .child {
-  height: fit-content;
   width: 98%;
   max-width: 98%;
   flex: 1;
+  border-left: #6b7280 solid 1px;
 }
 
 .top-wrapper {
@@ -157,19 +163,19 @@ function shouldShowFoldButton(): boolean {
   padding: 2px;
 }
 
-.ghost-enter-active,
-.ghost-leave-active {
+.child-enter-active,
+.child-leave-active {
   transition: 0.25s;
 }
 
-.ghost-enter-to,
-.ghost-leave-from {
+.child-enter-to,
+.child-leave-from {
   transform: translateY(0);
   opacity: 1;
 }
 
-.ghost-enter-from,
-.ghost-leave-to {
+.child-enter-from,
+.child-leave-to {
   transform: translateY(-10%);
   opacity: 0;
 }
