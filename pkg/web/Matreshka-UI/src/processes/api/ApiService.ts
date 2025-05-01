@@ -13,7 +13,7 @@ import {
 import ConfigWithContent from "@/models/configs/Config.ts";
 import ConfigBase, { defaultVersion } from "@/models/configs/ConfigBase.ts";
 import ConfigList from "@/models/configs/ConfigList.ts";
-import KeyValueConfigContent from "@/models/configs/keyvalue/KeyValueConfig.ts";
+import KeyValueConfig from "@/models/configs/keyvalue/KeyValueConfig.ts";
 import VervConfig from "@/models/configs/verv/VervConfig.ts";
 
 const apiPrefix = { pathPrefix: "" };
@@ -70,7 +70,7 @@ export async function GetConfigNodes(
         break;
       default:
         // TODO
-        cfg.content = new KeyValueConfigContent();
+        cfg.content = new KeyValueConfig(resp.root);
     }
 
     cfg.versions = resp.versions || []

@@ -63,7 +63,7 @@ defineExpose<IInputer>({ doFocus });
 
 .input:focus {
   border-color: var(--focus);
-  box-shadow: 0 0 0 2px var(--focus);
+  box-shadow: 1px var(--focus);
 }
 
 .floating-label {

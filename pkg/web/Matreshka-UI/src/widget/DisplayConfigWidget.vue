@@ -47,10 +47,12 @@ fetchConfig().then(fetchConfig);
   <div v-else class="Display">
     <div class="LogoAndTittle">
       <div class="Logo">
-        <ConfigIcon :config-type="configData.type" />
+        <ConfigIcon
+          :config-type="configData.type" />
       </div>
       <div class="Tittle">
-        <ConfigName :label="configData.name"/>
+        <ConfigName
+          :label="configData.name"/>
       </div>
     </div>
     <SelectButton
@@ -61,7 +63,11 @@ fetchConfig().then(fetchConfig);
     />
     <!--TODO Add "New Version" button?-->
 
-    <component :is="configData.getComponent()" v-model="configData.content" />
+    <div class="Content">
+      <component
+        :is="configData.getComponent()"
+        v-model="configData.content" />
+    </div>
 
     <Transition name="BottomControls">
       <InputGroup
@@ -108,6 +114,12 @@ fetchConfig().then(fetchConfig);
   display: flex;
   justify-content: flex-start;
   font-size: 2em;
+}
+
+.Content {
+  width: 100%;
+  height: 100%;
+  box-sizing: content-box;
 }
 
 .BottomControls-enter-active,

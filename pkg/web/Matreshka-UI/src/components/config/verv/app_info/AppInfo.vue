@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ConfigField from "@/components/base/config/fields/ConfigInput.vue";
 import ServiceName from "@/components/config/verv/app_info/ServiceName.vue";
-import { AppInfoClass } from "@/models/configs/verv/info/VervConfig.ts";
+import AppInfoClass  from "@/models/configs/verv/info/VervConfig.ts";
 
 const info = defineModel<AppInfoClass>({ required: true });
 </script>

@@ -2,7 +2,7 @@
 import AppInfo from "@/components/config/verv/app_info/AppInfo.vue";
 import ResourcesInfo from "@/components/config/verv/resource/AppResources.vue";
 import ServersInfo from "@/components/config/verv/server/ServersInfo.vue";
-import { VervConfig } from "@/models/configs/verv/VervConfig.ts";
+import VervConfig from "@/models/configs/verv/VervConfig.ts";
 
 const model = defineModel<VervConfig>({
   required: true,

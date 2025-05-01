@@ -26,7 +26,7 @@ function buttonClicked() {
     outlined
     :disabled="disabled"
     icon="pi pi-hammer"
-    label="Create"
+    :label="tittle"
     :onclick="buttonClicked"
   />
 </template>
