@@ -9,13 +9,17 @@ const model = defineModel<ConfigValue<string>>({
 </script>
 
 <template>
-  <div class="KeyValueInputer">
+  <div
+    class="KeyValueInputer"
+  >
     <Inputer
       v-model="model.envName"
+      :class="{edited: model.isNameChanged()}"
     />
     :
     <Inputer
       v-model="model.value"
+      :class="{edited: model.isValueChanged()}"
     />
   </div>
 </template>
@@ -29,5 +33,10 @@ const model = defineModel<ConfigValue<string>>({
   justify-content: center;
   align-items: center;
   gap: 0.5em;
+}
+
+.edited {
+  border: red solid 1px;
+  border-radius: 6px;
 }
 </style>

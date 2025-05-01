@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src --ext .ts,.vue --fix",
-    "run-be": "cd ./../../../ && go run cmd/service/main.go --dev"
+    "run-server": "cd ./../../../ && go run cmd/service/main.go --dev"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.10.7",

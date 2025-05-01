@@ -10,21 +10,36 @@ export class ConfigValue<T> {
   envName: string;
   value: T;
 
+  private readonly originalName: string;
   private readonly originalValue: T;
 
   constructor(envName: string, value: T) {
+    this.originalName = envName;
+    this.originalValue = value;
+
     this.envName = envName;
     this.value = value;
-
-    this.originalValue = value;
-  }
-
-  isChanged(): boolean {
-    return this.value != this.originalValue;
   }
 
   getOriginalValue(): T {
     return this.originalValue;
+  }
+
+  getOriginalName(): string {
+    return this.originalName;
+  }
+
+  isChanged(): boolean {
+    return this.value != this.originalValue ||
+      this.envName != this.originalName;
+  }
+
+  isNameChanged(): boolean {
+    return this.envName != this.originalName;
+  }
+
+  isValueChanged(): boolean {
+    return this.value != this.originalValue;
   }
 
   getChanges(): Change[] {
@@ -35,11 +50,23 @@ export class ConfigValue<T> {
         newValue: this.value,
       } as Change);
     }
+
+    if (this.envName != this.originalName) {
+      changes.push({
+        envName: this.originalName,
+        newValue: "",
+      });
+    }
+
     return changes;
   }
 
   rollback() {
     this.value = this.originalValue;
+  }
+
+  rollbackName() {
+    this.envName = this.originalName;
   }
 }
 

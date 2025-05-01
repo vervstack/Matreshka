@@ -9,6 +9,7 @@ import { ref } from "vue";
 import { Node } from "@vervstack/matreshka";
 
 const rootRef = ref<HTMLElement | null>(null);
+const childrenRef = ref<HTMLElement | null>(null);
 
 const model = defineModel<KeyValueConfig>({
   required: true,
@@ -66,7 +67,7 @@ function shouldShowFoldButton(): boolean {
       :class="{'folded': isChildrenFolded}"
     >
       <div
-        class="button"
+        class="button add-button"
         title="Add new node"
       >
         <Button
@@ -95,7 +96,7 @@ function shouldShowFoldButton(): boolean {
 
     <div
       class="children"
-      v-if="model.children.length > 0"
+      ref="childrenRef"
     >
       <TransitionGroup name="child">
         <div
@@ -128,6 +129,7 @@ function shouldShowFoldButton(): boolean {
   flex-direction: column;
   align-items: flex-end;
   gap: 0.25em;
+  padding: 0 0 0 2em;
 }
 
 .child {
@@ -157,10 +159,14 @@ function shouldShowFoldButton(): boolean {
   align-items: center;
 }
 
+.add-button {
+  position: sticky;
+  top: 0;
+}
+
 .ghost {
   border: #6b7280 dashed 1px;
   border-radius: 6px;
-  padding: 2px;
 }
 
 .child-enter-active,
