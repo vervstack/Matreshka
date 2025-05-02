@@ -6,7 +6,7 @@ import KeyValueInput from "@/components/base/config/fields/KeyValueInput.vue";
 import Button from "@/components/base/config/Button.vue";
 import { ref } from "vue";
 
-import { Node } from "@vervstack/matreshka";
+import EnvNode from "@/models/shared/Node.ts";
 
 const rootRef = ref<HTMLElement | null>(null);
 const childrenRef = ref<HTMLElement | null>(null);
@@ -15,20 +15,29 @@ const model = defineModel<KeyValueConfig>({
   required: true,
 });
 
+const props = defineProps({
+  parentPrefix: {
+    type: String,
+    default: "",
+  },
+});
+
 const ghostNodeIdx = ref<number>();
 
 function addSubNode() {
-  if (ghostNodeIdx.value != undefined
-    &&
+  if (ghostNodeIdx.value != undefined &&
     ghostNodeIdx.value < model.value.children.length) {
 
     const kv = model.value.children[ghostNodeIdx.value];
     if (kv.configValue) {
       kv.configValue.isMuted = false;
     }
-    model.value.children[ghostNodeIdx.value] = kv;
-  }
 
+    model.value.children[ghostNodeIdx.value] = kv;
+
+    model.value.configValue.isRoot = true;
+    model.value.configValue.value = '';
+  }
 
   ghostNodeIdx.value = undefined;
   isChildrenFolded.value = false;
@@ -37,7 +46,8 @@ function addSubNode() {
 
 function addGhostNode() {
   ghostNodeIdx.value = model.value.children.length || 0;
-  const kv = new KeyValueConfig({ name: "key", value: "value" } as Node);
+  const kv = new KeyValueConfig(new EnvNode("key", model.value.configValue.value));
+  model.value.configValue.isRoot = true;
 
   if (kv.configValue) {
     kv.configValue.isMuted = true;
@@ -54,6 +64,7 @@ function removeGhostNode() {
   }
 
   ghostNodeIdx.value = undefined;
+  model.value.configValue.isRoot = model.value.configValue.getOriginalIsRoot();
 }
 
 const isChildrenFolded = ref<boolean>(false);
@@ -100,7 +111,10 @@ function shouldShowFoldButton(): boolean {
       </div>
       <KeyValueInput
         v-if="model.configValue"
-        v-model="model.configValue" />
+        v-model="model.configValue"
+        :parent-prefix="props.parentPrefix"
+        :force-root-mode="model.children.length > 0"
+      />
       <div
         class="button"
         :title="isChildrenFolded ? 'Unfold':'Fold'"
@@ -128,6 +142,7 @@ function shouldShowFoldButton(): boolean {
         >
           <KeyValueConfigView
             v-model="model.children[idx]"
+            :parent-prefix="model.configValue.envName"
           />
         </div>
       </TransitionGroup>

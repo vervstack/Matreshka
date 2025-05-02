@@ -9,19 +9,23 @@ export type KeyMap = {
 export class ConfigValue<T> {
   envName: string;
   value: T;
+  isRoot: boolean;
 
   isMuted: boolean = false;
   isNew: boolean = false;
 
   private readonly originalName: string;
   private readonly originalValue: T;
+  private readonly originalIsRoot: boolean;
 
-  constructor(envName: string, value: T) {
+  constructor(envName: string, value: T, isRoot: boolean) {
     this.originalName = envName;
     this.originalValue = value;
+    this.originalIsRoot = isRoot;
 
     this.envName = envName;
     this.value = value;
+    this.isRoot = isRoot;
   }
 
   getOriginalValue(): T {
@@ -30,6 +34,9 @@ export class ConfigValue<T> {
 
   getOriginalName(): string {
     return this.originalName;
+  }
+  getOriginalIsRoot(): boolean {
+    return this.originalIsRoot
   }
 
   isChanged(): boolean {
@@ -90,11 +97,11 @@ export class ConfigValue<T> {
 }
 
 export function extractStringValue(n: Node): ConfigValue<string> {
-  return new ConfigValue<string>(n.name ?? "", n.value ?? "");
+  return new ConfigValue<string>(n.name || "", n.value || "", false);
 }
 
 export function extractNumberValue(n: Node): ConfigValue<number> {
-  return new ConfigValue(n.name ?? "", Number(n.value) ?? 0);
+  return new ConfigValue(n.name || "", Number(n.value) || 0, false);
 }
 
 export function extractResourceType(node: Node, root: Node): string | undefined {

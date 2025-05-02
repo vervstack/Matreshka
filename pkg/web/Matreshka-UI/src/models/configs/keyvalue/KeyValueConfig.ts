@@ -1,5 +1,6 @@
 import { Component } from "vue";
-import { Node } from "@vervstack/matreshka";
+
+import EnvNode from "@/models/shared/Node";
 
 import KeyValueConfigView from "@/components/config/keyvalue/KeyValueConfigView.vue";
 import { Change } from "@/models/configs/Change.ts";
@@ -11,11 +12,11 @@ export default class KeyValueConfig implements ConfigContent {
   configValue: ConfigValue<string>;
   children: KeyValueConfig[] = [];
 
-  constructor(root: Node) {
-    this.configValue = new ConfigValue<string>(root.name|| '', root.value|| '');
+  constructor(root: EnvNode) {
+    this.configValue = new ConfigValue<string>(root.name, root.value, root.children.length > 0);
 
-    root.innerNodes?.map((n: Node) => {
-      this.children.push(new KeyValueConfig(n))
+    root.children.map((n: EnvNode) => {
+      this.children.push(new KeyValueConfig(n));
     });
   }
 
@@ -28,7 +29,7 @@ export default class KeyValueConfig implements ConfigContent {
 
   isChanged(): boolean {
     return this.configValue?.isChanged() || false
-      || this.children.find(v => v.isChanged()) !== undefined
+      || this.children.find(v => v.isChanged()) !== undefined;
   }
 
   getComponent(): Component {

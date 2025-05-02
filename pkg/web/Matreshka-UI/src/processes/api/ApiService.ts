@@ -15,6 +15,7 @@ import ConfigBase, { defaultVersion } from "@/models/configs/ConfigBase.ts";
 import ConfigList from "@/models/configs/ConfigList.ts";
 import KeyValueConfig from "@/models/configs/keyvalue/KeyValueConfig.ts";
 import VervConfig from "@/models/configs/verv/VervConfig.ts";
+import { fromPbEnvNode } from "@/models/shared/Node.ts";
 
 const apiPrefix = { pathPrefix: "" };
 
@@ -70,7 +71,7 @@ export async function GetConfigNodes(
         break;
       default:
         // TODO
-        cfg.content = new KeyValueConfig(resp.root);
+        cfg.content = new KeyValueConfig(fromPbEnvNode(resp.root));
     }
 
     cfg.versions = resp.versions || []

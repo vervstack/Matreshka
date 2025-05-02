@@ -7,8 +7,17 @@ const model = defineModel<ConfigValue<string>>({
   required: true,
 });
 
-const originalName = ref<string>(model.value.getOriginalName());
-const originalValue = ref<string>(model.value.getOriginalValue());
+const props = defineProps({
+  forceRootMode: {
+    type: Boolean,
+    default: false,
+  }
+})
+
+// const originalName = ref<string>(model.value.getOriginalName());
+// const originalValue = ref<string>(model.value.getOriginalValue());
+
+const actualName = ref<string>(model.value.envName);
 
 </script>
 
@@ -16,27 +25,16 @@ const originalValue = ref<string>(model.value.getOriginalValue());
   <div
     class="KeyValueInputer"
   >
-    <div class="InputRow">
-      <Inputer
-        v-model="model.envName"
-      />
-      <p v-if="model.getOriginalValue() !==''">:</p>
-      <Inputer
-        v-if="model.getOriginalValue() !==''"
-        v-model="model.value"
-      />
-    </div>
     <div
-      v-if="!model.isNew && model.isChanged()"
-      class="InputRow">
+      class="InputRow"
+    >
       <Inputer
-        v-model="originalName"
-        :class="{edited: model.isNameChanged()}"
+        v-model="actualName"
       />
-      :
+      <p v-if="!props.forceRootMode && !model.isRoot">:</p>
       <Inputer
-        v-model="originalValue"
-        :class="{edited: model.isValueChanged()}"
+        v-if="!props.forceRootMode && !model.isRoot"
+        v-model="model.value"
       />
     </div>
   </div>

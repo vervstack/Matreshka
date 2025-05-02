@@ -4,6 +4,7 @@ import { Change } from "@/models/configs/Change.ts";
 import ConfigBase from "@/models/configs/ConfigBase.ts";
 import ConfigContent from "@/models/configs/ConfigContent.ts";
 import KeyValueConfig from "@/models/configs/keyvalue/KeyValueConfig.ts";
+import EnvNode from "@/models/shared/Node.ts";
 
 export default class Config extends ConfigBase {
   content: ConfigContent;
@@ -11,7 +12,7 @@ export default class Config extends ConfigBase {
   constructor(name: string) {
     super(name);
 
-    this.content = new KeyValueConfig({});
+    this.content = new KeyValueConfig(new EnvNode("", ""));
   }
 
   rollback() {
