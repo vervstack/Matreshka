@@ -13,7 +13,7 @@ export default class KeyValueConfig implements ConfigContent {
   children: KeyValueConfig[] = [];
 
   constructor(root: EnvNode) {
-    this.configValue = new ConfigValue<string>(root.name, root.value, root.children.length > 0);
+    this.configValue = new ConfigValue<string>(root.name, root.value);
 
     root.children.map((n: EnvNode) => {
       this.children.push(new KeyValueConfig(n));

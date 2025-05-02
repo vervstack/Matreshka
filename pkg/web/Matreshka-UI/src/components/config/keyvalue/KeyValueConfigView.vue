@@ -3,13 +3,14 @@
 import AddNodeIcon from "@/assets/svg/node/add.svg";
 import KeyValueConfig from "@/models/configs/keyvalue/KeyValueConfig.ts";
 import KeyValueNode from "@/components/config/keyvalue/nodes/KeyValueNode.vue";
+import RootNode from "@/components/config/keyvalue/nodes/RootNode.vue";
 import Button from "@/components/base/config/Button.vue";
 import { ref } from "vue";
 
 import EnvNode from "@/models/shared/Node.ts";
 
 const contentBlockRef = ref<HTMLElement | null>(null);
-const fullSize = ref<string>('100vw');
+const fullSize = ref<string>("100vw");
 
 const model = defineModel<KeyValueConfig>({
   required: true,
@@ -34,9 +35,6 @@ function addSubNode() {
     }
 
     model.value.children[ghostNodeIdx.value] = kv;
-
-    model.value.configValue.isRoot = true;
-    model.value.configValue.value = "";
   }
 
   ghostNodeIdx.value = undefined;
@@ -47,7 +45,6 @@ function addSubNode() {
 function addGhostNode() {
   ghostNodeIdx.value = model.value.children.length || 0;
   const kv = new KeyValueConfig(new EnvNode("key", model.value.configValue.value));
-  model.value.configValue.isRoot = true;
 
   if (kv.configValue) {
     kv.configValue.isMuted = true;
@@ -56,6 +53,7 @@ function addGhostNode() {
 
   model.value.children.push(kv);
   isChildrenFolded.value = false;
+  model.value.configValue.value = "";
 }
 
 function removeGhostNode() {
@@ -64,15 +62,17 @@ function removeGhostNode() {
   }
 
   ghostNodeIdx.value = undefined;
-  model.value.configValue.isRoot = model.value.configValue.getOriginalIsRoot();
+  if (model.value.children.length == 0) {
+    model.value.configValue.value = model.value.configValue.getOriginalValue();
+  }
 }
 
 const isChildrenFolded = ref<boolean>(false);
 
 function toggleFolding() {
   if (!isChildrenFolded.value) {
-    fullSize.value = contentBlockRef.value?.clientWidth+'px' || '100vw'
-    console.log(fullSize.value)
+    fullSize.value = contentBlockRef.value?.clientWidth + "px" || "100vw";
+    console.log(fullSize.value);
   }
 
   isChildrenFolded.value = !isChildrenFolded.value;
@@ -117,8 +117,13 @@ function shouldShowFoldButton(): boolean {
       <div
         class="config-value"
       >
+
+        <RootNode
+          v-if="model.configValue.getOriginalValue() === '' && model.configValue.getOriginalName() !==''"
+          v-model="model.configValue"
+        />
         <KeyValueNode
-          v-if="model.configValue.getOriginalName() !== ''"
+          v-else-if="model.configValue.getOriginalName() !==''"
           v-model="model.configValue"
           :parent-prefix="props.parentPrefix"
           :force-root-mode="model.children.length > 0"

@@ -6,12 +6,6 @@ const model = defineModel<ConfigValue<string>>({
   required: true,
 });
 
-const props = defineProps({
-  forceRootMode: {
-    type: Boolean,
-    default: false,
-  }
-})
 
 </script>
 
@@ -25,9 +19,8 @@ const props = defineProps({
       <Inputer
         v-model="model.envName"
       />
-      <p v-if="!props.forceRootMode && !model.isRoot">:</p>
+      <p>:</p>
       <Inputer
-        v-if="!props.forceRootMode && !model.isRoot"
         v-model="model.value"
       />
     </div>
