@@ -2,14 +2,14 @@
 
 import AddNodeIcon from "@/assets/svg/node/add.svg";
 import KeyValueConfig from "@/models/configs/keyvalue/KeyValueConfig.ts";
-import KeyValueInput from "@/components/base/config/fields/KeyValueInput.vue";
+import KeyValueNode from "@/components/config/keyvalue/nodes/KeyValueNode.vue";
 import Button from "@/components/base/config/Button.vue";
 import { ref } from "vue";
 
 import EnvNode from "@/models/shared/Node.ts";
 
-const rootRef = ref<HTMLElement | null>(null);
-const childrenRef = ref<HTMLElement | null>(null);
+const contentBlockRef = ref<HTMLElement | null>(null);
+const fullSize = ref<string>('100vw');
 
 const model = defineModel<KeyValueConfig>({
   required: true,
@@ -36,7 +36,7 @@ function addSubNode() {
     model.value.children[ghostNodeIdx.value] = kv;
 
     model.value.configValue.isRoot = true;
-    model.value.configValue.value = '';
+    model.value.configValue.value = "";
   }
 
   ghostNodeIdx.value = undefined;
@@ -70,6 +70,11 @@ function removeGhostNode() {
 const isChildrenFolded = ref<boolean>(false);
 
 function toggleFolding() {
+  if (!isChildrenFolded.value) {
+    fullSize.value = contentBlockRef.value?.clientWidth+'px' || '100vw'
+    console.log(fullSize.value)
+  }
+
   isChildrenFolded.value = !isChildrenFolded.value;
 }
 
@@ -89,63 +94,68 @@ function shouldShowFoldButton(): boolean {
 <template>
   <div
     class="wrapper"
-    ref="rootRef"
-    :style="{width: isChildrenFolded ? rootRef?.clientWidth +'px': ''}"
   >
-
     <div
-      class="top-wrapper"
-      :class="{'folded': isChildrenFolded}"
+      class="button add-button"
+      title="Add new node"
     >
-      <div
-        class="button add-button"
-        title="Add new node"
-      >
-        <Button
-          @click="addSubNode"
-          @mouseenter="addGhostNode"
-          @mouseleave="removeGhostNode"
-          :label="'+'"
-          :icon="AddNodeIcon"
-        />
-      </div>
-      <KeyValueInput
-        v-if="model.configValue"
-        v-model="model.configValue"
-        :parent-prefix="props.parentPrefix"
-        :force-root-mode="model.children.length > 0"
+      <Button
+        @click="addSubNode"
+        @mouseenter="addGhostNode"
+        @mouseleave="removeGhostNode"
+        :label="'+'"
+        :icon="AddNodeIcon"
       />
-      <div
-        class="button"
-        :title="isChildrenFolded ? 'Unfold':'Fold'"
-        v-if="shouldShowFoldButton()"
-      >
-        <Button
-          borderless
-          :label="isChildrenFolded ? '▲' : '▼'"
-          @click="toggleFolding"
-        />
-      </div>
     </div>
 
     <div
-      class="children"
-      ref="childrenRef"
+      class="content-wrapper"
+      ref="contentBlockRef"
+      :class="{'folded': isChildrenFolded}"
+      :style="{width: isChildrenFolded ? fullSize: ''}"
     >
-      <TransitionGroup name="child">
-        <div
-          class="child"
-          v-for="(_, idx) in model.children"
-          :class="{'ghost': idx == ghostNodeIdx}"
-          :key="idx"
-          v-show="!isChildrenFolded"
-        >
-          <KeyValueConfigView
-            v-model="model.children[idx]"
-            :parent-prefix="model.configValue.envName"
-          />
-        </div>
-      </TransitionGroup>
+      <div
+        class="config-value"
+      >
+        <KeyValueNode
+          v-if="model.configValue.getOriginalName() !== ''"
+          v-model="model.configValue"
+          :parent-prefix="props.parentPrefix"
+          :force-root-mode="model.children.length > 0"
+        />
+      </div>
+      <div
+        class="children"
+        v-if="model.children.length > 0"
+      >
+        <TransitionGroup name="child">
+          <div
+            class="child"
+            v-for="(_, idx) in model.children"
+            :class="{'ghost': idx == ghostNodeIdx}"
+            :key="idx"
+            v-show="!isChildrenFolded"
+          >
+            <KeyValueConfigView
+              v-model="model.children[idx]"
+              :parent-prefix="model.configValue.envName"
+            />
+          </div>
+        </TransitionGroup>
+      </div>
+
+    </div>
+
+    <div
+      class="button"
+      :title="isChildrenFolded ? 'Unfold':'Fold'"
+      v-if="shouldShowFoldButton()"
+    >
+      <Button
+        borderless
+        :label="isChildrenFolded ? '▲' : '▼'"
+        @click="toggleFolding"
+      />
     </div>
   </div>
 </template>
@@ -153,10 +163,16 @@ function shouldShowFoldButton(): boolean {
 <style scoped>
 .wrapper {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   height: 100%;
   width: fit-content;
+}
+
+.config-value {
+  height: 2em;
+  width: 100%;
+  display: flex;
 }
 
 .children {
@@ -164,22 +180,20 @@ function shouldShowFoldButton(): boolean {
   flex-direction: column;
   align-items: flex-end;
   gap: 0.25em;
-  padding: 0 0 0 2em;
 }
 
 .child {
-  width: 98%;
-  max-width: 98%;
+  width: 100%;
   flex: 1;
   border-left: #6b7280 solid 1px;
 }
 
-.top-wrapper {
+.content-wrapper {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 1em;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .folded {

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ConfigValue } from "@/models/shared/Values.ts";
 import Inputer from "@/components/base/Inputer.vue";
-import { ref } from "vue";
 
 const model = defineModel<ConfigValue<string>>({
   required: true,
@@ -14,11 +13,6 @@ const props = defineProps({
   }
 })
 
-// const originalName = ref<string>(model.value.getOriginalName());
-// const originalValue = ref<string>(model.value.getOriginalValue());
-
-const actualName = ref<string>(model.value.envName);
-
 </script>
 
 <template>
@@ -29,7 +23,7 @@ const actualName = ref<string>(model.value.envName);
       class="InputRow"
     >
       <Inputer
-        v-model="actualName"
+        v-model="model.envName"
       />
       <p v-if="!props.forceRootMode && !model.isRoot">:</p>
       <Inputer
@@ -79,11 +73,4 @@ const actualName = ref<string>(model.value.envName);
   overflow: hidden;
 }
 
-.ActualValue {
-
-}
-
-.OriginalValue {
-
-}
 </style>
