@@ -18,6 +18,18 @@ const model = defineModel<KeyValueConfig>({
 const ghostNodeIdx = ref<number>();
 
 function addSubNode() {
+  if (ghostNodeIdx.value != undefined
+    &&
+    ghostNodeIdx.value < model.value.children.length) {
+
+    const kv = model.value.children[ghostNodeIdx.value];
+    if (kv.configValue) {
+      kv.configValue.isMuted = false;
+    }
+    model.value.children[ghostNodeIdx.value] = kv;
+  }
+
+
   ghostNodeIdx.value = undefined;
   isChildrenFolded.value = false;
   addGhostNode();
@@ -25,7 +37,14 @@ function addSubNode() {
 
 function addGhostNode() {
   ghostNodeIdx.value = model.value.children.length || 0;
-  model.value.children.push(new KeyValueConfig({ name: "key", value: "value" } as Node));
+  const kv = new KeyValueConfig({ name: "key", value: "value" } as Node);
+
+  if (kv.configValue) {
+    kv.configValue.isMuted = true;
+    kv.configValue.isNew = true;
+  }
+
+  model.value.children.push(kv);
   isChildrenFolded.value = false;
 }
 
@@ -62,6 +81,7 @@ function shouldShowFoldButton(): boolean {
     ref="rootRef"
     :style="{width: isChildrenFolded ? rootRef?.clientWidth +'px': ''}"
   >
+
     <div
       class="top-wrapper"
       :class="{'folded': isChildrenFolded}"
@@ -171,7 +191,7 @@ function shouldShowFoldButton(): boolean {
 
 .child-enter-active,
 .child-leave-active {
-  transition: 0.25s;
+  transition: 0.3s;
 }
 
 .child-enter-to,

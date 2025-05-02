@@ -8,13 +8,11 @@ import { ConfigValue } from "@/models/shared/Values.ts";
 
 // TODO Implement
 export default class KeyValueConfig implements ConfigContent {
-  configValue: ConfigValue<string> | undefined;
+  configValue: ConfigValue<string>;
   children: KeyValueConfig[] = [];
 
   constructor(root: Node) {
-    if (!root.name) return
-
-    this.configValue = new ConfigValue<string>(root.name, root.value || "");
+    this.configValue = new ConfigValue<string>(root.name|| '', root.value|| '');
 
     root.innerNodes?.map((n: Node) => {
       this.children.push(new KeyValueConfig(n))
@@ -29,7 +27,8 @@ export default class KeyValueConfig implements ConfigContent {
   }
 
   isChanged(): boolean {
-    return false;
+    return this.configValue?.isChanged() || false
+      || this.children.find(v => v.isChanged()) !== undefined
   }
 
   getComponent(): Component {

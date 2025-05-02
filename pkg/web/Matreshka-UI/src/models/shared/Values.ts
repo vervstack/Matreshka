@@ -10,6 +10,9 @@ export class ConfigValue<T> {
   envName: string;
   value: T;
 
+  isMuted: boolean = false;
+  isNew: boolean = false;
+
   private readonly originalName: string;
   private readonly originalValue: T;
 
@@ -30,19 +33,35 @@ export class ConfigValue<T> {
   }
 
   isChanged(): boolean {
+    if (this.isMuted) {
+      return false
+    }
+
     return this.value != this.originalValue ||
       this.envName != this.originalName;
   }
 
   isNameChanged(): boolean {
+    if (this.isMuted) {
+      return false
+    }
+
     return this.envName != this.originalName;
   }
 
   isValueChanged(): boolean {
+    if (this.isMuted) {
+      return false
+    }
+
     return this.value != this.originalValue;
   }
 
   getChanges(): Change[] {
+    if (this.isMuted) {
+      return []
+    }
+
     const changes: Change[] = [];
     if (this.value != this.originalValue) {
       changes.push({

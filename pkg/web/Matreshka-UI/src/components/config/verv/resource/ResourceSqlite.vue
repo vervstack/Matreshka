@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 import ConfigField from "@/components/base/config/fields/ConfigInput.vue";
 import SelectButton from "@/components/base/config/SelectButton.vue";
-import { Sqlite } from "@/models/configs/verv/resources/Resource.ts";
+import Sqlite from "@/models/configs/verv/resources/Sqlite.ts";
 
 const model = defineModel<Sqlite>({
   required: true,

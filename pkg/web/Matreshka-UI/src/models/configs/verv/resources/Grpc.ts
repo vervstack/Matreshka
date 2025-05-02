@@ -5,7 +5,7 @@ import DataSource from "@/models/configs/verv/resources/Resource.ts";
 import { ResourceType } from "@/models/configs/verv/resources/ResourceTypes.ts";
 import { ConfigValue, extractStringValue } from "@/models/shared/Values.ts";
 
-export class GrpcClient extends DataSource {
+export default class GrpcClient extends DataSource {
   connectionString: ConfigValue<string> = new ConfigValue("", "");
   module: ConfigValue<string> = new ConfigValue("", "");
 
