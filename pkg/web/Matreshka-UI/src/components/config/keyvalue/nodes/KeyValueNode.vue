@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ConfigValue } from "@/models/shared/Values.ts";
 import Inputer from "@/components/base/Inputer.vue";
+import Button from "@/components/base/config/Button.vue";
+import EyeIcon from "@/assets/svg/node/eye.svg";
+import RollbackIcon from "@/assets/svg/general/rollback.svg";
 
 const model = defineModel<ConfigValue<string>>({
   required: true,

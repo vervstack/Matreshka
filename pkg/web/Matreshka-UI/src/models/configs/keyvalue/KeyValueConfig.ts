@@ -41,6 +41,7 @@ export default class KeyValueConfig implements ConfigContent {
   }
 
   rollback(): void {
+    this.configValue.rollback()
   }
 
   isChanged(): boolean {

@@ -50,7 +50,7 @@ defineExpose<IInputer>({ doFocus });
   width: 100%;
   height: 100%;
   padding: 0.5rem 0.75rem;
-  font-size: 16px;
+  font-size: 0.75em;
   border: 1px solid #d1d5db;
   border-radius: var(--border-radius);
   outline: none;
@@ -61,17 +61,4 @@ defineExpose<IInputer>({ doFocus });
   box-shadow: 1px var(--focus);
 }
 
-.floating-label {
-  position: absolute;
-  font-size: 0.75em;
-
-  color: #6b7280;
-  margin-bottom: 4px;
-  top: -10px;
-  left: 10px;
-  background-color: white;
-  padding: 0 4px;
-  transform: translateY(-12.5%);
-  pointer-events: none;
-}
 </style>

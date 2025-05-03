@@ -1,22 +1,28 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref } from "vue";
 
 import { ConfigValue } from "@/models/shared/Values.ts";
 
 import Inputer from "@/components/base/Inputer.vue";
 import Button from "@/components/base/config/Button.vue";
-import EyeIcon from "@/assets/svg/node/eye.svg";
 import RollbackIcon from "@/assets/svg/general/rollback.svg";
 
 const model = defineModel<ConfigValue<string>>({
   required: true,
 });
 
+const emit = defineEmits(["rollback", "showOriginal"]);
+
 const showOriginalRef = ref<Boolean>(model.value.isNameChanged());
+const originalValueRef = ref<string>(model.value.getOriginalName());
 
 function rollback() {
-  showOriginalRef.value = false
-  model.value.rollbackName()
+  emit("rollback");
+}
+
+function showOriginal() {
+  emit("showOriginal");
+  showOriginalRef.value = !showOriginalRef.value;
 }
 
 </script>
@@ -33,42 +39,28 @@ function rollback() {
       />
     </div>
     <div
-      class="Field Original"
-      :class="{show: showOriginalRef}"
+      class="Field RollBackButton"
+      v-if="model.isNameChanged() || model.isValueChanged()"
+      :class="{show: model.isNameChanged() || model.isValueChanged()}"
     >
-      <div
-        class="RollBackButton"
-        title="Rollback to original"
-      >
       <Button
+        title="Rollback to original"
         @click="rollback"
         :icon="RollbackIcon"
-        :style="{
-            borderTopRightRadius: 0,
-            borderBottomRightRadius: 0
-        }"
+        borderless
       />
-      </div>
-      <Inputer
-        disabled
-        v-model="model.envName"
-        :style="{
+    </div>
+    <Inputer
+      class="Field RollBackButton"
+      :class="{show: model.isNameChanged()}"
+      v-if="model.isNameChanged()"
+      disabled
+      v-model="originalValueRef"
+      :style="{
             borderTopLeftRadius: 0,
             borderBottomLeftRadius: 0
         }"
-      />
-    </div>
-
-    <div
-      class="ShowButton"
-      title="Show changes"
-      v-show="model.isChanged()"
-    >
-      <Button
-        @click="showOriginalRef=!showOriginalRef"
-        :icon="EyeIcon"
-      />
-    </div>
+    />
   </div>
 </template>
 
@@ -85,30 +77,24 @@ function rollback() {
 
 .Field {
   width: 100%;
+  height: 100%;
   transition: 0.75s ease;
   overflow: hidden;
   flex: 0;
-}
-
-.Original {
-  display: flex;
-  flex-direction: row;
 }
 
 .show {
   flex: 1
 }
 
-.ShowButton {
-  width: 2em;
-  height: 2em;
-  background: var(--warn);
-  border-radius: var(--border-radius);
-}
-
 .RollBackButton {
   min-width: 2em;
-  height: 2em;
+  max-width: 2em;
+  min-height: 100%;
+
+  overflow: hidden;
+  border: black solid 1px;
+  border-radius: var(--border-radius);
 }
 
 </style>

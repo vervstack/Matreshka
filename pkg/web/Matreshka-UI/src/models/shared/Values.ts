@@ -83,9 +83,6 @@ export class ConfigValue<T> {
 
   rollback() {
     this.value = this.originalValue;
-  }
-
-  rollbackName() {
     this.envName = this.originalName;
   }
 }

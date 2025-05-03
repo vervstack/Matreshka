@@ -40,10 +40,14 @@ function addSubNode() {
   ghostNodeIdx.value = undefined;
   isChildrenFolded.value = false;
   addGhostNode();
+
+  model.value.configValue.isMuted = false;
 }
 
 function addGhostNode() {
   ghostNodeIdx.value = model.value.children.length || 0;
+
+  model.value.configValue.isMuted = true;
 
   let newNodeName = "key";
 
@@ -145,6 +149,7 @@ function shouldShowRoot(): boolean {
         <RootNode
           v-if="shouldShowRoot()"
           v-model="model.configValue"
+          @rollback="model.rollback()"
         />
         <KeyValueNode
           v-else-if="model.configValue.getOriginalName() !==''"

@@ -20,6 +20,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  soft: {
+    type: Boolean,
+    default: true
+  }
 });
 
 const emit = defineEmits(["click"]);
@@ -32,7 +36,11 @@ function buttonClicked() {
 <template>
   <button
     class="simple-button"
-    :class="{'rounded':rounded, 'borderless': borderless}"
+    :class="{
+    'rounded':rounded,
+    'borderless': borderless,
+    'soft': soft,
+    }"
     :onclick="buttonClicked"
   >
     <img
@@ -52,8 +60,8 @@ function buttonClicked() {
   height: 100%;
 
   background: none;
+  box-sizing: border-box;
   border: black solid 1px;
-  border-radius: var(--border-radius);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,6 +73,10 @@ function buttonClicked() {
 
 .rounded {
   border-radius: 50%;
+}
+
+.soft {
+  border-radius: var(--border-radius);
 }
 
 .borderless {
