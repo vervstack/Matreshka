@@ -16,6 +16,7 @@ import ConfigList from "@/models/configs/ConfigList.ts";
 import KeyValueConfig from "@/models/configs/keyvalue/KeyValueConfig.ts";
 import VervConfig from "@/models/configs/verv/VervConfig.ts";
 import { fromPbEnvNode } from "@/models/shared/Node.ts";
+import { Change } from "@/models/configs/Change.ts";
 
 const apiPrefix = { pathPrefix: "" };
 
@@ -27,10 +28,11 @@ const fallbackErrorConverting = "error during conversion";
 
 export async function ListServices(req: ListConfigsRequest): Promise<ConfigList> {
   return MatreshkaBeAPI.ListConfigs(req, apiPrefix).then((r: ListConfigsResponse) => {
-    const servicesInfo: ConfigBase[] = [];
     if (!r.configs) {
       throw { message: "invalid contract" };
     }
+
+    const servicesInfo: ConfigBase[] = [];
 
     r.configs.map((v: Config) => {
       const cfgInfo = new ConfigBase(v.name || fallbackErrorConverting);
@@ -94,10 +96,10 @@ export async function GetConfigNodes(
 export async function PatchConfig(cfg: ConfigWithContent): Promise<ConfigWithContent> {
   if (!cfg.isChanged()) return cfg;
 
-  const changeList = cfg.getChanges();
+  const changeList: Change[] = cfg.getChanges();
 
   const req: PatchConfigRequest = {
-    configName: cfg.name,
+    configName: cfg.getMatreshkaName(),
     version: cfg.selectedVersion,
     changes: changeList.map((n) => {
       return {

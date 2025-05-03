@@ -44,7 +44,22 @@ function addSubNode() {
 
 function addGhostNode() {
   ghostNodeIdx.value = model.value.children.length || 0;
-  const kv = new KeyValueConfig(new EnvNode("key", model.value.configValue.value || 'value'));
+
+  let newNodeName = "key";
+
+  while (true) {
+    const idx = model.value.children.find((child: KeyValueConfig) => {
+      return child.configValue.getOriginalName() === newNodeName;
+    });
+
+    if (idx === undefined) {
+      break;
+    }
+
+    newNodeName = "key" + model.value.children.length;
+  }
+
+  const kv = new KeyValueConfig(new EnvNode(newNodeName, model.value.configValue.value || "value"));
 
   if (kv.configValue) {
     kv.configValue.isMuted = true;
@@ -90,13 +105,13 @@ function shouldShowFoldButton(): boolean {
   return ghostNodeIdx.value == undefined;
 }
 
-function shouldShowRoot() : boolean {
-  if (model.value.configValue.getOriginalName() == '') {
+function shouldShowRoot(): boolean {
+  if (model.value.configValue.getOriginalName() == "") {
     // Top root - shouldn't show
     return false;
   }
 
-  return model.value.configValue.value === ''
+  return model.value.configValue.value === "";
 }
 
 </script>

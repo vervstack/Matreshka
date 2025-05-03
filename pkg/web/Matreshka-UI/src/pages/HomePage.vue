@@ -25,8 +25,8 @@ const isLoading = ref<boolean>(true);
 const listRequest = ref<ListServicesReq>({
   searchPattern: "",
   sort: {
-    type: SortType.default,
-    desc: false,
+    type: SortType.by_updated_at,
+    desc: true,
   } as Sort,
   paging: {
     limit: 6,

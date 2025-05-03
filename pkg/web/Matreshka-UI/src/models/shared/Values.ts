@@ -63,7 +63,8 @@ export class ConfigValue<T> {
     }
 
     const changes: Change[] = [];
-    if (this.value != this.originalValue) {
+
+    if (this.value != this.originalValue || this.isNew) {
       changes.push({
         envName: this.envName,
         newValue: this.value,

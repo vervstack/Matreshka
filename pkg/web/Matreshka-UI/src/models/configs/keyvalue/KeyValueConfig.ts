@@ -7,7 +7,8 @@ import { Change } from "@/models/configs/Change.ts";
 import ConfigContent from "@/models/configs/ConfigContent.ts";
 import { ConfigValue } from "@/models/shared/Values.ts";
 
-// TODO Implement
+const objectSeparator = "_";
+
 export default class KeyValueConfig implements ConfigContent {
   configValue: ConfigValue<string>;
   children: KeyValueConfig[] = [];
@@ -21,18 +22,38 @@ export default class KeyValueConfig implements ConfigContent {
   }
 
   getChanges(): Change[] {
-    return [];
+    const changes = this.configValue.getChanges();
+
+    this.children.map((c: KeyValueConfig) => {
+        const childChanges = c.getChanges();
+
+        childChanges.map((c: Change, idx: number) => {
+          if (!this.isRoot()) {
+            childChanges[idx].envName = this.configValue.envName + objectSeparator + c.envName;
+          }
+        });
+
+        changes.push(...childChanges);
+      },
+    );
+
+    return changes;
   }
 
   rollback(): void {
   }
 
   isChanged(): boolean {
-    return this.configValue?.isChanged() || false
-      || this.children.find(v => v.isChanged()) !== undefined;
+    return this.configValue.isChanged() ||
+      this.children.find(v => v.isChanged()) !== undefined ||
+      this.configValue.isNew;
   }
 
   getComponent(): Component {
     return KeyValueConfigView;
+  }
+
+  isRoot(): boolean {
+    return this.configValue.envName == "";
   }
 }
