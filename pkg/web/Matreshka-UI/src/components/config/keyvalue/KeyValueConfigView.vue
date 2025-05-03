@@ -121,7 +121,7 @@ function shouldShowRoot(): boolean {
     class="wrapper"
   >
     <div
-      class="button add-button"
+      class="control-button add-button"
       title="Add new node"
     >
       <Button
@@ -176,7 +176,7 @@ function shouldShowRoot(): boolean {
     </div>
 
     <div
-      class="button"
+      class="control-button"
       :title="isChildrenFolded ? 'Unfold':'Fold'"
       v-if="shouldShowFoldButton()"
     >
@@ -193,9 +193,19 @@ function shouldShowRoot(): boolean {
 .wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   height: 100%;
   width: fit-content;
+  gap: 0.5em;
+  padding-left: 0.25em;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+  align-items: center;
+  justify-content: center;
 }
 
 .config-value {
@@ -208,7 +218,7 @@ function shouldShowRoot(): boolean {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.25em;
+  gap: 0.5em;
 }
 
 .child {
@@ -217,21 +227,13 @@ function shouldShowRoot(): boolean {
   border-left: #6b7280 solid 1px;
 }
 
-.content-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  align-items: center;
-  justify-content: center;
-}
-
 .folded {
   border-bottom: #6b7280 dashed 1px;
 }
 
-.button {
-  width: 2.5em;
-  height: 2.5em;
+.control-button {
+  width: 1.75em;
+  height: 1.75em;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -244,7 +246,7 @@ function shouldShowRoot(): boolean {
 
 .ghost {
   border: #6b7280 dashed 1px;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
 }
 
 .child-enter-active,

@@ -11,6 +11,9 @@ const model = defineModel<ConfigValue<string>>({
 <template>
   <div
     class="KeyValueInputer"
+    :class="{
+      changed: model.isChanged(),
+    }"
   >
       <Inputer
         v-model="model.envName"
@@ -29,8 +32,8 @@ const model = defineModel<ConfigValue<string>>({
   gap: 0.5em;
 }
 
-.KeyValueInputer {
-  flex-direction: column;
+.changed {
+  border: var(--value-changed-outline) solid 1px;
+  border-radius: var(--border-radius);
 }
-
 </style>

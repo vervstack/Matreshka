@@ -31,7 +31,7 @@ function buttonClicked() {
 
 <template>
   <button
-    class="button"
+    class="simple-button"
     :class="{'rounded':rounded, 'borderless': borderless}"
     :onclick="buttonClicked"
   >
@@ -47,15 +47,15 @@ function buttonClicked() {
 </template>
 
 <style scoped>
-.button {
+.simple-button {
   width: 100%;
   height: 100%;
   background: none;
   border: black solid 1px;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
 }
 
-.button:hover {
+.simple-button:hover {
   cursor: pointer;
 }
 

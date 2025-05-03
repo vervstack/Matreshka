@@ -35,6 +35,8 @@ html, body, #app {
     --value-changed-outline: #e63e18;
     --selected-gradient: linear-gradient(#70f1f1, #05878c);
     --basic-gradient: linear-gradient(#fff9f9, #AAA8A8);
+
+    --border-radius: 6px;
 }
 
 /* PrimeVue overrides*/

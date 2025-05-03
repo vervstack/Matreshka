@@ -95,6 +95,7 @@ func (c *CfgService) getConfig(ctx context.Context, serviceName, version string)
 	if cfgNodes != nil {
 		return cfgNodes, nil
 	}
+
 	_, err = c.Create(ctx, serviceName)
 	if err != nil {
 		return nil, rerrors.Wrap(err, "error creating config to patch to")

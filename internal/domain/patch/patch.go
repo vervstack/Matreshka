@@ -19,13 +19,6 @@ type Patch struct {
 func NewPatch(batch []domain.PatchConfig, oldConfig *evon.Node) Patch {
 	p := Patch{}
 	for _, ptch := range batch {
-		var ok bool
-		ptch.FieldName, ok = validateName(ptch)
-		if !ok {
-			p.Invalid = append(p.Invalid, ptch)
-			continue
-		}
-
 		val := extractValue(ptch.FieldValue)
 		if val == nil {
 			p.Delete = append(p.Delete, ptch)
@@ -110,14 +103,4 @@ func extractValue(in any) any {
 	}
 
 	return inRef.Elem().Interface()
-}
-
-func validateName(patch domain.PatchConfig) (newName string, ok bool) {
-	for _, segment := range allowedSegments {
-		if strings.HasPrefix(patch.FieldName, segment) {
-			return strings.ToUpper(patch.FieldName), true
-		}
-	}
-
-	return patch.FieldName, false
 }

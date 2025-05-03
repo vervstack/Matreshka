@@ -14,12 +14,14 @@ const model = defineModel<ConfigValue<string>>({
     class="KeyValueInputer"
   >
     <div
-      class="InputRow"
-    >
+      :class="{edited: model.isNameChanged()}">
       <Inputer
         v-model="model.envName"
       />
-      <p>:</p>
+    </div>
+    <p>:</p>
+    <div
+      :class="{edited: model.isValueChanged()}">
       <Inputer
         v-model="model.value"
       />
@@ -28,7 +30,7 @@ const model = defineModel<ConfigValue<string>>({
 </template>
 
 <style scoped>
-.InputRow, .KeyValueInputer {
+.KeyValueInputer {
   width: 100%;
   height: 100%;
 
@@ -38,17 +40,9 @@ const model = defineModel<ConfigValue<string>>({
   gap: 0.5em;
 }
 
-.InputRow {
-  flex-direction: row;
-}
-
-.KeyValueInputer {
-  flex-direction: column;
-}
-
 .edited {
   border: var(--value-changed-outline) solid 1px;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
 }
 
 .InputBox {
