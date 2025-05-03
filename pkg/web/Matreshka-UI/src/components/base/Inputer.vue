@@ -14,6 +14,10 @@ defineProps({
     type: String,
     default: "",
   },
+  disabled: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const model = defineModel<string>({
@@ -30,26 +34,17 @@ defineExpose<IInputer>({ doFocus });
 </script>
 
 <template>
-  <div class="input-wrap">
-    <label v-if="floatingLabel" class="floating-label">{{ floatingLabel }}</label>
     <input
+      :disabled="disabled"
       ref="inputElementRef"
       v-model="model"
       type="text"
       class="input"
       :placeholder="placeholder"
     />
-  </div>
 </template>
 
 <style scoped>
-.input-wrap {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
 
 .input {
   width: 100%;

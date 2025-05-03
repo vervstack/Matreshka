@@ -50,9 +50,13 @@ function buttonClicked() {
 .simple-button {
   width: 100%;
   height: 100%;
+
   background: none;
   border: black solid 1px;
   border-radius: var(--border-radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .simple-button:hover {

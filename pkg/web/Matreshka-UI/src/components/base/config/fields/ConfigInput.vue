@@ -41,7 +41,7 @@ const originalValue = model.value.getOriginalValue().toString() as Nullable<stri
   <div class="ConfigInputFields">
     <div class="InputBox">
       <InputGroup>
-        <FloatLabel variant="in">
+        <FloatLabel variant="on">
           <InputText
             :disabled="isDisabled"
             :invalid="model.value != model.value"

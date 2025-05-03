@@ -36,7 +36,7 @@ html, body, #app {
     --selected-gradient: linear-gradient(#70f1f1, #05878c);
     --basic-gradient: linear-gradient(#fff9f9, #AAA8A8);
 
-    --border-radius: 6px;
+    --border-radius: 8px;
 }
 
 /* PrimeVue overrides*/
