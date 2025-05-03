@@ -17,6 +17,7 @@ const model = defineModel<ConfigValue<string>>({
     class="KeyValueInputer"
   >
     <div
+      class="InputBox"
       :class="{edited: model.isNameChanged()}">
       <Inputer
         v-model="model.envName"
@@ -24,6 +25,7 @@ const model = defineModel<ConfigValue<string>>({
     </div>
     <p>:</p>
     <div
+      class="InputBox"
       :class="{edited: model.isValueChanged()}">
       <Inputer
         v-model="model.value"

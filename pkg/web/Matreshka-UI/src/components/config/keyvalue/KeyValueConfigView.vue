@@ -21,6 +21,10 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  disable: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const ghostNodeIdx = ref<number>();
@@ -39,12 +43,12 @@ function addSubNode() {
 
   ghostNodeIdx.value = undefined;
   isChildrenFolded.value = false;
-  addGhostNode();
+  addGhostSubNode();
 
   model.value.configValue.isMuted = false;
 }
 
-function addGhostNode() {
+function addGhostSubNode() {
   ghostNodeIdx.value = model.value.children.length || 0;
 
   if (model.value.children.length == 0) {
@@ -77,7 +81,7 @@ function addGhostNode() {
   model.value.configValue.value = "";
 }
 
-function removeGhostNode() {
+function removeGhostSubNode() {
   if (ghostNodeIdx.value !== undefined) {
     model.value.children.pop();
   }
@@ -120,38 +124,57 @@ function shouldShowRoot(): boolean {
   return model.value.configValue.value === "";
 }
 
+// Rollback functionality
+const isPreparingToDeleteChildren = ref<boolean>(false);
+
+function prepareRollback() {
+  if (model.value.configValue.value !== "") {
+    //   We simply changed the value - no extra preparations needed
+    return;
+  }
+
+  isPreparingToDeleteChildren.value = true;
+}
+
+function unPrepareRollback() {
+  isPreparingToDeleteChildren.value = false;
+}
+
 </script>
 
 <template>
   <div
-    class="wrapper"
+    class="Wrapper"
   >
     <div
-      class="control-button add-button"
+      class="ControlButton AddButton"
       title="Add new node"
     >
       <Button
         @click="addSubNode"
-        @mouseenter="addGhostNode"
-        @mouseleave="removeGhostNode"
+        @mouseenter="addGhostSubNode"
+        @mouseleave="removeGhostSubNode"
         :label="'+'"
         :icon="AddNodeIcon"
       />
     </div>
 
     <div
-      class="content-wrapper"
+      class="ContentWrapper"
       ref="contentBlockRef"
-      :class="{'folded': isChildrenFolded}"
       :style="{width: isChildrenFolded ? fullSize: ''}"
+      :class="{'folded': isChildrenFolded}"
     >
       <div
-        class="config-value"
+        class="ContentValue"
+        :class="{changed: model.isChanged()}"
       >
         <RootNode
           v-if="shouldShowRoot()"
           v-model="model.configValue"
           @rollback="model.rollback()"
+          @show-original="prepareRollback"
+          @show-actual="unPrepareRollback"
         />
         <KeyValueNode
           v-else-if="model.configValue.getOriginalName() !==''"
@@ -161,14 +184,16 @@ function shouldShowRoot(): boolean {
         />
       </div>
       <div
-        class="children"
+        class="Children"
         v-if="model.children.length > 0"
       >
         <TransitionGroup name="child">
           <div
-            class="child"
+            class="Child"
             v-for="(_, idx) in model.children"
-            :class="{'ghost': idx == ghostNodeIdx}"
+            :class="{
+              ghosted: idx == ghostNodeIdx || isPreparingToDeleteChildren,
+            }"
             :key="idx"
             v-show="!isChildrenFolded"
           >
@@ -183,7 +208,7 @@ function shouldShowRoot(): boolean {
     </div>
 
     <div
-      class="control-button"
+      class="ControlButton"
       :title="isChildrenFolded ? 'Unfold':'Fold'"
       v-if="shouldShowFoldButton()"
     >
@@ -197,17 +222,16 @@ function shouldShowRoot(): boolean {
 </template>
 
 <style scoped>
-.wrapper {
+.Wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   height: 100%;
   width: fit-content;
   gap: 0.5em;
-  padding-left: 0.25em;
 }
 
-.content-wrapper {
+.ContentWrapper {
   display: flex;
   flex-direction: column;
   gap: 0.75em;
@@ -215,43 +239,58 @@ function shouldShowRoot(): boolean {
   justify-content: center;
 }
 
-.config-value {
+.ContentValue {
   height: 2em;
   width: 100%;
   display: flex;
 }
 
-.children {
+.changed {
+  border-bottom: solid 1px;
+  border-color: var(--warn);
+}
+
+.Children {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 0.5em;
 }
 
-.child {
+.Child {
   width: 100%;
+  height: 100%;
   flex: 1;
   border-left: #6b7280 solid 1px;
+  box-sizing: border-box;
+
+  position: relative;
+  border-radius: var(--border-radius);
+}
+
+.ghosted {
+  border: 1px dashed #6b7280;
 }
 
 .folded {
   border-bottom: #6b7280 dashed 1px;
 }
 
-.control-button {
+.ControlButton {
   width: 1.75em;
   height: 1.75em;
+  display: flex;
+  padding: 0.125em;
+  justify-content: center;
+  align-items: center;
 
+  margin-top: 0.125em;
+  margin-left: 0.125em;
 }
 
-.add-button {
+.AddButton {
   position: sticky;
   top: 0;
-}
-
-.ghost {
-  border: #6b7280 dashed 1px;
-  border-radius: var(--border-radius);
 }
 
 .child-enter-active,

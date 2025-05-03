@@ -13,8 +13,10 @@ const model = defineModel<ConfigValue<string>>({
 
 const emit = defineEmits(["rollback", "showOriginal", "showActual"]);
 
-const showOriginalRef = ref<Boolean>(model.value.isNameChanged());
-const originalValueRef = ref<string>(model.value.getOriginalName());
+const originalNameRef = ref<string>(model.value.getOriginalName());
+const originalValueRef = ref<string>(model.value.getOriginalValue());
+
+const isPreparingToRevert = ref<boolean>(false);
 
 function rollback() {
   emit("rollback");
@@ -22,12 +24,12 @@ function rollback() {
 
 function showOriginal() {
   emit("showOriginal");
-  showOriginalRef.value = true;
+  isPreparingToRevert.value = true;
 }
 
 function showActual() {
-  emit('showActual');
-  showOriginalRef.value = false;
+  emit("showActual");
+  isPreparingToRevert.value = false;
 }
 
 </script>
@@ -43,26 +45,36 @@ function showActual() {
         v-model="model.envName"
       />
     </div>
-    <Inputer
-      class="Field"
-      :class="{show: model.isNameChanged()}"
-      v-if="model.isNameChanged()"
-      disabled
-      v-model="originalValueRef"
-      :style="{
-            borderTopLeftRadius: 0,
-            borderBottomLeftRadius: 0
-        }"
-    />
 
-      <Button
-        v-if="model.isNameChanged() || model.isValueChanged()"
-        class="RollBackButton"
-        title="Rollback to original"
-        @click="rollback"
-        :icon="RollbackIcon"
+    <p v-if="!model.isNameChanged() && isPreparingToRevert">:</p>
+
+    <div
+      class="Field"
+      :class="{show: isPreparingToRevert}"
+    >
+      <Inputer
+        v-if="model.isNameChanged()"
+        disabled
+        v-model="originalNameRef"
+      />
+      <Inputer
+        v-else
+        disabled
+        v-model="originalValueRef"
       />
     </div>
+
+    <Button
+      v-if="model.isNameChanged() || model.isValueChanged() || isPreparingToRevert"
+      class="RollBackButton"
+      title="Rollback to original"
+      @click="rollback"
+      :icon="RollbackIcon"
+
+      @mouseenter="showOriginal"
+      @mouseleave="showActual"
+    />
+  </div>
 </template>
 
 <style scoped>
