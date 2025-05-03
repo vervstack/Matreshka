@@ -52,7 +52,7 @@ fetchConfig().then(fetchConfig);
       </div>
       <div class="Tittle">
         <ConfigName
-          :label="configData.name"/>
+          :label="configData.name" />
       </div>
     </div>
     <SelectButton
@@ -63,12 +63,11 @@ fetchConfig().then(fetchConfig);
     />
     <!--TODO Add "New Version" button?-->
 
-    <div class="Content">
+    <div class="DisplayConfigContent">
       <component
         :is="configData.getComponent()"
         v-model="configData.content" />
     </div>
-
     <Transition name="BottomControls">
       <InputGroup
         v-show="configData?.isChanged()"
@@ -109,6 +108,7 @@ fetchConfig().then(fetchConfig);
 .Logo {
   width: 4vw;
 }
+
 .Tittle {
   width: fit-content;
   display: flex;
@@ -116,8 +116,8 @@ fetchConfig().then(fetchConfig);
   font-size: 2em;
 }
 
-.Content {
-  width: 100%;
+.DisplayConfigContent {
+  width: fit-content;
   height: 100%;
   box-sizing: content-box;
 }

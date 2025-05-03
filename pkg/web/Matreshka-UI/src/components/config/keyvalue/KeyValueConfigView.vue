@@ -3,7 +3,6 @@
 import AddNodeIcon from "@/assets/svg/node/add.svg";
 import KeyValueConfig from "@/models/configs/keyvalue/KeyValueConfig.ts";
 import KeyValueNode from "@/components/config/keyvalue/nodes/KeyValueNode.vue";
-import RootNode from "@/components/config/keyvalue/nodes/RootNode.vue";
 import Button from "@/components/base/config/Button.vue";
 import { ref } from "vue";
 
@@ -14,17 +13,6 @@ const fullSize = ref<string>("100vw");
 
 const model = defineModel<KeyValueConfig>({
   required: true,
-});
-
-const props = defineProps({
-  parentPrefix: {
-    type: String,
-    default: "",
-  },
-  disable: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const ghostNodeIdx = ref<number>();
@@ -115,15 +103,6 @@ function shouldShowFoldButton(): boolean {
   return ghostNodeIdx.value == undefined;
 }
 
-function shouldShowRoot(): boolean {
-  if (model.value.configValue.getOriginalName() == "") {
-    // Top root - shouldn't show
-    return false;
-  }
-
-  return model.value.configValue.value === "";
-}
-
 // Rollback functionality
 const isPreparingToDeleteChildren = ref<boolean>(false);
 
@@ -144,8 +123,7 @@ function unPrepareRollback() {
 
 <template>
   <div
-    class="Wrapper"
-  >
+    class="KeyValueConfigViewWrapper">
     <div
       class="ControlButton AddButton"
       title="Add new node"
@@ -169,42 +147,37 @@ function unPrepareRollback() {
         class="ContentValue"
         :class="{changed: model.isChanged()}"
       >
-        <RootNode
-          v-if="shouldShowRoot()"
+        <KeyValueNode
+          v-if="model.configValue.getOriginalName() !== ''"
           v-model="model.configValue"
           @rollback="model.rollback()"
           @show-original="prepareRollback"
           @show-actual="unPrepareRollback"
         />
-        <KeyValueNode
-          v-else-if="model.configValue.getOriginalName() !==''"
-          v-model="model.configValue"
-          :parent-prefix="props.parentPrefix"
-          :force-root-mode="model.children.length > 0"
-        />
       </div>
-      <div
-        class="Children"
-        v-if="model.children.length > 0"
-      >
-        <TransitionGroup name="child">
-          <div
-            class="Child"
-            v-for="(_, idx) in model.children"
-            :class="{
+      <Transition name="children">
+        <div
+          class="Children"
+          v-if="model.children.length > 0"
+        >
+          <TransitionGroup name="child">
+            <div
+              class="Child"
+              v-for="(_, idx) in model.children"
+              :class="{
               ghosted: idx == ghostNodeIdx || isPreparingToDeleteChildren,
             }"
-            :key="idx"
-            v-show="!isChildrenFolded"
-          >
-            <KeyValueConfigView
-              v-model="model.children[idx]"
-              :parent-prefix="model.configValue.envName"
-            />
-          </div>
-        </TransitionGroup>
-      </div>
-
+              :key="idx"
+              v-show="!isChildrenFolded"
+            >
+              <KeyValueConfigView
+                v-model="model.children[idx]"
+                :parent-prefix="model.configValue.envName"
+              />
+            </div>
+          </TransitionGroup>
+        </div>
+      </Transition>
     </div>
 
     <div
@@ -222,20 +195,22 @@ function unPrepareRollback() {
 </template>
 
 <style scoped>
-.Wrapper {
+.KeyValueConfigViewWrapper {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  height: 100%;
-  width: fit-content;
   gap: 0.5em;
 }
 
 .ContentWrapper {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.75em;
-  align-items: center;
+  gap: 0.5em;
+  align-items: flex-start;
   justify-content: center;
 }
 
@@ -264,11 +239,12 @@ function unPrepareRollback() {
   border-left: #6b7280 solid 1px;
   box-sizing: border-box;
 
-  position: relative;
   border-radius: var(--border-radius);
+  padding: 1px 0 0 0;
 }
 
 .ghosted {
+  padding: 0;
   border: 1px dashed #6b7280;
 }
 
@@ -295,7 +271,7 @@ function unPrepareRollback() {
 
 .child-enter-active,
 .child-leave-active {
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 
 .child-enter-to,
@@ -309,5 +285,24 @@ function unPrepareRollback() {
   transform: translateY(-10%);
   opacity: 0;
 }
+
+
+.children-enter-active,
+.children-leave-active {
+  transition: all 0.3s ease;
+}
+
+.children-enter-to,
+.children-leave-from {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.children-enter-from,
+.children-leave-to {
+  transform: translateY(-10%);
+  opacity: 0;
+}
+
 
 </style>
