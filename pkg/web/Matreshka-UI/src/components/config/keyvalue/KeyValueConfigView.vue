@@ -44,7 +44,7 @@ function addSubNode() {
 
 function addGhostNode() {
   ghostNodeIdx.value = model.value.children.length || 0;
-  const kv = new KeyValueConfig(new EnvNode("key", model.value.configValue.value));
+  const kv = new KeyValueConfig(new EnvNode("key", model.value.configValue.value || 'value'));
 
   if (kv.configValue) {
     kv.configValue.isMuted = true;
@@ -89,6 +89,16 @@ function shouldShowFoldButton(): boolean {
 
   return ghostNodeIdx.value == undefined;
 }
+
+function shouldShowRoot() : boolean {
+  if (model.value.configValue.getOriginalName() == '') {
+    // Top root - shouldn't show
+    return false;
+  }
+
+  return model.value.configValue.value === ''
+}
+
 </script>
 
 <template>
@@ -117,9 +127,8 @@ function shouldShowFoldButton(): boolean {
       <div
         class="config-value"
       >
-
         <RootNode
-          v-if="model.configValue.getOriginalValue() === '' && model.configValue.getOriginalName() !==''"
+          v-if="shouldShowRoot()"
           v-model="model.configValue"
         />
         <KeyValueNode
