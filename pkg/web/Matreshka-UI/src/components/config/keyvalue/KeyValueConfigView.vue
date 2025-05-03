@@ -47,7 +47,9 @@ function addSubNode() {
 function addGhostNode() {
   ghostNodeIdx.value = model.value.children.length || 0;
 
-  model.value.configValue.isMuted = true;
+  if (model.value.children.length == 0) {
+    model.value.configValue.isMuted = true;
+  }
 
   let newNodeName = "key";
 
@@ -239,9 +241,7 @@ function shouldShowRoot(): boolean {
 .control-button {
   width: 1.75em;
   height: 1.75em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
 }
 
 .add-button {

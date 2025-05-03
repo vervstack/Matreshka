@@ -44,6 +44,7 @@ function buttonClicked() {
     :onclick="buttonClicked"
   >
     <img
+      class="icon"
       v-if="icon"
       :src="icon"
       alt="no icon"
@@ -65,6 +66,8 @@ function buttonClicked() {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  font-size: inherit;
 }
 
 .simple-button:hover {
@@ -81,5 +84,10 @@ function buttonClicked() {
 
 .borderless {
   border: none;
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
 }
 </style>

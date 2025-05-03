@@ -11,7 +11,7 @@ const model = defineModel<ConfigValue<string>>({
   required: true,
 });
 
-const emit = defineEmits(["rollback", "showOriginal"]);
+const emit = defineEmits(["rollback", "showOriginal", "showActual"]);
 
 const showOriginalRef = ref<Boolean>(model.value.isNameChanged());
 const originalValueRef = ref<string>(model.value.getOriginalName());
@@ -22,7 +22,12 @@ function rollback() {
 
 function showOriginal() {
   emit("showOriginal");
-  showOriginalRef.value = !showOriginalRef.value;
+  showOriginalRef.value = true;
+}
+
+function showActual() {
+  emit('showActual');
+  showOriginalRef.value = false;
 }
 
 </script>
@@ -38,20 +43,8 @@ function showOriginal() {
         v-model="model.envName"
       />
     </div>
-    <div
-      class="Field RollBackButton"
-      v-if="model.isNameChanged() || model.isValueChanged()"
-      :class="{show: model.isNameChanged() || model.isValueChanged()}"
-    >
-      <Button
-        title="Rollback to original"
-        @click="rollback"
-        :icon="RollbackIcon"
-        borderless
-      />
-    </div>
     <Inputer
-      class="Field RollBackButton"
+      class="Field"
       :class="{show: model.isNameChanged()}"
       v-if="model.isNameChanged()"
       disabled
@@ -61,7 +54,15 @@ function showOriginal() {
             borderBottomLeftRadius: 0
         }"
     />
-  </div>
+
+      <Button
+        v-if="model.isNameChanged() || model.isValueChanged()"
+        class="RollBackButton"
+        title="Rollback to original"
+        @click="rollback"
+        :icon="RollbackIcon"
+      />
+    </div>
 </template>
 
 <style scoped>
@@ -88,9 +89,8 @@ function showOriginal() {
 }
 
 .RollBackButton {
-  min-width: 2em;
-  max-width: 2em;
-  min-height: 100%;
+  width: 1.75em;
+  height: 1.75em;
 
   overflow: hidden;
   border: black solid 1px;
