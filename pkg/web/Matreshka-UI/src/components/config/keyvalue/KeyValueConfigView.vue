@@ -112,18 +112,34 @@ function prepareRollback() {
     return;
   }
 
+  model.value.mute();
+
   isPreparingToDeleteChildren.value = true;
 }
 
 function unPrepareRollback() {
   isPreparingToDeleteChildren.value = false;
+  model.value.unmute();
+}
+
+function calculateHeight(): string {
+  const childrenCount = model.value.countChildren();
+  if (childrenCount === 0) {
+    return "2.1em";
+  }
+
+  return `calc(${2.5 + childrenCount * 2.1 + (childrenCount - 1) * 0.5}em)`;
 }
 
 </script>
 
 <template>
   <div
-    class="KeyValueConfigViewWrapper">
+    class="KeyValueConfigViewWrapper"
+    :style="{
+      height: calculateHeight(),
+    }"
+  >
     <div
       class="ControlButton AddButton"
       title="Add new node"
@@ -145,7 +161,6 @@ function unPrepareRollback() {
     >
       <div
         class="ContentValue"
-        :class="{changed: model.isChanged()}"
       >
         <KeyValueNode
           v-if="model.configValue.getOriginalName() !== ''"
@@ -165,8 +180,8 @@ function unPrepareRollback() {
               class="Child"
               v-for="(_, idx) in model.children"
               :class="{
-              ghosted: idx == ghostNodeIdx || isPreparingToDeleteChildren,
-            }"
+                ghosted: idx == ghostNodeIdx || isPreparingToDeleteChildren,
+              }"
               :key="idx"
               v-show="!isChildrenFolded"
             >
@@ -182,8 +197,8 @@ function unPrepareRollback() {
 
     <div
       class="ControlButton"
-      :title="isChildrenFolded ? 'Unfold':'Fold'"
       v-if="shouldShowFoldButton()"
+      :title="isChildrenFolded ? 'Unfold':'Fold'"
     >
       <Button
         borderless
@@ -197,12 +212,17 @@ function unPrepareRollback() {
 <style scoped>
 .KeyValueConfigViewWrapper {
   width: 100%;
-  height: 100%;
   box-sizing: border-box;
 
   display: flex;
   flex-direction: row;
   gap: 0.5em;
+
+  border-left: #6b7280 solid 1px;
+
+  border-radius: var(--border-radius);
+  transition: height 0.2s ease-in-out;
+  overflow: hidden;
 }
 
 .ContentWrapper {
@@ -210,37 +230,21 @@ function unPrepareRollback() {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
-  align-items: flex-start;
-  justify-content: center;
 }
 
 .ContentValue {
-  height: 2em;
+  min-height: 2em;
   width: 100%;
-  display: flex;
-}
-
-.changed {
-  border-bottom: solid 1px;
-  border-color: var(--warn);
 }
 
 .Children {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   gap: 0.5em;
 }
 
 .Child {
   width: 100%;
-  height: 100%;
-  flex: 1;
-  border-left: #6b7280 solid 1px;
-  box-sizing: border-box;
-
-  border-radius: var(--border-radius);
-  padding: 1px 0 0 0;
 }
 
 .ghosted {

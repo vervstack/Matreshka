@@ -41,10 +41,10 @@ export default class KeyValueConfig implements ConfigContent {
   }
 
   rollback(): void {
-    this.configValue.rollback()
+    this.configValue.rollback();
 
     if (this.children.find(v => v.configValue.isNew)) {
-      this.children = []
+      this.children = [];
     }
   }
 
@@ -60,5 +60,28 @@ export default class KeyValueConfig implements ConfigContent {
 
   isRoot(): boolean {
     return this.configValue.envName == "";
+  }
+
+  countChildren(): number {
+    let basicLength = this.children.length;
+    this.children.forEach((c: KeyValueConfig) => {
+      basicLength += c.countChildren();
+    });
+
+    return basicLength;
+  }
+
+  mute() {
+    this.configValue.isMuted = true;
+    this.children.forEach((c: KeyValueConfig) => {
+      c.mute();
+    });
+  }
+
+  unmute() {
+    this.configValue.isMuted = false;
+    this.children.forEach((c: KeyValueConfig) => {
+      c.unmute();
+    });
   }
 }

@@ -41,45 +41,55 @@ function showActual() {
   >
     <div
       class="Field show"
+      :class="{
+        changed: model.isNameChanged(),
+        new: model.isNew && !model.isMuted,
+      }"
     >
       <Inputer
         v-model="model.envName"
       />
     </div>
-
+    <div
+      class="Field"
+      :class="{show: isPreparingToRevert && model.isNameChanged()}"
+    >
+      <Inputer
+        disabled
+        v-model="originalNameRef"
+      />
+    </div>
     <p
       v-if="(!model.isNameChanged() && isPreparingToRevert) || model.value !== ''"
       class="Colon"
     >:</p>
 
-<!--    For value when this is a leaf-->
+    <!--    For value when this is a leaf-->
     <div
       class="Field"
-      :class="{show: model.value !== ''}"
+      :class="{
+      show: model.value !== '',
+      new: model.isNew && !model.isMuted,
+      changed: model.isValueChanged(),
+    }"
     >
       <Inputer
-        v-model="originalValueRef"
+        v-model="model.value"
       />
     </div>
-<!--    For name when this is a node-->
+    <!--    For name when this is a node-->
     <div
       class="Field"
-      :class="{show: isPreparingToRevert}"
+      :class="{show: isPreparingToRevert && model.isValueChanged()}"
     >
       <Inputer
-        v-if="model.isNameChanged()"
-        disabled
-        v-model="originalNameRef"
-      />
-      <Inputer
-        v-else
         disabled
         v-model="originalValueRef"
       />
     </div>
 
     <Button
-      v-if="model.isNameChanged() || model.isValueChanged()"
+      v-if="model.isNameChanged()|| model.isValueChanged() || isPreparingToRevert"
       class="RollBackButton"
       title="Rollback to original"
       @click="rollback"
@@ -99,12 +109,14 @@ function showActual() {
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .Field {
-  transition: 0.75s ease;
-  overflow: hidden;
   flex: 0;
+  overflow: hidden;
+  transition: 0.5s ease-in-out;
+  border: none;
 }
 
 .Colon {
@@ -125,4 +137,15 @@ function showActual() {
   border-radius: var(--border-radius);
 }
 
+.changed {
+  border-right: solid 4px;
+  border-color: var(--warn);
+  border-radius: var(--border-radius);
+}
+
+.new {
+  border-right: solid 4px;
+  border-color: var(--good);
+  border-radius: var(--border-radius);
+}
 </style>

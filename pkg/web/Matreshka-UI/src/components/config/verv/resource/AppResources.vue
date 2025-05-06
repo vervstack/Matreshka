@@ -2,10 +2,10 @@
 import { ref } from "vue";
 
 import IconButton from "@/components/base/config/IconButton.vue";
-import { DataSourceClass } from "@/models/configs/verv/resources/Resource.ts";
+import DataSource from "@/models/configs/verv/resources/Resource.ts";
 import { ConfigValue } from "@/models/shared/Values.ts";
 
-const resources = defineModel<DataSourceClass[]>({ default: [] });
+const resources = defineModel<DataSource[]>({ default: [] });
 
 const selectedIdx = ref<number>(0);
 
@@ -80,9 +80,6 @@ function countConfigFields<T>(config: T): number {
 
 .ResourcesInfo {
   padding: 0;
-}
-
-.ResourcesInfo {
   transition: height 0.5s ease;
 }
 
@@ -111,7 +108,6 @@ function countConfigFields<T>(config: T): number {
 .ResourceInfoContent > * {
   overflow: hidden;
   height: auto;
-  transition: height 1s ease;
 }
 
 .fade-enter-active,

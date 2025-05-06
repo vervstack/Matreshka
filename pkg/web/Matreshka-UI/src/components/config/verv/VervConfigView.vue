@@ -49,7 +49,6 @@ const model = defineModel<VervConfig>({
 
 .ContentBlock {
   border: solid;
-  /*border: var(--good) solid;*/
   border-radius: 16px;
   padding: 1em;
 }
