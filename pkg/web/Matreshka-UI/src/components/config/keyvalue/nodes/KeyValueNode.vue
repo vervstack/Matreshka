@@ -33,6 +33,23 @@ function showActual() {
   isPreparingToRevert.value = false;
 }
 
+
+function shouldShowOldName(): boolean {
+  return isPreparingToRevert && model.value.isNameChanged()
+}
+
+function isNew(): boolean {
+  return model.value.isNew && !model.value.isMuted
+}
+
+function shouldShowValue(): boolean {
+  return model.value.value !== ''
+}
+
+function shouldShowOldValue(): boolean {
+  return model.value.isValueChanged() && isPreparingToRevert
+}
+
 </script>
 
 <template>
@@ -42,8 +59,8 @@ function showActual() {
     <div
       class="Field show"
       :class="{
-        changed: model.getOriginalName() !== model.envName,
-        new: model.isNew && !model.isMuted,
+        changed: model.isNameChanged(),
+        new: isNew(),
       }"
     >
       <Inputer
@@ -52,7 +69,7 @@ function showActual() {
     </div>
     <div
       class="Field"
-      :class="{show: isPreparingToRevert && model.getOriginalName() !== model.envName}"
+      :class="{show: shouldShowOldName()}"
     >
       <Inputer
         disabled
@@ -68,9 +85,9 @@ function showActual() {
     <div
       class="Field"
       :class="{
-        show: model.value !== '',
-        new: model.isNew && !model.isMuted,
+        show: shouldShowValue(),
         changed: model.isValueChanged(),
+        new: isNew(),
       }"
     >
       <Inputer
@@ -80,7 +97,7 @@ function showActual() {
     <!--    For name when this is a node-->
     <div
       class="Field"
-      :class="{show: model.isValueChanged() && isPreparingToRevert}"
+      :class="{show: shouldShowOldValue()}"
     >
       <Inputer
         disabled
