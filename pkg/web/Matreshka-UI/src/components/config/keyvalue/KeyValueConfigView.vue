@@ -81,8 +81,11 @@ function removeGhostSubNode() {
   }
 }
 
+const emit = defineEmits(["toggleFolding"]);
+
 // Folding
 const isChildrenFolded = ref<boolean>(false);
+const foldedChildIds = ref<int[]>([]);
 
 function toggleFolding() {
   if (!isChildrenFolded.value) {
@@ -90,6 +93,7 @@ function toggleFolding() {
   }
 
   isChildrenFolded.value = !isChildrenFolded.value;
+  emit("toggleFolding");
 }
 
 function shouldShowFoldButton(): boolean {
@@ -186,6 +190,7 @@ function calculateHeight(): string {
               <KeyValueConfigView
                 v-model="model.children[idx]"
                 :parent-prefix="model.configValue.envName"
+                @toggleFolding="isGrandChildrenFolded=!isGrandChildrenFolded"
               />
             </div>
           </TransitionGroup>

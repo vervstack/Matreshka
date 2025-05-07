@@ -33,9 +33,8 @@ function showActual() {
   isPreparingToRevert.value = false;
 }
 
-
 function shouldShowOldName(): boolean {
-  return isPreparingToRevert && model.value.isNameChanged()
+  return isPreparingToRevert.value && model.value.isNameChanged()
 }
 
 function isNew(): boolean {
@@ -47,7 +46,7 @@ function shouldShowValue(): boolean {
 }
 
 function shouldShowOldValue(): boolean {
-  return model.value.isValueChanged() && isPreparingToRevert
+  return model.value.isValueChanged() && isPreparingToRevert.value
 }
 
 </script>
