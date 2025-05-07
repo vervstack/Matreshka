@@ -15,6 +15,7 @@ const model = defineModel<KeyValueConfig>({
   required: true,
 });
 
+// Ghosting
 const ghostNodeIdx = ref<number>();
 
 function addSubNode() {
@@ -35,7 +36,6 @@ function addSubNode() {
 
   model.value.configValue.isMuted = false;
 }
-
 function addGhostSubNode() {
   ghostNodeIdx.value = model.value.children.length || 0;
 
@@ -68,7 +68,6 @@ function addGhostSubNode() {
   isChildrenFolded.value = false;
   model.value.configValue.value = "";
 }
-
 function removeGhostSubNode() {
   if (ghostNodeIdx.value !== undefined) {
     model.value.children.pop();
@@ -80,17 +79,15 @@ function removeGhostSubNode() {
   }
 }
 
+// Folding
 const isChildrenFolded = ref<boolean>(false);
-
 function toggleFolding() {
   if (!isChildrenFolded.value) {
     fullSize.value = contentBlockRef.value?.clientWidth + "px" || "100vw";
-    console.log(fullSize.value);
   }
 
   isChildrenFolded.value = !isChildrenFolded.value;
 }
-
 function shouldShowFoldButton(): boolean {
   if (model.value.children.length < 2) {
     return false;
@@ -104,31 +101,30 @@ function shouldShowFoldButton(): boolean {
 }
 
 // Rollback functionality
-const isPreparingToDeleteChildren = ref<boolean>(false);
+const isPreparingToDeleteNewChildren = ref<boolean>(false);
 
 function prepareRollback() {
   if (model.value.configValue.value !== "") {
-    //   We simply changed the value - no extra preparations needed
+    // This is a leaf
+    // We simply changed the value - no extra preparations needed
     return;
   }
 
-  model.value.mute();
-
-  isPreparingToDeleteChildren.value = true;
+  isPreparingToDeleteNewChildren.value = true;
 }
 
 function unPrepareRollback() {
-  isPreparingToDeleteChildren.value = false;
+  isPreparingToDeleteNewChildren.value = false;
   model.value.unmute();
 }
 
 function calculateHeight(): string {
   const childrenCount = model.value.countChildren();
-  if (childrenCount === 0) {
+  if (childrenCount === 0 || isChildrenFolded.value) {
     return "2.1em";
   }
 
-  return `calc(${2.5 + childrenCount * 2.1 + (childrenCount - 1) * 0.5}em)`;
+  return `${2.5 + childrenCount * 2.1 + (childrenCount) * 0.6}em`;
 }
 
 </script>
@@ -156,7 +152,7 @@ function calculateHeight(): string {
     <div
       class="ContentWrapper"
       ref="contentBlockRef"
-      :style="{width: isChildrenFolded ? fullSize: ''}"
+      :style="{minWidth: isChildrenFolded ? fullSize: ''}"
       :class="{'folded': isChildrenFolded}"
     >
       <div
@@ -180,7 +176,9 @@ function calculateHeight(): string {
               class="Child"
               v-for="(_, idx) in model.children"
               :class="{
-                ghosted: idx == ghostNodeIdx || isPreparingToDeleteChildren,
+                ghosted: idx == ghostNodeIdx || (isPreparingToDeleteNewChildren && model.children[idx].configValue.isNew),
+                'to-delete': isPreparingToDeleteNewChildren && model.children[idx].configValue.isNew,
+                'to-create': !isPreparingToDeleteNewChildren && model.children[idx].configValue.isNew,
               }"
               :key="idx"
               v-show="!isChildrenFolded"
@@ -252,6 +250,14 @@ function calculateHeight(): string {
   border: 1px dashed #6b7280;
 }
 
+.to-delete {
+  border-color: var(--warn);
+}
+
+.to-create {
+  border-color: var(--good);
+}
+
 .folded {
   border-bottom: #6b7280 dashed 1px;
 }
@@ -260,7 +266,7 @@ function calculateHeight(): string {
   width: 1.75em;
   height: 1.75em;
   display: flex;
-  padding: 0.125em;
+
   justify-content: center;
   align-items: center;
 

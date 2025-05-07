@@ -68,13 +68,14 @@ fetchConfig().then(fetchConfig);
         :is="configData.getComponent()"
         v-model="configData.content" />
     </div>
+
     <Transition name="BottomControls">
       <InputGroup
         v-show="configData?.isChanged()"
         :style="{
-          display: 'flex',
-          justifyContent: 'center',
-        }"
+            display: 'flex',
+            justifyContent: 'center',
+          }"
       >
         <Button @click="save" label="Save" icon="pi pi-check" iconPos="right" severity="danger" />
         <Button
@@ -138,4 +139,5 @@ fetchConfig().then(fetchConfig);
   transform: translateY(-100%);
   opacity: 0;
 }
+
 </style>

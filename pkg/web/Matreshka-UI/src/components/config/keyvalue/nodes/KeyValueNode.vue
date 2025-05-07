@@ -42,7 +42,7 @@ function showActual() {
     <div
       class="Field show"
       :class="{
-        changed: model.isNameChanged(),
+        changed: model.getOriginalName() !== model.envName,
         new: model.isNew && !model.isMuted,
       }"
     >
@@ -52,7 +52,7 @@ function showActual() {
     </div>
     <div
       class="Field"
-      :class="{show: isPreparingToRevert && model.isNameChanged()}"
+      :class="{show: isPreparingToRevert && model.getOriginalName() !== model.envName}"
     >
       <Inputer
         disabled
@@ -60,7 +60,7 @@ function showActual() {
       />
     </div>
     <p
-      v-if="(!model.isNameChanged() && isPreparingToRevert) || model.value !== ''"
+      v-if="model.value !== '' || model.getOriginalValue() != '' && isPreparingToRevert"
       class="Colon"
     >:</p>
 
@@ -68,10 +68,10 @@ function showActual() {
     <div
       class="Field"
       :class="{
-      show: model.value !== '',
-      new: model.isNew && !model.isMuted,
-      changed: model.isValueChanged(),
-    }"
+        show: model.value !== '',
+        new: model.isNew && !model.isMuted,
+        changed: model.isValueChanged(),
+      }"
     >
       <Inputer
         v-model="model.value"
@@ -80,7 +80,7 @@ function showActual() {
     <!--    For name when this is a node-->
     <div
       class="Field"
-      :class="{show: isPreparingToRevert && model.isValueChanged()}"
+      :class="{show: model.isValueChanged() && isPreparingToRevert}"
     >
       <Inputer
         disabled
@@ -88,16 +88,19 @@ function showActual() {
       />
     </div>
 
-    <Button
-      v-if="model.isNameChanged()|| model.isValueChanged() || isPreparingToRevert"
-      class="RollBackButton"
-      title="Rollback to original"
-      @click="rollback"
-      :icon="RollbackIcon"
 
-      @mouseenter="showOriginal"
-      @mouseleave="showActual"
-    />
+    <Transition name="RollbackButton" mode="in-out">
+      <Button
+        v-if="model.isNameChanged() || model.isValueChanged() || isPreparingToRevert"
+        class="RollBackButton"
+        title="Rollback to original"
+        @click="rollback"
+        :icon="RollbackIcon"
+
+        @mouseenter="showOriginal"
+        @mouseleave="showActual"
+      />
+    </Transition>
   </div>
 </template>
 
@@ -137,15 +140,32 @@ function showActual() {
   border-radius: var(--border-radius);
 }
 
-.changed {
+.show.changed {
   border-right: solid 4px;
   border-color: var(--warn);
   border-radius: var(--border-radius);
 }
 
-.new {
+.show.new {
   border-right: solid 4px;
   border-color: var(--good);
   border-radius: var(--border-radius);
+}
+
+.RollbackButton-enter-active,
+.RollbackButton-leave-active {
+  transition: all 0.3s ease;
+}
+
+.RollbackButton-enter-to,
+.RollbackButton-leave-from {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.RollbackButton-enter-from,
+.RollbackButton-leave-to {
+  transform: translateX(-10%);
+  opacity: 0;
 }
 </style>
