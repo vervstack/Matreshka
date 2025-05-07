@@ -31,7 +31,7 @@ function addSubNode() {
   }
 
   ghostNodeIdx.value = undefined;
-  isChildrenFolded.value = false;
+  model.value.isFolded = false;
   addGhostSubNode();
 
   model.value.configValue.isMuted = false;
@@ -66,7 +66,7 @@ function addGhostSubNode() {
   }
 
   model.value.children.push(kv);
-  isChildrenFolded.value = false;
+  model.value.isFolded = false;
   model.value.configValue.value = "";
 }
 
@@ -81,19 +81,15 @@ function removeGhostSubNode() {
   }
 }
 
-const emit = defineEmits(["toggleFolding"]);
 
 // Folding
-const isChildrenFolded = ref<boolean>(false);
-const foldedChildIds = ref<int[]>([]);
 
 function toggleFolding() {
-  if (!isChildrenFolded.value) {
+  if (!model.value.isFolded) {
     fullSize.value = contentBlockRef.value?.clientWidth + "px" || "100vw";
   }
 
-  isChildrenFolded.value = !isChildrenFolded.value;
-  emit("toggleFolding");
+  model.value.isFolded = !model.value.isFolded;
 }
 
 function shouldShowFoldButton(): boolean {
@@ -129,7 +125,7 @@ function unPrepareRollback() {
 // General height calculator for smooth animation
 function calculateHeight(): string {
   const childrenCount = model.value.countChildren();
-  if (childrenCount === 0 || isChildrenFolded.value) {
+  if (childrenCount === 0 || model.value.isFolded) {
     return "2.1em";
   }
 
@@ -156,8 +152,8 @@ function calculateHeight(): string {
     <div
       class="ContentWrapper"
       ref="contentBlockRef"
-      :style="{minWidth: isChildrenFolded ? fullSize: ''}"
-      :class="{'folded': isChildrenFolded}"
+      :style="{minWidth: model.isFolded ? fullSize: ''}"
+      :class="{'folded': model.isFolded}"
     >
       <div
         class="ContentValue"
@@ -185,12 +181,11 @@ function calculateHeight(): string {
                 'to-create': !isPreparingToDeleteNewChildren && model.children[idx].configValue.isNew,
               }"
               :key="idx"
-              v-show="!isChildrenFolded"
+              v-show="!model.isFolded"
             >
               <KeyValueConfigView
                 v-model="model.children[idx]"
                 :parent-prefix="model.configValue.envName"
-                @toggleFolding="isGrandChildrenFolded=!isGrandChildrenFolded"
               />
             </div>
           </TransitionGroup>
@@ -201,11 +196,11 @@ function calculateHeight(): string {
     <div
       class="ControlButton"
       v-if="shouldShowFoldButton()"
-      :title="isChildrenFolded ? 'Unfold':'Fold'"
+      :title="model.isFolded ? 'Unfold':'Fold'"
     >
       <Button
         borderless
-        :label="isChildrenFolded ? '▲' : '▼'"
+        :label="model.isFolded ? '▲' : '▼'"
         @click="toggleFolding"
       />
     </div>

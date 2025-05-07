@@ -12,6 +12,7 @@ const objectSeparator = "_";
 export default class KeyValueConfig implements ConfigContent {
   configValue: ConfigValue<string>;
   children: KeyValueConfig[] = [];
+  isFolded: boolean = false;
 
   constructor(root: EnvNode) {
     this.configValue = new ConfigValue<string>(root.name, root.value);
@@ -63,6 +64,10 @@ export default class KeyValueConfig implements ConfigContent {
   }
 
   countChildren(): number {
+    if (this.isFolded) {
+      return 0;
+    }
+
     let basicLength = this.children.length;
     this.children.forEach((c: KeyValueConfig) => {
       basicLength += c.countChildren();
