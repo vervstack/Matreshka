@@ -36,6 +36,7 @@ function addSubNode() {
 
   model.value.configValue.isMuted = false;
 }
+
 function addGhostSubNode() {
   ghostNodeIdx.value = model.value.children.length || 0;
 
@@ -68,6 +69,7 @@ function addGhostSubNode() {
   isChildrenFolded.value = false;
   model.value.configValue.value = "";
 }
+
 function removeGhostSubNode() {
   if (ghostNodeIdx.value !== undefined) {
     model.value.children.pop();
@@ -81,6 +83,7 @@ function removeGhostSubNode() {
 
 // Folding
 const isChildrenFolded = ref<boolean>(false);
+
 function toggleFolding() {
   if (!isChildrenFolded.value) {
     fullSize.value = contentBlockRef.value?.clientWidth + "px" || "100vw";
@@ -88,6 +91,7 @@ function toggleFolding() {
 
   isChildrenFolded.value = !isChildrenFolded.value;
 }
+
 function shouldShowFoldButton(): boolean {
   if (model.value.children.length < 2) {
     return false;
@@ -118,6 +122,7 @@ function unPrepareRollback() {
   model.value.unmute();
 }
 
+// General height calculator for smooth animation
 function calculateHeight(): string {
   const childrenCount = model.value.countChildren();
   if (childrenCount === 0 || isChildrenFolded.value) {
@@ -132,15 +137,11 @@ function calculateHeight(): string {
 <template>
   <div
     class="KeyValueConfigViewWrapper"
-    :style="{
-      height: calculateHeight(),
-    }"
+    :style="{ height: calculateHeight()}"
   >
-    <div
-      class="ControlButton AddButton"
-      title="Add new node"
-    >
+    <div class="AddButton ControlButton">
       <Button
+        title="Add new node"
         @click="addSubNode"
         @mouseenter="addGhostSubNode"
         @mouseleave="removeGhostSubNode"
@@ -148,7 +149,6 @@ function calculateHeight(): string {
         :icon="AddNodeIcon"
       />
     </div>
-
     <div
       class="ContentWrapper"
       ref="contentBlockRef"
@@ -220,7 +220,12 @@ function calculateHeight(): string {
 
   border-radius: var(--border-radius);
   transition: height 0.2s ease-in-out;
-  overflow: hidden;
+}
+
+.AddButton {
+  position: sticky;
+  top: 0.125em;
+  z-index: 10;
 }
 
 .ContentWrapper {
@@ -263,8 +268,11 @@ function calculateHeight(): string {
 }
 
 .ControlButton {
-  width: 1.75em;
-  height: 1.75em;
+  min-width: 1.75em;
+  max-width: 1.75em;
+  min-height: 1.75em;
+  max-height: 1.75em;
+
   display: flex;
 
   justify-content: center;
@@ -272,11 +280,6 @@ function calculateHeight(): string {
 
   margin-top: 0.125em;
   margin-left: 0.125em;
-}
-
-.AddButton {
-  position: sticky;
-  top: 0;
 }
 
 .child-enter-active,

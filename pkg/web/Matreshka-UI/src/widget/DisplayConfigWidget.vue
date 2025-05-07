@@ -62,30 +62,35 @@ fetchConfig().then(fetchConfig);
       @update:modelValue="fetchConfig"
     />
     <!--TODO Add "New Version" button?-->
+    <Sticky  v-if="false"/>
 
-    <div class="DisplayConfigContent">
-      <component
-        :is="configData.getComponent()"
-        v-model="configData.content" />
-    </div>
+    <component
+      :is="configData.getComponent()"
+      v-model="configData.content" />
 
-    <Transition name="BottomControls">
-      <InputGroup
-        v-show="configData?.isChanged()"
-        :style="{
+    <div
+      class="Footer"
+    >
+      <Transition name="BottomControls">
+        <InputGroup
+          v-if="configData?.isChanged()"
+          :style="{
             display: 'flex',
             justifyContent: 'center',
           }"
-      >
-        <Button @click="save" label="Save" icon="pi pi-check" iconPos="right" severity="danger" />
-        <Button
-          @click="configData?.rollback()"
-          label="Rollback"
-          icon="pi pi-refresh"
-          iconPos="right"
-        />
-      </InputGroup>
-    </Transition>
+        >
+          <Button @click="save" label="Save" icon="pi pi-check" iconPos="right" severity="danger" />
+          <Button
+            @click="configData?.rollback()"
+            label="Rollback"
+            icon="pi pi-refresh"
+            iconPos="right"
+          />
+        </InputGroup>
+
+
+      </Transition>
+    </div>
   </div>
 </template>
 
@@ -93,7 +98,6 @@ fetchConfig().then(fetchConfig);
 @import "@/assets/styles/config_display.css";
 
 .Display {
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   gap: 1em;
@@ -117,10 +121,9 @@ fetchConfig().then(fetchConfig);
   font-size: 2em;
 }
 
-.DisplayConfigContent {
-  width: fit-content;
-  height: 100%;
-  box-sizing: content-box;
+.Footer {
+  width: 100%;
+  height: 10vh;
 }
 
 .BottomControls-enter-active,
