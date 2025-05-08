@@ -3,9 +3,9 @@ import { Component } from "vue";
 import EnvNode from "@/models/shared/Node";
 
 import KeyValueConfigView from "@/components/config/keyvalue/KeyValueConfigView.vue";
-import { Change } from "@/models/configs/Change.ts";
 import ConfigContent from "@/models/configs/ConfigContent.ts";
 import { ConfigValue } from "@/models/shared/Values.ts";
+import { PatchConfigPatch } from "@vervstack/matreshka/matreshka-be_api.pb.ts";
 
 const objectSeparator = "_";
 
@@ -22,15 +22,25 @@ export default class KeyValueConfig implements ConfigContent {
     });
   }
 
-  getChanges(): Change[] {
+  getChanges(): PatchConfigPatch[] {
     const changes = this.configValue.getChanges();
 
     this.children.map((c: KeyValueConfig) => {
         const childChanges = c.getChanges();
 
-        childChanges.map((c: Change, idx: number) => {
+        childChanges.map((_: PatchConfigPatch, idx: number) => {
           if (!this.isRoot()) {
-            childChanges[idx].envName = this.configValue.envName + objectSeparator + c.envName;
+            childChanges[idx].fieldName =
+              this.configValue.getOriginalName() +
+              objectSeparator +
+              childChanges[idx].fieldName;
+
+            if (childChanges[idx].rename) {
+              childChanges[idx].rename =
+                this.configValue.envName +
+                objectSeparator +
+                childChanges[idx].rename;
+            }
           }
         });
 

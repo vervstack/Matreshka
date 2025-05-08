@@ -1,12 +1,12 @@
-import { Node } from "@vervstack/matreshka";
+import { Node, PatchConfigPatch } from "@vervstack/matreshka/matreshka-be_api.pb";
+import { newDeletePatch, newRenamePatch, newUpdatePatch } from "@/models/shared/Patch.ts";
 
-import { Change } from "@/models/configs/Change.ts";
 
 export type KeyMap = {
   [key: string]: any;
 };
 
-export class ConfigValue<T> {
+export class ConfigValue<T extends { toString(): string }> {
   envName: string;
   value: T;
 
@@ -34,7 +34,7 @@ export class ConfigValue<T> {
 
   isChanged(): boolean {
     if (this.isMuted) {
-      return false
+      return false;
     }
 
     return this.value != this.originalValue ||
@@ -43,7 +43,7 @@ export class ConfigValue<T> {
 
   isNameChanged(): boolean {
     if (this.isMuted) {
-      return false
+      return false;
     }
 
     return this.envName != this.originalName;
@@ -51,31 +51,31 @@ export class ConfigValue<T> {
 
   isValueChanged(): boolean {
     if (this.isMuted) {
-      return false
+      return false;
     }
 
     return this.value != this.originalValue;
   }
 
-  getChanges(): Change[] {
+  getChanges(): PatchConfigPatch[] {
     if (this.isMuted) {
-      return []
+      return [];
     }
 
-    const changes: Change[] = [];
+    const changes: PatchConfigPatch[] = [];
 
-    if (this.value != this.originalValue || this.isNew) {
-      changes.push({
-        envName: this.envName,
-        newValue: this.value,
-      } as Change);
-    }
-
-    if (this.envName != this.originalName) {
-      changes.push({
-        envName: this.originalName,
-        newValue: "",
-      });
+    if (this.isNameChanged()) {
+      if (this.isValueChanged()) {
+        // Changed both name and value - practically new variable
+        changes.push(newDeletePatch(this.originalName));
+        changes.push(newUpdatePatch(this.envName, this.value.toString()));
+      } else {
+        // Only name changed
+        changes.push(newRenamePatch(this.originalName, this.envName));
+      }
+    } else if (this.isValueChanged() || this.isNew) {
+      // Value changed or it's a new variable
+      changes.push(newUpdatePatch(this.envName, this.value.toString()));
     }
 
     return changes;

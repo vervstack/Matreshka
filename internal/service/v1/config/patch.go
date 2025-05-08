@@ -24,7 +24,7 @@ func (c *CfgService) Patch(ctx context.Context, req domain.PatchConfigRequest) e
 			return rerrors.Wrap(err, "error getting config")
 		}
 
-		err = c.validatePatch(originalConfig, req)
+		err = c.validatePatch(originalConfig, &req)
 		if err != nil {
 			return rerrors.Wrap(err, "error validating patch")
 		}
@@ -65,8 +65,10 @@ func (c *CfgService) getConfig(ctx context.Context, dataStorage storage.Data, re
 	return &evon.Node{}, nil
 }
 
-func (c *CfgService) validatePatch(originalConfig *evon.Node, patch domain.PatchConfigRequest) error {
-	err := c.validator.AsEvon(patch)
+func (c *CfgService) validatePatch(originalConfig *evon.Node, patch *domain.PatchConfigRequest) error {
+	evonStorage := evon.NodesToStorage(originalConfig.InnerNodes)
+
+	err := c.validator.AsEvon(evonStorage, patch)
 	if err != nil {
 		// TODO Replace onto rerrors.UserError with documentation link here
 		return rerrors.Wrap(err, "failed to validate EVON format")

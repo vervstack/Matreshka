@@ -19,7 +19,7 @@ export default class Config extends ConfigBase {
     this.content.rollback();
   }
 
-  getChanges(): Change[] {
+  getPatches(): Change[] {
     return this.content.getChanges();
   }
 

@@ -39,7 +39,7 @@ func (a *Impl) ListConfigs(ctx context.Context, req *api.ListConfigs_Request) (*
 		resp.Configs = append(resp.Configs,
 			&api.Config{
 				Name:                  item.Name,
-				Version:               item.Version,
+				Version:               item.ConfigVersions[0],
 				UpdatedAtUtcTimestamp: item.UpdatedAt.UTC().Unix(),
 				Versions:              item.ConfigVersions,
 			})

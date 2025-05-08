@@ -1,9 +1,10 @@
 import { Component } from "vue";
 
-import { Change } from "@/models/configs/Change.ts";
+import { PatchConfigPatch } from "@vervstack/matreshka/matreshka-be_api.pb.ts";
+
 
 export default interface ConfigContent {
-  getChanges(): Change[];
+  getChanges(): PatchConfigPatch[];
   rollback(): void;
 
   isChanged(): boolean;

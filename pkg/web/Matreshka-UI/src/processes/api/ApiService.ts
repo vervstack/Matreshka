@@ -6,7 +6,6 @@ import {
   ListConfigsRequest,
   ListConfigsResponse,
   MatreshkaBeAPI,
-  Node,
   PatchConfigRequest,
 } from "@vervstack/matreshka";
 
@@ -16,7 +15,6 @@ import ConfigList from "@/models/configs/ConfigList.ts";
 import KeyValueConfig from "@/models/configs/keyvalue/KeyValueConfig.ts";
 import VervConfig from "@/models/configs/verv/VervConfig.ts";
 import { fromPbEnvNode } from "@/models/shared/Node.ts";
-import { Change } from "@/models/configs/Change.ts";
 
 const apiPrefix = { pathPrefix: "" };
 
@@ -76,17 +74,17 @@ export async function GetConfigNodes(
         cfg.content = new KeyValueConfig(fromPbEnvNode(resp.root));
     }
 
-    cfg.versions = resp.versions || []
+    cfg.versions = resp.versions || [];
     if (req.version) {
-      cfg.selectedVersion = req.version
+      cfg.selectedVersion = req.version;
     }
 
-    cfg.versions.sort()
+    cfg.versions.sort();
 
     const masterIdx = cfg.versions.findIndex(v => v == defaultVersion);
     if (masterIdx != -1) {
-      cfg.versions[masterIdx] = cfg.versions[0]
-      cfg.versions[0] = defaultVersion
+      cfg.versions[masterIdx] = cfg.versions[0];
+      cfg.versions[0] = defaultVersion;
     }
 
     return cfg;
@@ -96,17 +94,10 @@ export async function GetConfigNodes(
 export async function PatchConfig(cfg: ConfigWithContent): Promise<ConfigWithContent> {
   if (!cfg.isChanged()) return cfg;
 
-  const changeList: Change[] = cfg.getChanges();
-
   const req: PatchConfigRequest = {
     configName: cfg.getMatreshkaName(),
     version: cfg.selectedVersion,
-    changes: changeList.map((n) => {
-      return {
-        name: n.envName,
-        value: n.newValue,
-      } as Node;
-    }),
+    patches: cfg.getPatches(),
   } as PatchConfigRequest;
 
   return MatreshkaBeAPI.PatchConfig(req, apiPrefix).then(() => {

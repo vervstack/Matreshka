@@ -62,7 +62,6 @@ fetchConfig().then(fetchConfig);
       @update:modelValue="fetchConfig"
     />
     <!--TODO Add "New Version" button?-->
-    <Sticky  v-if="false"/>
 
     <component
       :is="configData.getComponent()"

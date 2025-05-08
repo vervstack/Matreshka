@@ -21,7 +21,33 @@ func (p *Provider) Rename(ctx context.Context, oldName, newName string) error {
 }
 
 func (p *Provider) RenameValues(ctx context.Context, req domain.PatchConfigRequest) error {
-	//TODO implement
+	if len(req.RenameTo) == 0 {
+		return nil
+	}
 
+	var cfgId int64
+	err := p.conn.QueryRowContext(ctx, `
+		SELECT id 
+		FROM configs
+		WHERE name = $1
+		LIMIT 1`, req.ConfigName).
+		Scan(&cfgId)
+	if err != nil {
+		return errors.Wrap(err, "error getting config id by name")
+	}
+
+	for _, b := range req.RenameTo {
+		_, err := p.conn.ExecContext(ctx, `
+			UPDATE configs_values 
+			SET key = $1
+			WHERE config_id = $2
+			AND   key = $3
+			AND   version = $4
+					`,
+			b.NewName, cfgId, b.OldName, req.ConfigVersion)
+		if err != nil {
+			return errors.Wrap(err, "error upserting config")
+		}
+	}
 	return nil
 }

@@ -15,8 +15,8 @@ type VervConfigValidationResult struct {
 	Invalid []domain.PatchUpdate
 }
 
-func (v Validator) AsVerv(original *evon.Node, patch domain.PatchConfigRequest) VervConfigValidationResult {
-	vervV := newVervConfigValidator(patch)
+func (v Validator) AsVerv(original *evon.Node, patch *domain.PatchConfigRequest) VervConfigValidationResult {
+	vervV := newVervConfigValidator(*patch)
 
 	vervV.parseEnvironmentChanges(original)
 

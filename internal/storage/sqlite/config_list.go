@@ -14,7 +14,7 @@ import (
 
 func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsRequest) (out domain.ListConfigsResponse, err error) {
 	err = p.conn.QueryRow(`
-			SELECT 
+			SELECT
 				count(cfg.id)
 			FROM configs cfg
 			WHERE name LIKE '%'||$1||'%'`, req.SearchPattern).
@@ -28,23 +28,26 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 			SELECT
 				configs.id 			AS id,
 				configs.updated_at 	AS updated_at,
-				configs.name 		AS name,
-				cv.version 			AS version
+				configs.name 		AS name
 			FROM configs
-			JOIN configs_values cv on configs.id = cv.config_id
 			WHERE name LIKE '%'||$1||'%'
-			GROUP BY configs.name, cv.version
+			GROUP BY configs.name
+		),
+		versions AS (
+			SELECT
+				cv.config_id,
+				cv.version versions
+			FROM configs_values cv
+			INNER JOIN cfg c on c.id = cv.config_id
+			GROUP BY config_id, version
 		)
 		SELECT
-			cfg.name 				as service_name,
-			service_version.value 			as service_version,
-			cfg.updated_at 					as last_updated_at, 
-			json_group_array(cfg.version) 	as config_versions
+			cfg.name 						    AS config_name,
+			cfg.updated_at 					    AS last_updated_at,
+			json_group_array(versions.versions) AS config_versions
 		FROM cfg
-		LEFT JOIN   configs_values AS service_version
-		ON          service_version.config_id = cfg.id
-		AND         service_version.key       = 'APP-INFO_VERSION'
-		AND         service_version.version   = 'master'
+		LEFT JOIN versions ON versions.config_id = cfg.id
+
 		GROUP BY cfg.id
 		HAVING COUNT(cfg.id) > 0  -- Ensures only non-empty results are returned
 		`
@@ -67,7 +70,6 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 		var versionsJSON string
 		err = rows.Scan(
 			&item.Name,
-			&item.Version,
 			&item.UpdatedAt,
 			&versionsJSON,
 		)
