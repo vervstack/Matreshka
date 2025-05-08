@@ -176,13 +176,7 @@ message SubscribeOnChanges {
     string config_name = 1;
     uint32 timestamp = 2;
 
-    oneof changes {
-      EnvChanges env_variables = 3;
-    }
-  }
-
-  message EnvChanges  {
-    repeated Node env_variables = 1;
+    repeated PatchConfig.Patch patches = 3;
   }
 }
 

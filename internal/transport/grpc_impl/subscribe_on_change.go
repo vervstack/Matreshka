@@ -7,6 +7,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"go.redsock.ru/rerrors"
 
+	"go.vervstack.ru/matreshka/internal/domain"
 	"go.vervstack.ru/matreshka/internal/service/v1/subscription"
 	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
@@ -32,25 +33,10 @@ func (a *Impl) SubscribeOnChanges(stream api.MatreshkaBeAPI_SubscribeOnChangesSe
 			a.subService.Unsubscribe(sub, req.UnsubscribeConfigNames...)
 
 		case updates := <-sub.GetUpdateChan():
-
 			patch := &api.SubscribeOnChanges_Response{
 				ConfigName: updates.ConfigName,
 				Timestamp:  uint32(time.Now().UTC().Unix()),
-			}
-
-			envChanges := make([]*api.Node, 0)
-			// TODO work on this too
-			for _, b := range updates.Update {
-				envChanges = append(envChanges, &api.Node{
-					Name: b.FieldName,
-					//Value: b.FieldValue,
-				})
-			}
-
-			patch.Changes = &api.SubscribeOnChanges_Response_EnvVariables{
-				EnvVariables: &api.SubscribeOnChanges_EnvChanges{
-					EnvVariables: envChanges,
-				},
+				Patches:    toPatches(updates),
 			}
 
 			err := stream.Send(patch)
@@ -94,4 +80,37 @@ func consumeSubscriberStream(stream api.MatreshkaBeAPI_SubscribeOnChangesServer)
 
 	return subscriberEvents
 
+}
+
+func toPatches(req domain.PatchConfigRequest) []*api.PatchConfig_Patch {
+	out := make([]*api.PatchConfig_Patch, 0, len(req.Update)+len(req.Delete)+len(req.RenameTo))
+
+	for _, up := range req.Update {
+		out = append(out, &api.PatchConfig_Patch{
+			FieldName: up.FieldName,
+			Patch: &api.PatchConfig_Patch_UpdateValue{
+				UpdateValue: up.FieldValue,
+			},
+		})
+	}
+
+	for _, fieldName := range req.Delete {
+		out = append(out, &api.PatchConfig_Patch{
+			FieldName: fieldName,
+			Patch: &api.PatchConfig_Patch_Delete{
+				Delete: true,
+			},
+		})
+	}
+
+	for _, rp := range req.RenameTo {
+		out = append(out, &api.PatchConfig_Patch{
+			FieldName: rp.OldName,
+			Patch: &api.PatchConfig_Patch_Rename{
+				Rename: rp.NewName,
+			},
+		})
+	}
+
+	return out
 }

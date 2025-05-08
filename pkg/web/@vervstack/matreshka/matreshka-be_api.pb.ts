@@ -145,18 +145,10 @@ export type SubscribeOnChangesRequest = {
   unsubscribeConfigNames?: string[];
 };
 
-type BaseSubscribeOnChangesResponse = {
+export type SubscribeOnChangesResponse = {
   configName?: string;
   timestamp?: number;
-};
-
-export type SubscribeOnChangesResponse = BaseSubscribeOnChangesResponse &
-  OneOf<{
-    envVariables: SubscribeOnChangesEnvChanges;
-  }>;
-
-export type SubscribeOnChangesEnvChanges = {
-  envVariables?: Node[];
+  patches?: PatchConfigPatch[];
 };
 
 export type SubscribeOnChanges = Record<string, never>;
