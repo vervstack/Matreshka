@@ -7,7 +7,7 @@ import (
 )
 
 func (c *CfgService) Rename(ctx context.Context, oldName, newName string) error {
-	err := c.validator.ValidateServiceName(newName)
+	err := c.validator.IsConfigNameValid(newName)
 	if err != nil {
 		return errors.Wrap(err)
 	}

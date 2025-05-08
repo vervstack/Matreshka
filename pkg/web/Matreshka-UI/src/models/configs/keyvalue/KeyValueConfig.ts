@@ -44,9 +44,10 @@ export default class KeyValueConfig implements ConfigContent {
   rollback(): void {
     this.configValue.rollback();
 
-    if (this.children.find(v => v.configValue.isNew)) {
-      this.children = [];
-    }
+    this.children = this.children.filter(v => !v.configValue.isNew);
+    this.children.map(v => {
+      v.rollback();
+    });
   }
 
   isChanged(): boolean {

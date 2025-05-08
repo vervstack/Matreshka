@@ -2,7 +2,6 @@ package grpc_impl
 
 import (
 	"context"
-	"strings"
 
 	errors "go.redsock.ru/rerrors"
 	"go.redsock.ru/toolbox"
@@ -12,13 +11,7 @@ import (
 )
 
 func (a *Impl) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*api.PatchConfig_Response, error) {
-	patchReq := domain.PatchConfigRequest{
-		ServiceName:   req.GetConfigName(),
-		Batch:         fromNodeToPatch(&api.Node{InnerNodes: req.GetChanges()}),
-		ConfigVersion: toolbox.Coalesce(toolbox.FromPtr(req.Version), domain.MasterVersion),
-	}
-
-	err := a.configService.Patch(ctx, patchReq)
+	err := a.configService.Patch(ctx, fromPatch(req))
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}
@@ -26,20 +19,30 @@ func (a *Impl) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*
 	return &api.PatchConfig_Response{}, nil
 }
 
-func fromNodeToPatch(root *api.Node) []domain.PatchConfig {
-	batch := make([]domain.PatchConfig, 0, len(root.InnerNodes))
-
-	for _, node := range root.InnerNodes {
-		patch := domain.PatchConfig{
-			FieldName:  node.Name,
-			FieldValue: node.Value,
-		}
-		if !strings.HasPrefix(patch.FieldName, root.Name) {
-			patch.FieldName = root.Name + "_" + patch.FieldName
-		}
-		batch = append(batch, patch)
-		batch = append(batch, fromNodeToPatch(node)...)
+func fromPatch(req *api.PatchConfig_Request) domain.PatchConfigRequest {
+	out := domain.PatchConfigRequest{
+		ConfigName:    req.GetConfigName(),
+		ConfigVersion: toolbox.Coalesce(toolbox.FromPtr(req.Version), domain.MasterVersion),
 	}
 
-	return batch
+	for _, patch := range req.Patches {
+
+		switch v := patch.GetPatch().(type) {
+		case *api.PatchConfig_Patch_Rename:
+			out.RenameTo = append(out.RenameTo,
+				domain.PatchRename{
+					OldName: patch.FieldName,
+					NewName: v.Rename,
+				})
+		case *api.PatchConfig_Patch_UpdateValue:
+			out.Update = append(out.Update, domain.PatchUpdate{
+				FieldName:  patch.FieldName,
+				FieldValue: v.UpdateValue,
+			})
+		case *api.PatchConfig_Patch_Delete:
+			out.Delete = append(out.Delete, patch.FieldName)
+		}
+	}
+
+	return out
 }

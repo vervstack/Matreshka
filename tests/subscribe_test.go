@@ -15,9 +15,9 @@ import (
 type SubscriptionSuite struct {
 	suite.Suite
 
-	ctx         context.Context
-	serviceName string
-	apiClient   api.MatreshkaBeAPIClient
+	ctx        context.Context
+	configName string
+	apiClient  api.MatreshkaBeAPIClient
 }
 
 func (s *SubscriptionSuite) SetupTest() {
@@ -25,8 +25,8 @@ func (s *SubscriptionSuite) SetupTest() {
 
 	s.apiClient = testEnv.matreshkaApi
 
-	s.serviceName = getServiceNameFromTest(s.T())
-	testEnv.create(s.T(), s.serviceName)
+	s.configName = getServiceNameFromTest(s.T())
+	testEnv.create(s.T(), s.configName)
 
 }
 
@@ -37,7 +37,7 @@ func (s *SubscriptionSuite) TestSubscribeOnChanges() {
 	// Subscribe onto changes
 	{
 		subscribeRequest := &api.SubscribeOnChanges_Request{
-			SubscribeServiceNames: []string{s.serviceName},
+			SubscribeConfigNames: []string{s.configName},
 		}
 		err = stream.Send(subscribeRequest)
 		require.NoError(s.T(), err)
@@ -62,7 +62,7 @@ func (s *SubscriptionSuite) TestSubscribeOnChanges() {
 		require.NoError(s.T(), err)
 
 		updatesExpected := &api.SubscribeOnChanges_Response{
-			ServiceName: s.serviceName,
+			ConfigName: s.configName,
 			Changes: &api.SubscribeOnChanges_Response_EnvVariables{
 				EnvVariables: &api.SubscribeOnChanges_EnvChanges{
 					EnvVariables: []*api.Node{
@@ -79,14 +79,15 @@ func (s *SubscriptionSuite) TestSubscribeOnChanges() {
 			},
 		}
 
-		require.Equal(s.T(), updates.ServiceName, updatesExpected.ServiceName)
+		require.Equal(s.T(), updates.ConfigName, updatesExpected.ConfigName)
 		require.Equal(s.T(), updates.Changes, updatesExpected.Changes)
 	}()
 	// Perform change in configuration
 	{
 		patch := &api.PatchConfig_Request{
-			ServiceName: s.serviceName,
-			Changes:     []*api.Node{newVariable, newVariableType},
+			ConfigName: s.configName,
+			// TODO implement
+			//Patches:    []*api.Node{newVariable, newVariableType},
 		}
 		_, err = s.apiClient.PatchConfig(s.ctx, patch)
 		require.NoError(s.T(), err)

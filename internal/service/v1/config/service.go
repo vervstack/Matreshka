@@ -20,7 +20,7 @@ func New(data storage.Data, txManager *tx_manager.TxManager, pubService service.
 		configStorage: data,
 		txManager:     txManager,
 
-		validator:  validation.NewValidator(),
+		validator:  validation.New(),
 		pubService: pubService,
 	}
 }

@@ -9,7 +9,7 @@ import (
 )
 
 func (p *Provider) UpsertValues(ctx context.Context, req domain.PatchConfigRequest) error {
-	if len(req.Batch) == 0 {
+	if len(req.Update) == 0 {
 		return nil
 	}
 
@@ -18,13 +18,13 @@ func (p *Provider) UpsertValues(ctx context.Context, req domain.PatchConfigReque
 		SELECT id 
 		FROM configs
 		WHERE name = $1
-		LIMIT 1`, req.ServiceName).
+		LIMIT 1`, req.ConfigName).
 		Scan(&cfgId)
 	if err != nil {
 		return errors.Wrap(err, "error getting config id by name")
 	}
 
-	for _, b := range req.Batch {
+	for _, b := range req.Update {
 		_, err := p.conn.ExecContext(ctx, `
 			INSERT INTO configs_values 
 					(config_id, key, value, version)

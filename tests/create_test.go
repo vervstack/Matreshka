@@ -55,7 +55,7 @@ func (s *CreateSuite) Test_InvalidName() {
 		tc := tc
 		s.Run(name, func() {
 			req := &matreshka_be_api.CreateConfig_Request{
-				ServiceName: tc.name,
+				ConfigName: tc.name,
 			}
 			resp, err := s.api.CreateConfig(s.ctx, req)
 			s.Nil(resp)

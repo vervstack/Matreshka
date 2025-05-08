@@ -8,65 +8,74 @@ import (
 
 	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
-	"go.redsock.ru/toolbox"
 
 	"go.vervstack.ru/matreshka/internal/domain"
 	"go.vervstack.ru/matreshka/internal/service/user_errors"
+	"go.vervstack.ru/matreshka/internal/storage"
 	"go.vervstack.ru/matreshka/pkg/matreshka"
 )
 
 func (c *CfgService) Create(ctx context.Context, serviceName string) (int64, error) {
-	err := c.validator.ValidateServiceName(serviceName)
+	err := c.validator.IsConfigNameValid(serviceName)
 	if err != nil {
 		return 0, errors.Wrap(err)
 	}
 
-	newCfg := c.initNewConfig(serviceName)
+	var cfgId int64
 
-	var createdCfgId int64
-	newCfgPatch, err := c.convertConfigToPatch(newCfg)
-	if err != nil {
-		return 0, errors.Wrap(err, "error converting config to patch")
-	}
-
-	err = c.txManager.Execute(func(tx *sql.Tx) error {
+	err = c.txManager.Execute(func(tx *sql.Tx) (err error) {
 		configStorage := c.configStorage.WithTx(tx)
-
-		var nodes *evon.Node
-		nodes, err = configStorage.GetConfigNodes(ctx, serviceName, domain.MasterVersion)
+		cfgId, err = c.createConfig(ctx, configStorage, serviceName)
 		if err != nil {
-			return errors.Wrap(err, "error reading config from storage")
+			return errors.Wrap(err, "error creating config")
 		}
 
-		if nodes != nil {
-			return errors.Wrap(user_errors.ErrAlreadyExists, "Name \""+serviceName+"\" is already taken")
-		}
-
-		createdCfgId, err = configStorage.Create(ctx, serviceName)
-		if err != nil {
-			return errors.Wrap(err, "error saving config")
-		}
-
-		patchReq := domain.PatchConfigRequest{
-			ServiceName:   serviceName,
-			Batch:         newCfgPatch,
-			ConfigVersion: domain.MasterVersion,
-		}
-
-		err = configStorage.UpsertValues(ctx, patchReq)
-		if err != nil {
-			return errors.Wrap(err, "error upserting new config")
-		}
 		return nil
 	})
 	if err != nil {
 		return 0, errors.Wrap(err)
 	}
 
-	return createdCfgId, nil
+	return cfgId, nil
 }
 
-func (c *CfgService) convertConfigToPatch(cfg matreshka.AppConfig) ([]domain.PatchConfig, error) {
+func (c *CfgService) createConfig(ctx context.Context, dataStorage storage.Data, serviceName string) (int64, error) {
+	nodes, err := dataStorage.GetConfigNodes(ctx, serviceName, domain.MasterVersion)
+	if err != nil {
+		return 0, errors.Wrap(err, "error reading config from storage")
+	}
+
+	if nodes != nil {
+		return 0, errors.Wrap(user_errors.ErrAlreadyExists, "Name \""+serviceName+"\" is already taken")
+	}
+
+	cfgId, err := dataStorage.Create(ctx, serviceName)
+	if err != nil {
+		return 0, errors.Wrap(err, "error saving config")
+	}
+
+	newCfg := c.initNewConfig(serviceName)
+
+	newCfgPatch, err := c.convertConfigToPatch(newCfg)
+	if err != nil {
+		return 0, errors.Wrap(err, "error converting config to patch")
+	}
+
+	patchReq := domain.PatchConfigRequest{
+		ConfigName:    serviceName,
+		Update:        newCfgPatch,
+		ConfigVersion: domain.MasterVersion,
+	}
+
+	err = dataStorage.UpsertValues(ctx, patchReq)
+	if err != nil {
+		return 0, errors.Wrap(err, "error upserting new config")
+	}
+
+	return cfgId, nil
+}
+
+func (c *CfgService) convertConfigToPatch(cfg matreshka.AppConfig) ([]domain.PatchUpdate, error) {
 	newCfgNodes, err := evon.MarshalEnv(&cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "error marshalling config")
@@ -74,16 +83,17 @@ func (c *CfgService) convertConfigToPatch(cfg matreshka.AppConfig) ([]domain.Pat
 
 	newCfgNodesStore := evon.NodesToStorage(newCfgNodes.InnerNodes)
 
-	cfgPatch := make([]domain.PatchConfig, 0, len(newCfgNodesStore))
+	cfgPatch := make([]domain.PatchUpdate, 0, len(newCfgNodesStore))
 	for _, node := range newCfgNodesStore {
 		if node.Value != nil {
 			cfgPatch = append(cfgPatch,
-				domain.PatchConfig{
+				domain.PatchUpdate{
 					FieldName:  node.Name,
-					FieldValue: toolbox.ToPtr(fmt.Sprint(node.Value)),
+					FieldValue: fmt.Sprint(node.Value),
 				})
 		}
 	}
+
 	return cfgPatch, nil
 }
 

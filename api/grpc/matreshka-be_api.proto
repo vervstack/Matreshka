@@ -89,11 +89,20 @@ message GetConfig {
 message PatchConfig {
   message Request {
     string config_name = 1;
-    repeated Node changes = 2;
-    optional string version = 3;
+    optional string version = 2;
+    repeated Patch patches = 3;
   }
 
   message Response {}
+
+  message Patch {
+    string field_name = 1;
+    oneof patch {
+      string rename = 2;
+      string update_value = 3;
+      bool delete = 4;
+    }
+  }
 }
 
 message ListConfigs {

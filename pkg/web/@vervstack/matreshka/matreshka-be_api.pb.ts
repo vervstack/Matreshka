@@ -64,11 +64,22 @@ export type GetConfig = Record<string, never>;
 
 export type PatchConfigRequest = {
   configName?: string;
-  changes?: Node[];
   version?: string;
+  patches?: PatchConfigPatch[];
 };
 
 export type PatchConfigResponse = Record<string, never>;
+
+type BasePatchConfigPatch = {
+  fieldName?: string;
+};
+
+export type PatchConfigPatch = BasePatchConfigPatch &
+  OneOf<{
+    rename: string;
+    updateValue: string;
+    delete: boolean;
+  }>;
 
 export type PatchConfig = Record<string, never>;
 

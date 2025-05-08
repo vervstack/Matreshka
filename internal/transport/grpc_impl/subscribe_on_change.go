@@ -34,16 +34,16 @@ func (a *Impl) SubscribeOnChanges(stream api.MatreshkaBeAPI_SubscribeOnChangesSe
 		case updates := <-sub.GetUpdateChan():
 
 			patch := &api.SubscribeOnChanges_Response{
-				ConfigName: updates.ServiceName,
+				ConfigName: updates.ConfigName,
 				Timestamp:  uint32(time.Now().UTC().Unix()),
 			}
 
 			envChanges := make([]*api.Node, 0)
-
-			for _, b := range updates.Batch {
+			// TODO work on this too
+			for _, b := range updates.Update {
 				envChanges = append(envChanges, &api.Node{
-					Name:  b.FieldName,
-					Value: b.FieldValue,
+					Name: b.FieldName,
+					//Value: b.FieldValue,
 				})
 			}
 

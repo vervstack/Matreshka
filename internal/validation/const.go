@@ -1,4 +1,4 @@
-package patch
+package validation
 
 const (
 	appInfo            = "APP-INFO"

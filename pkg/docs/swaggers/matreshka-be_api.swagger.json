@@ -252,6 +252,23 @@
     }
   },
   "definitions": {
+    "PatchConfigPatch": {
+      "type": "object",
+      "properties": {
+        "fieldName": {
+          "type": "string"
+        },
+        "rename": {
+          "type": "string"
+        },
+        "updateValue": {
+          "type": "string"
+        },
+        "delete": {
+          "type": "boolean"
+        }
+      }
+    },
     "SubscribeOnChangesEnvChanges": {
       "type": "object",
       "properties": {
@@ -372,15 +389,15 @@
     "matreshka_be_apiMatreshkaBeAPIPatchConfigBody": {
       "type": "object",
       "properties": {
-        "changes": {
+        "version": {
+          "type": "string"
+        },
+        "patches": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/matreshka_be_apiNode"
+            "$ref": "#/definitions/PatchConfigPatch"
           }
-        },
-        "version": {
-          "type": "string"
         }
       }
     },

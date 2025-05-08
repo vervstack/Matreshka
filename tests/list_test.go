@@ -40,10 +40,10 @@ func (s *ListSuite) Test_ListOneServiceWithOneVersion() {
 	}
 
 	s.expected = &matreshka_be_api.ListConfigs_Response{
-		Services: []*matreshka_be_api.AppInfo{{
-			Name:           s.serviceName,
-			ServiceVersion: "v0.0.1",
-			ConfigVersions: []string{domain.MasterVersion},
+		Configs: []*matreshka_be_api.Config{{
+			Name:     s.serviceName,
+			Version:  "v0.0.1",
+			Versions: []string{domain.MasterVersion},
 		}},
 		TotalRecords: 1,
 	}
@@ -53,16 +53,18 @@ func (s *ListSuite) Test_ListOneServiceWithTwoVersion() {
 	testEnv.create(s.T(), s.serviceName)
 
 	patchReq := &matreshka_be_api.PatchConfig_Request{
-		ServiceName: s.serviceName,
-		Changes: []*matreshka_be_api.Node{
+		ConfigName: s.serviceName,
+		Patches: []*matreshka_be_api.PatchConfig_Patch{
 			{
-				Name:  "ENVIRONMENT_IS_CRON_ACTIVE",
-				Value: toolbox.ToPtr("true"),
-				InnerNodes: []*matreshka_be_api.Node{
-					{
-						Name:  "TYPE",
-						Value: toolbox.ToPtr("bool"),
-					},
+				FieldName: "ENVIRONMENT_IS-CRON-ACTIVE",
+				Patch: &matreshka_be_api.PatchConfig_Patch_UpdateValue{
+					UpdateValue: "true",
+				},
+			},
+			{
+				FieldName: "ENVIRONMENT_IS-CRON-ACTIVE_TYPE",
+				Patch: &matreshka_be_api.PatchConfig_Patch_UpdateValue{
+					UpdateValue: "bool",
 				},
 			},
 		},
@@ -77,10 +79,10 @@ func (s *ListSuite) Test_ListOneServiceWithTwoVersion() {
 	}
 
 	s.expected = &matreshka_be_api.ListConfigs_Response{
-		Services: []*matreshka_be_api.AppInfo{{
-			Name:           s.serviceName,
-			ServiceVersion: "v0.0.1",
-			ConfigVersions: []string{domain.MasterVersion, "VERV-137"},
+		Configs: []*matreshka_be_api.Config{{
+			Name:     s.serviceName,
+			Version:  "v0.0.1",
+			Versions: []string{domain.MasterVersion, "VERV-137"},
 		}},
 		TotalRecords: 1,
 	}
@@ -90,9 +92,9 @@ func (s *ListSuite) TearDownTest() {
 	resp, err := testEnv.matreshkaApi.ListConfigs(s.ctx, s.req)
 	require.NoError(s.T(), err)
 
-	tm := time.Unix(resp.Services[0].UpdatedAtUtcTimestamp, 0).UTC()
+	tm := time.Unix(resp.Configs[0].UpdatedAtUtcTimestamp, 0).UTC()
 	require.WithinRange(s.T(), tm, s.start, time.Now().UTC())
-	resp.Services[0].UpdatedAtUtcTimestamp = 0
+	resp.Configs[0].UpdatedAtUtcTimestamp = 0
 
 	if !proto.Equal(s.expected, resp) {
 		require.Equal(s.T(), s.expected, resp)

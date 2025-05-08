@@ -9,7 +9,7 @@ import (
 )
 
 func (p *Provider) DeleteValues(ctx context.Context, req domain.PatchConfigRequest) error {
-	if len(req.Batch) == 0 {
+	if len(req.Delete) == 0 {
 		return nil
 	}
 
@@ -18,7 +18,7 @@ func (p *Provider) DeleteValues(ctx context.Context, req domain.PatchConfigReque
 		SELECT id 
 		FROM configs
 		WHERE name = $1
-		LIMIT 1`, req.ServiceName).
+		LIMIT 1`, req.ConfigName).
 		Scan(&cfgId)
 	if err != nil {
 		return errors.Wrap(err, "error getting config id by name")
@@ -37,10 +37,10 @@ func (p *Provider) DeleteValues(ctx context.Context, req domain.PatchConfigReque
 		return errors.Wrap(err, "error preparing deleting values query")
 	}
 
-	for _, patch := range req.Batch {
-		_, err = deleteQ.ExecContext(ctx, cfgId, patch.FieldName, req.ConfigVersion)
+	for _, valueName := range req.Delete {
+		_, err = deleteQ.ExecContext(ctx, cfgId, valueName, req.ConfigVersion)
 		if err != nil {
-			return errors.Wrap(err, "error deleting value from db: "+patch.FieldName)
+			return errors.Wrap(err, "error deleting value from db: "+valueName)
 		}
 	}
 

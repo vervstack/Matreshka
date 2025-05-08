@@ -1,17 +1,19 @@
 package domain
 
 type PatchConfigRequest struct {
-	ServiceName   string
-	Batch         []PatchConfig
+	ConfigName    string
 	ConfigVersion string
+	Update        []PatchUpdate
+	RenameTo      []PatchRename
+	Delete        []string
 }
 
-type PatchConfig struct {
+type PatchUpdate struct {
 	FieldName  string
-	FieldValue *string
+	FieldValue string
 }
 
-type RenameRequest struct {
+type PatchRename struct {
 	OldName string
 	NewName string
 }

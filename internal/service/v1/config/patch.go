@@ -3,7 +3,7 @@ package config
 import (
 	"context"
 	"database/sql"
-	"fmt"
+	"strings"
 	"time"
 
 	"go.redsock.ru/evon"
@@ -11,83 +11,44 @@ import (
 	"go.redsock.ru/toolbox"
 
 	"go.vervstack.ru/matreshka/internal/domain"
-	"go.vervstack.ru/matreshka/internal/domain/patch"
-	"go.vervstack.ru/matreshka/internal/service/user_errors"
+	"go.vervstack.ru/matreshka/internal/storage"
+	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
 func (c *CfgService) Patch(ctx context.Context, req domain.PatchConfigRequest) error {
-	cfgNodes, err := c.getConfig(ctx, req.ServiceName, req.ConfigVersion)
-	if err != nil {
-		return rerrors.Wrap(err, "")
-	}
+	err := c.txManager.Execute(func(tx *sql.Tx) error {
+		dataStorage := c.configStorage.WithTx(tx)
 
-	cfgPatch := patch.NewPatch(req.Batch, cfgNodes)
-
-	delReq := domain.PatchConfigRequest{
-		ServiceName:   req.ServiceName,
-		Batch:         cfgPatch.Delete,
-		ConfigVersion: req.ConfigVersion,
-	}
-
-	upserReq := domain.PatchConfigRequest{
-		ServiceName:   req.ServiceName,
-		Batch:         append(cfgPatch.Upsert, cfgPatch.EnvUpsert...),
-		ConfigVersion: req.ConfigVersion,
-	}
-
-	newName, isChanged := cfgPatch.NameChanged()
-
-	err = c.txManager.Execute(func(tx *sql.Tx) error {
-		configStorage := c.configStorage.WithTx(tx)
-
-		err = configStorage.DeleteValues(ctx, delReq)
+		originalConfig, err := c.getConfig(ctx, dataStorage, req)
 		if err != nil {
-			return rerrors.Wrap(err, "error deleting values")
+			return rerrors.Wrap(err, "error getting config")
 		}
 
-		err = configStorage.UpsertValues(ctx, upserReq)
+		err = c.validatePatch(originalConfig, req)
 		if err != nil {
-			return rerrors.Wrap(err, "error patching config in data storage")
+			return rerrors.Wrap(err, "error validating patch")
 		}
 
-		err = configStorage.SetUpdatedAt(ctx, req.ServiceName, time.Now())
+		err = c.patch(ctx, dataStorage, req)
 		if err != nil {
-			return rerrors.Wrap(err, "error updating time")
-		}
-
-		if isChanged && req.ConfigVersion == domain.MasterVersion {
-			err = configStorage.Rename(ctx, req.ServiceName, newName)
-			if err != nil {
-				return rerrors.Wrap(err, "error renaming config")
-			}
+			return rerrors.Wrap(err, "error patching config")
 		}
 
 		return nil
 	})
-
-	go func() {
-		event := domain.PatchConfigRequest{
-			ServiceName: req.ServiceName,
-			Batch:       append([]domain.PatchConfig{}, cfgPatch.Upsert...),
-		}
-
-		event.Batch = append(event.Batch, cfgPatch.EnvUpsert...)
-		event.Batch = append(event.Batch, cfgPatch.Delete...)
-
-		c.pubService.Publish(event)
-	}()
-
-	if len(cfgPatch.Invalid) != 0 {
-		return rerrors.Wrap(user_errors.ErrValidation, "Invalid patched env var name: "+fmt.Sprint(cfgPatch.Invalid))
+	if err != nil {
+		return err
 	}
+
+	go c.pubService.Publish(req)
 
 	return nil
 }
 
-func (c *CfgService) getConfig(ctx context.Context, serviceName, version string) (*evon.Node, error) {
-	ver := toolbox.Coalesce(version, domain.MasterVersion)
+func (c *CfgService) getConfig(ctx context.Context, dataStorage storage.Data, req domain.PatchConfigRequest) (*evon.Node, error) {
+	ver := toolbox.Coalesce(req.ConfigVersion, domain.MasterVersion)
 
-	cfgNodes, err := c.configStorage.GetConfigNodes(ctx, serviceName, ver)
+	cfgNodes, err := dataStorage.GetConfigNodes(ctx, req.ConfigName, ver)
 	if err != nil {
 		return nil, rerrors.Wrap(err, "error getting nodes")
 	}
@@ -96,10 +57,53 @@ func (c *CfgService) getConfig(ctx context.Context, serviceName, version string)
 		return cfgNodes, nil
 	}
 
-	_, err = c.Create(ctx, serviceName)
+	_, err = c.createConfig(ctx, dataStorage, req.ConfigName)
 	if err != nil {
 		return nil, rerrors.Wrap(err, "error creating config to patch to")
 	}
 
 	return &evon.Node{}, nil
+}
+
+func (c *CfgService) validatePatch(originalConfig *evon.Node, patch domain.PatchConfigRequest) error {
+	err := c.validator.AsEvon(patch)
+	if err != nil {
+		// TODO Replace onto rerrors.UserError with documentation link here
+		return rerrors.Wrap(err, "failed to validate EVON format")
+	}
+
+	switch {
+	case strings.HasPrefix(patch.ConfigName, api.ConfigTypePrefix_name[int32(api.ConfigTypePrefix_verv)]):
+		validationRes := c.validator.AsVerv(originalConfig, patch)
+		if len(validationRes.Invalid) != 0 {
+			return rerrors.New("error during patch validation: %v", validationRes.Invalid)
+		}
+	}
+
+	return nil
+}
+
+func (c *CfgService) patch(ctx context.Context, configStorage storage.Data, patch domain.PatchConfigRequest) error {
+	err := configStorage.DeleteValues(ctx, patch)
+	if err != nil {
+		return rerrors.Wrap(err, "error deleting values")
+	}
+
+	err = configStorage.UpsertValues(ctx, patch)
+	if err != nil {
+		return rerrors.Wrap(err, "error patching config in data storage")
+	}
+
+	err = configStorage.SetUpdatedAt(ctx, patch.ConfigName, time.Now())
+	if err != nil {
+		return rerrors.Wrap(err, "error updating time")
+	}
+
+	err = configStorage.RenameValues(ctx, patch)
+	if err != nil {
+		return rerrors.Wrap(err, "error renaming config")
+	}
+
+	return nil
+
 }
