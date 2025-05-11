@@ -50,13 +50,19 @@ func (p *Postgres) MarshalYAML() (interface{}, error) {
 }
 
 func (p *Postgres) ConnectionString() string {
-	return fmt.Sprintf("postgresql://%s:%s@%s:%d/%s",
+	connstr := fmt.Sprintf("postgresql://%s:%s@%s:%d/%s",
 		p.User,
 		p.Pwd,
 		p.Host,
 		p.Port,
 		p.DbName,
 	)
+
+	if p.SslMode != "" {
+		connstr += fmt.Sprintf("?sslmode=%s", p.SslMode)
+	}
+
+	return connstr
 }
 
 func (p *Postgres) SqlDialect() string {
