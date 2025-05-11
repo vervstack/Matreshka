@@ -83,6 +83,52 @@ func (ConfigTypePrefix) EnumDescriptor() ([]byte, []int) {
 	return file_matreshka_be_api_proto_rawDescGZIP(), []int{0}
 }
 
+type Format int32
+
+const (
+	Format_yaml Format = 0 // Default
+	Format_env  Format = 1
+)
+
+// Enum value maps for Format.
+var (
+	Format_name = map[int32]string{
+		0: "yaml",
+		1: "env",
+	}
+	Format_value = map[string]int32{
+		"yaml": 0,
+		"env":  1,
+	}
+)
+
+func (x Format) Enum() *Format {
+	p := new(Format)
+	*p = x
+	return p
+}
+
+func (x Format) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Format) Descriptor() protoreflect.EnumDescriptor {
+	return file_matreshka_be_api_proto_enumTypes[1].Descriptor()
+}
+
+func (Format) Type() protoreflect.EnumType {
+	return &file_matreshka_be_api_proto_enumTypes[1]
+}
+
+func (x Format) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Format.Descriptor instead.
+func (Format) EnumDescriptor() ([]byte, []int) {
+	return file_matreshka_be_api_proto_rawDescGZIP(), []int{1}
+}
+
 type Sort_Type int32
 
 const (
@@ -116,11 +162,11 @@ func (x Sort_Type) String() string {
 }
 
 func (Sort_Type) Descriptor() protoreflect.EnumDescriptor {
-	return file_matreshka_be_api_proto_enumTypes[1].Descriptor()
+	return file_matreshka_be_api_proto_enumTypes[2].Descriptor()
 }
 
 func (Sort_Type) Type() protoreflect.EnumType {
-	return &file_matreshka_be_api_proto_enumTypes[1]
+	return &file_matreshka_be_api_proto_enumTypes[2]
 }
 
 func (x Sort_Type) Number() protoreflect.EnumNumber {
@@ -736,6 +782,7 @@ type GetConfig_Request struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ConfigName    string                 `protobuf:"bytes,1,opt,name=config_name,json=configName,proto3" json:"config_name,omitempty"`
 	Version       *string                `protobuf:"bytes,2,opt,name=version,proto3,oneof" json:"version,omitempty"`
+	Format        Format                 `protobuf:"varint,3,opt,name=format,proto3,enum=matreshka_be_api.Format" json:"format,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -782,6 +829,13 @@ func (x *GetConfig_Request) GetVersion() string {
 		return *x.Version
 	}
 	return ""
+}
+
+func (x *GetConfig_Request) GetFormat() Format {
+	if x != nil {
+		return x.Format
+	}
+	return Format_yaml
 }
 
 type GetConfig_Response struct {
@@ -1559,12 +1613,13 @@ const file_matreshka_be_api_proto_rawDesc = "" +
 	"ApiVersion\x1a\t\n" +
 	"\aRequest\x1a$\n" +
 	"\bResponse\x12\x18\n" +
-	"\aversion\x18\x01 \x01(\tR\aversion\"\x86\x01\n" +
-	"\tGetConfig\x1aU\n" +
+	"\aversion\x18\x01 \x01(\tR\aversion\"\xb9\x01\n" +
+	"\tGetConfig\x1a\x87\x01\n" +
 	"\aRequest\x12\x1f\n" +
 	"\vconfig_name\x18\x01 \x01(\tR\n" +
 	"configName\x12\x1d\n" +
-	"\aversion\x18\x02 \x01(\tH\x00R\aversion\x88\x01\x01B\n" +
+	"\aversion\x18\x02 \x01(\tH\x00R\aversion\x88\x01\x01\x120\n" +
+	"\x06format\x18\x03 \x01(\x0e2\x18.matreshka_be_api.FormatR\x06formatB\n" +
 	"\n" +
 	"\b_version\x1a\"\n" +
 	"\bResponse\x12\x16\n" +
@@ -1643,7 +1698,10 @@ const file_matreshka_be_api_proto_rawDesc = "" +
 	"\x04verv\x10\x01\x12\t\n" +
 	"\x05minio\x10\x02\x12\x06\n" +
 	"\x02pg\x10\x03\x12\t\n" +
-	"\x05nginx\x10\x042\xa2\b\n" +
+	"\x05nginx\x10\x04*\x1b\n" +
+	"\x06Format\x12\b\n" +
+	"\x04yaml\x10\x00\x12\a\n" +
+	"\x03env\x10\x012\xa2\b\n" +
 	"\x0eMatreshkaBeAPI\x12o\n" +
 	"\n" +
 	"ApiVersion\x12$.matreshka_be_api.ApiVersion.Request\x1a%.matreshka_be_api.ApiVersion.Response\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/api/version\x12y\n" +
@@ -1667,71 +1725,73 @@ func file_matreshka_be_api_proto_rawDescGZIP() []byte {
 	return file_matreshka_be_api_proto_rawDescData
 }
 
-var file_matreshka_be_api_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_matreshka_be_api_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_matreshka_be_api_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
 var file_matreshka_be_api_proto_goTypes = []any{
 	(ConfigTypePrefix)(0),               // 0: matreshka_be_api.ConfigTypePrefix
-	(Sort_Type)(0),                      // 1: matreshka_be_api.Sort.Type
-	(*Config)(nil),                      // 2: matreshka_be_api.Config
-	(*Paging)(nil),                      // 3: matreshka_be_api.Paging
-	(*ApiVersion)(nil),                  // 4: matreshka_be_api.ApiVersion
-	(*GetConfig)(nil),                   // 5: matreshka_be_api.GetConfig
-	(*PatchConfig)(nil),                 // 6: matreshka_be_api.PatchConfig
-	(*ListConfigs)(nil),                 // 7: matreshka_be_api.ListConfigs
-	(*Node)(nil),                        // 8: matreshka_be_api.Node
-	(*GetConfigNode)(nil),               // 9: matreshka_be_api.GetConfigNode
-	(*CreateConfig)(nil),                // 10: matreshka_be_api.CreateConfig
-	(*RenameConfig)(nil),                // 11: matreshka_be_api.RenameConfig
-	(*Sort)(nil),                        // 12: matreshka_be_api.Sort
-	(*SubscribeOnChanges)(nil),          // 13: matreshka_be_api.SubscribeOnChanges
-	(*ApiVersion_Request)(nil),          // 14: matreshka_be_api.ApiVersion.Request
-	(*ApiVersion_Response)(nil),         // 15: matreshka_be_api.ApiVersion.Response
-	(*GetConfig_Request)(nil),           // 16: matreshka_be_api.GetConfig.Request
-	(*GetConfig_Response)(nil),          // 17: matreshka_be_api.GetConfig.Response
-	(*PatchConfig_Request)(nil),         // 18: matreshka_be_api.PatchConfig.Request
-	(*PatchConfig_Response)(nil),        // 19: matreshka_be_api.PatchConfig.Response
-	(*PatchConfig_Patch)(nil),           // 20: matreshka_be_api.PatchConfig.Patch
-	(*ListConfigs_Request)(nil),         // 21: matreshka_be_api.ListConfigs.Request
-	(*ListConfigs_Response)(nil),        // 22: matreshka_be_api.ListConfigs.Response
-	(*GetConfigNode_Request)(nil),       // 23: matreshka_be_api.GetConfigNode.Request
-	(*GetConfigNode_Response)(nil),      // 24: matreshka_be_api.GetConfigNode.Response
-	(*CreateConfig_Request)(nil),        // 25: matreshka_be_api.CreateConfig.Request
-	(*CreateConfig_Response)(nil),       // 26: matreshka_be_api.CreateConfig.Response
-	(*RenameConfig_Request)(nil),        // 27: matreshka_be_api.RenameConfig.Request
-	(*RenameConfig_Response)(nil),       // 28: matreshka_be_api.RenameConfig.Response
-	(*SubscribeOnChanges_Request)(nil),  // 29: matreshka_be_api.SubscribeOnChanges.Request
-	(*SubscribeOnChanges_Response)(nil), // 30: matreshka_be_api.SubscribeOnChanges.Response
+	(Format)(0),                         // 1: matreshka_be_api.Format
+	(Sort_Type)(0),                      // 2: matreshka_be_api.Sort.Type
+	(*Config)(nil),                      // 3: matreshka_be_api.Config
+	(*Paging)(nil),                      // 4: matreshka_be_api.Paging
+	(*ApiVersion)(nil),                  // 5: matreshka_be_api.ApiVersion
+	(*GetConfig)(nil),                   // 6: matreshka_be_api.GetConfig
+	(*PatchConfig)(nil),                 // 7: matreshka_be_api.PatchConfig
+	(*ListConfigs)(nil),                 // 8: matreshka_be_api.ListConfigs
+	(*Node)(nil),                        // 9: matreshka_be_api.Node
+	(*GetConfigNode)(nil),               // 10: matreshka_be_api.GetConfigNode
+	(*CreateConfig)(nil),                // 11: matreshka_be_api.CreateConfig
+	(*RenameConfig)(nil),                // 12: matreshka_be_api.RenameConfig
+	(*Sort)(nil),                        // 13: matreshka_be_api.Sort
+	(*SubscribeOnChanges)(nil),          // 14: matreshka_be_api.SubscribeOnChanges
+	(*ApiVersion_Request)(nil),          // 15: matreshka_be_api.ApiVersion.Request
+	(*ApiVersion_Response)(nil),         // 16: matreshka_be_api.ApiVersion.Response
+	(*GetConfig_Request)(nil),           // 17: matreshka_be_api.GetConfig.Request
+	(*GetConfig_Response)(nil),          // 18: matreshka_be_api.GetConfig.Response
+	(*PatchConfig_Request)(nil),         // 19: matreshka_be_api.PatchConfig.Request
+	(*PatchConfig_Response)(nil),        // 20: matreshka_be_api.PatchConfig.Response
+	(*PatchConfig_Patch)(nil),           // 21: matreshka_be_api.PatchConfig.Patch
+	(*ListConfigs_Request)(nil),         // 22: matreshka_be_api.ListConfigs.Request
+	(*ListConfigs_Response)(nil),        // 23: matreshka_be_api.ListConfigs.Response
+	(*GetConfigNode_Request)(nil),       // 24: matreshka_be_api.GetConfigNode.Request
+	(*GetConfigNode_Response)(nil),      // 25: matreshka_be_api.GetConfigNode.Response
+	(*CreateConfig_Request)(nil),        // 26: matreshka_be_api.CreateConfig.Request
+	(*CreateConfig_Response)(nil),       // 27: matreshka_be_api.CreateConfig.Response
+	(*RenameConfig_Request)(nil),        // 28: matreshka_be_api.RenameConfig.Request
+	(*RenameConfig_Response)(nil),       // 29: matreshka_be_api.RenameConfig.Response
+	(*SubscribeOnChanges_Request)(nil),  // 30: matreshka_be_api.SubscribeOnChanges.Request
+	(*SubscribeOnChanges_Response)(nil), // 31: matreshka_be_api.SubscribeOnChanges.Response
 }
 var file_matreshka_be_api_proto_depIdxs = []int32{
-	8,  // 0: matreshka_be_api.Node.inner_nodes:type_name -> matreshka_be_api.Node
-	1,  // 1: matreshka_be_api.Sort.type:type_name -> matreshka_be_api.Sort.Type
-	20, // 2: matreshka_be_api.PatchConfig.Request.patches:type_name -> matreshka_be_api.PatchConfig.Patch
-	3,  // 3: matreshka_be_api.ListConfigs.Request.paging:type_name -> matreshka_be_api.Paging
-	12, // 4: matreshka_be_api.ListConfigs.Request.sort:type_name -> matreshka_be_api.Sort
-	2,  // 5: matreshka_be_api.ListConfigs.Response.configs:type_name -> matreshka_be_api.Config
-	8,  // 6: matreshka_be_api.GetConfigNode.Response.root:type_name -> matreshka_be_api.Node
-	20, // 7: matreshka_be_api.SubscribeOnChanges.Response.patches:type_name -> matreshka_be_api.PatchConfig.Patch
-	14, // 8: matreshka_be_api.MatreshkaBeAPI.ApiVersion:input_type -> matreshka_be_api.ApiVersion.Request
-	16, // 9: matreshka_be_api.MatreshkaBeAPI.GetConfig:input_type -> matreshka_be_api.GetConfig.Request
-	23, // 10: matreshka_be_api.MatreshkaBeAPI.GetConfigNodes:input_type -> matreshka_be_api.GetConfigNode.Request
-	21, // 11: matreshka_be_api.MatreshkaBeAPI.ListConfigs:input_type -> matreshka_be_api.ListConfigs.Request
-	25, // 12: matreshka_be_api.MatreshkaBeAPI.CreateConfig:input_type -> matreshka_be_api.CreateConfig.Request
-	18, // 13: matreshka_be_api.MatreshkaBeAPI.PatchConfig:input_type -> matreshka_be_api.PatchConfig.Request
-	27, // 14: matreshka_be_api.MatreshkaBeAPI.RenameConfig:input_type -> matreshka_be_api.RenameConfig.Request
-	29, // 15: matreshka_be_api.MatreshkaBeAPI.SubscribeOnChanges:input_type -> matreshka_be_api.SubscribeOnChanges.Request
-	15, // 16: matreshka_be_api.MatreshkaBeAPI.ApiVersion:output_type -> matreshka_be_api.ApiVersion.Response
-	17, // 17: matreshka_be_api.MatreshkaBeAPI.GetConfig:output_type -> matreshka_be_api.GetConfig.Response
-	24, // 18: matreshka_be_api.MatreshkaBeAPI.GetConfigNodes:output_type -> matreshka_be_api.GetConfigNode.Response
-	22, // 19: matreshka_be_api.MatreshkaBeAPI.ListConfigs:output_type -> matreshka_be_api.ListConfigs.Response
-	26, // 20: matreshka_be_api.MatreshkaBeAPI.CreateConfig:output_type -> matreshka_be_api.CreateConfig.Response
-	19, // 21: matreshka_be_api.MatreshkaBeAPI.PatchConfig:output_type -> matreshka_be_api.PatchConfig.Response
-	28, // 22: matreshka_be_api.MatreshkaBeAPI.RenameConfig:output_type -> matreshka_be_api.RenameConfig.Response
-	30, // 23: matreshka_be_api.MatreshkaBeAPI.SubscribeOnChanges:output_type -> matreshka_be_api.SubscribeOnChanges.Response
-	16, // [16:24] is the sub-list for method output_type
-	8,  // [8:16] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	9,  // 0: matreshka_be_api.Node.inner_nodes:type_name -> matreshka_be_api.Node
+	2,  // 1: matreshka_be_api.Sort.type:type_name -> matreshka_be_api.Sort.Type
+	1,  // 2: matreshka_be_api.GetConfig.Request.format:type_name -> matreshka_be_api.Format
+	21, // 3: matreshka_be_api.PatchConfig.Request.patches:type_name -> matreshka_be_api.PatchConfig.Patch
+	4,  // 4: matreshka_be_api.ListConfigs.Request.paging:type_name -> matreshka_be_api.Paging
+	13, // 5: matreshka_be_api.ListConfigs.Request.sort:type_name -> matreshka_be_api.Sort
+	3,  // 6: matreshka_be_api.ListConfigs.Response.configs:type_name -> matreshka_be_api.Config
+	9,  // 7: matreshka_be_api.GetConfigNode.Response.root:type_name -> matreshka_be_api.Node
+	21, // 8: matreshka_be_api.SubscribeOnChanges.Response.patches:type_name -> matreshka_be_api.PatchConfig.Patch
+	15, // 9: matreshka_be_api.MatreshkaBeAPI.ApiVersion:input_type -> matreshka_be_api.ApiVersion.Request
+	17, // 10: matreshka_be_api.MatreshkaBeAPI.GetConfig:input_type -> matreshka_be_api.GetConfig.Request
+	24, // 11: matreshka_be_api.MatreshkaBeAPI.GetConfigNodes:input_type -> matreshka_be_api.GetConfigNode.Request
+	22, // 12: matreshka_be_api.MatreshkaBeAPI.ListConfigs:input_type -> matreshka_be_api.ListConfigs.Request
+	26, // 13: matreshka_be_api.MatreshkaBeAPI.CreateConfig:input_type -> matreshka_be_api.CreateConfig.Request
+	19, // 14: matreshka_be_api.MatreshkaBeAPI.PatchConfig:input_type -> matreshka_be_api.PatchConfig.Request
+	28, // 15: matreshka_be_api.MatreshkaBeAPI.RenameConfig:input_type -> matreshka_be_api.RenameConfig.Request
+	30, // 16: matreshka_be_api.MatreshkaBeAPI.SubscribeOnChanges:input_type -> matreshka_be_api.SubscribeOnChanges.Request
+	16, // 17: matreshka_be_api.MatreshkaBeAPI.ApiVersion:output_type -> matreshka_be_api.ApiVersion.Response
+	18, // 18: matreshka_be_api.MatreshkaBeAPI.GetConfig:output_type -> matreshka_be_api.GetConfig.Response
+	25, // 19: matreshka_be_api.MatreshkaBeAPI.GetConfigNodes:output_type -> matreshka_be_api.GetConfigNode.Response
+	23, // 20: matreshka_be_api.MatreshkaBeAPI.ListConfigs:output_type -> matreshka_be_api.ListConfigs.Response
+	27, // 21: matreshka_be_api.MatreshkaBeAPI.CreateConfig:output_type -> matreshka_be_api.CreateConfig.Response
+	20, // 22: matreshka_be_api.MatreshkaBeAPI.PatchConfig:output_type -> matreshka_be_api.PatchConfig.Response
+	29, // 23: matreshka_be_api.MatreshkaBeAPI.RenameConfig:output_type -> matreshka_be_api.RenameConfig.Response
+	31, // 24: matreshka_be_api.MatreshkaBeAPI.SubscribeOnChanges:output_type -> matreshka_be_api.SubscribeOnChanges.Response
+	17, // [17:25] is the sub-list for method output_type
+	9,  // [9:17] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_matreshka_be_api_proto_init() }
@@ -1753,7 +1813,7 @@ func file_matreshka_be_api_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_matreshka_be_api_proto_rawDesc), len(file_matreshka_be_api_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      3,
 			NumMessages:   29,
 			NumExtensions: 0,
 			NumServices:   1,

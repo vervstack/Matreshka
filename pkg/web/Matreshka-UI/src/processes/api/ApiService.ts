@@ -7,7 +7,8 @@ import {
   ListConfigsResponse,
   MatreshkaBeAPI,
   PatchConfigRequest,
-} from "@vervstack/matreshka";
+  Format,
+} from "@vervstack/matreshka/matreshka-be_api.pb";
 
 import ConfigWithContent from "@/models/configs/Config.ts";
 import ConfigBase, { defaultVersion } from "@/models/configs/ConfigBase.ts";
@@ -111,4 +112,23 @@ export async function CreateConfig(name: string) {
   };
 
   return MatreshkaBeAPI.CreateConfig(newCfg, apiPrefix);
+}
+
+export function linkToConfigSource(configName: string, format: Format, version?: string): string {
+  let base = `${apiPrefix.pathPrefix}/download/${configName}`;
+
+  const params: string[] = [];
+  if (version) {
+    params.push(`version=${version}`);
+  }
+
+  if (format != Format.yaml) {
+    params.push(`format=${format.toString()}`);
+  }
+
+  if (params.length > 0) {
+    base += `?${params.join("&")}`;
+  }
+
+  return base;
 }

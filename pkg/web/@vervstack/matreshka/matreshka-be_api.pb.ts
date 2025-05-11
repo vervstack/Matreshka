@@ -25,6 +25,11 @@ export enum ConfigTypePrefix {
   nginx = "nginx",
 }
 
+export enum Format {
+  yaml = "yaml",
+  env = "env",
+}
+
 export enum SortType {
   default = "default",
   by_name = "by_name",
@@ -54,6 +59,7 @@ export type ApiVersion = Record<string, never>;
 export type GetConfigRequest = {
   configName?: string;
   version?: string;
+  format?: Format;
 };
 
 export type GetConfigResponse = {

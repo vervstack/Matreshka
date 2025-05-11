@@ -109,6 +109,18 @@
             "in": "query",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "format",
+            "description": " - yaml: Default",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "yaml",
+              "env"
+            ],
+            "default": "yaml"
           }
         ],
         "tags": [
@@ -306,6 +318,15 @@
           "format": "int64"
         }
       }
+    },
+    "matreshka_be_apiFormat": {
+      "type": "string",
+      "enum": [
+        "yaml",
+        "env"
+      ],
+      "default": "yaml",
+      "title": "- yaml: Default"
     },
     "matreshka_be_apiGetConfigNodeRequest": {
       "type": "object",

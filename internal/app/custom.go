@@ -14,6 +14,7 @@ import (
 	"go.vervstack.ru/matreshka/internal/storage/tx_manager"
 	"go.vervstack.ru/matreshka/internal/transport/grpc_impl"
 	"go.vervstack.ru/matreshka/internal/transport/web"
+	"go.vervstack.ru/matreshka/internal/transport/web_api"
 	"go.vervstack.ru/matreshka/pkg/docs"
 )
 
@@ -43,6 +44,8 @@ func (c *Custom) Init(a *App) (err error) {
 	a.ServerMaster.AddHttpHandler("/", c.WebClient)
 
 	a.ServerMaster.AddHttpHandler(docs.Swagger())
+
+	a.ServerMaster.AddHttpHandler("/download/", web_api.New(c.GrpcImpl))
 	return nil
 }
 

@@ -6,11 +6,9 @@ import (
 	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
 	"go.redsock.ru/toolbox"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
+	"gopkg.in/yaml.v3"
 
 	"go.vervstack.ru/matreshka/internal/domain"
-	"go.vervstack.ru/matreshka/pkg/matreshka"
 	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
@@ -23,20 +21,24 @@ func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.
 		return nil, errors.Wrap(err)
 	}
 
-	targetConfig := matreshka.NewEmptyConfig()
-
-	nodeStorage := evon.NodesToStorage([]*evon.Node{cfg.Nodes})
-
-	err = evon.UnmarshalWithNodes(nodeStorage, &targetConfig)
-	if err != nil {
-		return nil, errors.Wrap(err, "error unmarshalling config")
-	}
-
 	resp := &api.GetConfig_Response{}
 
-	resp.Config, err = targetConfig.Marshal()
-	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
+	switch req.Format {
+	case api.Format_env:
+		resp.Config = evon.Marshal(cfg.Nodes.InnerNodes)
+	default:
+		nodeStorage := evon.NodesToStorage([]*evon.Node{cfg.Nodes})
+
+		m := make(map[string]any)
+		err = evon.UnmarshalWithNodes(nodeStorage, m)
+		if err != nil {
+			return nil, errors.Wrap(err, "error unmarshalling config")
+		}
+
+		resp.Config, err = yaml.Marshal(m)
+		if err != nil {
+			return nil, errors.Wrap(err, "error marshalling to yaml")
+		}
 	}
 
 	return resp, nil

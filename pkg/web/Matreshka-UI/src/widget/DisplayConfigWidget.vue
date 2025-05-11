@@ -6,10 +6,17 @@ import { useToast } from "primevue/usetoast";
 import { ref } from "vue";
 
 import Config from "@/models/configs/Config.ts";
-import { GetConfigNodes, PatchConfig } from "@/processes/api/ApiService.ts";
+import { GetConfigNodes, linkToConfigSource, PatchConfig } from "@/processes/api/ApiService.ts";
 import handleGrpcError from "@/processes/api/ErrorCodes.ts";
+
 import ConfigIcon from "@/components/base/config/ConfigIcon.vue";
 import ConfigName from "@/components/base/config/ConfigName.vue";
+import DialButton from "@/components/base/DialButton.vue";
+
+import ExportIcon from "@/assets/svg/general/export.svg";
+import YamlSvg from "@/assets/svg/general/yaml.svg";
+import DotEnvSvg from "@/assets/svg/general/dotenv.svg";
+import { Format } from "@vervstack/matreshka/matreshka-be_api.pb.ts";
 
 const toastApi = useToast();
 
@@ -39,13 +46,32 @@ async function save() {
 }
 
 fetchConfig().then(fetchConfig);
+
+function download(format: Format) {
+  window.open(linkToConfigSource(configData.value.getMatreshkaName(), format), "_blank", "noopener,noreferrer")
+}
+
+const options = ref({
+  isOpen: true,
+  options: [
+    {
+      icon: YamlSvg,
+      value: Format.yaml,
+    },
+    {
+      icon: DotEnvSvg,
+      value: Format.env,
+    },
+  ],
+});
 </script>
 
 <template>
   <div v-if="!configData">No App config data</div>
 
   <div v-else class="Display">
-    <div class="LogoAndTittle">
+    <div class="Header">
+      <div class="HeaderNLogo">
       <div class="Logo">
         <ConfigIcon
           :config-type="configData.type" />
@@ -54,6 +80,15 @@ fetchConfig().then(fetchConfig);
         <ConfigName
           :label="configData.name" />
       </div>
+      </div>
+      <div class="DownloadButton">
+        <DialButton
+          :icon="ExportIcon"
+          v-model="options"
+          @select="download"
+          borderless
+        />
+      </div>
     </div>
     <SelectButton
       v-if="configData.versions.length > 1"
@@ -61,6 +96,7 @@ fetchConfig().then(fetchConfig);
       :options="configData.versions"
       @update:modelValue="fetchConfig"
     />
+
     <!--TODO Add "New Version" button?-->
 
     <component
@@ -102,11 +138,18 @@ fetchConfig().then(fetchConfig);
   gap: 1em;
 }
 
-.LogoAndTittle {
+.Header {
   width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   gap: 1em;
+}
+
+.HeaderNLogo {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25em;
 }
 
 .Logo {
@@ -118,6 +161,13 @@ fetchConfig().then(fetchConfig);
   display: flex;
   justify-content: flex-start;
   font-size: 2em;
+}
+
+.DownloadButton {
+  display: flex;
+  justify-content: center;
+  max-height: 2em;
+  max-width: 2em;
 }
 
 .Footer {
