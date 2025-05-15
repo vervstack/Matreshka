@@ -2,15 +2,14 @@ FROM node:23-alpine3.20 AS webclient
 
 WORKDIR /web
 
-# Step 1: Build the API lib
-RUN --mount=type=bind,target=/web,rw \
-    cd pkg/web/@vervstack/matreshka && \
-    yarn && \
-    yarn build
 
-# Step 2: Install and build Vue app (now that web is built)
 RUN --mount=type=bind,target=/web,rw \
-    cd pkg/web/Matreshka-UI && \
+# Step 1: Build the API lib
+    cd /web/pkg/web/@vervstack/matreshka && \
+    yarn && \
+    yarn build && \
+# Step 2: Install and build Vue app (now that web is built)
+    cd /web/pkg/web/Matreshka-UI && \
     yarn && \
     yarn build && \
     mv dist /dist
