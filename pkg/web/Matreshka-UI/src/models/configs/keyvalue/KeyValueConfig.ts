@@ -5,7 +5,7 @@ import EnvNode from "@/models/shared/Node";
 import KeyValueConfigView from "@/components/config/keyvalue/KeyValueConfigView.vue";
 import ConfigContent from "@/models/configs/ConfigContent.ts";
 import { ConfigValue } from "@/models/shared/Values.ts";
-import { PatchConfigPatch } from "@vervstack/matreshka/matreshka-be_api.pb.ts";
+import { PatchConfigPatch } from "@vervstack/matreshka";
 
 const objectSeparator = "_";
 

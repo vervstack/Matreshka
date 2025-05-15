@@ -8,7 +8,7 @@ import {
   MatreshkaBeAPI,
   PatchConfigRequest,
   Format,
-} from "@vervstack/matreshka/matreshka-be_api.pb";
+} from "@vervstack/matreshka";
 
 import ConfigWithContent from "@/models/configs/Config.ts";
 import ConfigBase, { defaultVersion } from "@/models/configs/ConfigBase.ts";

@@ -16,7 +16,7 @@ import DialButton from "@/components/base/DialButton.vue";
 import ExportIcon from "@/assets/svg/general/export.svg";
 import YamlSvg from "@/assets/svg/general/yaml.svg";
 import DotEnvSvg from "@/assets/svg/general/dotenv.svg";
-import { Format } from "@vervstack/matreshka/matreshka-be_api.pb.ts";
+import { Format } from "@vervstack/matreshka";
 
 const toastApi = useToast();
 

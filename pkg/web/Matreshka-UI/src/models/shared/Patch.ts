@@ -1,4 +1,4 @@
-import { PatchConfigPatch } from "@vervstack/matreshka/matreshka-be_api.pb.ts";
+import { PatchConfigPatch } from "@vervstack/matreshka";
 
 export function newRenamePatch(fieldName: string, newName: string): PatchConfigPatch {
   return {

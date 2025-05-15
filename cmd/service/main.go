@@ -7,6 +7,17 @@ import (
 )
 
 func main() {
+	println(`
+▄▖            ▌       
+▙▌▛▌▌▌▌█▌▛▘█▌▛▌       
+▌ ▙▌▚▚▘▙▖▌ ▙▖▙▌       
+                      
+  ▄     ▄▖   ▌      ▌ 
+  ▙▘▌▌  ▙▘█▌▛▌▛▘▛▌▛▘▙▘
+  ▙▘▙▌  ▌▌▙▖▙▌▄▌▙▌▙▖▛▖
+    ▄▌                
+`)
+
 	a, err := app.New()
 	if err != nil {
 		logrus.Fatal(err)

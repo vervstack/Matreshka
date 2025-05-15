@@ -1,6 +1,6 @@
 import { Component } from "vue";
 
-import { PatchConfigPatch } from "@vervstack/matreshka/matreshka-be_api.pb.ts";
+import { PatchConfigPatch } from "@vervstack/matreshka";
 
 
 export default interface ConfigContent {

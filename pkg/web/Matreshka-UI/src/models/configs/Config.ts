@@ -4,7 +4,7 @@ import ConfigBase from "@/models/configs/ConfigBase.ts";
 import ConfigContent from "@/models/configs/ConfigContent.ts";
 import KeyValueConfig from "@/models/configs/keyvalue/KeyValueConfig.ts";
 import EnvNode from "@/models/shared/Node.ts";
-import { PatchConfigPatch } from "@vervstack/matreshka/matreshka-be_api.pb.ts";
+import { PatchConfigPatch } from "@vervstack/matreshka";
 
 export default class Config extends ConfigBase {
   content: ConfigContent;
