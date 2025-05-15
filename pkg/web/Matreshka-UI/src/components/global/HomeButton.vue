@@ -2,7 +2,7 @@
 import Button from "primevue/button";
 import { ref } from "vue";
 
-import { Pages, router } from "@/app/routes/routes.ts";
+import { Pages, router } from "@/app/routes/Routes.ts";
 
 const canGoBack = ref<boolean>(window.history.state.back !== null);
 
