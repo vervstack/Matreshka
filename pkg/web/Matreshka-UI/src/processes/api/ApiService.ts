@@ -106,9 +106,10 @@ export async function PatchConfig(cfg: ConfigWithContent): Promise<ConfigWithCon
   });
 }
 
-export async function CreateConfig(name: string) {
+export async function CreateConfig(name: string, confType: ConfigTypePrefix) {
   const newCfg: CreateConfigRequest = {
     configName: encodeURIComponent(name),
+    type: confType,
   };
 
   return MatreshkaBeAPI.CreateConfig(newCfg, apiPrefix);

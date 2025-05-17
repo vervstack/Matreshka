@@ -29,17 +29,18 @@ watch(configName, (val: string) => {
 });
 
 function createConfig() {
-  const name = configType.value + "_" + configName.value;
-
-  CreateConfig(name)
-    .then(() => {
+  CreateConfig(configName.value, configType.value as ConfigTypePrefix)
+    .then((resp) => {
       toastApi.add({
         closable: true,
         life: 2_000,
         severity: "success",
         summary: "Service created. Check it out",
       });
-      RouteToConfigDisplay(name);
+
+      if (resp.name) {
+        RouteToConfigDisplay(resp.name);
+      }
     })
     .catch(handleGrpcError(toastApi));
 }
