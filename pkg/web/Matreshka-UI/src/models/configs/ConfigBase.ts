@@ -13,10 +13,8 @@ export default class ConfigBase {
 
   constructor(name: string) {
     this.type = extractType(name);
-    if (this.type !== ConfigTypePrefix.unknown) {
-      name = name.substring(this.type.length + 1);
-    }
 
+    name = name.substring(this.type.length + 1);
     this.name = name;
   }
 
@@ -41,5 +39,5 @@ function extractType(configName: string): ConfigTypePrefix {
     return foundType;
   }
 
-  return ConfigTypePrefix.unknown;
+  return ConfigTypePrefix.kv;
 }
