@@ -16,11 +16,11 @@ type ListConfigsRequest struct {
 }
 
 type ListConfigsResponse struct {
-	List         []ConfigListItem
+	List         []AboutConfig
 	TotalRecords uint32
 }
 
-type ConfigListItem struct {
+type AboutConfig struct {
 	Name           string
 	UpdatedAt      time.Time
 	ConfigVersions []string

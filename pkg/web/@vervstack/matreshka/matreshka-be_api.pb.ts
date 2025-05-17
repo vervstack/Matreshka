@@ -18,7 +18,7 @@ type OneOf<T> =
       : never);
 
 export enum ConfigTypePrefix {
-  unknown = "unknown",
+  kv = "kv",
   verv = "verv",
   minio = "minio",
   pg = "pg",
@@ -89,6 +89,17 @@ export type PatchConfigPatch = BasePatchConfigPatch &
 
 export type PatchConfig = Record<string, never>;
 
+export type UpdateConfigRequest = {
+  format?: Format;
+  configName?: string;
+  version?: string;
+  config?: Uint8Array;
+};
+
+export type UpdateConfigResponse = Record<string, never>;
+
+export type UpdateConfig = Record<string, never>;
+
 export type ListConfigsRequest = {
   paging?: Paging;
   searchPattern?: string;
@@ -122,10 +133,11 @@ export type GetConfigNode = Record<string, never>;
 
 export type CreateConfigRequest = {
   configName?: string;
+  type?: ConfigTypePrefix;
 };
 
 export type CreateConfigResponse = {
-  id?: string;
+  name?: string;
 };
 
 export type CreateConfig = Record<string, never>;
@@ -177,6 +189,9 @@ export class MatreshkaBeAPI {
   }
   static PatchConfig(this:void, req: PatchConfigRequest, initReq?: fm.InitReq): Promise<PatchConfigResponse> {
     return fm.fetchRequest<PatchConfigResponse>(`/api/config/${req.configName}/patch`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
+  }
+  static UpdateConfig(this:void, req: UpdateConfigRequest, initReq?: fm.InitReq): Promise<UpdateConfigResponse> {
+    return fm.fetchRequest<UpdateConfigResponse>(`/api/config/${req.configName}/update`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
   static RenameConfig(this:void, req: RenameConfigRequest, initReq?: fm.InitReq): Promise<RenameConfigResponse> {
     return fm.fetchRequest<RenameConfigResponse>(`/api/config/${req.configName}/rename/${req.newName}`, {...initReq, method: "POST"});

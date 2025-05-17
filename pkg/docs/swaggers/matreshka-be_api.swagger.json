@@ -240,6 +240,44 @@
         ]
       }
     },
+    "/api/config/{configName}/update": {
+      "post": {
+        "operationId": "MatreshkaBeAPI_UpdateConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiUpdateConfigResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "configName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPIUpdateConfigBody"
+            }
+          }
+        ],
+        "tags": [
+          "MatreshkaBeAPI"
+        ]
+      }
+    },
     "/api/version": {
       "get": {
         "operationId": "MatreshkaBeAPI_ApiVersion",
@@ -310,12 +348,24 @@
         }
       }
     },
+    "matreshka_be_apiConfigTypePrefix": {
+      "type": "string",
+      "enum": [
+        "kv",
+        "verv",
+        "minio",
+        "pg",
+        "nginx"
+      ],
+      "default": "kv",
+      "title": "- kv: Basically a key-value configuration\n - verv: Matreshka's configuration for application\n - minio: Configuration for object storage (Minio)\n - pg: Configuration for Postgresql Database\n - nginx: Configuration for Nginx/Angie web server"
+    },
     "matreshka_be_apiCreateConfigResponse": {
       "type": "object",
       "properties": {
-        "id": {
+        "name": {
           "type": "string",
-          "format": "int64"
+          "title": "name based on provided config_name and type.\ne.g. for Verv configuration with name \"matreshka\"\nunique name identifier will be verv_matreshka"
         }
       }
     },
@@ -393,7 +443,12 @@
       }
     },
     "matreshka_be_apiMatreshkaBeAPICreateConfigBody": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/matreshka_be_apiConfigTypePrefix"
+        }
+      }
     },
     "matreshka_be_apiMatreshkaBeAPIPatchConfigBody": {
       "type": "object",
@@ -407,6 +462,22 @@
             "type": "object",
             "$ref": "#/definitions/PatchConfigPatch"
           }
+        }
+      }
+    },
+    "matreshka_be_apiMatreshkaBeAPIUpdateConfigBody": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "$ref": "#/definitions/matreshka_be_apiFormat",
+          "title": "default - yaml"
+        },
+        "version": {
+          "type": "string"
+        },
+        "config": {
+          "type": "string",
+          "format": "byte"
         }
       }
     },
@@ -490,6 +561,9 @@
           }
         }
       }
+    },
+    "matreshka_be_apiUpdateConfigResponse": {
+      "type": "object"
     },
     "protobufAny": {
       "type": "object",

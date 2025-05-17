@@ -15,7 +15,7 @@ type Services interface {
 
 type ConfigService interface {
 	Patch(ctx context.Context, configPatch domain.PatchConfigRequest) error
-	Create(ctx context.Context, serviceName string) (int64, error)
+	Create(ctx context.Context, serviceName string) (domain.AboutConfig, error)
 	Rename(ctx context.Context, oldName, newName string) error
 
 	GetConfigWithNodes(ctx context.Context, serviceName string, version string) (domain.ConfigWithNodes, error)

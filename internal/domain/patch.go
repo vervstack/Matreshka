@@ -1,5 +1,9 @@
 package domain
 
+import (
+	"go.redsock.ru/evon"
+)
+
 type PatchConfigRequest struct {
 	ConfigName    string
 	ConfigVersion string
@@ -16,4 +20,10 @@ type PatchUpdate struct {
 type PatchRename struct {
 	OldName string
 	NewName string
+}
+
+type ReplaceConfig struct {
+	Name    string
+	Version string
+	Config  []*evon.Node
 }

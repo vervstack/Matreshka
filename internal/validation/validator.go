@@ -1,11 +1,13 @@
 package validation
 
 import (
+	"fmt"
 	"strings"
 
 	errors "go.redsock.ru/rerrors"
 
 	"go.vervstack.ru/matreshka/internal/service/user_errors"
+	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
 type Validator struct {
@@ -36,6 +38,14 @@ func New() Validator {
 }
 
 func (v Validator) IsConfigNameValid(name string) error {
+	typePrefix := strings.Split(name, "_")[0]
+	_, ok := api.ConfigTypePrefix_value[typePrefix]
+	if !ok {
+		return errors.Wrap(user_errors.ErrValidation,
+			"Service name must start with a typed prefix. eg:"+
+				fmt.Sprintf("pg_%[1]s, verv_%[1]s, minio_%[1]s, nginx_%[1]s", name))
+	}
+
 	if len(name) < 3 {
 		return errors.Wrap(user_errors.ErrValidation,
 			"Service name must be at least 3 symbols long")
