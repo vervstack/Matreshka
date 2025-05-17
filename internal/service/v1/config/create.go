@@ -17,12 +17,7 @@ import (
 )
 
 func (c *CfgService) Create(ctx context.Context, serviceName string) (domain.AboutConfig, error) {
-	err := c.validator.IsConfigNameValid(serviceName)
-	if err != nil {
-		return domain.AboutConfig{}, errors.Wrap(err)
-	}
-
-	err = c.txManager.Execute(func(tx *sql.Tx) (err error) {
+	err := c.txManager.Execute(func(tx *sql.Tx) (err error) {
 		err = c.createConfig(ctx, c.configStorage.WithTx(tx), serviceName)
 		if err != nil {
 			return errors.Wrap(err, "error creating config")
@@ -51,6 +46,11 @@ func (c *CfgService) Create(ctx context.Context, serviceName string) (domain.Abo
 }
 
 func (c *CfgService) createConfig(ctx context.Context, dataStorage storage.Data, serviceName string) error {
+	err := c.validator.IsConfigNameValid(serviceName)
+	if err != nil {
+		return errors.Wrap(err)
+	}
+
 	nodes, err := dataStorage.GetConfigNodes(ctx, serviceName, domain.MasterVersion)
 	if err != nil {
 		return errors.Wrap(err, "error reading config from storage")
