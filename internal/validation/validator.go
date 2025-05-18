@@ -6,6 +6,7 @@ import (
 
 	errors "go.redsock.ru/rerrors"
 
+	"go.vervstack.ru/matreshka/internal/domain"
 	"go.vervstack.ru/matreshka/internal/service/user_errors"
 	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
@@ -37,8 +38,8 @@ func New() Validator {
 	return v
 }
 
-func (v Validator) IsConfigNameValid(name string) error {
-	typePrefix := strings.Split(name, "_")[0]
+func (v Validator) IsConfigNameValid(name domain.ConfigName) error {
+	typePrefix := name.Prefix().String()
 	_, ok := api.ConfigTypePrefix_value[typePrefix]
 	if !ok {
 		return errors.Wrap(user_errors.ErrValidation,
@@ -46,14 +47,15 @@ func (v Validator) IsConfigNameValid(name string) error {
 				fmt.Sprintf("pg_%[1]s, verv_%[1]s, minio_%[1]s, nginx_%[1]s", name))
 	}
 
-	if len(name) < 3 {
+	actuallName := name.Name()[len(name.Prefix().String())+1:]
+	if len(actuallName) < 3 {
 		return errors.Wrap(user_errors.ErrValidation,
 			"Service name must be at least 3 symbols long")
 	}
 
 	invalidChars := make(map[rune]struct{})
 
-	for _, r := range []rune(name) {
+	for _, r := range []rune(actuallName) {
 		if _, ok := v.validConfigNameSymbols[r]; !ok {
 			invalidChars[r] = struct{}{}
 		}
@@ -83,6 +85,7 @@ func (v Validator) IsConfigNameValid(name string) error {
 
 	return nil
 }
+
 func (v Validator) IsEnvNameValid(envName string) error {
 	if len(envName) < 3 {
 		return errors.Wrap(user_errors.ErrValidation,

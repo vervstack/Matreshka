@@ -2,16 +2,24 @@ package grpc_impl
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	errors "go.redsock.ru/rerrors"
 	"go.redsock.ru/toolbox"
+	"google.golang.org/grpc/codes"
 
 	"go.vervstack.ru/matreshka/internal/domain"
 	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
 func (a *Impl) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*api.PatchConfig_Response, error) {
-	err := a.configService.Patch(ctx, fromPatch(req))
+	patch, err := fromPatch(req)
+	if err != nil {
+		return nil, errors.Wrap(err)
+	}
+
+	err = a.configService.Patch(ctx, patch)
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}
@@ -19,10 +27,14 @@ func (a *Impl) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*
 	return &api.PatchConfig_Response{}, nil
 }
 
-func fromPatch(req *api.PatchConfig_Request) domain.PatchConfigRequest {
+func fromPatch(req *api.PatchConfig_Request) (domain.PatchConfigRequest, error) {
 	out := domain.PatchConfigRequest{
-		ConfigName:    req.GetConfigName(),
 		ConfigVersion: toolbox.Coalesce(toolbox.FromPtr(req.Version), domain.MasterVersion),
+	}
+	var err error
+	out.ConfigName, err = fromPlainName(req.GetConfigName())
+	if err != nil {
+		return domain.PatchConfigRequest{}, errors.Wrap(err)
 	}
 
 	for _, patch := range req.Patches {
@@ -44,5 +56,21 @@ func fromPatch(req *api.PatchConfig_Request) domain.PatchConfigRequest {
 		}
 	}
 
-	return out
+	return out, nil
+}
+
+func fromPlainName(name string) (domain.ConfigName, error) {
+	nameSplited := strings.Split(name, "_")
+	if len(nameSplited) < 2 {
+		return domain.ConfigName{},
+			errors.NewUserError("Invalid name pattern. Name must start with type prefix", codes.InvalidArgument)
+	}
+
+	pref, ok := api.ConfigTypePrefix_value[nameSplited[0]]
+	if !ok {
+		return domain.ConfigName{},
+			errors.NewUserError(fmt.Sprintf("Unknown type prefix: %s", nameSplited[0]), codes.InvalidArgument)
+	}
+
+	return domain.NewConfigName(api.ConfigTypePrefix(pref), strings.Join(nameSplited[1:], "_")), nil
 }

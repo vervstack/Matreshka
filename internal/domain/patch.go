@@ -5,7 +5,7 @@ import (
 )
 
 type PatchConfigRequest struct {
-	ConfigName    string
+	ConfigName    ConfigName
 	ConfigVersion string
 	Update        []PatchUpdate
 	RenameTo      []PatchRename

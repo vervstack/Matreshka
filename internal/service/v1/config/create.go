@@ -14,9 +14,10 @@ import (
 	"go.vervstack.ru/matreshka/internal/service/user_errors"
 	"go.vervstack.ru/matreshka/internal/storage"
 	"go.vervstack.ru/matreshka/pkg/matreshka"
+	"go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
-func (c *CfgService) Create(ctx context.Context, serviceName string) (domain.AboutConfig, error) {
+func (c *CfgService) Create(ctx context.Context, serviceName domain.ConfigName) (domain.AboutConfig, error) {
 	err := c.txManager.Execute(func(tx *sql.Tx) (err error) {
 		err = c.createConfig(ctx, c.configStorage.WithTx(tx), serviceName)
 		if err != nil {
@@ -30,7 +31,7 @@ func (c *CfgService) Create(ctx context.Context, serviceName string) (domain.Abo
 	}
 
 	var listReq domain.ListConfigsRequest
-	listReq.SearchPattern = serviceName
+	listReq.SearchPattern = serviceName.Name()
 
 	list, err := c.ListConfigs(ctx, listReq)
 	if err != nil {
@@ -45,27 +46,31 @@ func (c *CfgService) Create(ctx context.Context, serviceName string) (domain.Abo
 	return list.List[0], nil
 }
 
-func (c *CfgService) createConfig(ctx context.Context, dataStorage storage.Data, serviceName string) error {
+func (c *CfgService) createConfig(ctx context.Context, dataStorage storage.Data, serviceName domain.ConfigName) error {
 	err := c.validator.IsConfigNameValid(serviceName)
 	if err != nil {
 		return errors.Wrap(err)
 	}
 
-	nodes, err := dataStorage.GetConfigNodes(ctx, serviceName, domain.MasterVersion)
+	nodes, err := dataStorage.GetConfigNodes(ctx, serviceName.Name(), domain.MasterVersion)
 	if err != nil {
 		return errors.Wrap(err, "error reading config from storage")
 	}
 
 	if nodes != nil {
-		return errors.Wrap(user_errors.ErrAlreadyExists, "Name \""+serviceName+"\" is already taken")
+		return errors.Wrap(user_errors.ErrAlreadyExists,
+			"Name \""+serviceName.Name()+"\" is already taken")
 	}
 
-	_, err = dataStorage.Create(ctx, serviceName)
+	_, err = dataStorage.Create(ctx, serviceName.Name())
 	if err != nil {
 		return errors.Wrap(err, "error saving config")
 	}
 
-	newCfg := c.initNewConfig(serviceName)
+	newCfg, err := c.initNewConfig(serviceName)
+	if err != nil {
+		return errors.Wrap(err)
+	}
 
 	newCfgPatch, err := c.convertConfigToPatch(newCfg)
 	if err != nil {
@@ -86,13 +91,8 @@ func (c *CfgService) createConfig(ctx context.Context, dataStorage storage.Data,
 	return nil
 }
 
-func (c *CfgService) convertConfigToPatch(cfg matreshka.AppConfig) ([]domain.PatchUpdate, error) {
-	newCfgNodes, err := evon.MarshalEnv(&cfg)
-	if err != nil {
-		return nil, errors.Wrap(err, "error marshalling config")
-	}
-
-	newCfgNodesStore := evon.NodesToStorage(newCfgNodes.InnerNodes)
+func (c *CfgService) convertConfigToPatch(cfg *evon.Node) ([]domain.PatchUpdate, error) {
+	newCfgNodesStore := evon.NodesToStorage(cfg.InnerNodes)
 
 	cfgPatch := make([]domain.PatchUpdate, 0, len(newCfgNodesStore))
 	for _, node := range newCfgNodesStore {
@@ -108,14 +108,43 @@ func (c *CfgService) convertConfigToPatch(cfg matreshka.AppConfig) ([]domain.Pat
 	return cfgPatch, nil
 }
 
-func (c *CfgService) initNewConfig(serviceName string) matreshka.AppConfig {
-	newCfg := matreshka.NewEmptyConfig()
-
-	newCfg.AppInfo = matreshka.AppInfo{
-		Name:            serviceName,
-		Version:         "v0.0.1",
-		StartupDuration: time.Second * 5,
+func (c *CfgService) initNewConfig(serviceName domain.ConfigName) (*evon.Node, error) {
+	switch serviceName.Prefix() {
+	case matreshka_be_api.ConfigTypePrefix_verv:
+		newCfg := matreshka.NewEmptyConfig()
+		newCfg.AppInfo = matreshka.AppInfo{
+			Name:            serviceName.Name(),
+			Version:         "v0.0.1",
+			StartupDuration: time.Second * 5,
+		}
+		nodes, err := evon.MarshalEnv(&newCfg)
+		if err != nil {
+			return nil, errors.Wrap(err, "error marshalling config")
+		}
+		return nodes, nil
+	case matreshka_be_api.ConfigTypePrefix_pg:
+		return &evon.Node{
+			InnerNodes: []*evon.Node{
+				{
+					Name:  "POSTGRES_USER",
+					Value: "postgres",
+				},
+				{
+					Name:       "POSTGRES_PASSWORD",
+					Value:      "123",
+					InnerNodes: nil,
+				},
+				{
+					Name:  "POSTGRES_DB",
+					Value: "postgres",
+				},
+				{
+					Name:  "POSTGRES_HOST_AUTH_METHOD",
+					Value: "trust",
+				},
+			},
+		}, nil
+	default:
+		return &evon.Node{}, nil
 	}
-
-	return newCfg
 }

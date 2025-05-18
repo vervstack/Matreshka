@@ -13,15 +13,9 @@ func (p *Provider) DeleteValues(ctx context.Context, req domain.PatchConfigReque
 		return nil
 	}
 
-	var cfgId int64
-	err := p.conn.QueryRowContext(ctx, `
-		SELECT id 
-		FROM configs
-		WHERE name = $1
-		LIMIT 1`, req.ConfigName).
-		Scan(&cfgId)
+	cfgId, err := p.getIdByName(ctx, req.ConfigName.Name())
 	if err != nil {
-		return errors.Wrap(err, "error getting config id by name")
+		return errors.Wrap(err)
 	}
 
 	deleteQ, err := p.conn.PrepareContext(ctx, `

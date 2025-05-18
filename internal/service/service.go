@@ -15,10 +15,10 @@ type Services interface {
 
 type ConfigService interface {
 	Patch(ctx context.Context, configPatch domain.PatchConfigRequest) error
-	Create(ctx context.Context, serviceName string) (domain.AboutConfig, error)
-	Rename(ctx context.Context, oldName, newName string) error
+	Create(ctx context.Context, name domain.ConfigName) (domain.AboutConfig, error)
+	Rename(ctx context.Context, oldName, newName domain.ConfigName) error
 
-	GetConfigWithNodes(ctx context.Context, serviceName string, version string) (domain.ConfigWithNodes, error)
+	GetConfigWithNodes(ctx context.Context, name string, version string) (domain.ConfigWithNodes, error)
 	ListConfigs(ctx context.Context, req domain.ListConfigsRequest) (domain.ListConfigsResponse, error)
 }
 

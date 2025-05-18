@@ -3,7 +3,6 @@ package config
 import (
 	"context"
 	"database/sql"
-	"strings"
 	"time"
 
 	"go.redsock.ru/evon"
@@ -48,7 +47,7 @@ func (c *CfgService) Patch(ctx context.Context, req domain.PatchConfigRequest) e
 func (c *CfgService) getOrCreateConfig(ctx context.Context, dataStorage storage.Data, req domain.PatchConfigRequest) (*evon.Node, error) {
 	ver := toolbox.Coalesce(req.ConfigVersion, domain.MasterVersion)
 
-	cfgNodes, err := dataStorage.GetConfigNodes(ctx, req.ConfigName, ver)
+	cfgNodes, err := dataStorage.GetConfigNodes(ctx, req.ConfigName.Name(), ver)
 	if err != nil {
 		return nil, rerrors.Wrap(err, "error getting nodes")
 	}
@@ -74,8 +73,8 @@ func (c *CfgService) validatePatch(originalConfig *evon.Node, patch *domain.Patc
 		return rerrors.Wrap(err, "failed to validate EVON format")
 	}
 
-	switch {
-	case strings.HasPrefix(patch.ConfigName, api.ConfigTypePrefix_name[int32(api.ConfigTypePrefix_verv)]):
+	switch patch.ConfigName.Prefix() {
+	case api.ConfigTypePrefix_verv:
 		validationRes := c.validator.AsVerv(originalConfig, patch)
 		if len(validationRes.Invalid) != 0 {
 			return rerrors.New("error during patch validation: %v", validationRes.Invalid)
@@ -96,7 +95,7 @@ func (c *CfgService) patch(ctx context.Context, configStorage storage.Data, patc
 		return rerrors.Wrap(err, "error patching config in data storage")
 	}
 
-	err = configStorage.SetUpdatedAt(ctx, patch.ConfigName, time.Now())
+	err = configStorage.SetUpdatedAt(ctx, patch.ConfigName.Name(), time.Now())
 	if err != nil {
 		return rerrors.Wrap(err, "error updating time")
 	}
