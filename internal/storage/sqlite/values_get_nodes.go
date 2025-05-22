@@ -13,11 +13,11 @@ func (p *Provider) GetConfigNodes(ctx context.Context, serviceName string, versi
 			cv.key,
 			coalesce(topv.value, cv.value)
 		FROM configs_values AS cv
-			 INNER JOIN configs    AS c ON c.id = cv.config_id
-			 AND 		cv.version 	= 'master'
-			 LEFT JOIN configs_values AS topv ON c.id = topv.config_id
-			 AND topv.key = cv.key
-			 AND topv.version = $2
+		INNER JOIN configs    AS c ON c.id = cv.config_id
+		AND 	  cv.version 	  = 'master'
+		LEFT JOIN configs_values AS topv ON c.id = topv.config_id
+		AND topv.key = cv.key
+		AND topv.version = $2
 		WHERE c.name = $1
 		GROUP BY cv.key
 `, serviceName, version)

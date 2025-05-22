@@ -139,7 +139,7 @@ func enrichWithEnv(masterConfig AppConfig) (enrichedConfig AppConfig, err error)
 	projectName := strings.ToUpper(toolbox.Coalesce(os.Getenv(VervName), masterConfig.ModuleName()))
 
 	// Storage in Evon format (e.g. object_sub-field-name_leaf-field-name)
-	masterEvonCfg, err := evon.MarshalEnvWithPrefix(projectName, &masterConfig)
+	masterEvonCfg, err := evon.MarshalEnv(&masterConfig)
 	if err != nil {
 		return masterConfig, rerrors.Wrap(err, "error marshalling to env")
 	}
@@ -166,7 +166,7 @@ func enrichWithEnv(masterConfig AppConfig) (enrichedConfig AppConfig, err error)
 		// Try to find inside environment object
 		func(originalName string) *evon.Node {
 			if !strings.HasPrefix(originalName, serviceNameWithEnvPartPrefix) {
-				originalName = serviceNameWithEnvPartPrefix + evon.ObjectSplitter + originalName[len(projectName)+1:]
+				originalName = serviceNameWithEnvPartPrefix + evon.ObjectSplitter + originalName
 			}
 
 			return masterEvonStorage[originalName]
@@ -174,7 +174,7 @@ func enrichWithEnv(masterConfig AppConfig) (enrichedConfig AppConfig, err error)
 		// Use environment style to find from
 		func(originalName string) *evon.Node {
 			if !strings.HasPrefix(originalName, serviceNameWithEnvPartPrefix) {
-				originalName = serviceNameWithEnvPartPrefix + evon.ObjectSplitter + originalName[len(projectName)+1:]
+				originalName = serviceNameWithEnvPartPrefix + evon.ObjectSplitter + originalName
 			}
 
 			originalName = strings.ReplaceAll(originalName, "-", "_")
@@ -195,8 +195,8 @@ func enrichWithEnv(masterConfig AppConfig) (enrichedConfig AppConfig, err error)
 
 		variableValue := variable[idx+1:]
 
-		if !strings.HasPrefix(variableName, projectName) {
-			variableName = projectName + evon.ObjectSplitter + variableName
+		if strings.HasPrefix(variableName, projectName) {
+			variableName = variableName[len(projectName)+1:]
 		}
 
 		var node *evon.Node
@@ -204,7 +204,7 @@ func enrichWithEnv(masterConfig AppConfig) (enrichedConfig AppConfig, err error)
 		for _, nf := range nodeFinders {
 			node = nf(variableName)
 			if node != nil {
-				continue
+				break
 			}
 		}
 
@@ -216,7 +216,7 @@ func enrichWithEnv(masterConfig AppConfig) (enrichedConfig AppConfig, err error)
 	}
 
 	masterConfig = NewEmptyConfig()
-	err = evon.UnmarshalWithNodesAndPrefix(projectName, masterEvonStorage, &masterConfig)
+	err = evon.UnmarshalWithNodes(masterEvonStorage, &masterConfig)
 	if err != nil {
 		return masterConfig, rerrors.Wrap(err, "error unmarshalling back to config")
 	}
