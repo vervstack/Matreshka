@@ -4,14 +4,13 @@ import (
 	"go.vervstack.ru/matreshka/internal/service"
 	"go.vervstack.ru/matreshka/internal/storage"
 	"go.vervstack.ru/matreshka/internal/storage/tx_manager"
-	"go.vervstack.ru/matreshka/internal/utils/validation"
 )
 
 type CfgService struct {
 	configStorage storage.Data
 	txManager     *tx_manager.TxManager
 
-	validator  validation.Validator
+	validator  Validator
 	pubService service.PublisherService
 }
 
@@ -20,7 +19,7 @@ func New(data storage.Data, txManager *tx_manager.TxManager, pubService service.
 		configStorage: data,
 		txManager:     txManager,
 
-		validator:  validation.New(),
+		validator:  newValidator(),
 		pubService: pubService,
 	}
 }
