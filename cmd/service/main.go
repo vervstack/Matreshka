@@ -2,21 +2,13 @@ package main
 
 import (
 	"github.com/sirupsen/logrus"
+	"go.redsock.ru/toolbox/respect"
 
 	"go.vervstack.ru/matreshka/internal/app"
 )
 
 func main() {
-	println(`
-▄▖            ▌       
-▙▌▛▌▌▌▌█▌▛▘█▌▛▌       
-▌ ▙▌▚▚▘▙▖▌ ▙▖▙▌       
-                      
-  ▄     ▄▖   ▌      ▌ 
-  ▙▘▌▌  ▙▘█▌▛▌▛▘▛▌▛▘▙▘
-  ▙▘▙▌  ▌▌▙▖▙▌▄▌▙▌▙▖▛▖
-    ▄▌                
-`)
+	println(respect.Fantasy)
 
 	a, err := app.New()
 	if err != nil {
