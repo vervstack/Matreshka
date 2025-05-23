@@ -4,7 +4,7 @@ import (
 	"go.vervstack.ru/matreshka/internal/service"
 	"go.vervstack.ru/matreshka/internal/storage"
 	"go.vervstack.ru/matreshka/internal/storage/tx_manager"
-	"go.vervstack.ru/matreshka/internal/validation"
+	"go.vervstack.ru/matreshka/internal/utils/validation"
 )
 
 type CfgService struct {

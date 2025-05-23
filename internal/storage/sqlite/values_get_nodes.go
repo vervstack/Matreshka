@@ -42,6 +42,6 @@ func (p *Provider) GetConfigNodes(ctx context.Context, serviceName string, versi
 		return nil, nil
 	}
 
-	ns := evon.NodesToStorage(rootNodes)
+	ns := evon.NodesToStorage(&evon.Node{InnerNodes: rootNodes})
 	return ns[""], nil
 }

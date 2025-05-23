@@ -171,36 +171,37 @@ func Test_ReadConfigs(t *testing.T) {
 				ServiceDiscovery: getConfigServiceDiscovery(),
 			}
 
+			sort.Slice(expectedCfgWithEnv.Environment, func(i, j int) bool {
+				return expectedCfgWithEnv.Environment[i].Name > expectedCfgWithEnv.Environment[j].Name
+			})
+
 			// Evon style only
 			require.NoError(t, os.Setenv("database-max-connections", "3"))
-			expectedCfgWithEnv.Environment[0] = environment.MustNewVariable("database_max_connections", 3)
+			expectedCfgWithEnv.Environment[5] = environment.MustNewVariable("database_max_connections", 3)
 
 			// Service name + env part + evon style
 			require.NoError(t, os.Setenv("matreshka_environment_welcome-string", "wel-cum"))
-			expectedCfgWithEnv.Environment[1] = environment.MustNewVariable("welcome_string", "wel-cum")
+			expectedCfgWithEnv.Environment[0] = environment.MustNewVariable("welcome_string", "wel-cum")
 
 			// Service name + evon style
 			require.NoError(t, os.Setenv("matreshka_one-of-welcome-string", "three"))
-			expectedCfgWithEnv.Environment[2] = environment.MustNewVariable(
+			expectedCfgWithEnv.Environment[4] = environment.MustNewVariable(
 				"one_of_welcome_string", "three",
 				environment.WithEnum("one", "two", "three"))
 
 			// Service name + env part + default env style
 			require.NoError(t, os.Setenv("matreshka_environment_request_timeout", "10s"))
-			expectedCfgWithEnv.Environment[4] = environment.MustNewVariable("request_timeout", time.Second*10)
+			expectedCfgWithEnv.Environment[3] = environment.MustNewVariable("request_timeout", time.Second*10)
 
 			// Default env style
 			require.NoError(t, os.Setenv("available_ports", "[12:18,20]"))
-			expectedCfgWithEnv.Environment[5] = environment.MustNewVariable("available_ports", []int{12, 13, 14, 15, 16, 17, 18, 20})
+			expectedCfgWithEnv.Environment[8] = environment.MustNewVariable("available_ports", []int{12, 13, 14, 15, 16, 17, 18, 20})
 
 			actualCfg, err := ReadConfigs(emptyConfigPath, fullConfigPath)
 			require.NoError(t, err)
+
 			sort.Slice(actualCfg.Environment, func(i, j int) bool {
 				return actualCfg.Environment[i].Name > actualCfg.Environment[j].Name
-			})
-
-			sort.Slice(expectedCfgWithEnv.Environment, func(i, j int) bool {
-				return expectedCfgWithEnv.Environment[i].Name > expectedCfgWithEnv.Environment[j].Name
 			})
 
 			require.NoError(t, err)

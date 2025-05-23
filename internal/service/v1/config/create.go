@@ -33,7 +33,7 @@ func (c *CfgService) Create(ctx context.Context, serviceName domain.ConfigName) 
 	var listReq domain.ListConfigsRequest
 	listReq.SearchPattern = serviceName.Name()
 
-	list, err := c.ListConfigs(ctx, listReq)
+	list, err := c.configStorage.ListConfigs(ctx, listReq)
 	if err != nil {
 		return domain.AboutConfig{}, errors.Wrap(err)
 	}
@@ -92,7 +92,7 @@ func (c *CfgService) createConfig(ctx context.Context, dataStorage storage.Data,
 }
 
 func (c *CfgService) convertConfigToPatch(cfg *evon.Node) ([]domain.PatchUpdate, error) {
-	newCfgNodesStore := evon.NodesToStorage(cfg.InnerNodes)
+	newCfgNodesStore := evon.NodesToStorage(cfg)
 
 	cfgPatch := make([]domain.PatchUpdate, 0, len(newCfgNodesStore))
 	for _, node := range newCfgNodesStore {

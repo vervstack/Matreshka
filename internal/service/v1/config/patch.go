@@ -36,7 +36,7 @@ func (c *CfgService) Patch(ctx context.Context, req domain.PatchConfigRequest) e
 		return nil
 	})
 	if err != nil {
-		return err
+		return rerrors.Wrap(err)
 	}
 
 	go c.pubService.Publish(req)
@@ -65,7 +65,7 @@ func (c *CfgService) getOrCreateConfig(ctx context.Context, dataStorage storage.
 }
 
 func (c *CfgService) validatePatch(originalConfig *evon.Node, patch *domain.PatchConfigRequest) error {
-	evonStorage := evon.NodesToStorage(originalConfig.InnerNodes)
+	evonStorage := evon.NodesToStorage(originalConfig)
 
 	err := c.validator.AsEvon(evonStorage, patch)
 	if err != nil {

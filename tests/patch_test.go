@@ -28,7 +28,7 @@ type PatchConfigSuite struct {
 func (s *PatchConfigSuite) SetupTest() {
 	s.ctx = context.Background()
 
-	s.configName = getServiceNameFromTest(s.T())
+	s.configName = matreshka_be_api.ConfigTypePrefix_verv.String() + "_" + getServiceNameFromTest(s.T())
 	testEnv.create(s.T(), s.configName)
 
 	s.cfg = getFullConfig(s.T())
@@ -155,7 +155,7 @@ func (s *PatchConfigSuite) TearDownTest() {
 		return s.cfg.Environment[i].Name < s.cfg.Environment[j].Name
 	})
 
-	require.Equal(s.T(), patchedConfig.Environment, s.cfg.Environment)
+	require.Equal(s.T(), s.cfg.Environment, patchedConfig.Environment)
 }
 
 func Test_PatchConfig(t *testing.T) {

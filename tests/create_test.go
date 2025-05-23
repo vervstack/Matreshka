@@ -37,17 +37,17 @@ func (s *CreateSuite) Test_InvalidName() {
 		"short": {
 			name:         "12",
 			expectedCode: codes.InvalidArgument,
-			message:      "Validation error\nService name must be at least 3 symbols long\n\n",
+			message:      "Validation error\nService name must be at least 3 symbols long\n\nerror creating config\n\n",
 		},
 		"invalid_char": {
 			name:         "12+a",
 			expectedCode: codes.InvalidArgument,
-			message:      "Validation error\nName contains invalid character: +\n\n",
+			message:      "Validation error\nName contains invalid character: +\n\nerror creating config\n\n",
 		},
 		"invalid_chars": {
 			name:         "12+a)",
 			expectedCode: codes.InvalidArgument,
-			message:      "Validation error\nName contains invalid characters: +,)\n\n",
+			message:      "Validation error\nName contains invalid characters: +,)\n\nerror creating config\n\n",
 		},
 	}
 
@@ -66,7 +66,6 @@ func (s *CreateSuite) Test_InvalidName() {
 			s.Equal(tc.message, grpcStatus.Message())
 		})
 	}
-
 }
 
 func Test_CreateConfig(t *testing.T) {

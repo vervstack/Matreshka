@@ -7,10 +7,13 @@ import (
 	"sort"
 
 	errors "go.redsock.ru/rerrors"
+	"go.redsock.ru/toolbox"
 
 	"go.vervstack.ru/matreshka/internal/domain"
 	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
+
+const defaultPageSize = 20
 
 func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsRequest) (out domain.ListConfigsResponse, err error) {
 	err = p.conn.QueryRow(`
@@ -35,16 +38,21 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 		),
 		versions AS (
 			SELECT
-				cv.config_id,
-				cv.version versions
+				cv.config_id as config_id,
+				cv.version version
 			FROM configs_values cv
 			INNER JOIN cfg c on c.id = cv.config_id
 			GROUP BY config_id, version
+			UNION ALL
+			SELECT
+			    c.id,
+			    'master'
+			FROM cfg c
 		)
 		SELECT
 			cfg.name 						    AS config_name,
 			cfg.updated_at 					    AS last_updated_at,
-			json_group_array(versions.versions) AS config_versions
+			json_group_array(versions.version) AS config_versions
 		FROM cfg
 		LEFT JOIN versions ON versions.config_id = cfg.id
 
@@ -55,7 +63,8 @@ func (p *Provider) ListConfigs(ctx context.Context, req domain.ListConfigsReques
 
 	q += "\nORDER BY " + extractSort(req.Sort)
 	q += fmt.Sprintf("\nLIMIT %d OFFSET %d",
-		req.Paging.Limit, req.Paging.Offset)
+		toolbox.Coalesce(req.Paging.Limit, defaultPageSize),
+		req.Paging.Offset)
 
 	rows, err := p.conn.QueryContext(ctx, q, args...)
 	if err != nil {

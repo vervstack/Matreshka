@@ -56,7 +56,7 @@ func (e *Env) updateConfigValues(t *testing.T, cfg matreshka.AppConfig) {
 	nodes, err := evon.MarshalEnv(&cfg)
 	require.NoError(t, err)
 
-	storage := evon.NodesToStorage(nodes.InnerNodes)
+	storage := evon.NodesToStorage(nodes)
 
 	for k, v := range storage {
 		if v.Value != nil {

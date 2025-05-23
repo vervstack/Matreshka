@@ -21,12 +21,12 @@ type ConfigName struct {
 func NewConfigName(prefix api.ConfigTypePrefix, name string) ConfigName {
 	return ConfigName{
 		prefix: prefix,
-		name:   prefix.String() + "_" + name,
+		name:   name,
 	}
 }
 
 func (c ConfigName) Name() string {
-	return c.name
+	return c.prefix.String() + "_" + c.name
 }
 
 func (c ConfigName) Prefix() api.ConfigTypePrefix {

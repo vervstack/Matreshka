@@ -156,7 +156,6 @@ func enrichWithEnv(masterConfig AppConfig) (enrichedConfig AppConfig, err error)
 	environ := os.Environ()
 
 	const environmentEvonPart = "ENVIRONMENT"
-	serviceNameWithEnvPartPrefix := projectName + evon.ObjectSplitter + environmentEvonPart
 
 	nodeFinders := []func(originalName string) *evon.Node{
 		// Simply extract from storage
@@ -165,18 +164,13 @@ func enrichWithEnv(masterConfig AppConfig) (enrichedConfig AppConfig, err error)
 		},
 		// Try to find inside environment object
 		func(originalName string) *evon.Node {
-			if !strings.HasPrefix(originalName, serviceNameWithEnvPartPrefix) {
-				originalName = serviceNameWithEnvPartPrefix + evon.ObjectSplitter + originalName
-			}
+			originalName = environmentEvonPart + evon.ObjectSplitter + originalName
 
 			return masterEvonStorage[originalName]
 		},
 		// Use environment style to find from
 		func(originalName string) *evon.Node {
-			if !strings.HasPrefix(originalName, serviceNameWithEnvPartPrefix) {
-				originalName = serviceNameWithEnvPartPrefix + evon.ObjectSplitter + originalName
-			}
-
+			originalName = environmentEvonPart + evon.ObjectSplitter + originalName
 			originalName = strings.ReplaceAll(originalName, "-", "_")
 			return envNamePointers[originalName]
 		},

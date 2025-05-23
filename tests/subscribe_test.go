@@ -25,9 +25,8 @@ func (s *SubscriptionSuite) SetupTest() {
 
 	s.apiClient = testEnv.matreshkaApi
 
-	s.configName = getServiceNameFromTest(s.T())
+	s.configName = api.ConfigTypePrefix_kv.String() + "_" + getServiceNameFromTest(s.T())
 	testEnv.create(s.T(), s.configName)
-
 }
 
 func (s *SubscriptionSuite) TestSubscribeOnChanges() {

@@ -8,6 +8,10 @@ import (
 	"go.vervstack.ru/matreshka/internal/domain"
 )
 
+const (
+	environmentSegment = "ENVIRONMENT"
+)
+
 type VervConfigValidationResult struct {
 	EnvUpsert []domain.PatchUpdate
 	Upsert    []domain.PatchUpdate
@@ -38,7 +42,7 @@ func newVervConfigValidator(patch domain.PatchConfigRequest) VervConfigValidatio
 }
 
 func (v *VervConfigValidationResult) parseEnvironmentChanges(original *evon.Node) {
-	nodeStorage := evon.NodesToStorage(original.InnerNodes)
+	nodeStorage := evon.NodesToStorage(original)
 
 	newEnvValues := make(map[string]domain.PatchUpdate)
 	typesMap := make(map[string]domain.PatchUpdate)

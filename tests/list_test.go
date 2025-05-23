@@ -29,7 +29,7 @@ func (s *ListSuite) SetupTest() {
 	s.ctx = context.Background()
 
 	s.start = time.Now().Add(-time.Minute).UTC()
-	s.serviceName = getServiceNameFromTest(s.T())
+	s.serviceName = matreshka_be_api.ConfigTypePrefix_kv.String() + "_" + getServiceNameFromTest(s.T())
 }
 
 func (s *ListSuite) Test_ListOneServiceWithOneVersion() {
@@ -42,7 +42,7 @@ func (s *ListSuite) Test_ListOneServiceWithOneVersion() {
 	s.expected = &matreshka_be_api.ListConfigs_Response{
 		Configs: []*matreshka_be_api.Config{{
 			Name:     s.serviceName,
-			Version:  "v0.0.1",
+			Version:  domain.MasterVersion,
 			Versions: []string{domain.MasterVersion},
 		}},
 		TotalRecords: 1,
@@ -81,7 +81,7 @@ func (s *ListSuite) Test_ListOneServiceWithTwoVersion() {
 	s.expected = &matreshka_be_api.ListConfigs_Response{
 		Configs: []*matreshka_be_api.Config{{
 			Name:     s.serviceName,
-			Version:  "v0.0.1",
+			Version:  domain.MasterVersion,
 			Versions: []string{domain.MasterVersion, "VERV-137"},
 		}},
 		TotalRecords: 1,
