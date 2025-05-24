@@ -3,8 +3,7 @@ build-local-container:
 	docker buildx build \
 			--load \
 			--platform linux/arm64 \
-			--no-cache \
-			-t matreshka_be:local .
+			-t matreshka:local .
 
 ### Grpc server generation
 gen-server-grpc: .prepare-grpc-folders .deps-grpc .gen-server-grpc
@@ -23,4 +22,4 @@ gen-server-grpc: .prepare-grpc-folders .deps-grpc .gen-server-grpc
 	EASYPPATH=proto_deps easyp mod download
 
 .gen-server-grpc:
-	EASYPPATH=proto_deps protopack generate
+	EASYPPATH=proto_deps easyp generate
