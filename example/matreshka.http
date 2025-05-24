@@ -1,5 +1,6 @@
 ### Version
 GET {{matreshka-api}}/api/version
+Grpc-Metadata-R-Auth: {{auth-type}} {{auth-value}}
 
 ### Get config
 GET {{matreshka-api}}/api/config/red-cart
