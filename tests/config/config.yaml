@@ -5,7 +5,7 @@ data_sources:
     path: "./data/test.db"
     migrations_folder: ./../migrations
 servers:
-  50051:
+  40051:
     /{GRPC}:
       module: pkg/matreshka_be_api
       gateway: /api

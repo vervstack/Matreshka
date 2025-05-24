@@ -18,13 +18,13 @@ func (c *CfgService) GetConfigWithNodes(ctx context.Context, configName domain.C
 		return domain.ConfigWithNodes{}, errors.Wrap(err)
 	}
 
+	if nodes == nil {
+		return domain.ConfigWithNodes{}, errors.Wrap(user_errors.ErrNotFound, "service with name "+configName.Name()+" not found")
+	}
+
 	switch configName.Prefix() {
 	case api.ConfigTypePrefix_pg:
 		toSnake(nodes)
-	}
-
-	if nodes == nil {
-		return domain.ConfigWithNodes{}, errors.Wrap(user_errors.ErrNotFound, "service with name "+configName.Name()+" not found")
 	}
 
 	versions, err := c.configStorage.GetVersions(ctx, configName.Name())
