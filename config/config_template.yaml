@@ -7,12 +7,6 @@ data_sources:
       path: ./matreshka-be.db
       migrations_folder: ./migrations
 servers:
-    80:
-        /{FS}:
-            dist: web/dist
-        /{GRPC}:
-            module: pkg/matreshka_be_api
-            gateway: /api
     50049:
         /{FS}:
             dist: web/dist
@@ -24,6 +18,3 @@ environment:
     - name: pass
       type: string
       value: jj*88
-    - name: new_variable
-      type: string
-      value: new string value

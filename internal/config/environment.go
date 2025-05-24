@@ -3,6 +3,5 @@
 package config
 
 type EnvironmentConfig struct {
-	Pass        string
-	NewVariable string
+	Pass string
 }

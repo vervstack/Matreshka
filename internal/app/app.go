@@ -23,7 +23,6 @@ type App struct {
 	Sqlite *sql.DB
 	/* Servers managers */
 	ServerMaster *transport.ServersManager
-	ServerMaster *transport.ServersManager
 
 	Custom Custom
 }
