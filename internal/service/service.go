@@ -18,7 +18,7 @@ type ConfigService interface {
 	Create(ctx context.Context, name domain.ConfigName) (domain.AboutConfig, error)
 	Rename(ctx context.Context, oldName, newName domain.ConfigName) error
 
-	GetConfigWithNodes(ctx context.Context, name string, version string) (domain.ConfigWithNodes, error)
+	GetConfigWithNodes(ctx context.Context, name domain.ConfigName, version string) (domain.ConfigWithNodes, error)
 	ListConfigs(ctx context.Context, req domain.ListConfigsRequest) (domain.ListConfigsResponse, error)
 }
 

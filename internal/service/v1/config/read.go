@@ -2,24 +2,32 @@ package config
 
 import (
 	"context"
+	"strings"
 
+	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
 
 	"go.vervstack.ru/matreshka/internal/domain"
 	"go.vervstack.ru/matreshka/internal/service/user_errors"
+	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
-func (c *CfgService) GetConfigWithNodes(ctx context.Context, serviceName string, ver string) (domain.ConfigWithNodes, error) {
-	nodes, err := c.configStorage.GetConfigNodes(ctx, serviceName, ver)
+func (c *CfgService) GetConfigWithNodes(ctx context.Context, configName domain.ConfigName, ver string) (domain.ConfigWithNodes, error) {
+	nodes, err := c.configStorage.GetConfigNodes(ctx, configName.Name(), ver)
 	if err != nil {
 		return domain.ConfigWithNodes{}, errors.Wrap(err)
 	}
 
-	if nodes == nil {
-		return domain.ConfigWithNodes{}, errors.Wrap(user_errors.ErrNotFound, "service with name "+serviceName+" not found")
+	switch configName.Prefix() {
+	case api.ConfigTypePrefix_pg:
+		toSnake(nodes)
 	}
 
-	versions, err := c.configStorage.GetVersions(ctx, serviceName)
+	if nodes == nil {
+		return domain.ConfigWithNodes{}, errors.Wrap(user_errors.ErrNotFound, "service with name "+configName.Name()+" not found")
+	}
+
+	versions, err := c.configStorage.GetVersions(ctx, configName.Name())
 	if err != nil {
 		return domain.ConfigWithNodes{}, errors.Wrap(err, "error getting config by name")
 	}
@@ -38,4 +46,11 @@ func (c *CfgService) ListConfigs(
 	}
 
 	return resp, nil
+}
+
+func toSnake(root *evon.Node) {
+	for _, n := range root.InnerNodes {
+		toSnake(n)
+	}
+	root.Name = strings.ReplaceAll(root.Name, "-", "_")
 }

@@ -126,20 +126,20 @@ func (c *CfgService) initNewConfig(serviceName domain.ConfigName) (*evon.Node, e
 		return &evon.Node{
 			InnerNodes: []*evon.Node{
 				{
-					Name:  "POSTGRES_USER",
+					Name:  "POSTGRES-USER",
 					Value: "postgres",
 				},
 				{
-					Name:       "POSTGRES_PASSWORD",
+					Name:       "POSTGRES-PASSWORD",
 					Value:      "123",
 					InnerNodes: nil,
 				},
 				{
-					Name:  "POSTGRES_DB",
+					Name:  "POSTGRES-DB",
 					Value: "postgres",
 				},
 				{
-					Name:  "POSTGRES_HOST_AUTH_METHOD",
+					Name:  "POSTGRES-HOST-AUTH-METHOD",
 					Value: "trust",
 				},
 			},
