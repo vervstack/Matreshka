@@ -49,6 +49,10 @@ func (c *CfgService) ListConfigs(
 }
 
 func toSnake(root *evon.Node) {
+	if root == nil {
+		return
+	}
+
 	for _, n := range root.InnerNodes {
 		toSnake(n)
 	}
