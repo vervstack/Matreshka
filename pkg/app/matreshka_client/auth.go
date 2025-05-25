@@ -11,7 +11,13 @@ import (
 
 const AuthHeader = auth.Header
 
-func WithHeader(headerValue string) grpc.UnaryClientInterceptor {
+type AuthType string
+
+const (
+	Pass AuthType = "Pass"
+)
+
+func WithHeader(authType AuthType, headerValue string) grpc.UnaryClientInterceptor {
 	return func(
 		ctx context.Context,
 		method string,
@@ -21,7 +27,7 @@ func WithHeader(headerValue string) grpc.UnaryClientInterceptor {
 		opts ...grpc.CallOption,
 	) error {
 		// Add custom header
-		md := metadata.Pairs(AuthHeader, headerValue)
+		md := metadata.Pairs(AuthHeader, string(authType)+" "+headerValue)
 		ctx = metadata.NewOutgoingContext(ctx, md)
 
 		// Call the original invoker

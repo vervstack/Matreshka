@@ -37,6 +37,7 @@ WORKDIR /app
 
 COPY --from=builder /deploy/server/ .
 
-EXPOSE 50049
 RUN mkdir /app/data
+
+EXPOSE 50049
 ENTRYPOINT ["./service"]
