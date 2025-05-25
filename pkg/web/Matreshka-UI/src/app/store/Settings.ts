@@ -1,14 +1,16 @@
 import { defineStore } from "pinia";
 
-import { setBackendAddress } from "@/processes/api/ApiService.ts";
+import { setBackendAddress, setPass } from "@/processes/api/ApiService.ts";
 
 export const useSettingsStore = defineStore("settings", {
   state: () => {
     const s = {
       apiURL: getBackendUrl(),
+      pass: getPass(),
     } as Settings;
 
     setBackendAddress(s.apiURL);
+    setPass(s.pass);
 
     return s;
   },
@@ -16,6 +18,9 @@ export const useSettingsStore = defineStore("settings", {
     getApiURL: (state) => {
       return state.apiURL;
     },
+    getPass: (state) => {
+      return state.pass;
+    }
   },
   actions: {
     setApiURL(url: string) {
@@ -23,15 +28,25 @@ export const useSettingsStore = defineStore("settings", {
       setBackendAddress(this.apiURL);
       localStorage.setItem(backendUrlLocalStorageKey(), url);
     },
+    setPass(pass: string) {
+      this.pass = pass;
+      setPass(this.pass);
+      localStorage.setItem(backendPassLocalStorageKey(), pass);
+    },
   },
 });
 
 export type Settings = {
   apiURL: string;
+  pass: string;
 };
 
 function backendUrlLocalStorageKey(): string {
   return "backend_api_url";
+}
+
+function backendPassLocalStorageKey(): string {
+  return "backend_api_pass";
 }
 
 export function getBackendUrl(): string {
@@ -51,4 +66,14 @@ export function getBackendUrl(): string {
       : "No backend url is specified. Requests will be routed to root"
   );
   return beApiAddr;
+}
+
+export function getPass() : string {
+  const item = localStorage.getItem(backendPassLocalStorageKey());
+
+  if (!item) {
+    return ""
+  }
+
+  return item;
 }

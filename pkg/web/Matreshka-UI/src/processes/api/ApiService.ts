@@ -17,10 +17,19 @@ import KeyValueConfig from "@/models/configs/keyvalue/KeyValueConfig.ts";
 import VervConfig from "@/models/configs/verv/VervConfig.ts";
 import { fromPbEnvNode } from "@/models/shared/Node.ts";
 
-const apiPrefix = { pathPrefix: "" };
+const apiPrefix = {
+  pathPrefix: "",
+  headers: {
+    'Grpc-Metadata-R-Auth': ''
+  }
+};
 
 export function setBackendAddress(url: string) {
   apiPrefix.pathPrefix = url;
+}
+
+export function setPass(pass: string ) {
+  apiPrefix.headers['Grpc-Metadata-R-Auth'] = 'Pass '+ pass
 }
 
 const fallbackErrorConverting = "error during conversion";

@@ -9,11 +9,16 @@ import { useSettingsStore } from "@/app/store/Settings.ts";
 
 const settingsStore = useSettingsStore();
 
-// API URL
+// API
 const apiURL = ref<string>(settingsStore.getApiURL);
+const pass = ref<string>(settingsStore.getPass);
 
 function changeApiUrl() {
   settingsStore.setApiURL(apiURL.value);
+}
+
+function changePass() {
+  settingsStore.setPass(pass.value);
 }
 
 const isDialogOpen = ref<boolean>(false);
@@ -22,6 +27,7 @@ const dialogStyle = {
   width: "60vw",
   height: "60vh",
 };
+
 
 // Open Settings
 document.addEventListener("keydown", function (event) {
@@ -44,6 +50,11 @@ document.addEventListener("keydown", function (event) {
       <FloatLabel style="width: 100%" variant="on">
         <InputText style="width: 100%" v-model="apiURL as Nullable<string>" @input="changeApiUrl" />
         <label> {{ apiURL ? "Api Url" : "Requests will be routed to root" }} </label>
+      </FloatLabel>
+
+      <FloatLabel style="width: 100%" variant="on">
+        <InputText style="width: 100%" v-model="pass as Nullable<string>" @input="changePass" />
+        <label> {{ "Password is NOT reset on refresh" }} </label>
       </FloatLabel>
     </div>
   </Dialog>
