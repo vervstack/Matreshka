@@ -2,7 +2,10 @@ package app
 
 import (
 	"go.vervstack.ru/matreshka/internal/app"
+	"go.vervstack.ru/matreshka/internal/web/auth"
 )
+
+const AuthHeader = auth.Header
 
 type (
 	App       = app.App
