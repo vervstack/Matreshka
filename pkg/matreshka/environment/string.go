@@ -83,7 +83,7 @@ func (s *stringSliceValue) isEnum(val typedValue) error {
 func toStringValue(in any) (typedValue, error) {
 	switch v := in.(type) {
 	case string:
-		if v[0] == '[' && v[len(v)-1] == ']' {
+		if v != "" && v[0] == '[' && v[len(v)-1] == ']' {
 			out := strings.Split(v[1:len(v)-1], ",")
 			return &stringSliceValue{
 				v: out,
