@@ -240,14 +240,14 @@
         ]
       }
     },
-    "/api/config/{configName}/update": {
+    "/api/config/{configName}/store": {
       "post": {
-        "operationId": "MatreshkaBeAPI_UpdateConfig",
+        "operationId": "MatreshkaBeAPI_StoreConfig",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiUpdateConfigResponse"
+              "$ref": "#/definitions/matreshka_be_apiStoreConfigResponse"
             }
           },
           "default": {
@@ -269,7 +269,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPIUpdateConfigBody"
+              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPIStoreConfigBody"
             }
           }
         ],
@@ -351,14 +351,15 @@
     "matreshka_be_apiConfigTypePrefix": {
       "type": "string",
       "enum": [
-        "kv",
+        "plain",
         "verv",
         "minio",
         "pg",
-        "nginx"
+        "nginx",
+        "kv"
       ],
-      "default": "kv",
-      "title": "- kv: Basically a key-value configuration\n - verv: Matreshka's configuration for application\n - minio: Configuration for object storage (Minio)\n - pg: Configuration for Postgresql Database\n - nginx: Configuration for Nginx/Angie web server"
+      "default": "plain",
+      "title": "- plain: Plain text blob config - saved and configured externally by user\nNot recommended to use - unstructured and cannot be validated.\nSimply a text storage\n - verv: Matreshka's configuration for application\n - minio: Configuration for object storage (Minio)\n - pg: Configuration for Postgresql Database\n - nginx: Configuration for Nginx/Angie web server\n - kv: Basically a key-value configuration"
     },
     "matreshka_be_apiCreateConfigResponse": {
       "type": "object",
@@ -465,12 +466,12 @@
         }
       }
     },
-    "matreshka_be_apiMatreshkaBeAPIUpdateConfigBody": {
+    "matreshka_be_apiMatreshkaBeAPIStoreConfigBody": {
       "type": "object",
       "properties": {
         "format": {
           "$ref": "#/definitions/matreshka_be_apiFormat",
-          "title": "default - yaml"
+          "title": "Config format. Default - yaml"
         },
         "version": {
           "type": "string"
@@ -543,6 +544,9 @@
       ],
       "default": "default"
     },
+    "matreshka_be_apiStoreConfigResponse": {
+      "type": "object"
+    },
     "matreshka_be_apiSubscribeOnChangesResponse": {
       "type": "object",
       "properties": {
@@ -561,9 +565,6 @@
           }
         }
       }
-    },
-    "matreshka_be_apiUpdateConfigResponse": {
-      "type": "object"
     },
     "protobufAny": {
       "type": "object",

@@ -17,6 +17,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/test/bufconn"
 
+	"go.vervstack.ru/matreshka/internal/transport/grpc_impl"
 	"go.vervstack.ru/matreshka/pkg/app"
 	"go.vervstack.ru/matreshka/pkg/matreshka"
 	"go.vervstack.ru/matreshka/pkg/matreshka_be_api"
@@ -42,7 +43,14 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
-func (e *Env) create(t *testing.T, configName string) {
+func (e *Env) create(t *testing.T) string {
+	configName := normalizeConfigName(t.Name())
+	e.createWithName(t, configName)
+
+	return configName
+}
+
+func (e *Env) createWithName(t *testing.T, configName string) {
 	createReq := &matreshka_be_api.CreateConfig_Request{
 		ConfigName: configName,
 	}
@@ -165,4 +173,16 @@ func initApp() error {
 	}
 
 	return nil
+}
+
+func normalizeConfigName(configName string) string {
+	configName = strings.ReplaceAll(configName, "/", "__")
+
+	pref, _ := grpc_impl.ParseConfigName(configName)
+
+	if pref == nil {
+		configName = matreshka_be_api.ConfigTypePrefix_kv.String() + "_" + configName
+	}
+
+	return configName
 }

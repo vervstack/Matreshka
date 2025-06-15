@@ -138,7 +138,7 @@ func (v Validator) AsVerv(original *evon.Node, patch *domain.PatchConfigRequest)
 func newVervConfigValidator(patch domain.PatchConfigRequest) VervConfigValidationResult {
 	vervV := VervConfigValidationResult{}
 
-	for _, p := range patch.Update {
+	for _, p := range patch.Upsert {
 		if strings.HasPrefix(p.FieldName, environmentSegment) {
 			vervV.EnvUpsert = append(vervV.EnvUpsert, p)
 		} else {
@@ -197,8 +197,8 @@ func (v *VervConfigValidationResult) parseEnvironmentChanges(original *evon.Node
 }
 
 func (v Validator) AsEvon(original evon.NodeStorage, patch *domain.PatchConfigRequest) (err error) {
-	for i := range patch.Update {
-		patch.Update[i].FieldName, err = v.normalizeAndValidateEnvName(patch.Update[i].FieldName)
+	for i := range patch.Upsert {
+		patch.Upsert[i].FieldName, err = v.normalizeAndValidateEnvName(patch.Upsert[i].FieldName)
 		if err != nil {
 			return errors.Wrap(err)
 		}

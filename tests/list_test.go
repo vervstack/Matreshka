@@ -33,7 +33,7 @@ func (s *ListSuite) SetupTest() {
 }
 
 func (s *ListSuite) Test_ListOneServiceWithOneVersion() {
-	testEnv.create(s.T(), s.serviceName)
+	testEnv.createWithName(s.T(), s.serviceName)
 
 	s.req = &matreshka_be_api.ListConfigs_Request{
 		SearchPattern: s.serviceName,
@@ -50,7 +50,7 @@ func (s *ListSuite) Test_ListOneServiceWithOneVersion() {
 }
 
 func (s *ListSuite) Test_ListOneServiceWithTwoVersion() {
-	testEnv.create(s.T(), s.serviceName)
+	testEnv.createWithName(s.T(), s.serviceName)
 
 	patchReq := &matreshka_be_api.PatchConfig_Request{
 		ConfigName: s.serviceName,

@@ -7,7 +7,7 @@ import (
 type PatchConfigRequest struct {
 	ConfigName    ConfigName
 	ConfigVersion string
-	Update        []PatchUpdate
+	Upsert        []PatchUpdate
 	RenameTo      []PatchRename
 	Delete        []string
 }
@@ -22,8 +22,8 @@ type PatchRename struct {
 	NewName string
 }
 
-type ReplaceConfig struct {
-	Name    string
+type ReplaceConfigReq struct {
+	Name    ConfigName
 	Version string
-	Config  []*evon.Node
+	Config  *evon.Node
 }

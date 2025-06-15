@@ -23,7 +23,7 @@ func (a *Impl) CreateConfig(
 		pref = req.Type
 	}
 
-	parsedPref, name := parseConfigName(req.ConfigName)
+	parsedPref, name := ParseConfigName(req.ConfigName)
 	if parsedPref != nil {
 		pref = parsedPref
 	}
@@ -33,7 +33,7 @@ func (a *Impl) CreateConfig(
 	var resp api.CreateConfig_Response
 	var err error
 
-	aboutConfig, err := a.configService.Create(ctx, configName)
+	aboutConfig, err := a.evonConfigService.Create(ctx, configName)
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}

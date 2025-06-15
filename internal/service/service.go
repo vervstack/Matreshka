@@ -9,17 +9,23 @@ import (
 )
 
 type Services interface {
-	ConfigService() ConfigService
+	ConfigService() EvonConfigService
 	PubSubService() PubSubService
 }
 
-type ConfigService interface {
+type EvonConfigService interface {
+	Replace(ctx context.Context, req domain.ReplaceConfigReq) error
 	Patch(ctx context.Context, configPatch domain.PatchConfigRequest) error
 	Create(ctx context.Context, name domain.ConfigName) (domain.AboutConfig, error)
 	Rename(ctx context.Context, oldName, newName domain.ConfigName) error
 
 	GetConfigWithNodes(ctx context.Context, name domain.ConfigName, version string) (domain.ConfigWithNodes, error)
 	ListConfigs(ctx context.Context, req domain.ListConfigsRequest) (domain.ListConfigsResponse, error)
+}
+
+type PlainConfigService interface {
+	Save(cfg string, version string) error
+	Get(cfg string, version string) error
 }
 
 type PubSubService interface {

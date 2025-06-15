@@ -19,7 +19,7 @@ func (a *Impl) RenameConfig(ctx context.Context, req *api.RenameConfig_Request) 
 		return nil, errors.Wrap(err)
 	}
 
-	err = a.configService.Rename(ctx, oldName, newName)
+	err = a.evonConfigService.Rename(ctx, oldName, newName)
 	if err != nil {
 		return nil, errors.Wrap(err, "error renaming config")
 	}

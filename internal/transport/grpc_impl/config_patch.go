@@ -19,7 +19,7 @@ func (a *Impl) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*
 		return nil, errors.Wrap(err)
 	}
 
-	err = a.configService.Patch(ctx, patch)
+	err = a.evonConfigService.Patch(ctx, patch)
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}
@@ -47,7 +47,7 @@ func fromPatch(req *api.PatchConfig_Request) (domain.PatchConfigRequest, error) 
 					NewName: v.Rename,
 				})
 		case *api.PatchConfig_Patch_UpdateValue:
-			out.Update = append(out.Update, domain.PatchUpdate{
+			out.Upsert = append(out.Upsert, domain.PatchUpdate{
 				FieldName:  patch.FieldName,
 				FieldValue: v.UpdateValue,
 			})
@@ -59,7 +59,7 @@ func fromPatch(req *api.PatchConfig_Request) (domain.PatchConfigRequest, error) 
 	return out, nil
 }
 
-func parseConfigName(name string) (*api.ConfigTypePrefix, string) {
+func ParseConfigName(name string) (*api.ConfigTypePrefix, string) {
 	nameSplited := strings.Split(name, "_")
 	if len(nameSplited) < 2 {
 		return nil, name

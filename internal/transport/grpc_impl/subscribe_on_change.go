@@ -83,9 +83,9 @@ func consumeSubscriberStream(stream api.MatreshkaBeAPI_SubscribeOnChangesServer)
 }
 
 func toPatches(req domain.PatchConfigRequest) []*api.PatchConfig_Patch {
-	out := make([]*api.PatchConfig_Patch, 0, len(req.Update)+len(req.Delete)+len(req.RenameTo))
+	out := make([]*api.PatchConfig_Patch, 0, len(req.Upsert)+len(req.Delete)+len(req.RenameTo))
 
-	for _, up := range req.Update {
+	for _, up := range req.Upsert {
 		out = append(out, &api.PatchConfig_Patch{
 			FieldName: up.FieldName,
 			Patch: &api.PatchConfig_Patch_UpdateValue{

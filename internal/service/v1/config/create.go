@@ -79,7 +79,7 @@ func (c *CfgService) createConfig(ctx context.Context, dataStorage storage.Data,
 
 	patchReq := domain.PatchConfigRequest{
 		ConfigName:    serviceName,
-		Update:        newCfgPatch,
+		Upsert:        newCfgPatch,
 		ConfigVersion: domain.MasterVersion,
 	}
 

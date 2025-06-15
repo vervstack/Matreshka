@@ -47,9 +47,9 @@ service MatreshkaBeAPI {
     };
   }
 
-  rpc UpdateConfig(UpdateConfig.Request) returns (UpdateConfig.Response) {
+  rpc StoreConfig(StoreConfig.Request) returns (StoreConfig.Response) {
     option (google.api.http) = {
-      post: "/api/config/{config_name}/update",
+      post: "/api/config/{config_name}/store",
       body: "*"
     };
   }
@@ -113,9 +113,10 @@ message PatchConfig {
   }
 }
 
-message UpdateConfig {
+message StoreConfig {
   message Request {
-    Format format = 1; //default - yaml
+    //Config format. Default - yaml
+    Format format = 1;
     string config_name = 2;
     optional string version = 3;
     bytes config = 4;
@@ -206,8 +207,10 @@ message SubscribeOnChanges {
 }
 
 enum ConfigTypePrefix {
-  // Basically a key-value configuration
-  kv = 0;
+  // Plain text blob config - saved and configured externally by user
+  // Not recommended to use - unstructured and cannot be validated.
+  // Simply a text storage
+  plain = 0;
   // Matreshka's configuration for application
   verv = 1;
   // Configuration for object storage (Minio)
@@ -216,6 +219,8 @@ enum ConfigTypePrefix {
   pg = 3;
   // Configuration for Nginx/Angie web server
   nginx = 4;
+  // Basically a key-value configuration
+  kv = 5;
 }
 
 enum Format {

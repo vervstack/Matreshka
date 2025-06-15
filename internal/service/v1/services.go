@@ -22,7 +22,7 @@ func New(data storage.Data, txManager *tx_manager.TxManager) *Services {
 	}
 }
 
-func (s *Services) ConfigService() service.ConfigService {
+func (s *Services) ConfigService() service.EvonConfigService {
 	return s.configService
 }
 func (s *Services) PubSubService() service.PubSubService {

@@ -16,8 +16,8 @@ import (
 type Impl struct {
 	version string
 
-	configService service.ConfigService
-	subService    service.SubscriberService
+	evonConfigService service.EvonConfigService
+	subService        service.SubscriberService
 
 	matreshka_be_api.UnimplementedMatreshkaBeAPIServer
 }
@@ -27,9 +27,9 @@ func NewServer(
 	service service.Services,
 ) *Impl {
 	return &Impl{
-		version:       cfg.AppInfo.Version,
-		configService: service.ConfigService(),
-		subService:    service.PubSubService(),
+		version:           cfg.AppInfo.Version,
+		evonConfigService: service.ConfigService(),
+		subService:        service.PubSubService(),
 	}
 }
 

@@ -22,6 +22,8 @@ type Data interface {
 	DeleteValues(ctx context.Context, req domain.PatchConfigRequest) error
 	RenameValues(ctx context.Context, req domain.PatchConfigRequest) error
 
+	ClearValues(ctx context.Context, req domain.ConfigName, version string) error
+
 	SetUpdatedAt(ctx context.Context, name string, req time.Time) error
 
 	Rename(ctx context.Context, oldName, newName string) error

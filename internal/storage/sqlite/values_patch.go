@@ -9,7 +9,7 @@ import (
 )
 
 func (p *Provider) UpsertValues(ctx context.Context, req domain.PatchConfigRequest) error {
-	if len(req.Update) == 0 {
+	if len(req.Upsert) == 0 {
 		return nil
 	}
 
@@ -18,7 +18,7 @@ func (p *Provider) UpsertValues(ctx context.Context, req domain.PatchConfigReque
 		return errors.Wrap(err)
 	}
 
-	for _, b := range req.Update {
+	for _, b := range req.Upsert {
 		_, err := p.conn.ExecContext(ctx, `
 			INSERT INTO configs_values 
 					(config_id, key, value, version)

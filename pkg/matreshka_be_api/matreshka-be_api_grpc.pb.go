@@ -25,7 +25,7 @@ const (
 	MatreshkaBeAPI_ListConfigs_FullMethodName        = "/matreshka_be_api.MatreshkaBeAPI/ListConfigs"
 	MatreshkaBeAPI_CreateConfig_FullMethodName       = "/matreshka_be_api.MatreshkaBeAPI/CreateConfig"
 	MatreshkaBeAPI_PatchConfig_FullMethodName        = "/matreshka_be_api.MatreshkaBeAPI/PatchConfig"
-	MatreshkaBeAPI_UpdateConfig_FullMethodName       = "/matreshka_be_api.MatreshkaBeAPI/UpdateConfig"
+	MatreshkaBeAPI_StoreConfig_FullMethodName        = "/matreshka_be_api.MatreshkaBeAPI/StoreConfig"
 	MatreshkaBeAPI_RenameConfig_FullMethodName       = "/matreshka_be_api.MatreshkaBeAPI/RenameConfig"
 	MatreshkaBeAPI_SubscribeOnChanges_FullMethodName = "/matreshka_be_api.MatreshkaBeAPI/SubscribeOnChanges"
 )
@@ -40,7 +40,7 @@ type MatreshkaBeAPIClient interface {
 	ListConfigs(ctx context.Context, in *ListConfigs_Request, opts ...grpc.CallOption) (*ListConfigs_Response, error)
 	CreateConfig(ctx context.Context, in *CreateConfig_Request, opts ...grpc.CallOption) (*CreateConfig_Response, error)
 	PatchConfig(ctx context.Context, in *PatchConfig_Request, opts ...grpc.CallOption) (*PatchConfig_Response, error)
-	UpdateConfig(ctx context.Context, in *UpdateConfig_Request, opts ...grpc.CallOption) (*UpdateConfig_Response, error)
+	StoreConfig(ctx context.Context, in *StoreConfig_Request, opts ...grpc.CallOption) (*StoreConfig_Response, error)
 	RenameConfig(ctx context.Context, in *RenameConfig_Request, opts ...grpc.CallOption) (*RenameConfig_Response, error)
 	SubscribeOnChanges(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[SubscribeOnChanges_Request, SubscribeOnChanges_Response], error)
 }
@@ -113,10 +113,10 @@ func (c *matreshkaBeAPIClient) PatchConfig(ctx context.Context, in *PatchConfig_
 	return out, nil
 }
 
-func (c *matreshkaBeAPIClient) UpdateConfig(ctx context.Context, in *UpdateConfig_Request, opts ...grpc.CallOption) (*UpdateConfig_Response, error) {
+func (c *matreshkaBeAPIClient) StoreConfig(ctx context.Context, in *StoreConfig_Request, opts ...grpc.CallOption) (*StoreConfig_Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateConfig_Response)
-	err := c.cc.Invoke(ctx, MatreshkaBeAPI_UpdateConfig_FullMethodName, in, out, cOpts...)
+	out := new(StoreConfig_Response)
+	err := c.cc.Invoke(ctx, MatreshkaBeAPI_StoreConfig_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -156,7 +156,7 @@ type MatreshkaBeAPIServer interface {
 	ListConfigs(context.Context, *ListConfigs_Request) (*ListConfigs_Response, error)
 	CreateConfig(context.Context, *CreateConfig_Request) (*CreateConfig_Response, error)
 	PatchConfig(context.Context, *PatchConfig_Request) (*PatchConfig_Response, error)
-	UpdateConfig(context.Context, *UpdateConfig_Request) (*UpdateConfig_Response, error)
+	StoreConfig(context.Context, *StoreConfig_Request) (*StoreConfig_Response, error)
 	RenameConfig(context.Context, *RenameConfig_Request) (*RenameConfig_Response, error)
 	SubscribeOnChanges(grpc.BidiStreamingServer[SubscribeOnChanges_Request, SubscribeOnChanges_Response]) error
 	mustEmbedUnimplementedMatreshkaBeAPIServer()
@@ -187,8 +187,8 @@ func (UnimplementedMatreshkaBeAPIServer) CreateConfig(context.Context, *CreateCo
 func (UnimplementedMatreshkaBeAPIServer) PatchConfig(context.Context, *PatchConfig_Request) (*PatchConfig_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PatchConfig not implemented")
 }
-func (UnimplementedMatreshkaBeAPIServer) UpdateConfig(context.Context, *UpdateConfig_Request) (*UpdateConfig_Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateConfig not implemented")
+func (UnimplementedMatreshkaBeAPIServer) StoreConfig(context.Context, *StoreConfig_Request) (*StoreConfig_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StoreConfig not implemented")
 }
 func (UnimplementedMatreshkaBeAPIServer) RenameConfig(context.Context, *RenameConfig_Request) (*RenameConfig_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RenameConfig not implemented")
@@ -325,20 +325,20 @@ func _MatreshkaBeAPI_PatchConfig_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _MatreshkaBeAPI_UpdateConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateConfig_Request)
+func _MatreshkaBeAPI_StoreConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StoreConfig_Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MatreshkaBeAPIServer).UpdateConfig(ctx, in)
+		return srv.(MatreshkaBeAPIServer).StoreConfig(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: MatreshkaBeAPI_UpdateConfig_FullMethodName,
+		FullMethod: MatreshkaBeAPI_StoreConfig_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MatreshkaBeAPIServer).UpdateConfig(ctx, req.(*UpdateConfig_Request))
+		return srv.(MatreshkaBeAPIServer).StoreConfig(ctx, req.(*StoreConfig_Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -400,8 +400,8 @@ var MatreshkaBeAPI_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _MatreshkaBeAPI_PatchConfig_Handler,
 		},
 		{
-			MethodName: "UpdateConfig",
-			Handler:    _MatreshkaBeAPI_UpdateConfig_Handler,
+			MethodName: "StoreConfig",
+			Handler:    _MatreshkaBeAPI_StoreConfig_Handler,
 		},
 		{
 			MethodName: "RenameConfig",

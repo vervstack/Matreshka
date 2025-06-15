@@ -16,14 +16,14 @@ func (a *Impl) GetConfigNodes(ctx context.Context, req *api.GetConfigNode_Reques
 	name := req.GetConfigName()
 	ver := toolbox.Coalesce(req.Version, domain.MasterVersion)
 
-	pref, name := parseConfigName(name)
+	pref, name := ParseConfigName(name)
 	if pref == nil {
 		return nil, errors.Wrap(errNoPrefix)
 	}
 
 	confName := domain.NewConfigName(*pref, name)
 
-	cfg, err := a.configService.GetConfigWithNodes(ctx, confName, ver)
+	cfg, err := a.evonConfigService.GetConfigWithNodes(ctx, confName, ver)
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}

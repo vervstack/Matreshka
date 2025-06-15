@@ -2,7 +2,6 @@ package app
 
 import (
 	"context"
-	"net/http"
 
 	"google.golang.org/grpc"
 
@@ -13,7 +12,6 @@ import (
 	"go.vervstack.ru/matreshka/internal/storage/sqlite"
 	"go.vervstack.ru/matreshka/internal/storage/tx_manager"
 	"go.vervstack.ru/matreshka/internal/transport/grpc_impl"
-	"go.vervstack.ru/matreshka/internal/transport/web"
 	"go.vervstack.ru/matreshka/internal/transport/web_api"
 	"go.vervstack.ru/matreshka/internal/web/auth"
 	"go.vervstack.ru/matreshka/pkg/docs"
@@ -24,8 +22,7 @@ type Custom struct {
 
 	Service service.Services
 
-	GrpcImpl  *grpc_impl.Impl
-	WebClient http.Handler
+	GrpcImpl *grpc_impl.Impl
 }
 
 func (c *Custom) Init(a *App) (err error) {
@@ -45,12 +42,9 @@ func (c *Custom) Init(a *App) (err error) {
 		a.ServerMaster.AddServerOption(auth.Interceptor(a.Cfg.Environment.Pass))
 	}
 
-	c.WebClient = web.NewServer()
-	a.ServerMaster.AddHttpHandler("/", c.WebClient)
-
+	a.ServerMaster.AddHttpHandler("/", web_api.New(c.GrpcImpl))
 	a.ServerMaster.AddHttpHandler(docs.Swagger())
 
-	a.ServerMaster.AddHttpHandler("/download/", web_api.New(c.GrpcImpl))
 	return nil
 }
 

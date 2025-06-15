@@ -17,14 +17,14 @@ func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.
 	name := req.GetConfigName()
 	ver := toolbox.Coalesce(toolbox.FromPtr(req.Version), domain.MasterVersion)
 
-	pref, name := parseConfigName(name)
+	pref, name := ParseConfigName(name)
 	if pref == nil {
 		return nil, errors.Wrap(errNoPrefix)
 	}
 
 	configName := domain.NewConfigName(*pref, name)
 
-	cfg, err := a.configService.GetConfigWithNodes(ctx, configName, ver)
+	cfg, err := a.evonConfigService.GetConfigWithNodes(ctx, configName, ver)
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}
