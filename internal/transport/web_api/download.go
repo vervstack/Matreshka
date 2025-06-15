@@ -9,7 +9,7 @@ import (
 	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
-const downloadBucketHTML = `
+const downloadBrowserViewHTML = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +22,8 @@ const downloadBucketHTML = `
 </body>
 </html>`
 
+const downloadBrowserParam = "browser"
+
 func (s *Server) GetConfig(c *gin.Context) {
 	apiReq := &api.GetConfig_Request{
 		ConfigName: c.Param(configNameParam),
@@ -29,11 +31,17 @@ func (s *Server) GetConfig(c *gin.Context) {
 		Format:     extractFormat(c),
 	}
 
+	browserView := c.Param(downloadBrowserParam) == "true"
+
 	apiResp, err := s.grpcApiServer.GetConfig(c, apiReq)
 	if err != nil {
 		return
 	}
 
-	c.Data(http.StatusOK, "text/html",
-		[]byte(fmt.Sprintf(downloadBucketHTML, apiReq.ConfigName, apiResp.Config)))
+	out := apiResp.Config
+	if browserView {
+		out = []byte(fmt.Sprintf(downloadBrowserViewHTML, apiReq.ConfigName, apiResp.Config))
+	}
+
+	c.Data(http.StatusOK, "text/html", out)
 }

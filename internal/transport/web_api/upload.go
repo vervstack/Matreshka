@@ -9,7 +9,6 @@ import (
 )
 
 func (s *Server) UploadConfig(c *gin.Context) {
-
 	grpcReq := &api.StoreConfig_Request{
 		ConfigName: c.Param(configNameParam),
 		Format:     extractFormat(c),

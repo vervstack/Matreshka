@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"net/http"
 
 	"google.golang.org/grpc"
 
@@ -22,7 +23,8 @@ type Custom struct {
 
 	Service service.Services
 
-	GrpcImpl *grpc_impl.Impl
+	GrpcImpl   *grpc_impl.Impl
+	WebApiImpl http.Handler
 }
 
 func (c *Custom) Init(a *App) (err error) {
@@ -34,7 +36,7 @@ func (c *Custom) Init(a *App) (err error) {
 	c.Service = v1.New(c.DataProvider, txManager)
 
 	c.GrpcImpl = grpc_impl.NewServer(a.Cfg, c.Service)
-
+	c.WebApiImpl = web_api.New(c.GrpcImpl)
 	a.ServerMaster.AddImplementation(c.GrpcImpl)
 	a.ServerMaster.AddServerOption(grpc.UnaryInterceptor(user_errors.ErrorInterceptor()))
 
@@ -42,7 +44,7 @@ func (c *Custom) Init(a *App) (err error) {
 		a.ServerMaster.AddServerOption(auth.Interceptor(a.Cfg.Environment.Pass))
 	}
 
-	a.ServerMaster.AddHttpHandler("/", web_api.New(c.GrpcImpl))
+	a.ServerMaster.AddHttpHandler("/", c.WebApiImpl)
 	a.ServerMaster.AddHttpHandler(docs.Swagger())
 
 	return nil
