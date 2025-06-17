@@ -17,4 +17,7 @@ servers:
 environment:
     - name: pass
       type: string
-      value: jj*88
+      value: ""
+    - name: no_auth
+      type: string
+      value: ""
