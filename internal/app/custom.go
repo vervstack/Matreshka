@@ -12,7 +12,7 @@ import (
 	"go.vervstack.ru/matreshka/internal/storage"
 	"go.vervstack.ru/matreshka/internal/storage/sqlite"
 	"go.vervstack.ru/matreshka/internal/storage/tx_manager"
-	"go.vervstack.ru/matreshka/internal/transport/grpc_impl"
+	"go.vervstack.ru/matreshka/internal/transport/matreshka_be_api_impl"
 	"go.vervstack.ru/matreshka/internal/transport/web"
 	"go.vervstack.ru/matreshka/internal/transport/web_api"
 	"go.vervstack.ru/matreshka/internal/web/auth"
@@ -24,7 +24,7 @@ type Custom struct {
 
 	Service service.Services
 
-	GrpcImpl   *grpc_impl.Impl
+	GrpcImpl   *matreshka_be_api_impl.Impl
 	WebApiImpl http.Handler
 }
 
@@ -36,7 +36,7 @@ func (c *Custom) Init(a *App) (err error) {
 
 	c.Service = v1.New(c.DataProvider, txManager)
 
-	c.GrpcImpl = grpc_impl.NewServer(a.Cfg, c.Service)
+	c.GrpcImpl = matreshka_be_api_impl.NewServer(a.Cfg, c.Service)
 	c.WebApiImpl = web_api.New(c.GrpcImpl)
 
 	a.ServerMaster.AddImplementation(c.GrpcImpl)

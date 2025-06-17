@@ -3,6 +3,7 @@ package web_api
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 
@@ -31,8 +32,10 @@ func (s *Server) GetConfig(c *gin.Context) {
 		Format:     extractFormat(c),
 	}
 
-	browserView := c.Param(downloadBrowserParam) == "true"
-
+	browserView := c.Param(downloadBrowserParam) == "true" ||
+		strings.Contains(
+			strings.ToLower(c.Request.Header.Get("User-Agent")),
+			"browser")
 	apiResp, err := s.grpcApiServer.GetConfig(c, apiReq)
 	if err != nil {
 		return

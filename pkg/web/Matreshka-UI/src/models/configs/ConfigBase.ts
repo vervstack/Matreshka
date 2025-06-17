@@ -14,12 +14,19 @@ export default class ConfigBase {
   constructor(name: string) {
     this.type = extractType(name);
 
-    name = name.substring(this.type.length + 1);
+    if (this.type != ConfigTypePrefix.plain) {
+      name = name.substring(this.type.length + 1);
+    }
     this.name = name;
   }
 
   getMatreshkaName(): string {
-    return this.type + "_" + this.name;
+    let name = this.name;
+    if (this.type != ConfigTypePrefix.plain) {
+      name = this.type + "_" + this.name;
+    }
+
+    return name;
   }
 }
 
@@ -32,12 +39,12 @@ const supportedTypes: ConfigTypePrefix[] = [
 
 function extractType(configName: string): ConfigTypePrefix {
   const foundType = supportedTypes.find((typePrefix: ConfigTypePrefix) =>
-    configName.startsWith(typePrefix)
+    configName.startsWith(typePrefix),
   );
 
   if (foundType) {
     return foundType;
   }
 
-  return ConfigTypePrefix.kv;
+  return ConfigTypePrefix.plain;
 }

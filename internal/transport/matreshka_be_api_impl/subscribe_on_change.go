@@ -1,4 +1,4 @@
-package grpc_impl
+package matreshka_be_api_impl
 
 import (
 	"io"

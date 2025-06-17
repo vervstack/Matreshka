@@ -17,10 +17,11 @@ import KeyValueConfig from "@/models/configs/keyvalue/KeyValueConfig.ts";
 import VervConfig from "@/models/configs/verv/VervConfig.ts";
 import { fromPbEnvNode } from "@/models/shared/Node.ts";
 
+
 const apiPrefix = {
   pathPrefix: "",
   headers: {
-    'Grpc-Metadata-R-Auth': ''
+    'Grpc-Metadata-R-Auth': ""
   }
 };
 
@@ -29,7 +30,11 @@ export function setBackendAddress(url: string) {
 }
 
 export function setPass(pass: string ) {
-  apiPrefix.headers['Grpc-Metadata-R-Auth'] = 'Pass '+ pass
+  if (pass) {
+    apiPrefix.headers['Grpc-Metadata-R-Auth'] = 'Pass '+ pass
+  } else {
+    apiPrefix.headers['Grpc-Metadata-R-Auth'] = ''
+  }
 }
 
 const fallbackErrorConverting = "error during conversion";
@@ -125,7 +130,7 @@ export async function CreateConfig(name: string, confType: ConfigTypePrefix) {
 }
 
 export function linkToConfigSource(configName: string, format: Format, version?: string): string {
-  let base = `${apiPrefix.pathPrefix}/download/${configName}`;
+  let base = `${apiPrefix.pathPrefix}/web_api/download/${configName}`;
 
   const params: string[] = [];
   if (version) {

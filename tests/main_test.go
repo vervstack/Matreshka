@@ -19,7 +19,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/test/bufconn"
 
-	"go.vervstack.ru/matreshka/internal/transport/grpc_impl"
+	"go.vervstack.ru/matreshka/internal/transport/matreshka_be_api_impl"
 	"go.vervstack.ru/matreshka/pkg/app"
 	"go.vervstack.ru/matreshka/pkg/matreshka"
 	"go.vervstack.ru/matreshka/pkg/matreshka_be_api"
@@ -190,7 +190,7 @@ func getServiceNameFromTest(t *testing.T) string {
 func normalizeConfigName(configName string) string {
 	configName = strings.ReplaceAll(configName, "/", "__")
 
-	pref, _ := grpc_impl.ParseConfigName(configName)
+	pref, _ := matreshka_be_api_impl.ParseConfigName(configName)
 
 	if pref == nil {
 		configName = matreshka_be_api.ConfigTypePrefix_kv.String() + "_" + configName
