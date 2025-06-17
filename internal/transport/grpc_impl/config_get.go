@@ -19,7 +19,7 @@ func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.
 
 	pref, name := ParseConfigName(name)
 	if pref == nil {
-		return nil, errors.Wrap(errNoPrefix)
+		pref = toolbox.ToPtr(api.ConfigTypePrefix_plain)
 	}
 
 	configName := domain.NewConfigName(*pref, name)

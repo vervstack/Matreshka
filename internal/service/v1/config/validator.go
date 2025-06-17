@@ -38,7 +38,7 @@ func newValidator() Validator {
 }
 
 func (v Validator) IsConfigNameValid(name domain.ConfigName) error {
-	actualName := name.Name()[len(name.Prefix().String())+1:]
+	actualName := name.PlainName()
 	if len(actualName) < 3 {
 		return errors.Wrap(user_errors.ErrValidation,
 			"Service name must be at least 3 symbols long")

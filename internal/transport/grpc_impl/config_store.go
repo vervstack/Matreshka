@@ -10,6 +10,7 @@ import (
 	"gopkg.in/yaml.v3"
 
 	"go.vervstack.ru/matreshka/internal/domain"
+	"go.vervstack.ru/matreshka/internal/service/user_errors"
 	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
@@ -26,7 +27,9 @@ func (a *Impl) StoreConfig(ctx context.Context, req *api.StoreConfig_Request) (
 
 	_, err := a.evonConfigService.Create(ctx, cfgName)
 	if err != nil {
-		return nil, rerrors.Wrap(err, "error creating config")
+		if !rerrors.Is(err, user_errors.ErrAlreadyExists) {
+			return nil, rerrors.Wrap(err, "error creating config")
+		}
 	}
 
 	replaceReq := domain.ReplaceConfigReq{

@@ -13,6 +13,7 @@ import (
 	"go.vervstack.ru/matreshka/internal/storage/sqlite"
 	"go.vervstack.ru/matreshka/internal/storage/tx_manager"
 	"go.vervstack.ru/matreshka/internal/transport/grpc_impl"
+	"go.vervstack.ru/matreshka/internal/transport/web"
 	"go.vervstack.ru/matreshka/internal/transport/web_api"
 	"go.vervstack.ru/matreshka/internal/web/auth"
 	"go.vervstack.ru/matreshka/pkg/docs"
@@ -37,6 +38,7 @@ func (c *Custom) Init(a *App) (err error) {
 
 	c.GrpcImpl = grpc_impl.NewServer(a.Cfg, c.Service)
 	c.WebApiImpl = web_api.New(c.GrpcImpl)
+
 	a.ServerMaster.AddImplementation(c.GrpcImpl)
 
 	a.ServerMaster.AddServerOption(grpc.UnaryInterceptor(user_errors.ErrorInterceptor()))
@@ -45,7 +47,8 @@ func (c *Custom) Init(a *App) (err error) {
 		a.ServerMaster.AddServerOption(auth.Interceptor(a.Cfg.Environment.Pass))
 	}
 
-	a.ServerMaster.AddHttpHandler("/", c.WebApiImpl)
+	a.ServerMaster.AddHttpHandler("/web_api/", c.WebApiImpl)
+	a.ServerMaster.AddHttpHandler("/", web.NewServer())
 	a.ServerMaster.AddHttpHandler(docs.Swagger())
 
 	return nil

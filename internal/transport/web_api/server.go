@@ -5,7 +5,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"go.vervstack.ru/matreshka/internal/transport/web"
 	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
 )
 
@@ -30,12 +29,12 @@ func New(apiServer api.MatreshkaBeAPIServer) http.Handler {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
 
-	r.GET("/api/download/:config_name", s.GetConfig)
-	r.POST("/api/upload/:config_name", s.UploadConfig)
+	r.GET("/web_api/download/:config_name", s.GetConfig)
+	r.POST("/web_api/upload/:config_name", s.UploadConfig)
 
-	s.mux.Handle("/api", r)
+	s.mux.Handle("/web_api/", r)
 
-	s.mux.Handle("/", web.NewServer())
+	//s.mux.Handle("/", web.NewServer())
 
 	return &s.mux
 }

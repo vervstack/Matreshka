@@ -43,5 +43,20 @@ func (s *Server) GetConfig(c *gin.Context) {
 		out = []byte(fmt.Sprintf(downloadBrowserViewHTML, apiReq.ConfigName, apiResp.Config))
 	}
 
+	contentType := "text/html"
+	if !browserView {
+		contentType = responseContentTypeByFormat(apiReq.Format)
+	}
+
+	c.Header("Content-Type", contentType)
 	c.Data(http.StatusOK, "text/html", out)
+}
+
+func responseContentTypeByFormat(format api.Format) string {
+	switch format {
+	case api.Format_yaml:
+		return "application/yaml"
+	default:
+		return "text/plain"
+	}
 }

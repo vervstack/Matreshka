@@ -25,7 +25,15 @@ func NewConfigName(prefix api.ConfigTypePrefix, name string) ConfigName {
 	}
 }
 
+func (c ConfigName) PlainName() string {
+	return c.name
+}
+
 func (c ConfigName) Name() string {
+	if c.prefix == api.ConfigTypePrefix_plain {
+		return c.name
+	}
+
 	return c.prefix.String() + "_" + c.name
 }
 

@@ -57,7 +57,7 @@ func (s *StoreConfigSuite) TestStoreViaHttp() {
 
 	baseURL := "http://" + testEnv.HttpServer.Listener.Addr().String()
 
-	uploadURL := baseURL + "/upload/" + s.configName
+	uploadURL := baseURL + "/web_api/upload/" + s.configName
 
 	uploadResp, err := http.Post(
 		uploadURL,
@@ -66,7 +66,7 @@ func (s *StoreConfigSuite) TestStoreViaHttp() {
 	require.NoError(s.T(), err)
 	s.Require().Equal(http.StatusOK, uploadResp.StatusCode)
 
-	downloadURL := baseURL + "/download/" + s.configName
+	downloadURL := baseURL + "/web_api/download/" + s.configName
 
 	downloadResp, err := http.Get(downloadURL)
 	s.Require().NoError(err)
