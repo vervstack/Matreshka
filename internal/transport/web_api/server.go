@@ -34,7 +34,5 @@ func New(apiServer api.MatreshkaBeAPIServer) http.Handler {
 
 	s.mux.Handle("/web_api/", r)
 
-	//s.mux.Handle("/", web.NewServer())
-
 	return &s.mux
 }
