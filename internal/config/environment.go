@@ -3,6 +3,6 @@
 package config
 
 type EnvironmentConfig struct {
-	NoAuth string
+	NoAuth bool
 	Pass   string
 }

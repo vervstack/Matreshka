@@ -19,5 +19,5 @@ environment:
       type: string
       value: ""
     - name: no_auth
-      type: string
-      value: ""
+      type: bool
+      value: false
