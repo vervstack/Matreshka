@@ -38,6 +38,7 @@ func (c *Custom) Init(a *App) (err error) {
 	c.GrpcImpl = grpc_impl.NewServer(a.Cfg, c.Service)
 	c.WebApiImpl = web_api.New(c.GrpcImpl)
 	a.ServerMaster.AddImplementation(c.GrpcImpl)
+
 	a.ServerMaster.AddServerOption(grpc.UnaryInterceptor(user_errors.ErrorInterceptor()))
 
 	if a.Cfg.Environment.Pass != "" {

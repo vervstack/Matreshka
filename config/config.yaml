@@ -18,6 +18,3 @@ environment:
     - name: pass
       type: string
       value: ""
-    - name: no_auth
-      type: bool
-      value: false
