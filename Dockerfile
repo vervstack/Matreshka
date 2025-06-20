@@ -13,23 +13,24 @@ RUN --mount=type=bind,target=/web,rw \
     yarn build && \
     mv dist /dist
 
-FROM --platform=$BUILDPLATFORM golang AS builder
+FROM --platform=$BUILDPLATFORM golang:1.24.2-alpine AS builder
 
-WORKDIR /app
+WORKDIR /src
 
 COPY --from=webclient /dist /dist
 
-RUN --mount=target=. \
+RUN --mount=type=bind,target=/src,rw \
     --mount=type=cache,target=/root/.cache/go-build \
     --mount=type=cache,target=/go/pkg \
+    mkdir -p /src/internal/transport/web/dist && \
+    mv /dist/* /src/internal/transport/web/dist && \
     GOOS=$TARGETOS GOARCH=$TARGETARCH CGO_ENABLED=0 \
-    go build -o /deploy/server/service ./cmd/service/main.go && \
+    go build -o /deploy/server/service /src/cmd/service/main.go && \
     cp -r config /deploy/server/config && \
-    if [ -d "./migrations" ];  then \
-      cp -r ./migrations /deploy/server/migrations; \
-    fi
+    mkdir -p /deploy/server/migrations && \
+    cp -r /src/migrations/* /deploy/server/migrations/
 
-FROM alpine
+FROM alpine:3.14
 
 LABEL MATRESHKA_CONFIG_ENABLED=true
 
