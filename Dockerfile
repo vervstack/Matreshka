@@ -19,7 +19,7 @@ WORKDIR /app
 
 COPY --from=builder /deploy/server/ .
 
-EXPOSE [50049]
+EXPOSE 50049
 
 VOLUME './data/matreshka-be.db'
 
