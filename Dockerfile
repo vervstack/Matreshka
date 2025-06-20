@@ -11,7 +11,7 @@ RUN --mount=type=bind,target=/web,rw \
     cd /web/pkg/web/Matreshka-UI && \
     yarn && \
     yarn build && \
-    mv dist /dist \
+    mv dist /dist
 
 FROM --platform=$BUILDPLATFORM golang AS builder
 
@@ -26,6 +26,7 @@ RUN --mount=target=. \
     if [ -d "./migrations" ];  then \
       cp -r ./migrations /deploy/server/migrations; \
     fi
+
 FROM alpine
 
 LABEL MATRESHKA_CONFIG_ENABLED=true
@@ -33,6 +34,8 @@ LABEL MATRESHKA_CONFIG_ENABLED=true
 WORKDIR /app
 
 COPY --from=builder /deploy/server/ .
+
+RUN mkdir /app/data
 
 EXPOSE 50049
 
