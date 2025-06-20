@@ -1,6 +1,6 @@
 import { ConfigTypePrefix } from "@vervstack/matreshka";
 
-import unknown from "@/assets/svg/errorconfig.svg";
+import unknown from "@/assets/svg/unknown.svg";
 import matreshka from "@/assets/svg/matreshka.svg";
 import minio from "@/assets/svg/minio.svg";
 import nginx from "@/assets/svg/nginx.svg";

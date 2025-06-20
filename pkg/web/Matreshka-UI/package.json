@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build-api": "cd ../@vervstack/matreshka && yarn && yarn build",
     "lint": "eslint src --ext .ts,.vue --fix",
     "run-server": "cd ./../../../ && go run cmd/service/main.go --dev"
   },
