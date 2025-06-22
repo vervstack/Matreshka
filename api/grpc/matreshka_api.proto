@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package matreshka_be_api;
+package matreshka_api;
 
 import "google/api/annotations.proto";
 import "npm.proto";
