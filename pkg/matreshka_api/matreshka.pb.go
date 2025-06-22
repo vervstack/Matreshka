@@ -1884,7 +1884,7 @@ const file_matreshka_proto_rawDesc = "" +
 	"\vPatchConfig\x12%.matreshka_be_api.PatchConfig.Request\x1a&.matreshka_be_api.PatchConfig.Response\"*\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/api/config/{config_name}/patch\x12\x88\x01\n" +
 	"\vStoreConfig\x12%.matreshka_be_api.StoreConfig.Request\x1a&.matreshka_be_api.StoreConfig.Response\"*\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/api/config/{config_name}/store\x12\x94\x01\n" +
 	"\fRenameConfig\x12&.matreshka_be_api.RenameConfig.Request\x1a'.matreshka_be_api.RenameConfig.Response\"3\x82\xd3\xe4\x93\x02-\"+/api/config/{config_name}/rename/{new_name}\x12w\n" +
-	"\x12SubscribeOnChanges\x12,.matreshka_be_api.SubscribeOnChanges.Request\x1a-.matreshka_be_api.SubscribeOnChanges.Response\"\x00(\x010\x01BG\x92\x82\x19\x14@vervstack/matreshkaZ-go.redsock.ru/pkg/matreshka_api;matreshka_apib\x06proto3"
+	"\x12SubscribeOnChanges\x12,.matreshka_be_api.SubscribeOnChanges.Request\x1a-.matreshka_be_api.SubscribeOnChanges.Response\"\x00(\x010\x01BS\x92\x82\x19\x14@vervstack/matreshkaZ9go.vervstack.ru/matreshka/pkg/matreshka_api;matreshka_apib\x06proto3"
 
 var (
 	file_matreshka_proto_rawDescOnce sync.Once
