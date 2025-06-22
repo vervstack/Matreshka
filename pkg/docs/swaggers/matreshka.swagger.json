@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "matreshka-be_api.proto",
+    "title": "matreshka.proto",
     "version": "version not set"
   },
   "tags": [
