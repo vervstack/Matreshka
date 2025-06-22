@@ -1,4 +1,4 @@
-package matreshka_be_api_impl
+package matreshka_api_impl
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"go.vervstack.ru/matreshka/internal/domain"
-	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
+	api "go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
 func (a *Impl) ListConfigs(ctx context.Context, req *api.ListConfigs_Request) (*api.ListConfigs_Response, error) {

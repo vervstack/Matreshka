@@ -1,4 +1,4 @@
-package matreshka_be_api_impl
+package matreshka_api_impl
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 
 	"go.vervstack.ru/matreshka/internal/config"
 	"go.vervstack.ru/matreshka/internal/service"
-	"go.vervstack.ru/matreshka/pkg/matreshka_be_api"
+	"go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
 type Impl struct {
@@ -19,7 +19,7 @@ type Impl struct {
 	evonConfigService service.EvonConfigService
 	subService        service.SubscriberService
 
-	matreshka_be_api.UnimplementedMatreshkaBeAPIServer
+	matreshka_api.UnimplementedMatreshkaBeAPIServer
 }
 
 func NewServer(
@@ -34,13 +34,13 @@ func NewServer(
 }
 
 func (a *Impl) Register(srv grpc.ServiceRegistrar) {
-	matreshka_be_api.RegisterMatreshkaBeAPIServer(srv, a)
+	matreshka_api.RegisterMatreshkaBeAPIServer(srv, a)
 }
 
 func (a *Impl) Gateway(ctx context.Context, endpoint string, opts ...grpc.DialOption) (route string, handler http.Handler) {
 	gwHttpMux := runtime.NewServeMux()
 
-	err := matreshka_be_api.RegisterMatreshkaBeAPIHandlerFromEndpoint(
+	err := matreshka_api.RegisterMatreshkaBeAPIHandlerFromEndpoint(
 		ctx,
 		gwHttpMux,
 		endpoint,

@@ -3,7 +3,7 @@ package domain
 import (
 	"go.redsock.ru/evon"
 
-	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
+	api "go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
 const MasterVersion = "master"

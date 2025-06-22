@@ -11,7 +11,7 @@ import (
 
 	"go.vervstack.ru/matreshka/internal/domain"
 	"go.vervstack.ru/matreshka/internal/storage"
-	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
+	api "go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
 func (c *CfgService) Patch(ctx context.Context, req domain.PatchConfigRequest) error {

@@ -1,4 +1,4 @@
-package matreshka_be_api_impl
+package matreshka_api_impl
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 
 	"go.vervstack.ru/matreshka/internal/domain"
 	"go.vervstack.ru/matreshka/pkg/matreshka"
-	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
+	api "go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
 func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.GetConfig_Response, error) {

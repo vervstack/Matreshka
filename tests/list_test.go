@@ -11,7 +11,7 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	"go.vervstack.ru/matreshka/internal/domain"
-	"go.vervstack.ru/matreshka/pkg/matreshka_be_api"
+	"go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
 type ListSuite struct {

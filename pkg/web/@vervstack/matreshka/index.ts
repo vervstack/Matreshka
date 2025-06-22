@@ -1,3 +1,3 @@
-export * from './matreshka-be_api.pb';
-export { MatreshkaBeAPI } from './matreshka-be_api.pb';
+export * from './matreshka.pb';
+export { MatreshkaBeAPI } from './matreshka.pb';
 

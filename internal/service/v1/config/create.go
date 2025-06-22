@@ -14,7 +14,7 @@ import (
 	"go.vervstack.ru/matreshka/internal/service/user_errors"
 	"go.vervstack.ru/matreshka/internal/storage"
 	"go.vervstack.ru/matreshka/pkg/matreshka"
-	"go.vervstack.ru/matreshka/pkg/matreshka_be_api"
+	"go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
 func (c *CfgService) Create(ctx context.Context, serviceName domain.ConfigName) (domain.AboutConfig, error) {
@@ -110,7 +110,7 @@ func (c *CfgService) convertConfigToPatch(cfg *evon.Node) ([]domain.PatchUpdate,
 
 func (c *CfgService) initNewConfig(serviceName domain.ConfigName) (*evon.Node, error) {
 	switch serviceName.Prefix() {
-	case matreshka_be_api.ConfigTypePrefix_verv:
+	case matreshka_api.ConfigTypePrefix_verv:
 		newCfg := matreshka.NewEmptyConfig()
 		newCfg.AppInfo = matreshka.AppInfo{
 			Name:            serviceName.Name(),
@@ -122,7 +122,7 @@ func (c *CfgService) initNewConfig(serviceName domain.ConfigName) (*evon.Node, e
 			return nil, errors.Wrap(err, "error marshalling config")
 		}
 		return nodes, nil
-	case matreshka_be_api.ConfigTypePrefix_pg:
+	case matreshka_api.ConfigTypePrefix_pg:
 		return &evon.Node{
 			InnerNodes: []*evon.Node{
 				{

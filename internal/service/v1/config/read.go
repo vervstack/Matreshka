@@ -9,7 +9,7 @@ import (
 
 	"go.vervstack.ru/matreshka/internal/domain"
 	"go.vervstack.ru/matreshka/internal/service/user_errors"
-	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
+	api "go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
 func (c *CfgService) GetConfigWithNodes(ctx context.Context, configName domain.ConfigName, ver string) (domain.ConfigWithNodes, error) {

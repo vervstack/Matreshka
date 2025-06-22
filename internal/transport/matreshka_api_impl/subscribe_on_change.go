@@ -1,4 +1,4 @@
-package matreshka_be_api_impl
+package matreshka_api_impl
 
 import (
 	"io"
@@ -9,7 +9,7 @@ import (
 
 	"go.vervstack.ru/matreshka/internal/domain"
 	"go.vervstack.ru/matreshka/internal/service/v1/subscription"
-	api "go.vervstack.ru/matreshka/pkg/matreshka_be_api"
+	api "go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
 func (a *Impl) SubscribeOnChanges(stream api.MatreshkaBeAPI_SubscribeOnChangesServer) error {
