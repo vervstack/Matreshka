@@ -26,7 +26,7 @@ import (
 )
 
 type Env struct {
-	matreshkaApi matreshka_be_api.MatreshkaBeAPIClient
+	matreshkaApi matreshka_api.MatreshkaBeAPIClient
 
 	a          app.App
 	HttpServer *httptest.Server
@@ -72,7 +72,7 @@ func initApp() (err error) {
 	lis := bufconn.Listen(bufSize)
 
 	serv := grpc.NewServer()
-	matreshka_be_api.RegisterMatreshkaBeAPIServer(serv, testEnv.a.Custom.GrpcImpl)
+	matreshka_api.RegisterMatreshkaBeAPIServer(serv, testEnv.a.Custom.GrpcImpl)
 	go func() {
 		if err := serv.Serve(lis); err != nil {
 			logrus.Fatalf("error serving grpc server for tests %s", err)
@@ -91,9 +91,9 @@ func initApp() (err error) {
 		logrus.Fatalf("error connecting to test grpc server: %s ", err)
 	}
 
-	testEnv.matreshkaApi = matreshka_be_api.NewMatreshkaBeAPIClient(conn)
+	testEnv.matreshkaApi = matreshka_api.NewMatreshkaBeAPIClient(conn)
 
-	ping, err := testEnv.matreshkaApi.ApiVersion(testEnv.a.Ctx, &matreshka_be_api.ApiVersion_Request{})
+	ping, err := testEnv.matreshkaApi.ApiVersion(testEnv.a.Ctx, &matreshka_api.ApiVersion_Request{})
 	if err != nil {
 		logrus.Fatalf("error pingin test server: %s", err)
 	}
@@ -118,7 +118,7 @@ func (e *Env) create(t *testing.T) string {
 }
 
 func (e *Env) createWithName(t *testing.T, configName string) {
-	createReq := &matreshka_be_api.CreateConfig_Request{
+	createReq := &matreshka_api.CreateConfig_Request{
 		ConfigName: configName,
 	}
 	ctx := context.Background()
@@ -129,7 +129,7 @@ func (e *Env) createWithName(t *testing.T, configName string) {
 }
 
 func (e *Env) updateConfigValues(t *testing.T, cfg matreshka.AppConfig) {
-	req := &matreshka_be_api.PatchConfig_Request{
+	req := &matreshka_api.PatchConfig_Request{
 		ConfigName: cfg.ModuleName(),
 	}
 
@@ -141,9 +141,9 @@ func (e *Env) updateConfigValues(t *testing.T, cfg matreshka.AppConfig) {
 	for k, v := range storage {
 		if v.Value != nil {
 			req.Patches = append(req.Patches,
-				&matreshka_be_api.PatchConfig_Patch{
+				&matreshka_api.PatchConfig_Patch{
 					FieldName: k,
-					Patch: &matreshka_be_api.PatchConfig_Patch_UpdateValue{
+					Patch: &matreshka_api.PatchConfig_Patch_UpdateValue{
 						UpdateValue: fmt.Sprint(v.Value),
 					},
 				})
@@ -158,7 +158,7 @@ func (e *Env) updateConfigValues(t *testing.T, cfg matreshka.AppConfig) {
 
 func (e *Env) get(t *testing.T, configName string) matreshka.AppConfig {
 	ctx := context.Background()
-	getReq := &matreshka_be_api.GetConfig_Request{
+	getReq := &matreshka_api.GetConfig_Request{
 		ConfigName: configName,
 	}
 	getResp, err := testEnv.matreshkaApi.GetConfig(ctx, getReq)
@@ -193,7 +193,7 @@ func normalizeConfigName(configName string) string {
 	pref, _ := matreshka_api_impl.ParseConfigName(configName)
 
 	if pref == nil {
-		configName = matreshka_be_api.ConfigTypePrefix_kv.String() + "_" + configName
+		configName = matreshka_api.ConfigTypePrefix_kv.String() + "_" + configName
 	}
 
 	return configName

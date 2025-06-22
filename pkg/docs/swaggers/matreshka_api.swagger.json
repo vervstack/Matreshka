@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "matreshka.proto",
+    "title": "matreshka_api.proto",
     "version": "version not set"
   },
   "tags": [
@@ -23,7 +23,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiListConfigsResponse"
+              "$ref": "#/definitions/matreshka_apiListConfigsResponse"
             }
           },
           "default": {
@@ -39,7 +39,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiListConfigsRequest"
+              "$ref": "#/definitions/matreshka_apiListConfigsRequest"
             }
           }
         ],
@@ -55,7 +55,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiGetConfigNodeResponse"
+              "$ref": "#/definitions/matreshka_apiGetConfigNodeResponse"
             }
           },
           "default": {
@@ -71,7 +71,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiGetConfigNodeRequest"
+              "$ref": "#/definitions/matreshka_apiGetConfigNodeRequest"
             }
           }
         ],
@@ -87,7 +87,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiGetConfigResponse"
+              "$ref": "#/definitions/matreshka_apiGetConfigResponse"
             }
           },
           "default": {
@@ -135,7 +135,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiCreateConfigResponse"
+              "$ref": "#/definitions/matreshka_apiCreateConfigResponse"
             }
           },
           "default": {
@@ -157,7 +157,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPICreateConfigBody"
+              "$ref": "#/definitions/matreshka_apiMatreshkaBeAPICreateConfigBody"
             }
           }
         ],
@@ -173,7 +173,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiPatchConfigResponse"
+              "$ref": "#/definitions/matreshka_apiPatchConfigResponse"
             }
           },
           "default": {
@@ -195,7 +195,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPIPatchConfigBody"
+              "$ref": "#/definitions/matreshka_apiMatreshkaBeAPIPatchConfigBody"
             }
           }
         ],
@@ -211,7 +211,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiRenameConfigResponse"
+              "$ref": "#/definitions/matreshka_apiRenameConfigResponse"
             }
           },
           "default": {
@@ -247,7 +247,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiStoreConfigResponse"
+              "$ref": "#/definitions/matreshka_apiStoreConfigResponse"
             }
           },
           "default": {
@@ -269,7 +269,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiMatreshkaBeAPIStoreConfigBody"
+              "$ref": "#/definitions/matreshka_apiMatreshkaBeAPIStoreConfigBody"
             }
           }
         ],
@@ -285,7 +285,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/matreshka_be_apiApiVersionResponse"
+              "$ref": "#/definitions/matreshka_apiApiVersionResponse"
             }
           },
           "default": {
@@ -319,7 +319,7 @@
         }
       }
     },
-    "matreshka_be_apiApiVersionResponse": {
+    "matreshka_apiApiVersionResponse": {
       "type": "object",
       "properties": {
         "version": {
@@ -327,7 +327,7 @@
         }
       }
     },
-    "matreshka_be_apiConfig": {
+    "matreshka_apiConfig": {
       "type": "object",
       "properties": {
         "name": {
@@ -348,7 +348,7 @@
         }
       }
     },
-    "matreshka_be_apiConfigTypePrefix": {
+    "matreshka_apiConfigTypePrefix": {
       "type": "string",
       "enum": [
         "plain",
@@ -361,7 +361,7 @@
       "default": "plain",
       "title": "- plain: Plain text blob config - saved and configured externally by user\nNot recommended to use - unstructured and cannot be validated.\nSimply a text storage\n - verv: Matreshka's configuration for application\n - minio: Configuration for object storage (Minio)\n - pg: Configuration for Postgresql Database\n - nginx: Configuration for Nginx/Angie web server\n - kv: Basically a key-value configuration"
     },
-    "matreshka_be_apiCreateConfigResponse": {
+    "matreshka_apiCreateConfigResponse": {
       "type": "object",
       "properties": {
         "name": {
@@ -370,7 +370,7 @@
         }
       }
     },
-    "matreshka_be_apiFormat": {
+    "matreshka_apiFormat": {
       "type": "string",
       "enum": [
         "yaml",
@@ -379,7 +379,7 @@
       "default": "yaml",
       "title": "- yaml: Default"
     },
-    "matreshka_be_apiGetConfigNodeRequest": {
+    "matreshka_apiGetConfigNodeRequest": {
       "type": "object",
       "properties": {
         "configName": {
@@ -390,11 +390,11 @@
         }
       }
     },
-    "matreshka_be_apiGetConfigNodeResponse": {
+    "matreshka_apiGetConfigNodeResponse": {
       "type": "object",
       "properties": {
         "root": {
-          "$ref": "#/definitions/matreshka_be_apiNode"
+          "$ref": "#/definitions/matreshka_apiNode"
         },
         "versions": {
           "type": "array",
@@ -404,7 +404,7 @@
         }
       }
     },
-    "matreshka_be_apiGetConfigResponse": {
+    "matreshka_apiGetConfigResponse": {
       "type": "object",
       "properties": {
         "config": {
@@ -413,28 +413,28 @@
         }
       }
     },
-    "matreshka_be_apiListConfigsRequest": {
+    "matreshka_apiListConfigsRequest": {
       "type": "object",
       "properties": {
         "paging": {
-          "$ref": "#/definitions/matreshka_be_apiPaging"
+          "$ref": "#/definitions/matreshka_apiPaging"
         },
         "searchPattern": {
           "type": "string"
         },
         "sort": {
-          "$ref": "#/definitions/matreshka_be_apiSort"
+          "$ref": "#/definitions/matreshka_apiSort"
         }
       }
     },
-    "matreshka_be_apiListConfigsResponse": {
+    "matreshka_apiListConfigsResponse": {
       "type": "object",
       "properties": {
         "configs": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/matreshka_be_apiConfig"
+            "$ref": "#/definitions/matreshka_apiConfig"
           }
         },
         "totalRecords": {
@@ -443,15 +443,15 @@
         }
       }
     },
-    "matreshka_be_apiMatreshkaBeAPICreateConfigBody": {
+    "matreshka_apiMatreshkaBeAPICreateConfigBody": {
       "type": "object",
       "properties": {
         "type": {
-          "$ref": "#/definitions/matreshka_be_apiConfigTypePrefix"
+          "$ref": "#/definitions/matreshka_apiConfigTypePrefix"
         }
       }
     },
-    "matreshka_be_apiMatreshkaBeAPIPatchConfigBody": {
+    "matreshka_apiMatreshkaBeAPIPatchConfigBody": {
       "type": "object",
       "properties": {
         "version": {
@@ -466,11 +466,11 @@
         }
       }
     },
-    "matreshka_be_apiMatreshkaBeAPIStoreConfigBody": {
+    "matreshka_apiMatreshkaBeAPIStoreConfigBody": {
       "type": "object",
       "properties": {
         "format": {
-          "$ref": "#/definitions/matreshka_be_apiFormat",
+          "$ref": "#/definitions/matreshka_apiFormat",
           "title": "Config format. Default - yaml"
         },
         "version": {
@@ -482,7 +482,7 @@
         }
       }
     },
-    "matreshka_be_apiNode": {
+    "matreshka_apiNode": {
       "type": "object",
       "properties": {
         "name": {
@@ -495,12 +495,12 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/matreshka_be_apiNode"
+            "$ref": "#/definitions/matreshka_apiNode"
           }
         }
       }
     },
-    "matreshka_be_apiPaging": {
+    "matreshka_apiPaging": {
       "type": "object",
       "properties": {
         "limit": {
@@ -513,10 +513,10 @@
         }
       }
     },
-    "matreshka_be_apiPatchConfigResponse": {
+    "matreshka_apiPatchConfigResponse": {
       "type": "object"
     },
-    "matreshka_be_apiRenameConfigResponse": {
+    "matreshka_apiRenameConfigResponse": {
       "type": "object",
       "properties": {
         "newName": {
@@ -524,18 +524,18 @@
         }
       }
     },
-    "matreshka_be_apiSort": {
+    "matreshka_apiSort": {
       "type": "object",
       "properties": {
         "type": {
-          "$ref": "#/definitions/matreshka_be_apiSortType"
+          "$ref": "#/definitions/matreshka_apiSortType"
         },
         "desc": {
           "type": "boolean"
         }
       }
     },
-    "matreshka_be_apiSortType": {
+    "matreshka_apiSortType": {
       "type": "string",
       "enum": [
         "default",
@@ -544,10 +544,10 @@
       ],
       "default": "default"
     },
-    "matreshka_be_apiStoreConfigResponse": {
+    "matreshka_apiStoreConfigResponse": {
       "type": "object"
     },
-    "matreshka_be_apiSubscribeOnChangesResponse": {
+    "matreshka_apiSubscribeOnChangesResponse": {
       "type": "object",
       "properties": {
         "configName": {
