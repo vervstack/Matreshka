@@ -1,18 +1,21 @@
+# ---- Web client build ----
 FROM node:23-alpine3.20 AS webclient
 
 WORKDIR /web
 
 RUN --mount=type=bind,target=/web,rw \
-# Step 1: Build the API lib
+    --mount=type=cache,target=/web/pkg/web/@vervstack/matreshka/node_modules \
+    --mount=type=cache,target=/web/pkg/web/Matreshka-UI/node_modules \
+    --mount=type=cache,target=/root/.cache/yarn \
     cd /web/pkg/web/@vervstack/matreshka && \
-    yarn && \
+    yarn install --frozen-lockfile && \
     yarn build && \
-# Step 2: Install and build Vue app (now that web is built)
     cd /web/pkg/web/Matreshka-UI && \
-    yarn && \
+    yarn install --frozen-lockfile && \
     yarn build && \
     mv dist /dist
 
+# ---- Go app build ----
 FROM --platform=$BUILDPLATFORM golang:1.24.2-alpine AS builder
 
 WORKDIR /src
@@ -22,8 +25,10 @@ COPY --from=webclient /dist /dist
 RUN --mount=type=bind,target=/src,rw \
     --mount=type=cache,target=/root/.cache/go-build \
     --mount=type=cache,target=/go/pkg \
+    --mount=type=cache,target=/go/mod \
     mkdir -p /src/internal/transport/web/dist && \
     mv /dist/* /src/internal/transport/web/dist && \
+    go mod download && \
     GOOS=$TARGETOS GOARCH=$TARGETARCH CGO_ENABLED=0 \
     go build -o /deploy/server/service /src/cmd/service/main.go && \
     cp -r config /deploy/server/config && \
