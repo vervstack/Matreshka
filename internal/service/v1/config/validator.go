@@ -180,13 +180,13 @@ func (v *VervConfigValidationResult) parseEnvironmentChanges(original *evon.Node
 	}
 
 	for key, patchVal := range newEnvValues {
+		envUpsert = append(envUpsert, patchVal)
+
 		typeVal, ok := typesMap[key]
-		if !ok {
-			v.Invalid = append(v.Invalid, patchVal)
-			continue
+		if ok {
+			envUpsert = append(envUpsert, typeVal)
 		}
 
-		envUpsert = append(envUpsert, patchVal, typeVal)
 		enumVal, ok := enumMap[key]
 		if ok {
 			envUpsert = append(envUpsert, enumVal)
