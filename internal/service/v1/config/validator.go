@@ -30,7 +30,7 @@ func newValidator() Validator {
 		v.validConfigNameSymbols[r] = struct{}{}
 	}
 
-	for _, r := range []rune(`/{}`) {
+	for _, r := range []rune(`/{}[]`) {
 		v.validEnvNameSymbols[r] = struct{}{}
 	}
 
