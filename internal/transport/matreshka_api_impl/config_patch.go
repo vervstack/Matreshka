@@ -2,12 +2,10 @@ package matreshka_api_impl
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	errors "go.redsock.ru/rerrors"
 	"go.redsock.ru/toolbox"
-	"google.golang.org/grpc/codes"
 
 	"go.vervstack.ru/matreshka/internal/domain"
 	api "go.vervstack.ru/matreshka/pkg/matreshka_api"
@@ -31,11 +29,8 @@ func fromPatch(req *api.PatchConfig_Request) (domain.PatchConfigRequest, error) 
 	out := domain.PatchConfigRequest{
 		ConfigVersion: toolbox.Coalesce(toolbox.FromPtr(req.Version), domain.MasterVersion),
 	}
-	var err error
-	out.ConfigName, err = fromPlainName(req.GetConfigName())
-	if err != nil {
-		return domain.PatchConfigRequest{}, errors.Wrap(err)
-	}
+
+	out.ConfigName = fromName(req.GetConfigName())
 
 	for _, patch := range req.Patches {
 
@@ -73,18 +68,17 @@ func ParseConfigName(name string) (*api.ConfigTypePrefix, string) {
 	return nil, name
 
 }
-func fromPlainName(name string) (domain.ConfigName, error) {
+func fromName(name string) domain.ConfigName {
 	nameSplited := strings.Split(name, "_")
+
 	if len(nameSplited) < 2 {
-		return domain.ConfigName{},
-			errors.NewUserError("Invalid name pattern. Name must start with type prefix", codes.InvalidArgument)
+		return domain.NewConfigName(api.ConfigTypePrefix_plain, name)
 	}
 
 	pref, ok := api.ConfigTypePrefix_value[nameSplited[0]]
 	if !ok {
-		return domain.ConfigName{},
-			errors.NewUserError(fmt.Sprintf("Unknown type prefix: %s", nameSplited[0]), codes.InvalidArgument)
+		pref = int32(api.ConfigTypePrefix_plain)
 	}
 
-	return domain.NewConfigName(api.ConfigTypePrefix(pref), strings.Join(nameSplited[1:], "_")), nil
+	return domain.NewConfigName(api.ConfigTypePrefix(pref), strings.Join(nameSplited[1:], "_"))
 }

@@ -10,6 +10,8 @@ import (
 func main() {
 	println(respect.Fantasy)
 
+	logrus.SetFormatter(&logrus.JSONFormatter{})
+
 	a, err := app.New()
 	if err != nil {
 		logrus.Fatal(err)

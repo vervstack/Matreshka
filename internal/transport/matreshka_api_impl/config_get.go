@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"go.redsock.ru/evon"
-	errors "go.redsock.ru/rerrors"
+	"go.redsock.ru/rerrors"
 	"go.redsock.ru/toolbox"
 	"gopkg.in/yaml.v3"
 
@@ -26,7 +26,7 @@ func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.
 
 	cfg, err := a.evonConfigService.GetConfigWithNodes(ctx, configName, ver)
 	if err != nil {
-		return nil, errors.Wrap(err)
+		return nil, rerrors.Wrap(err)
 	}
 
 	resp := &api.GetConfig_Response{}
@@ -42,7 +42,7 @@ func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.
 			resp.Config, err = kvToYaml(cfg.Nodes)
 		}
 		if err != nil {
-			return nil, errors.Wrap(err)
+			return nil, rerrors.Wrap(err)
 		}
 	}
 
@@ -56,12 +56,12 @@ func vervToYaml(node *evon.Node) ([]byte, error) {
 
 	err := evon.UnmarshalWithNodes(nodeStorage, &matreshkaConf)
 	if err != nil {
-		return nil, errors.Wrap(err, "error unmarshalling config")
+		return nil, rerrors.Wrap(err, "error unmarshalling config")
 	}
 
 	config, err := matreshkaConf.Marshal()
 	if err != nil {
-		return nil, errors.Wrap(err, "error marshalling to yaml")
+		return nil, rerrors.Wrap(err, "error marshalling to yaml")
 	}
 
 	return config, nil
@@ -71,14 +71,16 @@ func kvToYaml(node *evon.Node) ([]byte, error) {
 	nodeStorage := evon.NodesToStorage(node)
 
 	m := make(map[string]any)
-	err := evon.UnmarshalWithNodes(nodeStorage, m, evon.WithSnakeUnmarshal())
+	err := evon.UnmarshalWithNodes(nodeStorage, m,
+		evon.WithSnakeUnmarshal(),
+	)
 	if err != nil {
-		return nil, errors.Wrap(err, "error unmarshalling config")
+		return nil, rerrors.Wrap(err, "error unmarshalling config")
 	}
 
 	config, err := yaml.Marshal(m)
 	if err != nil {
-		return nil, errors.Wrap(err, "error marshalling to yaml")
+		return nil, rerrors.Wrap(err, "error marshalling to yaml")
 	}
 
 	return config, nil
