@@ -73,11 +73,11 @@ export async function GetConfigNodes(
   } as GetConfigNodeRequest;
 
   return MatreshkaBeAPI.GetConfigNodes(req, apiPrefix).then((resp: GetConfigNodeResponse) => {
-    if (!resp.root) {
-      throw { message: "Empty env config root" };
-    }
-
     const cfg = new ConfigWithContent(configName);
+
+    if (!resp.root) {
+      return cfg;
+    }
 
     switch (cfg.type) {
       case ConfigTypePrefix.verv:
