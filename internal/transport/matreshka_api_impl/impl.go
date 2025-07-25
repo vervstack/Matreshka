@@ -33,11 +33,11 @@ func NewServer(
 	}
 }
 
-func (a *Impl) Register(srv grpc.ServiceRegistrar) {
-	matreshka_api.RegisterMatreshkaBeAPIServer(srv, a)
+func (s *Impl) Register(srv grpc.ServiceRegistrar) {
+	matreshka_api.RegisterMatreshkaBeAPIServer(srv, s)
 }
 
-func (a *Impl) Gateway(ctx context.Context, endpoint string, opts ...grpc.DialOption) (route string, handler http.Handler) {
+func (s *Impl) Gateway(ctx context.Context, endpoint string, opts ...grpc.DialOption) (route string, handler http.Handler) {
 	gwHttpMux := runtime.NewServeMux()
 
 	err := matreshka_api.RegisterMatreshkaBeAPIHandlerFromEndpoint(

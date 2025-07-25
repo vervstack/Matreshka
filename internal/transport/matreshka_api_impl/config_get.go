@@ -13,7 +13,7 @@ import (
 	api "go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
-func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.GetConfig_Response, error) {
+func (s *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.GetConfig_Response, error) {
 	name := req.GetConfigName()
 	ver := toolbox.Coalesce(toolbox.FromPtr(req.Version), domain.MasterVersion)
 
@@ -24,7 +24,7 @@ func (a *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.
 
 	configName := domain.NewConfigName(*pref, name)
 
-	cfg, err := a.evonConfigService.GetConfigWithNodes(ctx, configName, ver)
+	cfg, err := s.evonConfigService.GetConfigWithNodes(ctx, configName, ver)
 	if err != nil {
 		return nil, rerrors.Wrap(err)
 	}

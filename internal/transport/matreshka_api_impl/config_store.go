@@ -14,7 +14,7 @@ import (
 	api "go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
-func (a *Impl) StoreConfig(ctx context.Context, req *api.StoreConfig_Request) (
+func (s *Impl) StoreConfig(ctx context.Context, req *api.StoreConfig_Request) (
 	*api.StoreConfig_Response, error) {
 
 	pref, name := ParseConfigName(req.ConfigName)
@@ -25,7 +25,7 @@ func (a *Impl) StoreConfig(ctx context.Context, req *api.StoreConfig_Request) (
 
 	cfgName := domain.NewConfigName(*pref, name)
 
-	_, err := a.evonConfigService.Create(ctx, cfgName)
+	_, err := s.evonConfigService.Create(ctx, cfgName)
 	if err != nil {
 		if !rerrors.Is(err, user_errors.ErrAlreadyExists) {
 			return nil, rerrors.Wrap(err, "error creating config")
@@ -49,7 +49,7 @@ func (a *Impl) StoreConfig(ctx context.Context, req *api.StoreConfig_Request) (
 		return nil, rerrors.Wrap(err, "error parsing config", codes.InvalidArgument)
 	}
 
-	err = a.evonConfigService.Replace(ctx, replaceReq)
+	err = s.evonConfigService.Replace(ctx, replaceReq)
 	if err != nil {
 		return nil, rerrors.Wrap(err, "error updating config")
 	}

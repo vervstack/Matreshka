@@ -8,11 +8,11 @@ import (
 	api "go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
-func (a *Impl) RenameConfig(ctx context.Context, req *api.RenameConfig_Request) (*api.RenameConfig_Response, error) {
+func (s *Impl) RenameConfig(ctx context.Context, req *api.RenameConfig_Request) (*api.RenameConfig_Response, error) {
 	oldName := fromName(req.ConfigName)
 	newName := fromName(req.NewName)
 
-	err := a.evonConfigService.Rename(ctx, oldName, newName)
+	err := s.evonConfigService.Rename(ctx, oldName, newName)
 	if err != nil {
 		return nil, errors.Wrap(err, "error renaming config")
 	}

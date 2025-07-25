@@ -10,7 +10,7 @@ import (
 	api "go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
-func (a *Impl) CreateConfig(
+func (s *Impl) CreateConfig(
 	ctx context.Context,
 	req *api.CreateConfig_Request) (
 	*api.CreateConfig_Response, error) {
@@ -33,7 +33,7 @@ func (a *Impl) CreateConfig(
 	var resp api.CreateConfig_Response
 	var err error
 
-	aboutConfig, err := a.evonConfigService.Create(ctx, configName)
+	aboutConfig, err := s.evonConfigService.Create(ctx, configName)
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}

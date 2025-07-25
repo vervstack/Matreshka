@@ -172,6 +172,15 @@ export type SubscribeOnChangesResponse = {
 
 export type SubscribeOnChanges = Record<string, never>;
 
+export type DeleteConfigRequest = {
+  configName?: string;
+  configVersion?: string;
+};
+
+export type DeleteConfigResponse = Record<string, never>;
+
+export type DeleteConfig = Record<string, never>;
+
 export class MatreshkaBeAPI {
   static ApiVersion(this:void, req: ApiVersionRequest, initReq?: fm.InitReq): Promise<ApiVersionResponse> {
     return fm.fetchRequest<ApiVersionResponse>(`/api/version?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"});
@@ -196,5 +205,8 @@ export class MatreshkaBeAPI {
   }
   static RenameConfig(this:void, req: RenameConfigRequest, initReq?: fm.InitReq): Promise<RenameConfigResponse> {
     return fm.fetchRequest<RenameConfigResponse>(`/api/config/${req.configName}/rename/${req.newName}`, {...initReq, method: "POST"});
+  }
+  static DeleteConfig(this:void, req: DeleteConfigRequest, initReq?: fm.InitReq): Promise<DeleteConfigResponse> {
+    return fm.fetchRequest<DeleteConfigResponse>(`/api/config/${req.configName}/delete`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
 }

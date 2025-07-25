@@ -48,7 +48,7 @@ async function save() {
 fetchConfig().then(fetchConfig);
 
 function download(format: Format) {
-  window.open(linkToConfigSource(configData.value.getMatreshkaName(), format), "_blank", "noopener,noreferrer")
+  window.open(linkToConfigSource(configData.value.getMatreshkaName(), format), "_blank", "noopener,noreferrer");
 }
 
 const options = ref({
@@ -72,14 +72,14 @@ const options = ref({
   <div v-else class="Display">
     <div class="Header">
       <div class="HeaderNLogo">
-      <div class="Logo">
-        <ConfigIcon
-          :config-type="configData.type" />
-      </div>
-      <div class="Tittle">
-        <ConfigName
-          :label="configData.name" />
-      </div>
+        <div class="Logo">
+          <ConfigIcon
+            :config-type="configData.type" />
+        </div>
+        <div class="Tittle">
+          <ConfigName
+            :label="configData.name" />
+        </div>
       </div>
       <div class="DownloadButton">
         <DialButton
@@ -150,6 +150,7 @@ const options = ref({
   display: flex;
   flex-direction: row;
   gap: 0.25em;
+  flex: 10;
 }
 
 .Logo {
@@ -157,10 +158,13 @@ const options = ref({
 }
 
 .Tittle {
-  width: fit-content;
   display: flex;
   justify-content: flex-start;
   font-size: 2em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60vw;
 }
 
 .DownloadButton {
@@ -168,6 +172,7 @@ const options = ref({
   justify-content: center;
   max-height: 2em;
   max-width: 2em;
+  flex: 1;
 }
 
 .Footer {

@@ -60,6 +60,13 @@ service MatreshkaBeAPI {
     };
   }
 
+  rpc DeleteConfig(DeleteConfig.Request) returns (DeleteConfig.Response) {
+    option (google.api.http) = {
+      post: "/api/config/{config_name}/delete",
+      body: "*"
+    };
+  }
+
   rpc SubscribeOnChanges(stream SubscribeOnChanges.Request) returns (stream SubscribeOnChanges.Response) {}
 }
 
@@ -226,4 +233,13 @@ enum ConfigTypePrefix {
 enum Format {
   yaml = 0; // Default
   env = 1;
+}
+
+message DeleteConfig {
+  message Request{
+    string config_name = 1;
+    optional string config_version = 2;
+  }
+
+  message Response {}
 }

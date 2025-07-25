@@ -11,13 +11,13 @@ import (
 	api "go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
-func (a *Impl) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*api.PatchConfig_Response, error) {
+func (s *Impl) PatchConfig(ctx context.Context, req *api.PatchConfig_Request) (*api.PatchConfig_Response, error) {
 	patch, err := fromPatch(req)
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}
 
-	err = a.evonConfigService.Patch(ctx, patch)
+	err = s.evonConfigService.Patch(ctx, patch)
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}

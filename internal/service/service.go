@@ -21,6 +21,7 @@ type EvonConfigService interface {
 
 	GetConfigWithNodes(ctx context.Context, name domain.ConfigName, version string) (domain.ConfigWithNodes, error)
 	ListConfigs(ctx context.Context, req domain.ListConfigsRequest) (domain.ListConfigsResponse, error)
+	Delete(ctx context.Context, name domain.ConfigName, version string) error
 }
 
 type PlainConfigService interface {

@@ -740,6 +740,42 @@ func (*SubscribeOnChanges) Descriptor() ([]byte, []int) {
 	return file_matreshka_api_proto_rawDescGZIP(), []int{12}
 }
 
+type DeleteConfig struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteConfig) Reset() {
+	*x = DeleteConfig{}
+	mi := &file_matreshka_api_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteConfig) ProtoMessage() {}
+
+func (x *DeleteConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_matreshka_api_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteConfig.ProtoReflect.Descriptor instead.
+func (*DeleteConfig) Descriptor() ([]byte, []int) {
+	return file_matreshka_api_proto_rawDescGZIP(), []int{13}
+}
+
 type ApiVersion_Request struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -748,7 +784,7 @@ type ApiVersion_Request struct {
 
 func (x *ApiVersion_Request) Reset() {
 	*x = ApiVersion_Request{}
-	mi := &file_matreshka_api_proto_msgTypes[13]
+	mi := &file_matreshka_api_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -760,7 +796,7 @@ func (x *ApiVersion_Request) String() string {
 func (*ApiVersion_Request) ProtoMessage() {}
 
 func (x *ApiVersion_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[13]
+	mi := &file_matreshka_api_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -785,7 +821,7 @@ type ApiVersion_Response struct {
 
 func (x *ApiVersion_Response) Reset() {
 	*x = ApiVersion_Response{}
-	mi := &file_matreshka_api_proto_msgTypes[14]
+	mi := &file_matreshka_api_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -797,7 +833,7 @@ func (x *ApiVersion_Response) String() string {
 func (*ApiVersion_Response) ProtoMessage() {}
 
 func (x *ApiVersion_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[14]
+	mi := &file_matreshka_api_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -831,7 +867,7 @@ type GetConfig_Request struct {
 
 func (x *GetConfig_Request) Reset() {
 	*x = GetConfig_Request{}
-	mi := &file_matreshka_api_proto_msgTypes[15]
+	mi := &file_matreshka_api_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -843,7 +879,7 @@ func (x *GetConfig_Request) String() string {
 func (*GetConfig_Request) ProtoMessage() {}
 
 func (x *GetConfig_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[15]
+	mi := &file_matreshka_api_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -889,7 +925,7 @@ type GetConfig_Response struct {
 
 func (x *GetConfig_Response) Reset() {
 	*x = GetConfig_Response{}
-	mi := &file_matreshka_api_proto_msgTypes[16]
+	mi := &file_matreshka_api_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -901,7 +937,7 @@ func (x *GetConfig_Response) String() string {
 func (*GetConfig_Response) ProtoMessage() {}
 
 func (x *GetConfig_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[16]
+	mi := &file_matreshka_api_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -935,7 +971,7 @@ type PatchConfig_Request struct {
 
 func (x *PatchConfig_Request) Reset() {
 	*x = PatchConfig_Request{}
-	mi := &file_matreshka_api_proto_msgTypes[17]
+	mi := &file_matreshka_api_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -947,7 +983,7 @@ func (x *PatchConfig_Request) String() string {
 func (*PatchConfig_Request) ProtoMessage() {}
 
 func (x *PatchConfig_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[17]
+	mi := &file_matreshka_api_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -992,7 +1028,7 @@ type PatchConfig_Response struct {
 
 func (x *PatchConfig_Response) Reset() {
 	*x = PatchConfig_Response{}
-	mi := &file_matreshka_api_proto_msgTypes[18]
+	mi := &file_matreshka_api_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1004,7 +1040,7 @@ func (x *PatchConfig_Response) String() string {
 func (*PatchConfig_Response) ProtoMessage() {}
 
 func (x *PatchConfig_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[18]
+	mi := &file_matreshka_api_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1035,7 +1071,7 @@ type PatchConfig_Patch struct {
 
 func (x *PatchConfig_Patch) Reset() {
 	*x = PatchConfig_Patch{}
-	mi := &file_matreshka_api_proto_msgTypes[19]
+	mi := &file_matreshka_api_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1047,7 +1083,7 @@ func (x *PatchConfig_Patch) String() string {
 func (*PatchConfig_Patch) ProtoMessage() {}
 
 func (x *PatchConfig_Patch) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[19]
+	mi := &file_matreshka_api_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1139,7 +1175,7 @@ type StoreConfig_Request struct {
 
 func (x *StoreConfig_Request) Reset() {
 	*x = StoreConfig_Request{}
-	mi := &file_matreshka_api_proto_msgTypes[20]
+	mi := &file_matreshka_api_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1151,7 +1187,7 @@ func (x *StoreConfig_Request) String() string {
 func (*StoreConfig_Request) ProtoMessage() {}
 
 func (x *StoreConfig_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[20]
+	mi := &file_matreshka_api_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1203,7 +1239,7 @@ type StoreConfig_Response struct {
 
 func (x *StoreConfig_Response) Reset() {
 	*x = StoreConfig_Response{}
-	mi := &file_matreshka_api_proto_msgTypes[21]
+	mi := &file_matreshka_api_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1215,7 +1251,7 @@ func (x *StoreConfig_Response) String() string {
 func (*StoreConfig_Response) ProtoMessage() {}
 
 func (x *StoreConfig_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[21]
+	mi := &file_matreshka_api_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1242,7 +1278,7 @@ type ListConfigs_Request struct {
 
 func (x *ListConfigs_Request) Reset() {
 	*x = ListConfigs_Request{}
-	mi := &file_matreshka_api_proto_msgTypes[22]
+	mi := &file_matreshka_api_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1254,7 +1290,7 @@ func (x *ListConfigs_Request) String() string {
 func (*ListConfigs_Request) ProtoMessage() {}
 
 func (x *ListConfigs_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[22]
+	mi := &file_matreshka_api_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1301,7 +1337,7 @@ type ListConfigs_Response struct {
 
 func (x *ListConfigs_Response) Reset() {
 	*x = ListConfigs_Response{}
-	mi := &file_matreshka_api_proto_msgTypes[23]
+	mi := &file_matreshka_api_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1313,7 +1349,7 @@ func (x *ListConfigs_Response) String() string {
 func (*ListConfigs_Response) ProtoMessage() {}
 
 func (x *ListConfigs_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[23]
+	mi := &file_matreshka_api_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1353,7 +1389,7 @@ type GetConfigNode_Request struct {
 
 func (x *GetConfigNode_Request) Reset() {
 	*x = GetConfigNode_Request{}
-	mi := &file_matreshka_api_proto_msgTypes[24]
+	mi := &file_matreshka_api_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1365,7 +1401,7 @@ func (x *GetConfigNode_Request) String() string {
 func (*GetConfigNode_Request) ProtoMessage() {}
 
 func (x *GetConfigNode_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[24]
+	mi := &file_matreshka_api_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1405,7 +1441,7 @@ type GetConfigNode_Response struct {
 
 func (x *GetConfigNode_Response) Reset() {
 	*x = GetConfigNode_Response{}
-	mi := &file_matreshka_api_proto_msgTypes[25]
+	mi := &file_matreshka_api_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1417,7 +1453,7 @@ func (x *GetConfigNode_Response) String() string {
 func (*GetConfigNode_Response) ProtoMessage() {}
 
 func (x *GetConfigNode_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[25]
+	mi := &file_matreshka_api_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1457,7 +1493,7 @@ type CreateConfig_Request struct {
 
 func (x *CreateConfig_Request) Reset() {
 	*x = CreateConfig_Request{}
-	mi := &file_matreshka_api_proto_msgTypes[26]
+	mi := &file_matreshka_api_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1469,7 +1505,7 @@ func (x *CreateConfig_Request) String() string {
 func (*CreateConfig_Request) ProtoMessage() {}
 
 func (x *CreateConfig_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[26]
+	mi := &file_matreshka_api_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1511,7 +1547,7 @@ type CreateConfig_Response struct {
 
 func (x *CreateConfig_Response) Reset() {
 	*x = CreateConfig_Response{}
-	mi := &file_matreshka_api_proto_msgTypes[27]
+	mi := &file_matreshka_api_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1523,7 +1559,7 @@ func (x *CreateConfig_Response) String() string {
 func (*CreateConfig_Response) ProtoMessage() {}
 
 func (x *CreateConfig_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[27]
+	mi := &file_matreshka_api_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1556,7 +1592,7 @@ type RenameConfig_Request struct {
 
 func (x *RenameConfig_Request) Reset() {
 	*x = RenameConfig_Request{}
-	mi := &file_matreshka_api_proto_msgTypes[28]
+	mi := &file_matreshka_api_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1568,7 +1604,7 @@ func (x *RenameConfig_Request) String() string {
 func (*RenameConfig_Request) ProtoMessage() {}
 
 func (x *RenameConfig_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[28]
+	mi := &file_matreshka_api_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1607,7 +1643,7 @@ type RenameConfig_Response struct {
 
 func (x *RenameConfig_Response) Reset() {
 	*x = RenameConfig_Response{}
-	mi := &file_matreshka_api_proto_msgTypes[29]
+	mi := &file_matreshka_api_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1619,7 +1655,7 @@ func (x *RenameConfig_Response) String() string {
 func (*RenameConfig_Response) ProtoMessage() {}
 
 func (x *RenameConfig_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[29]
+	mi := &file_matreshka_api_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1652,7 +1688,7 @@ type SubscribeOnChanges_Request struct {
 
 func (x *SubscribeOnChanges_Request) Reset() {
 	*x = SubscribeOnChanges_Request{}
-	mi := &file_matreshka_api_proto_msgTypes[30]
+	mi := &file_matreshka_api_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1664,7 +1700,7 @@ func (x *SubscribeOnChanges_Request) String() string {
 func (*SubscribeOnChanges_Request) ProtoMessage() {}
 
 func (x *SubscribeOnChanges_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[30]
+	mi := &file_matreshka_api_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1705,7 +1741,7 @@ type SubscribeOnChanges_Response struct {
 
 func (x *SubscribeOnChanges_Response) Reset() {
 	*x = SubscribeOnChanges_Response{}
-	mi := &file_matreshka_api_proto_msgTypes[31]
+	mi := &file_matreshka_api_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1717,7 +1753,7 @@ func (x *SubscribeOnChanges_Response) String() string {
 func (*SubscribeOnChanges_Response) ProtoMessage() {}
 
 func (x *SubscribeOnChanges_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_matreshka_api_proto_msgTypes[31]
+	mi := &file_matreshka_api_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1752,6 +1788,94 @@ func (x *SubscribeOnChanges_Response) GetPatches() []*PatchConfig_Patch {
 		return x.Patches
 	}
 	return nil
+}
+
+type DeleteConfig_Request struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ConfigName    string                 `protobuf:"bytes,1,opt,name=config_name,json=configName,proto3" json:"config_name,omitempty"`
+	ConfigVersion *string                `protobuf:"bytes,2,opt,name=config_version,json=configVersion,proto3,oneof" json:"config_version,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteConfig_Request) Reset() {
+	*x = DeleteConfig_Request{}
+	mi := &file_matreshka_api_proto_msgTypes[33]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteConfig_Request) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteConfig_Request) ProtoMessage() {}
+
+func (x *DeleteConfig_Request) ProtoReflect() protoreflect.Message {
+	mi := &file_matreshka_api_proto_msgTypes[33]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteConfig_Request.ProtoReflect.Descriptor instead.
+func (*DeleteConfig_Request) Descriptor() ([]byte, []int) {
+	return file_matreshka_api_proto_rawDescGZIP(), []int{13, 0}
+}
+
+func (x *DeleteConfig_Request) GetConfigName() string {
+	if x != nil {
+		return x.ConfigName
+	}
+	return ""
+}
+
+func (x *DeleteConfig_Request) GetConfigVersion() string {
+	if x != nil && x.ConfigVersion != nil {
+		return *x.ConfigVersion
+	}
+	return ""
+}
+
+type DeleteConfig_Response struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteConfig_Response) Reset() {
+	*x = DeleteConfig_Response{}
+	mi := &file_matreshka_api_proto_msgTypes[34]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteConfig_Response) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteConfig_Response) ProtoMessage() {}
+
+func (x *DeleteConfig_Response) ProtoReflect() protoreflect.Message {
+	mi := &file_matreshka_api_proto_msgTypes[34]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteConfig_Response.ProtoReflect.Descriptor instead.
+func (*DeleteConfig_Response) Descriptor() ([]byte, []int) {
+	return file_matreshka_api_proto_rawDescGZIP(), []int{13, 1}
 }
 
 var File_matreshka_api_proto protoreflect.FileDescriptor
@@ -1863,7 +1987,15 @@ const file_matreshka_api_proto_rawDesc = "" +
 	"\vconfig_name\x18\x01 \x01(\tR\n" +
 	"configName\x12\x1c\n" +
 	"\ttimestamp\x18\x02 \x01(\rR\ttimestamp\x12:\n" +
-	"\apatches\x18\x03 \x03(\v2 .matreshka_api.PatchConfig.PatchR\apatches*M\n" +
+	"\apatches\x18\x03 \x03(\v2 .matreshka_api.PatchConfig.PatchR\apatches\"\x85\x01\n" +
+	"\fDeleteConfig\x1ai\n" +
+	"\aRequest\x12\x1f\n" +
+	"\vconfig_name\x18\x01 \x01(\tR\n" +
+	"configName\x12*\n" +
+	"\x0econfig_version\x18\x02 \x01(\tH\x00R\rconfigVersion\x88\x01\x01B\x11\n" +
+	"\x0f_config_version\x1a\n" +
+	"\n" +
+	"\bResponse*M\n" +
 	"\x10ConfigTypePrefix\x12\t\n" +
 	"\x05plain\x10\x00\x12\b\n" +
 	"\x04verv\x10\x01\x12\t\n" +
@@ -1873,7 +2005,7 @@ const file_matreshka_api_proto_rawDesc = "" +
 	"\x02kv\x10\x05*\x1b\n" +
 	"\x06Format\x12\b\n" +
 	"\x04yaml\x10\x00\x12\a\n" +
-	"\x03env\x10\x012\xf6\b\n" +
+	"\x03env\x10\x012\xff\t\n" +
 	"\x0eMatreshkaBeAPI\x12i\n" +
 	"\n" +
 	"ApiVersion\x12!.matreshka_api.ApiVersion.Request\x1a\".matreshka_api.ApiVersion.Response\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/api/version\x12s\n" +
@@ -1883,7 +2015,8 @@ const file_matreshka_api_proto_rawDesc = "" +
 	"\fCreateConfig\x12#.matreshka_api.CreateConfig.Request\x1a$.matreshka_api.CreateConfig.Response\"(\x82\xd3\xe4\x93\x02\":\x01*\"\x1d/api/config/{config_name}/new\x12\x82\x01\n" +
 	"\vPatchConfig\x12\".matreshka_api.PatchConfig.Request\x1a#.matreshka_api.PatchConfig.Response\"*\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/api/config/{config_name}/patch\x12\x82\x01\n" +
 	"\vStoreConfig\x12\".matreshka_api.StoreConfig.Request\x1a#.matreshka_api.StoreConfig.Response\"*\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/api/config/{config_name}/store\x12\x8e\x01\n" +
-	"\fRenameConfig\x12#.matreshka_api.RenameConfig.Request\x1a$.matreshka_api.RenameConfig.Response\"3\x82\xd3\xe4\x93\x02-\"+/api/config/{config_name}/rename/{new_name}\x12q\n" +
+	"\fRenameConfig\x12#.matreshka_api.RenameConfig.Request\x1a$.matreshka_api.RenameConfig.Response\"3\x82\xd3\xe4\x93\x02-\"+/api/config/{config_name}/rename/{new_name}\x12\x86\x01\n" +
+	"\fDeleteConfig\x12#.matreshka_api.DeleteConfig.Request\x1a$.matreshka_api.DeleteConfig.Response\"+\x82\xd3\xe4\x93\x02%:\x01*\" /api/config/{config_name}/delete\x12q\n" +
 	"\x12SubscribeOnChanges\x12).matreshka_api.SubscribeOnChanges.Request\x1a*.matreshka_api.SubscribeOnChanges.Response\"\x00(\x010\x01BS\x92\x82\x19\x14@vervstack/matreshkaZ9go.vervstack.ru/matreshka/pkg/matreshka_api;matreshka_apib\x06proto3"
 
 var (
@@ -1899,7 +2032,7 @@ func file_matreshka_api_proto_rawDescGZIP() []byte {
 }
 
 var file_matreshka_api_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_matreshka_api_proto_msgTypes = make([]protoimpl.MessageInfo, 32)
+var file_matreshka_api_proto_msgTypes = make([]protoimpl.MessageInfo, 35)
 var file_matreshka_api_proto_goTypes = []any{
 	(ConfigTypePrefix)(0),               // 0: matreshka_api.ConfigTypePrefix
 	(Format)(0),                         // 1: matreshka_api.Format
@@ -1917,58 +2050,63 @@ var file_matreshka_api_proto_goTypes = []any{
 	(*RenameConfig)(nil),                // 13: matreshka_api.RenameConfig
 	(*Sort)(nil),                        // 14: matreshka_api.Sort
 	(*SubscribeOnChanges)(nil),          // 15: matreshka_api.SubscribeOnChanges
-	(*ApiVersion_Request)(nil),          // 16: matreshka_api.ApiVersion.Request
-	(*ApiVersion_Response)(nil),         // 17: matreshka_api.ApiVersion.Response
-	(*GetConfig_Request)(nil),           // 18: matreshka_api.GetConfig.Request
-	(*GetConfig_Response)(nil),          // 19: matreshka_api.GetConfig.Response
-	(*PatchConfig_Request)(nil),         // 20: matreshka_api.PatchConfig.Request
-	(*PatchConfig_Response)(nil),        // 21: matreshka_api.PatchConfig.Response
-	(*PatchConfig_Patch)(nil),           // 22: matreshka_api.PatchConfig.Patch
-	(*StoreConfig_Request)(nil),         // 23: matreshka_api.StoreConfig.Request
-	(*StoreConfig_Response)(nil),        // 24: matreshka_api.StoreConfig.Response
-	(*ListConfigs_Request)(nil),         // 25: matreshka_api.ListConfigs.Request
-	(*ListConfigs_Response)(nil),        // 26: matreshka_api.ListConfigs.Response
-	(*GetConfigNode_Request)(nil),       // 27: matreshka_api.GetConfigNode.Request
-	(*GetConfigNode_Response)(nil),      // 28: matreshka_api.GetConfigNode.Response
-	(*CreateConfig_Request)(nil),        // 29: matreshka_api.CreateConfig.Request
-	(*CreateConfig_Response)(nil),       // 30: matreshka_api.CreateConfig.Response
-	(*RenameConfig_Request)(nil),        // 31: matreshka_api.RenameConfig.Request
-	(*RenameConfig_Response)(nil),       // 32: matreshka_api.RenameConfig.Response
-	(*SubscribeOnChanges_Request)(nil),  // 33: matreshka_api.SubscribeOnChanges.Request
-	(*SubscribeOnChanges_Response)(nil), // 34: matreshka_api.SubscribeOnChanges.Response
+	(*DeleteConfig)(nil),                // 16: matreshka_api.DeleteConfig
+	(*ApiVersion_Request)(nil),          // 17: matreshka_api.ApiVersion.Request
+	(*ApiVersion_Response)(nil),         // 18: matreshka_api.ApiVersion.Response
+	(*GetConfig_Request)(nil),           // 19: matreshka_api.GetConfig.Request
+	(*GetConfig_Response)(nil),          // 20: matreshka_api.GetConfig.Response
+	(*PatchConfig_Request)(nil),         // 21: matreshka_api.PatchConfig.Request
+	(*PatchConfig_Response)(nil),        // 22: matreshka_api.PatchConfig.Response
+	(*PatchConfig_Patch)(nil),           // 23: matreshka_api.PatchConfig.Patch
+	(*StoreConfig_Request)(nil),         // 24: matreshka_api.StoreConfig.Request
+	(*StoreConfig_Response)(nil),        // 25: matreshka_api.StoreConfig.Response
+	(*ListConfigs_Request)(nil),         // 26: matreshka_api.ListConfigs.Request
+	(*ListConfigs_Response)(nil),        // 27: matreshka_api.ListConfigs.Response
+	(*GetConfigNode_Request)(nil),       // 28: matreshka_api.GetConfigNode.Request
+	(*GetConfigNode_Response)(nil),      // 29: matreshka_api.GetConfigNode.Response
+	(*CreateConfig_Request)(nil),        // 30: matreshka_api.CreateConfig.Request
+	(*CreateConfig_Response)(nil),       // 31: matreshka_api.CreateConfig.Response
+	(*RenameConfig_Request)(nil),        // 32: matreshka_api.RenameConfig.Request
+	(*RenameConfig_Response)(nil),       // 33: matreshka_api.RenameConfig.Response
+	(*SubscribeOnChanges_Request)(nil),  // 34: matreshka_api.SubscribeOnChanges.Request
+	(*SubscribeOnChanges_Response)(nil), // 35: matreshka_api.SubscribeOnChanges.Response
+	(*DeleteConfig_Request)(nil),        // 36: matreshka_api.DeleteConfig.Request
+	(*DeleteConfig_Response)(nil),       // 37: matreshka_api.DeleteConfig.Response
 }
 var file_matreshka_api_proto_depIdxs = []int32{
 	10, // 0: matreshka_api.Node.inner_nodes:type_name -> matreshka_api.Node
 	2,  // 1: matreshka_api.Sort.type:type_name -> matreshka_api.Sort.Type
 	1,  // 2: matreshka_api.GetConfig.Request.format:type_name -> matreshka_api.Format
-	22, // 3: matreshka_api.PatchConfig.Request.patches:type_name -> matreshka_api.PatchConfig.Patch
+	23, // 3: matreshka_api.PatchConfig.Request.patches:type_name -> matreshka_api.PatchConfig.Patch
 	1,  // 4: matreshka_api.StoreConfig.Request.format:type_name -> matreshka_api.Format
 	4,  // 5: matreshka_api.ListConfigs.Request.paging:type_name -> matreshka_api.Paging
 	14, // 6: matreshka_api.ListConfigs.Request.sort:type_name -> matreshka_api.Sort
 	3,  // 7: matreshka_api.ListConfigs.Response.configs:type_name -> matreshka_api.Config
 	10, // 8: matreshka_api.GetConfigNode.Response.root:type_name -> matreshka_api.Node
 	0,  // 9: matreshka_api.CreateConfig.Request.type:type_name -> matreshka_api.ConfigTypePrefix
-	22, // 10: matreshka_api.SubscribeOnChanges.Response.patches:type_name -> matreshka_api.PatchConfig.Patch
-	16, // 11: matreshka_api.MatreshkaBeAPI.ApiVersion:input_type -> matreshka_api.ApiVersion.Request
-	18, // 12: matreshka_api.MatreshkaBeAPI.GetConfig:input_type -> matreshka_api.GetConfig.Request
-	27, // 13: matreshka_api.MatreshkaBeAPI.GetConfigNodes:input_type -> matreshka_api.GetConfigNode.Request
-	25, // 14: matreshka_api.MatreshkaBeAPI.ListConfigs:input_type -> matreshka_api.ListConfigs.Request
-	29, // 15: matreshka_api.MatreshkaBeAPI.CreateConfig:input_type -> matreshka_api.CreateConfig.Request
-	20, // 16: matreshka_api.MatreshkaBeAPI.PatchConfig:input_type -> matreshka_api.PatchConfig.Request
-	23, // 17: matreshka_api.MatreshkaBeAPI.StoreConfig:input_type -> matreshka_api.StoreConfig.Request
-	31, // 18: matreshka_api.MatreshkaBeAPI.RenameConfig:input_type -> matreshka_api.RenameConfig.Request
-	33, // 19: matreshka_api.MatreshkaBeAPI.SubscribeOnChanges:input_type -> matreshka_api.SubscribeOnChanges.Request
-	17, // 20: matreshka_api.MatreshkaBeAPI.ApiVersion:output_type -> matreshka_api.ApiVersion.Response
-	19, // 21: matreshka_api.MatreshkaBeAPI.GetConfig:output_type -> matreshka_api.GetConfig.Response
-	28, // 22: matreshka_api.MatreshkaBeAPI.GetConfigNodes:output_type -> matreshka_api.GetConfigNode.Response
-	26, // 23: matreshka_api.MatreshkaBeAPI.ListConfigs:output_type -> matreshka_api.ListConfigs.Response
-	30, // 24: matreshka_api.MatreshkaBeAPI.CreateConfig:output_type -> matreshka_api.CreateConfig.Response
-	21, // 25: matreshka_api.MatreshkaBeAPI.PatchConfig:output_type -> matreshka_api.PatchConfig.Response
-	24, // 26: matreshka_api.MatreshkaBeAPI.StoreConfig:output_type -> matreshka_api.StoreConfig.Response
-	32, // 27: matreshka_api.MatreshkaBeAPI.RenameConfig:output_type -> matreshka_api.RenameConfig.Response
-	34, // 28: matreshka_api.MatreshkaBeAPI.SubscribeOnChanges:output_type -> matreshka_api.SubscribeOnChanges.Response
-	20, // [20:29] is the sub-list for method output_type
-	11, // [11:20] is the sub-list for method input_type
+	23, // 10: matreshka_api.SubscribeOnChanges.Response.patches:type_name -> matreshka_api.PatchConfig.Patch
+	17, // 11: matreshka_api.MatreshkaBeAPI.ApiVersion:input_type -> matreshka_api.ApiVersion.Request
+	19, // 12: matreshka_api.MatreshkaBeAPI.GetConfig:input_type -> matreshka_api.GetConfig.Request
+	28, // 13: matreshka_api.MatreshkaBeAPI.GetConfigNodes:input_type -> matreshka_api.GetConfigNode.Request
+	26, // 14: matreshka_api.MatreshkaBeAPI.ListConfigs:input_type -> matreshka_api.ListConfigs.Request
+	30, // 15: matreshka_api.MatreshkaBeAPI.CreateConfig:input_type -> matreshka_api.CreateConfig.Request
+	21, // 16: matreshka_api.MatreshkaBeAPI.PatchConfig:input_type -> matreshka_api.PatchConfig.Request
+	24, // 17: matreshka_api.MatreshkaBeAPI.StoreConfig:input_type -> matreshka_api.StoreConfig.Request
+	32, // 18: matreshka_api.MatreshkaBeAPI.RenameConfig:input_type -> matreshka_api.RenameConfig.Request
+	36, // 19: matreshka_api.MatreshkaBeAPI.DeleteConfig:input_type -> matreshka_api.DeleteConfig.Request
+	34, // 20: matreshka_api.MatreshkaBeAPI.SubscribeOnChanges:input_type -> matreshka_api.SubscribeOnChanges.Request
+	18, // 21: matreshka_api.MatreshkaBeAPI.ApiVersion:output_type -> matreshka_api.ApiVersion.Response
+	20, // 22: matreshka_api.MatreshkaBeAPI.GetConfig:output_type -> matreshka_api.GetConfig.Response
+	29, // 23: matreshka_api.MatreshkaBeAPI.GetConfigNodes:output_type -> matreshka_api.GetConfigNode.Response
+	27, // 24: matreshka_api.MatreshkaBeAPI.ListConfigs:output_type -> matreshka_api.ListConfigs.Response
+	31, // 25: matreshka_api.MatreshkaBeAPI.CreateConfig:output_type -> matreshka_api.CreateConfig.Response
+	22, // 26: matreshka_api.MatreshkaBeAPI.PatchConfig:output_type -> matreshka_api.PatchConfig.Response
+	25, // 27: matreshka_api.MatreshkaBeAPI.StoreConfig:output_type -> matreshka_api.StoreConfig.Response
+	33, // 28: matreshka_api.MatreshkaBeAPI.RenameConfig:output_type -> matreshka_api.RenameConfig.Response
+	37, // 29: matreshka_api.MatreshkaBeAPI.DeleteConfig:output_type -> matreshka_api.DeleteConfig.Response
+	35, // 30: matreshka_api.MatreshkaBeAPI.SubscribeOnChanges:output_type -> matreshka_api.SubscribeOnChanges.Response
+	21, // [21:31] is the sub-list for method output_type
+	11, // [11:21] is the sub-list for method input_type
 	11, // [11:11] is the sub-list for extension type_name
 	11, // [11:11] is the sub-list for extension extendee
 	0,  // [0:11] is the sub-list for field type_name
@@ -1980,23 +2118,24 @@ func file_matreshka_api_proto_init() {
 		return
 	}
 	file_matreshka_api_proto_msgTypes[7].OneofWrappers = []any{}
-	file_matreshka_api_proto_msgTypes[15].OneofWrappers = []any{}
-	file_matreshka_api_proto_msgTypes[17].OneofWrappers = []any{}
-	file_matreshka_api_proto_msgTypes[19].OneofWrappers = []any{
+	file_matreshka_api_proto_msgTypes[16].OneofWrappers = []any{}
+	file_matreshka_api_proto_msgTypes[18].OneofWrappers = []any{}
+	file_matreshka_api_proto_msgTypes[20].OneofWrappers = []any{
 		(*PatchConfig_Patch_Rename)(nil),
 		(*PatchConfig_Patch_UpdateValue)(nil),
 		(*PatchConfig_Patch_Delete)(nil),
 	}
-	file_matreshka_api_proto_msgTypes[20].OneofWrappers = []any{}
-	file_matreshka_api_proto_msgTypes[22].OneofWrappers = []any{}
-	file_matreshka_api_proto_msgTypes[26].OneofWrappers = []any{}
+	file_matreshka_api_proto_msgTypes[21].OneofWrappers = []any{}
+	file_matreshka_api_proto_msgTypes[23].OneofWrappers = []any{}
+	file_matreshka_api_proto_msgTypes[27].OneofWrappers = []any{}
+	file_matreshka_api_proto_msgTypes[33].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_matreshka_api_proto_rawDesc), len(file_matreshka_api_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   32,
+			NumMessages:   35,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

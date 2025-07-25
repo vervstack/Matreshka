@@ -27,6 +27,7 @@ const (
 	MatreshkaBeAPI_PatchConfig_FullMethodName        = "/matreshka_api.MatreshkaBeAPI/PatchConfig"
 	MatreshkaBeAPI_StoreConfig_FullMethodName        = "/matreshka_api.MatreshkaBeAPI/StoreConfig"
 	MatreshkaBeAPI_RenameConfig_FullMethodName       = "/matreshka_api.MatreshkaBeAPI/RenameConfig"
+	MatreshkaBeAPI_DeleteConfig_FullMethodName       = "/matreshka_api.MatreshkaBeAPI/DeleteConfig"
 	MatreshkaBeAPI_SubscribeOnChanges_FullMethodName = "/matreshka_api.MatreshkaBeAPI/SubscribeOnChanges"
 )
 
@@ -42,6 +43,7 @@ type MatreshkaBeAPIClient interface {
 	PatchConfig(ctx context.Context, in *PatchConfig_Request, opts ...grpc.CallOption) (*PatchConfig_Response, error)
 	StoreConfig(ctx context.Context, in *StoreConfig_Request, opts ...grpc.CallOption) (*StoreConfig_Response, error)
 	RenameConfig(ctx context.Context, in *RenameConfig_Request, opts ...grpc.CallOption) (*RenameConfig_Response, error)
+	DeleteConfig(ctx context.Context, in *DeleteConfig_Request, opts ...grpc.CallOption) (*DeleteConfig_Response, error)
 	SubscribeOnChanges(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[SubscribeOnChanges_Request, SubscribeOnChanges_Response], error)
 }
 
@@ -133,6 +135,16 @@ func (c *matreshkaBeAPIClient) RenameConfig(ctx context.Context, in *RenameConfi
 	return out, nil
 }
 
+func (c *matreshkaBeAPIClient) DeleteConfig(ctx context.Context, in *DeleteConfig_Request, opts ...grpc.CallOption) (*DeleteConfig_Response, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteConfig_Response)
+	err := c.cc.Invoke(ctx, MatreshkaBeAPI_DeleteConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *matreshkaBeAPIClient) SubscribeOnChanges(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[SubscribeOnChanges_Request, SubscribeOnChanges_Response], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	stream, err := c.cc.NewStream(ctx, &MatreshkaBeAPI_ServiceDesc.Streams[0], MatreshkaBeAPI_SubscribeOnChanges_FullMethodName, cOpts...)
@@ -158,6 +170,7 @@ type MatreshkaBeAPIServer interface {
 	PatchConfig(context.Context, *PatchConfig_Request) (*PatchConfig_Response, error)
 	StoreConfig(context.Context, *StoreConfig_Request) (*StoreConfig_Response, error)
 	RenameConfig(context.Context, *RenameConfig_Request) (*RenameConfig_Response, error)
+	DeleteConfig(context.Context, *DeleteConfig_Request) (*DeleteConfig_Response, error)
 	SubscribeOnChanges(grpc.BidiStreamingServer[SubscribeOnChanges_Request, SubscribeOnChanges_Response]) error
 	mustEmbedUnimplementedMatreshkaBeAPIServer()
 }
@@ -192,6 +205,9 @@ func (UnimplementedMatreshkaBeAPIServer) StoreConfig(context.Context, *StoreConf
 }
 func (UnimplementedMatreshkaBeAPIServer) RenameConfig(context.Context, *RenameConfig_Request) (*RenameConfig_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RenameConfig not implemented")
+}
+func (UnimplementedMatreshkaBeAPIServer) DeleteConfig(context.Context, *DeleteConfig_Request) (*DeleteConfig_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteConfig not implemented")
 }
 func (UnimplementedMatreshkaBeAPIServer) SubscribeOnChanges(grpc.BidiStreamingServer[SubscribeOnChanges_Request, SubscribeOnChanges_Response]) error {
 	return status.Errorf(codes.Unimplemented, "method SubscribeOnChanges not implemented")
@@ -361,6 +377,24 @@ func _MatreshkaBeAPI_RenameConfig_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MatreshkaBeAPI_DeleteConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteConfig_Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MatreshkaBeAPIServer).DeleteConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MatreshkaBeAPI_DeleteConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MatreshkaBeAPIServer).DeleteConfig(ctx, req.(*DeleteConfig_Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _MatreshkaBeAPI_SubscribeOnChanges_Handler(srv interface{}, stream grpc.ServerStream) error {
 	return srv.(MatreshkaBeAPIServer).SubscribeOnChanges(&grpc.GenericServerStream[SubscribeOnChanges_Request, SubscribeOnChanges_Response]{ServerStream: stream})
 }
@@ -406,6 +440,10 @@ var MatreshkaBeAPI_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RenameConfig",
 			Handler:    _MatreshkaBeAPI_RenameConfig_Handler,
+		},
+		{
+			MethodName: "DeleteConfig",
+			Handler:    _MatreshkaBeAPI_DeleteConfig_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

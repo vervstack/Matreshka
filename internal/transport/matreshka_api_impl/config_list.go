@@ -11,7 +11,7 @@ import (
 	api "go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
-func (a *Impl) ListConfigs(ctx context.Context, req *api.ListConfigs_Request) (*api.ListConfigs_Response, error) {
+func (s *Impl) ListConfigs(ctx context.Context, req *api.ListConfigs_Request) (*api.ListConfigs_Response, error) {
 	listReq := domain.ListConfigsRequest{
 		Paging: domain.Paging{
 			Limit:  toolbox.Coalesce(req.GetPaging().GetLimit(), 10),
@@ -25,7 +25,7 @@ func (a *Impl) ListConfigs(ctx context.Context, req *api.ListConfigs_Request) (*
 		SearchPattern: req.GetSearchPattern(),
 	}
 
-	configs, err := a.evonConfigService.ListConfigs(ctx, listReq)
+	configs, err := s.evonConfigService.ListConfigs(ctx, listReq)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
