@@ -1,0 +1,3 @@
+### Delete
+POST {{matreshka-api}}/api/config/Test_AssembleConfig_Test_AssembleHelloWorld_config_scanning/delete
+Content-Type: application/json

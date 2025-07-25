@@ -6,7 +6,7 @@ import { useToast } from "primevue/usetoast";
 import { ref } from "vue";
 
 import Config from "@/models/configs/Config.ts";
-import { GetConfigNodes, linkToConfigSource, PatchConfig } from "@/processes/api/ApiService.ts";
+import { DeleteConfig, GetConfigNodes, linkToConfigSource, PatchConfig } from "@/processes/api/ApiService.ts";
 import handleGrpcError from "@/processes/api/ErrorCodes.ts";
 
 import ConfigIcon from "@/components/base/config/ConfigIcon.vue";
@@ -17,6 +17,7 @@ import ExportIcon from "@/assets/svg/general/export.svg";
 import YamlSvg from "@/assets/svg/general/yaml.svg";
 import DotEnvSvg from "@/assets/svg/general/dotenv.svg";
 import { Format } from "@vervstack/matreshka";
+import { Pages, router } from "@/app/routes/Routes.ts";
 
 const toastApi = useToast();
 
@@ -43,6 +44,21 @@ async function save() {
   PatchConfig(configData.value)
     .then((d) => (configData.value = d))
     .catch(handleGrpcError(toastApi));
+}
+
+async function deleteConfig() {
+  if (!configData.value) return;
+
+  DeleteConfig(configData.value.type+"_"+configData.value.name, configData.value.selectedVersion)
+    .then(()=>{
+      const routeTo = {
+        name: Pages.Home,
+      };
+
+      window.location.replace(router.resolve(routeTo).href);
+    })
+    .catch(handleGrpcError(toastApi));
+
 }
 
 fetchConfig().then(fetchConfig);
@@ -90,12 +106,14 @@ const options = ref({
         />
       </div>
     </div>
+
     <SelectButton
       v-if="configData.versions.length > 1"
       v-model="configData.selectedVersion"
       :options="configData.versions"
       @update:modelValue="fetchConfig"
     />
+
 
     <!--TODO Add "New Version" button?-->
 
@@ -122,9 +140,8 @@ const options = ref({
             iconPos="right"
           />
         </InputGroup>
-
-
       </Transition>
+      <Button @click="deleteConfig" label="Delete" icon="pi pi-trash" iconPos="right" severity="danger" />
     </div>
   </div>
 </template>

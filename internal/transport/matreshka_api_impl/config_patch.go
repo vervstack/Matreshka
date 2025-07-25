@@ -78,7 +78,9 @@ func fromName(name string) domain.ConfigName {
 	pref, ok := api.ConfigTypePrefix_value[nameSplited[0]]
 	if !ok {
 		pref = int32(api.ConfigTypePrefix_plain)
+	} else {
+		name = strings.Join(nameSplited[1:], "_")
 	}
 
-	return domain.NewConfigName(api.ConfigTypePrefix(pref), strings.Join(nameSplited[1:], "_"))
+	return domain.NewConfigName(api.ConfigTypePrefix(pref), name)
 }

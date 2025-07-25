@@ -7,7 +7,7 @@ import {
   ListConfigsResponse,
   MatreshkaBeAPI,
   PatchConfigRequest,
-  Format,
+  Format, DeleteConfigRequest, DeleteConfigResponse,
 } from "@vervstack/matreshka";
 
 import ConfigWithContent from "@/models/configs/Config.ts";
@@ -16,7 +16,6 @@ import ConfigList from "@/models/configs/ConfigList.ts";
 import KeyValueConfig from "@/models/configs/keyvalue/KeyValueConfig.ts";
 import VervConfig from "@/models/configs/verv/VervConfig.ts";
 import { fromPbEnvNode } from "@/models/shared/Node.ts";
-
 
 const apiPrefix = {
   pathPrefix: "",
@@ -127,6 +126,15 @@ export async function CreateConfig(name: string, confType: ConfigTypePrefix) {
   };
 
   return MatreshkaBeAPI.CreateConfig(newCfg, apiPrefix);
+}
+
+export async function DeleteConfig(name: string, version: string | undefined): Promise<DeleteConfigResponse> {
+  const delCfg: DeleteConfigRequest = {
+    configName: encodeURIComponent(name),
+    configVersion: version,
+  }
+
+  return MatreshkaBeAPI.DeleteConfig(delCfg, apiPrefix);
 }
 
 export function linkToConfigSource(configName: string, format: Format, version?: string): string {

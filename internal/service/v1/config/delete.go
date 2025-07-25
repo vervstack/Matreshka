@@ -2,8 +2,8 @@ package config
 
 import (
 	"context"
+	"database/sql"
 
-	"go.redsock.ru/evon"
 	"go.redsock.ru/rerrors"
 
 	"go.vervstack.ru/matreshka/internal/domain"
@@ -12,31 +12,29 @@ import (
 func (c *CfgService) Delete(ctx context.Context,
 	name domain.ConfigName, version string) error {
 
-	nodes, err := c.configStorage.GetConfigNodes(ctx, name.Name(), version)
+	var versionToDeleteIn *string
+	if version != domain.MasterVersion {
+		versionToDeleteIn = &version
+	}
+
+	err := c.txManager.Execute(func(tx *sql.Tx) error {
+		err := c.configStorage.ClearValues(ctx, name, versionToDeleteIn)
+		if err != nil {
+			return rerrors.Wrap(err, "error deleting values from storage")
+		}
+
+		if version == domain.MasterVersion {
+			err = c.configStorage.Delete(ctx, name)
+			if err != nil {
+				return rerrors.Wrap(err, "error deleting config from storage")
+			}
+		}
+
+		return nil
+	})
 	if err != nil {
-		return rerrors.Wrap(err, "error getting config nodes for version")
+		return rerrors.Wrap(err)
 	}
-
-	ns := evon.NodesToStorage(nodes)
-
-	patchReq := domain.PatchConfigRequest{
-		ConfigName:    name,
-		ConfigVersion: version,
-		Delete:        make([]string, 0, len(ns)),
-	}
-
-	for n := range ns {
-		patchReq.Delete = append(patchReq.Delete, n)
-	}
-
-	err = c.configStorage.DeleteValues(ctx, patchReq)
-	if err != nil {
-		return rerrors.Wrap(err, "error deleting version from storage")
-	}
-
-	go func() {
-		c.pubService.Publish(patchReq)
-	}()
 
 	return nil
 }

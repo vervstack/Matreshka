@@ -21,12 +21,14 @@ type Data interface {
 	UpsertValues(ctx context.Context, req domain.PatchConfigRequest) error
 	DeleteValues(ctx context.Context, req domain.PatchConfigRequest) error
 	RenameValues(ctx context.Context, req domain.PatchConfigRequest) error
-
-	ClearValues(ctx context.Context, req domain.ConfigName, version string) error
+	// ClearValues - removes values from storage
+	// if version is not selected - consider to delete in
+	ClearValues(ctx context.Context, req domain.ConfigName, version *string) error
 
 	SetUpdatedAt(ctx context.Context, name string, req time.Time) error
 
 	Rename(ctx context.Context, oldName, newName string) error
+	Delete(ctx context.Context, name domain.ConfigName) error
 
 	WithTx(tx *sql.Tx) Data
 }
