@@ -1486,7 +1486,6 @@ func (x *GetConfigNode_Response) GetVersions() []string {
 type CreateConfig_Request struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ConfigName    string                 `protobuf:"bytes,1,opt,name=config_name,json=configName,proto3" json:"config_name,omitempty"`
-	Type          *ConfigTypePrefix      `protobuf:"varint,2,opt,name=type,proto3,enum=matreshka_api.ConfigTypePrefix,oneof" json:"type,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1526,13 +1525,6 @@ func (x *CreateConfig_Request) GetConfigName() string {
 		return x.ConfigName
 	}
 	return ""
-}
-
-func (x *CreateConfig_Request) GetType() ConfigTypePrefix {
-	if x != nil && x.Type != nil {
-		return *x.Type
-	}
-	return ConfigTypePrefix_plain
 }
 
 type CreateConfig_Response struct {
@@ -1956,13 +1948,11 @@ const file_matreshka_api_proto_rawDesc = "" +
 	"\aversion\x18\x02 \x01(\tR\aversion\x1aO\n" +
 	"\bResponse\x12'\n" +
 	"\x04root\x18\x01 \x01(\v2\x13.matreshka_api.NodeR\x04root\x12\x1a\n" +
-	"\bversions\x18\x02 \x03(\tR\bversions\"\x9d\x01\n" +
-	"\fCreateConfig\x1am\n" +
+	"\bversions\x18\x02 \x03(\tR\bversions\"Z\n" +
+	"\fCreateConfig\x1a*\n" +
 	"\aRequest\x12\x1f\n" +
 	"\vconfig_name\x18\x01 \x01(\tR\n" +
-	"configName\x128\n" +
-	"\x04type\x18\x02 \x01(\x0e2\x1f.matreshka_api.ConfigTypePrefixH\x00R\x04type\x88\x01\x01B\a\n" +
-	"\x05_type\x1a\x1e\n" +
+	"configName\x1a\x1e\n" +
 	"\bResponse\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"|\n" +
 	"\fRenameConfig\x1aE\n" +
@@ -2083,33 +2073,32 @@ var file_matreshka_api_proto_depIdxs = []int32{
 	14, // 6: matreshka_api.ListConfigs.Request.sort:type_name -> matreshka_api.Sort
 	3,  // 7: matreshka_api.ListConfigs.Response.configs:type_name -> matreshka_api.Config
 	10, // 8: matreshka_api.GetConfigNode.Response.root:type_name -> matreshka_api.Node
-	0,  // 9: matreshka_api.CreateConfig.Request.type:type_name -> matreshka_api.ConfigTypePrefix
-	23, // 10: matreshka_api.SubscribeOnChanges.Response.patches:type_name -> matreshka_api.PatchConfig.Patch
-	17, // 11: matreshka_api.MatreshkaBeAPI.ApiVersion:input_type -> matreshka_api.ApiVersion.Request
-	19, // 12: matreshka_api.MatreshkaBeAPI.GetConfig:input_type -> matreshka_api.GetConfig.Request
-	28, // 13: matreshka_api.MatreshkaBeAPI.GetConfigNodes:input_type -> matreshka_api.GetConfigNode.Request
-	26, // 14: matreshka_api.MatreshkaBeAPI.ListConfigs:input_type -> matreshka_api.ListConfigs.Request
-	30, // 15: matreshka_api.MatreshkaBeAPI.CreateConfig:input_type -> matreshka_api.CreateConfig.Request
-	21, // 16: matreshka_api.MatreshkaBeAPI.PatchConfig:input_type -> matreshka_api.PatchConfig.Request
-	24, // 17: matreshka_api.MatreshkaBeAPI.StoreConfig:input_type -> matreshka_api.StoreConfig.Request
-	32, // 18: matreshka_api.MatreshkaBeAPI.RenameConfig:input_type -> matreshka_api.RenameConfig.Request
-	36, // 19: matreshka_api.MatreshkaBeAPI.DeleteConfig:input_type -> matreshka_api.DeleteConfig.Request
-	34, // 20: matreshka_api.MatreshkaBeAPI.SubscribeOnChanges:input_type -> matreshka_api.SubscribeOnChanges.Request
-	18, // 21: matreshka_api.MatreshkaBeAPI.ApiVersion:output_type -> matreshka_api.ApiVersion.Response
-	20, // 22: matreshka_api.MatreshkaBeAPI.GetConfig:output_type -> matreshka_api.GetConfig.Response
-	29, // 23: matreshka_api.MatreshkaBeAPI.GetConfigNodes:output_type -> matreshka_api.GetConfigNode.Response
-	27, // 24: matreshka_api.MatreshkaBeAPI.ListConfigs:output_type -> matreshka_api.ListConfigs.Response
-	31, // 25: matreshka_api.MatreshkaBeAPI.CreateConfig:output_type -> matreshka_api.CreateConfig.Response
-	22, // 26: matreshka_api.MatreshkaBeAPI.PatchConfig:output_type -> matreshka_api.PatchConfig.Response
-	25, // 27: matreshka_api.MatreshkaBeAPI.StoreConfig:output_type -> matreshka_api.StoreConfig.Response
-	33, // 28: matreshka_api.MatreshkaBeAPI.RenameConfig:output_type -> matreshka_api.RenameConfig.Response
-	37, // 29: matreshka_api.MatreshkaBeAPI.DeleteConfig:output_type -> matreshka_api.DeleteConfig.Response
-	35, // 30: matreshka_api.MatreshkaBeAPI.SubscribeOnChanges:output_type -> matreshka_api.SubscribeOnChanges.Response
-	21, // [21:31] is the sub-list for method output_type
-	11, // [11:21] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	23, // 9: matreshka_api.SubscribeOnChanges.Response.patches:type_name -> matreshka_api.PatchConfig.Patch
+	17, // 10: matreshka_api.MatreshkaBeAPI.ApiVersion:input_type -> matreshka_api.ApiVersion.Request
+	19, // 11: matreshka_api.MatreshkaBeAPI.GetConfig:input_type -> matreshka_api.GetConfig.Request
+	28, // 12: matreshka_api.MatreshkaBeAPI.GetConfigNodes:input_type -> matreshka_api.GetConfigNode.Request
+	26, // 13: matreshka_api.MatreshkaBeAPI.ListConfigs:input_type -> matreshka_api.ListConfigs.Request
+	30, // 14: matreshka_api.MatreshkaBeAPI.CreateConfig:input_type -> matreshka_api.CreateConfig.Request
+	21, // 15: matreshka_api.MatreshkaBeAPI.PatchConfig:input_type -> matreshka_api.PatchConfig.Request
+	24, // 16: matreshka_api.MatreshkaBeAPI.StoreConfig:input_type -> matreshka_api.StoreConfig.Request
+	32, // 17: matreshka_api.MatreshkaBeAPI.RenameConfig:input_type -> matreshka_api.RenameConfig.Request
+	36, // 18: matreshka_api.MatreshkaBeAPI.DeleteConfig:input_type -> matreshka_api.DeleteConfig.Request
+	34, // 19: matreshka_api.MatreshkaBeAPI.SubscribeOnChanges:input_type -> matreshka_api.SubscribeOnChanges.Request
+	18, // 20: matreshka_api.MatreshkaBeAPI.ApiVersion:output_type -> matreshka_api.ApiVersion.Response
+	20, // 21: matreshka_api.MatreshkaBeAPI.GetConfig:output_type -> matreshka_api.GetConfig.Response
+	29, // 22: matreshka_api.MatreshkaBeAPI.GetConfigNodes:output_type -> matreshka_api.GetConfigNode.Response
+	27, // 23: matreshka_api.MatreshkaBeAPI.ListConfigs:output_type -> matreshka_api.ListConfigs.Response
+	31, // 24: matreshka_api.MatreshkaBeAPI.CreateConfig:output_type -> matreshka_api.CreateConfig.Response
+	22, // 25: matreshka_api.MatreshkaBeAPI.PatchConfig:output_type -> matreshka_api.PatchConfig.Response
+	25, // 26: matreshka_api.MatreshkaBeAPI.StoreConfig:output_type -> matreshka_api.StoreConfig.Response
+	33, // 27: matreshka_api.MatreshkaBeAPI.RenameConfig:output_type -> matreshka_api.RenameConfig.Response
+	37, // 28: matreshka_api.MatreshkaBeAPI.DeleteConfig:output_type -> matreshka_api.DeleteConfig.Response
+	35, // 29: matreshka_api.MatreshkaBeAPI.SubscribeOnChanges:output_type -> matreshka_api.SubscribeOnChanges.Response
+	20, // [20:30] is the sub-list for method output_type
+	10, // [10:20] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_matreshka_api_proto_init() }
@@ -2127,7 +2116,6 @@ func file_matreshka_api_proto_init() {
 	}
 	file_matreshka_api_proto_msgTypes[21].OneofWrappers = []any{}
 	file_matreshka_api_proto_msgTypes[23].OneofWrappers = []any{}
-	file_matreshka_api_proto_msgTypes[27].OneofWrappers = []any{}
 	file_matreshka_api_proto_msgTypes[33].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

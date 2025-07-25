@@ -4,9 +4,7 @@ import (
 	"context"
 
 	errors "go.redsock.ru/rerrors"
-	"go.redsock.ru/toolbox"
 
-	"go.vervstack.ru/matreshka/internal/domain"
 	api "go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
@@ -15,25 +13,12 @@ func (s *Impl) CreateConfig(
 	req *api.CreateConfig_Request) (
 	*api.CreateConfig_Response, error) {
 
-	name := req.ConfigName
-
-	pref := toolbox.ToPtr(api.ConfigTypePrefix_kv)
-
-	if req.Type != nil {
-		pref = req.Type
-	}
-
-	parsedPref, name := ParseConfigName(req.ConfigName)
-	if parsedPref != nil {
-		pref = parsedPref
-	}
-
-	configName := domain.NewConfigName(*pref, name)
+	name := fromName(req.ConfigName)
 
 	var resp api.CreateConfig_Response
 	var err error
 
-	aboutConfig, err := s.evonConfigService.Create(ctx, configName)
+	aboutConfig, err := s.evonConfigService.Create(ctx, name)
 	if err != nil {
 		return nil, errors.Wrap(err)
 	}

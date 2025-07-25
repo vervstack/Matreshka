@@ -386,19 +386,6 @@
         }
       }
     },
-    "matreshka_apiConfigTypePrefix": {
-      "type": "string",
-      "enum": [
-        "plain",
-        "verv",
-        "minio",
-        "pg",
-        "nginx",
-        "kv"
-      ],
-      "default": "plain",
-      "title": "- plain: Plain text blob config - saved and configured externally by user\nNot recommended to use - unstructured and cannot be validated.\nSimply a text storage\n - verv: Matreshka's configuration for application\n - minio: Configuration for object storage (Minio)\n - pg: Configuration for Postgresql Database\n - nginx: Configuration for Nginx/Angie web server\n - kv: Basically a key-value configuration"
-    },
     "matreshka_apiCreateConfigResponse": {
       "type": "object",
       "properties": {
@@ -485,12 +472,7 @@
       }
     },
     "matreshka_apiMatreshkaBeAPICreateConfigBody": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/matreshka_apiConfigTypePrefix"
-        }
-      }
+      "type": "object"
     },
     "matreshka_apiMatreshkaBeAPIDeleteConfigBody": {
       "type": "object",

@@ -1,12 +1,17 @@
-### Get config
-GET {{matreshka-api}}/api/config/{{example_service_name}}
+### Get config without prefix (default prefix)
+GET {{matreshka-api}}/api/config/kv_test_config
 
 ### Get config not existing config
 GET {{matreshka-api}}/api/config/unknown
 
 ### Get config by nodes
-GET {{matreshka-api}}/api/config/nodes/{{example_service_name}}
+POST {{matreshka-api}}/api/config/nodes
+Content-Type: application/json
 
+{
+  "config_name": "kv_test_config",
+  "version": ""
+}
 
 ### List configs
 POST {{matreshka-api}}/api/config/list

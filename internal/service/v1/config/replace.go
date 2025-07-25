@@ -36,7 +36,7 @@ func (c *CfgService) Replace(ctx context.Context, req domain.ReplaceConfigReq) e
 	err := c.txManager.Execute(func(tx *sql.Tx) error {
 		configStorage := c.configStorage.WithTx(tx)
 
-		err := configStorage.ClearValues(ctx, req.Name, req.Version)
+		err := configStorage.ClearValues(ctx, req.Name, &req.Version)
 		if err != nil {
 			return rerrors.Wrap(err, "error clearing old values")
 		}

@@ -134,7 +134,6 @@ export type GetConfigNode = Record<string, never>;
 
 export type CreateConfigRequest = {
   configName?: string;
-  type?: ConfigTypePrefix;
 };
 
 export type CreateConfigResponse = {

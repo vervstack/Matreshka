@@ -5,6 +5,8 @@ import (
 
 	"go.redsock.ru/evon"
 	errors "go.redsock.ru/rerrors"
+
+	"go.vervstack.ru/matreshka/internal/domain"
 )
 
 func (p *Provider) GetConfigNodes(ctx context.Context, serviceName string, version string) (*evon.Node, error) {
@@ -14,13 +16,13 @@ func (p *Provider) GetConfigNodes(ctx context.Context, serviceName string, versi
 			coalesce(topv.value, cv.value)
 		FROM configs_values AS cv
 		INNER JOIN configs    AS c ON c.id = cv.config_id
-		AND 	  cv.version 	  = 'master'
+		AND 	  cv.version 	  = $3
 		LEFT JOIN configs_values AS topv ON c.id = topv.config_id
 		AND topv.key = cv.key
 		AND topv.version = $2
 		WHERE c.name = $1
 		GROUP BY cv.key
-`, serviceName, version)
+`, serviceName, version, domain.MasterVersion)
 	if err != nil {
 		return nil, errors.Wrap(err, "error getting config values")
 	}

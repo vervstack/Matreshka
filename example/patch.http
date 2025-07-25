@@ -1,0 +1,38 @@
+### Add new value
+POST {{matreshka-api}}/api/config/kv_test_config/patch
+Content-Type: application/json
+
+{
+  "patches": [
+    {
+      "field_name": "VERSION",
+      "update_value": "v0.0.1"
+    }
+  ]
+}
+
+### Reaname field
+POST {{matreshka-api}}/api/config/kv_test_config/patch
+Content-Type: application/json
+
+{
+  "patches": [
+    {
+      "field_name": "VERSION",
+      "rename": "VERSIONE"
+    }
+  ]
+}
+
+### Delete field
+POST {{matreshka-api}}/api/config/kv_test_config/patch
+Content-Type: application/json
+
+{
+  "patches": [
+    {
+      "field_name": "VERSIONE",
+      "delete": true
+    }
+  ]
+}

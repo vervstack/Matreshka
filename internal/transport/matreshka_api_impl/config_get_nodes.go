@@ -13,19 +13,16 @@ import (
 )
 
 func (s *Impl) GetConfigNodes(ctx context.Context, req *api.GetConfigNode_Request) (*api.GetConfigNode_Response, error) {
-	name := req.GetConfigName()
+	name := fromName(req.ConfigName)
 	ver := toolbox.Coalesce(req.Version, domain.MasterVersion)
 
-	pref, name := ParseConfigName(name)
-	if pref == nil {
-		pref = toolbox.ToPtr(api.ConfigTypePrefix_plain)
-	}
-
-	confName := domain.NewConfigName(*pref, name)
-
-	cfg, err := s.evonConfigService.GetConfigWithNodes(ctx, confName, ver)
+	cfg, err := s.evonConfigService.GetConfigWithNodes(ctx, name, ver)
 	if err != nil {
 		return nil, errors.Wrap(err)
+	}
+
+	if cfg.Nodes == nil {
+		return &api.GetConfigNode_Response{}, nil
 	}
 
 	resp := &api.GetConfigNode_Response{

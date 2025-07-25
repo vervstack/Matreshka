@@ -168,7 +168,6 @@ message GetConfigNode {
 message CreateConfig {
   message Request {
     string config_name = 1;
-    optional ConfigTypePrefix type = 2;
   }
 
   message Response {

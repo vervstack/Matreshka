@@ -14,19 +14,16 @@ import (
 )
 
 func (s *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.GetConfig_Response, error) {
-	name := req.GetConfigName()
+	configName := fromName(req.ConfigName)
 	ver := toolbox.Coalesce(toolbox.FromPtr(req.Version), domain.MasterVersion)
-
-	pref, name := ParseConfigName(name)
-	if pref == nil {
-		pref = toolbox.ToPtr(api.ConfigTypePrefix_plain)
-	}
-
-	configName := domain.NewConfigName(*pref, name)
 
 	cfg, err := s.evonConfigService.GetConfigWithNodes(ctx, configName, ver)
 	if err != nil {
 		return nil, rerrors.Wrap(err)
+	}
+
+	if cfg.Nodes == nil {
+		return &api.GetConfig_Response{}, nil
 	}
 
 	resp := &api.GetConfig_Response{}
@@ -35,7 +32,7 @@ func (s *Impl) GetConfig(ctx context.Context, req *api.GetConfig_Request) (*api.
 	case api.Format_env:
 		resp.Config = evon.Marshal(cfg.Nodes.InnerNodes)
 	default:
-		switch *pref {
+		switch configName.Prefix() {
 		case api.ConfigTypePrefix_verv:
 			resp.Config, err = vervToYaml(cfg.Nodes)
 		default:

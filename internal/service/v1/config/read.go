@@ -8,7 +8,6 @@ import (
 	errors "go.redsock.ru/rerrors"
 
 	"go.vervstack.ru/matreshka/internal/domain"
-	"go.vervstack.ru/matreshka/internal/service/user_errors"
 	api "go.vervstack.ru/matreshka/pkg/matreshka_api"
 )
 
@@ -19,7 +18,7 @@ func (c *CfgService) GetConfigWithNodes(ctx context.Context, configName domain.C
 	}
 
 	if nodes == nil {
-		return domain.ConfigWithNodes{}, errors.Wrap(user_errors.ErrNotFound, "service with name "+configName.Name()+" not found")
+		return domain.ConfigWithNodes{}, nil
 	}
 
 	switch configName.Prefix() {
