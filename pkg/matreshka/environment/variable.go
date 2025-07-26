@@ -63,7 +63,7 @@ func NewVariable(name string, val any, opts ...opt) (*Variable, error) {
 	var err error
 	out.Value.val, err = mapVariableTypeToTypedValueConstructor[out.Type](val)
 	if err != nil {
-		return nil, errors.Wrap(err)
+		return nil, errors.Wrapf(err, "failed to convert value to typed constructor for field %s", out.Name)
 	}
 
 	return out, nil
