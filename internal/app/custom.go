@@ -4,10 +4,8 @@ import (
 	"context"
 	"net/http"
 
-	"google.golang.org/grpc"
-
+	"go.vervstack.ru/matreshka/internal/middleware"
 	"go.vervstack.ru/matreshka/internal/service"
-	"go.vervstack.ru/matreshka/internal/service/user_errors"
 	"go.vervstack.ru/matreshka/internal/service/v1"
 	"go.vervstack.ru/matreshka/internal/storage"
 	"go.vervstack.ru/matreshka/internal/storage/sqlite"
@@ -41,11 +39,14 @@ func (c *Custom) Init(a *App) (err error) {
 
 	a.ServerMaster.AddImplementation(c.GrpcImpl)
 
-	a.ServerMaster.AddServerOption(grpc.UnaryInterceptor(user_errors.ErrorInterceptor()))
-
 	if a.Cfg.Environment.Pass != "" {
 		a.ServerMaster.AddServerOption(auth.Interceptor(a.Cfg.Environment.Pass))
 	}
+
+	a.ServerMaster.AddServerOption(
+		middleware.PanicInterceptor(),
+		middleware.LogInterceptor(),
+	)
 
 	a.ServerMaster.AddHttpHandler("/web_api/", c.WebApiImpl)
 	a.ServerMaster.AddHttpHandler("/", web.NewServer())

@@ -1,7 +1,5 @@
 github.com/Red-Sock/go-swagger-ui v0.0.2 h1:3JbNnyNQ25rwzyBN46mYEBXZZ5RhcijbDwS7g60dz3Y=
 github.com/Red-Sock/go-swagger-ui v0.0.2/go.mod h1:8F1CRKxVIKTTX7YWGn7OXmJUx9c6fM8AfxQlc9XWUMo=
-github.com/Red-Sock/trace-errors v0.0.13 h1:T8f5Mp+Ts7PsTBINP7yYbFUs+gq7JoA2/be6WOsCMwA=
-github.com/Red-Sock/trace-errors v0.0.13/go.mod h1:Yk7KzCmvgX3zxgS7Qvf7/iZUGS3s7dxFHetsgQ3YZvM=
 github.com/bytedance/sonic v1.11.6 h1:oUp34TzMlL+OY1OUWxHqsdkgC/Zfc85zGqw9siXjrc0=
 github.com/bytedance/sonic v1.11.6/go.mod h1:LysEHSvpvDySVdC2f87zGWf6CIKJcAvqab1ZaiQtds4=
 github.com/bytedance/sonic/loader v0.1.1 h1:c+e5Pt1k/cy5wMveRDyk2X4B9hF4g7an8N3zCYjJFNM=
@@ -117,10 +115,8 @@ go.opentelemetry.io/otel/sdk/metric v1.34.0 h1:5CeK9ujjbFVL5c1PhLuStg1wxA7vQv7ce
 go.opentelemetry.io/otel/sdk/metric v1.34.0/go.mod h1:jQ/r8Ze28zRKoNRdkjCZxfs6YvBTG1+YIqyFVFYec5w=
 go.opentelemetry.io/otel/trace v1.35.0 h1:dPpEfJu1sDIqruz7BHFG3c7528f6ddfSWfFDVt/xgMs=
 go.opentelemetry.io/otel/trace v1.35.0/go.mod h1:WUk7DtFp1Aw2MkvqGdwiXYDZZNvA/1J8o6xRXLrIkyc=
-go.redsock.ru/evon v0.0.28 h1:3pmAMHlOssrOsawoD4BRtODK7sRHqyFLqVWk7DzY78w=
-go.redsock.ru/evon v0.0.28/go.mod h1:iTen8/A3y/+QiypctZfaJLomUaRG4DYA4uE29tuKJps=
-go.redsock.ru/protoc-gen-npm v0.0.11 h1:DZAwW1iC1YI3fWi4HdvZTdC0NUstNrw7AV/4VHrxoBg=
-go.redsock.ru/protoc-gen-npm v0.0.11/go.mod h1:4gvhmteMAietz7a4Ffj7tQesXVRdCFYx34QG8bXdIuc=
+go.redsock.ru/evon v0.0.30 h1:Dy8Tm4fMhZPM4zIQ6RrXT2HJp2mWvg8K33KLaS1Av/w=
+go.redsock.ru/evon v0.0.30/go.mod h1:iTen8/A3y/+QiypctZfaJLomUaRG4DYA4uE29tuKJps=
 go.redsock.ru/protoc-gen-npm v0.0.12 h1:d9/R6ryVfTwVMX3Le5HDXEbGrhTvpw6eqcOw4kdwuRQ=
 go.redsock.ru/protoc-gen-npm v0.0.12/go.mod h1:4gvhmteMAietz7a4Ffj7tQesXVRdCFYx34QG8bXdIuc=
 go.redsock.ru/rerrors v0.0.3 h1:y/CqXdJlIZy6NcnzmcAyrnF+1sX3uiJeFJRHnyOl688=
