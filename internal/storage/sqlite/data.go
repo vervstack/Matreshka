@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	log "github.com/rs/zerolog/log"
+	"go.redsock.ru/rerrors"
 	"modernc.org/sqlite"
 	_ "modernc.org/sqlite"
 	sqlite3 "modernc.org/sqlite/lib"
@@ -39,6 +40,10 @@ func (p *Provider) WithTx(tx *sql.Tx) storage.Data {
 }
 
 func wrapError(err error) error {
+	if errors.Is(err, sql.ErrNoRows) {
+		return rerrors.Wrap(user_errors.ErrNotFound)
+	}
+
 	var e *sqlite.Error
 	ok := errors.As(err, &e)
 	if !ok {
