@@ -1,24 +1,46 @@
 package version
 
 import (
-	_ "embed"
+	"runtime/debug"
 
-	"go.vervstack.ru/matreshka/pkg/matreshka"
+	buildversion "go.vervstack.ru/matreshka/internal/version"
 )
 
-//go:embed config.yaml
-var masterConfig []byte
-var version string
+const (
+	modulePath = "go.vervstack.ru/matreshka"
+)
 
-func init() {
-	m, err := matreshka.ParseConfig(masterConfig)
-	if err != nil {
-		panic(err)
+// GetVersion returns the matreshka release this code belongs to. Imported as a
+// library it is the module version the consumer's go.mod resolved; inside
+// matreshka's own binary it is the tag baked in at build time.
+func GetVersion() string {
+	buildInfo, ok := debug.ReadBuildInfo()
+	if !ok {
+		return buildversion.Get()
 	}
 
-	version = m.Version
+	return versionFromBuildInfo(buildInfo)
 }
 
-func GetVersion() string {
-	return version
+func versionFromBuildInfo(buildInfo *debug.BuildInfo) string {
+	if buildInfo.Main.Path == modulePath {
+		return buildversion.Get()
+	}
+
+	for _, dep := range buildInfo.Deps {
+		if dep.Path != modulePath {
+			continue
+		}
+
+		module := dep
+		if dep.Replace != nil {
+			module = dep.Replace
+		}
+
+		if module.Version != "" {
+			return module.Version
+		}
+	}
+
+	return buildversion.Get()
 }
