@@ -18,6 +18,8 @@ RUN --mount=type=bind,target=/web,rw \
 # ---- Go app build ----
 FROM --platform=$BUILDPLATFORM golang:1.24.2-alpine AS builder
 
+ARG VERSION=""
+
 WORKDIR /src
 
 COPY --from=webclient /dist /dist
@@ -30,7 +32,8 @@ RUN --mount=type=bind,target=/src,rw \
     mv /dist/* /src/internal/transport/web/dist && \
     go mod download && \
     GOOS=$TARGETOS GOARCH=$TARGETARCH CGO_ENABLED=0 \
-    go build -o /deploy/server/service /src/cmd/service/main.go && \
+    go build -ldflags "-X go.vervstack.ru/matreshka/internal/version.version=${VERSION}" \
+        -o /deploy/server/service /src/cmd/service/main.go && \
     cp -r config /deploy/server/config && \
     mkdir -p /deploy/server/migrations && \
     cp -r /src/migrations/* /deploy/server/migrations/

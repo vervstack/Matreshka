@@ -18,6 +18,7 @@ import (
 	"go.vervstack.ru/matreshka/internal/transport/matreshka_api_impl"
 	"go.vervstack.ru/matreshka/internal/transport/web"
 	"go.vervstack.ru/matreshka/internal/transport/web_api"
+	"go.vervstack.ru/matreshka/internal/version"
 	"go.vervstack.ru/matreshka/internal/web/auth"
 	"go.vervstack.ru/matreshka/pkg/docs"
 )
@@ -34,6 +35,8 @@ type Custom struct {
 }
 
 func (c *Custom) Init(a *App) (err error) {
+	a.Cfg.AppInfo.Version = version.Get()
+
 	txManager := tx_manager.New(a.Sqlite)
 	c.SqliteData = sqlite.New(a.Sqlite)
 
