@@ -6,7 +6,6 @@ import (
 	_ "embed"
 	"fmt"
 	"net"
-	"net/http/httptest"
 	"os"
 	"strings"
 	"testing"
@@ -30,8 +29,7 @@ import (
 type AppEnv struct {
 	matreshkaApi matreshka_api.MatreshkaApiClient
 
-	app        app.App
-	HttpServer *httptest.Server
+	app app.App
 }
 
 //go:embed config/test.config.yaml
@@ -78,16 +76,10 @@ func InitAppEnvironment(t *testing.T, opts ...opt) AppEnv {
 	err := applicationBase.Custom.Init(&applicationBase)
 	require.NoError(t, err)
 
-	httpServer := httptest.NewServer(applicationBase.Custom.WebApiImpl)
-	t.Cleanup(func() {
-		httpServer.Close()
-	})
-
 	matreshkaClient := initClient(t, inMemoryListener, applicationBase.Custom.GrpcImpl)
 
 	return AppEnv{
 		matreshkaApi: matreshkaClient,
-		HttpServer:   httpServer,
 		app:          applicationBase,
 	}
 }
