@@ -2,7 +2,6 @@ package app
 
 import (
 	"context"
-	"net/http"
 
 	"go.redsock.ru/rerrors"
 
@@ -16,8 +15,6 @@ import (
 	//"go.vervstack.ru/matreshka/internal/storage/pg"
 	"go.vervstack.ru/matreshka/internal/storage/tx_manager"
 	"go.vervstack.ru/matreshka/internal/transport/matreshka_api_impl"
-	"go.vervstack.ru/matreshka/internal/transport/web"
-	"go.vervstack.ru/matreshka/internal/transport/web_api"
 	"go.vervstack.ru/matreshka/internal/version"
 	"go.vervstack.ru/matreshka/internal/web/auth"
 	"go.vervstack.ru/matreshka/pkg/docs"
@@ -30,8 +27,7 @@ type Custom struct {
 
 	ServerMaster *transport.ServersManager
 
-	GrpcImpl   *matreshka_api_impl.Impl
-	WebApiImpl http.Handler
+	GrpcImpl *matreshka_api_impl.Impl
 }
 
 func (c *Custom) Init(a *App) (err error) {
@@ -43,7 +39,6 @@ func (c *Custom) Init(a *App) (err error) {
 	c.Service = v1.New(c.SqliteData, txManager)
 
 	c.GrpcImpl = matreshka_api_impl.NewServer(a.Cfg, c.Service)
-	c.WebApiImpl = web_api.New(c.GrpcImpl)
 
 	c.ServerMaster, err = transport.NewServerManager(a.Ctx, a.MASTER)
 	if err != nil {
@@ -61,8 +56,6 @@ func (c *Custom) Init(a *App) (err error) {
 		middleware.LogInterceptor(),
 	)
 
-	c.ServerMaster.AddHttpHandler("/web_api/", c.WebApiImpl)
-	c.ServerMaster.AddHttpHandler("/", web.NewServer())
 	c.ServerMaster.AddHttpHandler(docs.Swagger())
 
 	return nil
