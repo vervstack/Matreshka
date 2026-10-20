@@ -22,6 +22,10 @@ func New(cfg resources.SqlResource) (*sql.DB, error) {
 		return nil, rerrors.Wrap(err, "error checking connection to postgres")
 	}
 
+	if dialect == "sqlite" {
+		conn.SetMaxOpenConns(1)
+	}
+
 	closer.Add(func() error {
 		return conn.Close()
 	})
