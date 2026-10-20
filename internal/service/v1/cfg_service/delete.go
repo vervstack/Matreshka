@@ -17,13 +17,15 @@ func (c *CfgService) Delete(ctx context.Context, name string, version string) er
 	}
 
 	err := c.txManager.Execute(func(tx *sql.Tx) error {
-		err := c.configStorage.ClearValues(ctx, name, versionToDeleteIn)
+		dataStorage := c.configStorage.WithTx(tx)
+
+		err := dataStorage.ClearValues(ctx, name, versionToDeleteIn)
 		if err != nil {
 			return rerrors.Wrap(err, "error deleting values from storage")
 		}
 
 		if version == domain.MasterVersion {
-			err = c.configStorage.Delete(ctx, name)
+			err = dataStorage.Delete(ctx, name)
 			if err != nil {
 				return rerrors.Wrap(err, "error deleting config from storage")
 			}
